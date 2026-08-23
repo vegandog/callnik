@@ -1,69 +1,105 @@
-import Image from "next/image";
+import Link from 'next/link'
+import { Phone, MessageCircle, Clock, ChevronLeft } from 'lucide-react'
+import Navbar from '@/components/Navbar'
+import Footer from '@/components/Footer'
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <>
+      <Navbar />
+      <main>
+        {/* Hero */}
+        <section className="bg-gradient-to-b from-gray-50 to-white py-20 px-4 text-center">
+          <div className="max-w-3xl mx-auto">
+            <span className="inline-block bg-green-100 text-green-700 text-sm font-medium px-3 py-1 rounded-full mb-6">
+              חדש לישראל
+            </span>
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight mb-6">
+              לא ענית לטלפון?
+              <br />
+              <span className="text-blue-600">Callnik ענתה בשבילך.</span>
+            </h1>
+            <p className="text-xl text-gray-600 mb-8 max-w-xl mx-auto leading-relaxed">
+              כשלקוח מתקשר ולא נענה, Callnik לוקחת את ההודעה ושולחת לך סיכום בוואטסאפ תוך דקה.
+              המספר שלך לא משתנה.
+            </p>
+            <Link
+              href="/register"
+              className="inline-flex items-center gap-2 bg-blue-600 text-white text-lg font-semibold px-8 py-4 rounded-xl hover:bg-blue-700 transition-colors"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              מתחילים בחינם
+              <ChevronLeft className="w-5 h-5" />
+            </Link>
+            <p className="text-sm text-gray-400 mt-3">ללא כרטיס אשראי. הפעלה תוך 5 דקות.</p>
+          </div>
+        </section>
+
+        {/* WhatsApp example */}
+        <section className="py-16 px-4 bg-white">
+          <div className="max-w-md mx-auto">
+            <h2 className="text-2xl font-bold text-center text-gray-800 mb-8">
+              זה מה שתקבל בוואטסאפ
+            </h2>
+            <div className="bg-[#ECE5DD] rounded-2xl p-4 shadow-lg">
+              <div className="bg-white rounded-xl p-4 shadow-sm max-w-xs mr-auto">
+                <p className="text-xs text-gray-400 mb-2">Callnik - הודעה חדשה</p>
+                <p className="text-gray-800 text-sm leading-relaxed">
+                  📞 <strong>דוד כהן</strong> התקשר ב-14:32<br />
+                  📝 רוצה לקבל הצעת מחיר לשיפוץ מטבח<br />
+                  📱 050-1234567
+                </p>
+                <p className="text-xs text-gray-400 text-left mt-2">14:33 ✓✓</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* How it works - 3 steps */}
+        <section className="py-16 px-4 bg-gray-50">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-2xl font-bold text-center text-gray-800 mb-12">איך זה עובד</h2>
+            <div className="grid md:grid-cols-3 gap-8">
+              <div className="text-center">
+                <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Phone className="w-7 h-7 text-blue-600" />
+                </div>
+                <h3 className="font-semibold text-gray-800 mb-2">לקוח מתקשר</h3>
+                <p className="text-gray-500 text-sm">אם לא ענית תוך כמה שניות, השיחה עוברת אוטומטית ל-Callnik</p>
+              </div>
+              <div className="text-center">
+                <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <MessageCircle className="w-7 h-7 text-blue-600" />
+                </div>
+                <h3 className="font-semibold text-gray-800 mb-2">Callnik לוקחת הודעה</h3>
+                <p className="text-gray-500 text-sm">מזכירה אוטומטית מציגה את עצמה, לוקחת שם, סיבת הפנייה, ומספר טלפון</p>
+              </div>
+              <div className="text-center">
+                <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Clock className="w-7 h-7 text-blue-600" />
+                </div>
+                <h3 className="font-semibold text-gray-800 mb-2">סיכום בוואטסאפ</h3>
+                <p className="text-gray-500 text-sm">תוך דקה מקבל סיכום ישירות לוואטסאפ שלך. שום שיחה לא תיפול בין הכסאות.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA */}
+        <section className="py-20 px-4 bg-blue-600 text-center text-white">
+          <div className="max-w-2xl mx-auto">
+            <h2 className="text-3xl font-bold mb-4">מוכן להפסיק לפספס לקוחות?</h2>
+            <p className="text-blue-100 mb-8 text-lg">הצטרף לעסקים שכבר עובדים עם Callnik</p>
+            <Link
+              href="/register"
+              className="inline-flex items-center gap-2 bg-white text-blue-600 text-lg font-semibold px-8 py-4 rounded-xl hover:bg-blue-50 transition-colors"
             >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+              רישום חינם
+              <ChevronLeft className="w-5 h-5" />
+            </Link>
+          </div>
+        </section>
       </main>
-    </div>
-  );
+      <Footer />
+    </>
+  )
 }
