@@ -18,18 +18,53 @@ export default function PrivacyBanner() {
   if (!visible) return null
 
   return (
-    <div className="fixed bottom-0 inset-x-0 z-50 bg-gray-900 text-white px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm">
-      <p className="text-gray-300 text-center sm:text-right">
-        אתר זה משתמש בעוגיות לצורך תפעול ושיפור השירות.{' '}
-        <Link href="/privacy" className="underline text-white hover:text-blue-300 transition-colors">
-          מדיניות פרטיות
+    <div
+      style={{
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        zIndex: 9998,
+        background: 'rgba(15,23,42,0.5)',
+        backdropFilter: 'blur(8px)',
+        WebkitBackdropFilter: 'blur(8px)',
+        color: 'rgba(255,255,255,.92)',
+        padding: '16px 24px',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '14px',
+        textAlign: 'center',
+        boxShadow: '0 -4px 24px rgba(0,0,0,.2)',
+      }}
+    >
+      <p style={{ fontSize: 14, lineHeight: 1.6, margin: 0, maxWidth: 720 }}>
+        על ידי המשך השימוש באתר שלנו, אתה מאשר כי אתה מקבל את{' '}
+        <Link href="/privacy" style={{ color: '#67e8f9', textDecoration: 'underline' }}>
+          מדיניות הפרטיות
+        </Link>{' '}
+        שלנו עבור האתר ואת{' '}
+        <Link href="/terms" style={{ color: '#67e8f9', textDecoration: 'underline' }}>
+          תנאי השימוש
         </Link>
+        . אנו גם משתמשים בעוגיות כדי לספק לך את החוויה הטובה ביותר האפשרית.
       </p>
       <button
         onClick={accept}
-        className="shrink-0 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-lg transition-colors"
+        style={{
+          background: '#0077b6',
+          color: '#fff',
+          border: 'none',
+          padding: '10px 28px',
+          borderRadius: 10,
+          fontSize: 14,
+          fontWeight: 700,
+          cursor: 'pointer',
+          whiteSpace: 'nowrap',
+        }}
       >
-        הבנתי
+        הבנתי, אני מאשר
       </button>
     </div>
   )
