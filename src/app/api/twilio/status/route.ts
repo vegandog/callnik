@@ -194,9 +194,11 @@ export async function POST(req: NextRequest) {
     .eq('id', callRecord.id)
 
   try {
+    const callTime = new Date().toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jerusalem' })
     await sendCallNotification(
       customer.whatsapp_number,
-      customer.business_name,
+      callerName || '',
+      callTime,
       summary,
       callRecord.caller_number || '',
       callRecord.id

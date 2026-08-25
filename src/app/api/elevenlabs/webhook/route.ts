@@ -132,9 +132,11 @@ export async function POST(req: NextRequest) {
   }
 
   try {
+    const callTime = new Date().toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jerusalem' })
     await sendCallNotification(
       customer.whatsapp_number,
-      customer.business_name,
+      callerName || '',
+      callTime,
       summary,
       callerNumber || callRecord.caller_number || '',
       callRecord.id
