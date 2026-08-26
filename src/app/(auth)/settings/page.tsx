@@ -13,7 +13,7 @@ export default async function SettingsPage() {
     .eq('id', user.id)
     .single()
 
-  if (!userRecord) redirect('/login')
+  if (!userRecord) redirect('/onboarding')
 
   const { data: customer } = await supabase
     .from('customers')

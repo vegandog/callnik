@@ -13,7 +13,7 @@ export default async function CallsPage() {
     .eq('id', user.id)
     .single()
 
-  if (!userRecord) redirect('/login')
+  if (!userRecord) redirect('/onboarding')
 
   const { data: calls } = await supabase
     .from('calls')
