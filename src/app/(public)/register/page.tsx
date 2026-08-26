@@ -3,18 +3,23 @@
 import { useState } from 'react'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
-import { createClient } from '@/lib/supabase/client'
+
+const GOOGLE_CLIENT_ID = '419201388686-k83ee8pifckjjkqbvc8c416c4rn0taqn.apps.googleusercontent.com'
 
 export default function RegisterPage() {
   const [loading, setLoading] = useState(false)
 
-  const handleGoogle = async () => {
+  const handleGoogle = () => {
     setLoading(true)
-    const supabase = createClient()
-    await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: { redirectTo: `${window.location.origin}/auth/callback` },
+    const params = new URLSearchParams({
+      client_id: GOOGLE_CLIENT_ID,
+      redirect_uri: `${window.location.origin}/auth/callback`,
+      response_type: 'code',
+      scope: 'email profile',
+      access_type: 'offline',
+      prompt: 'select_account',
     })
+    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?${params}`
   }
 
   return (

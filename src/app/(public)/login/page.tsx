@@ -30,13 +30,17 @@ export default function LoginPage() {
     }
   }
 
-  const handleGoogle = async () => {
+  const handleGoogle = () => {
     setGoogleLoading(true)
-    const supabase = createClient()
-    await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: { redirectTo: `${window.location.origin}/auth/callback` },
+    const params = new URLSearchParams({
+      client_id: '419201388686-k83ee8pifckjjkqbvc8c416c4rn0taqn.apps.googleusercontent.com',
+      redirect_uri: `${window.location.origin}/auth/callback`,
+      response_type: 'code',
+      scope: 'email profile',
+      access_type: 'offline',
+      prompt: 'select_account',
     })
+    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?${params}`
   }
 
   return (
