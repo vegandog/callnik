@@ -38,9 +38,14 @@ export default function OnboardingPage() {
   }
 
   return (
-    <div className="max-w-md mx-auto py-10">
-      <h1 className="text-2xl font-bold text-gray-900 mb-1">כמה פרטים על העסק</h1>
-      <p className="text-gray-500 text-sm mb-8">כדי שנוכל להגדיר את Callnik בשבילך</p>
+    <div className="py-8">
+      <div className="flex items-center gap-2 mb-8">
+        <div className="h-1.5 flex-1 rounded-full bg-blue-600" />
+        <div className="h-1.5 flex-1 rounded-full bg-gray-200" />
+        <span className="text-xs text-gray-400 mr-1">שלב 1 מתוך 2</span>
+      </div>
+      <h1 className="text-xl font-bold text-gray-900 mb-1">כמה פרטים על העסק</h1>
+      <p className="text-gray-500 text-sm mb-6">כדי שנוכל להגדיר את Callnik בשבילך</p>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
