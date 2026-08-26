@@ -84,16 +84,57 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Who is it for */}
+        <section className="py-16 px-4 bg-white">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-2xl font-bold text-gray-800 mb-3">למי זה מתאים?</h2>
+            <p className="text-gray-500 mb-10">לכל עסק שהטלפון הוא קו החזית שלו</p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {[
+                { emoji: '🔧', label: 'שרברבים ואינסטלטורים' },
+                { emoji: '💆', label: 'מטפלים ותרפיסטים' },
+                { emoji: '🌿', label: 'גננים ונוף' },
+                { emoji: '🏠', label: 'קבלנים ושיפוצניקים' },
+                { emoji: '⚖️', label: 'עורכי דין' },
+                { emoji: '💇', label: 'מספרות וקוסמטיקה' },
+                { emoji: '🐾', label: 'וטרינרים ורוחצי כלבים' },
+                { emoji: '🚗', label: 'מוסכים ומכוניות' },
+              ].map(({ emoji, label }) => (
+                <div key={label} className="bg-gray-50 rounded-xl p-4 text-center">
+                  <div className="text-3xl mb-2">{emoji}</div>
+                  <p className="text-sm text-gray-700 font-medium">{label}</p>
+                </div>
+              ))}
+            </div>
+            <p className="text-gray-400 text-sm mt-6">ועוד כל מי שאי-אפשר לענות לטלפון בזמן עבודה</p>
+          </div>
+        </section>
+
+        {/* Pricing anchor */}
+        <section className="py-12 px-4 bg-gray-50 border-y border-gray-100">
+          <div className="max-w-2xl mx-auto text-center">
+            <p className="text-gray-500 text-sm mb-1">מחיר פשוט, ללא הפתעות</p>
+            <p className="text-4xl font-bold text-gray-900 mb-1">₪149 <span className="text-xl font-normal text-gray-500">לחודש</span></p>
+            <p className="text-gray-400 text-sm">עד 500 שיחות בחודש. ללא כרטיס אשראי להתחלה.</p>
+            <Link
+              href="/pricing"
+              className="inline-block text-blue-600 text-sm font-medium mt-3 hover:underline"
+            >
+              פרטי המחיר המלאים
+            </Link>
+          </div>
+        </section>
+
         {/* CTA */}
         <section className="py-20 px-4 bg-blue-600 text-center text-white">
           <div className="max-w-2xl mx-auto">
             <h2 className="text-3xl font-bold mb-4">מוכן להפסיק לפספס לקוחות?</h2>
-            <p className="text-blue-100 mb-8 text-lg">הצטרף לעסקים שכבר עובדים עם Callnik</p>
+            <p className="text-blue-100 mb-8 text-lg">הפעלה תוך 5 דקות. שום שיחה לא תיפול בין הכסאות.</p>
             <Link
               href="/register"
               className="inline-flex items-center gap-2 bg-white text-blue-600 text-lg font-semibold px-8 py-4 rounded-xl hover:bg-blue-50 transition-colors"
             >
-              רישום חינם
+              מתחילים עכשיו
               <ChevronLeft className="w-5 h-5" />
             </Link>
           </div>

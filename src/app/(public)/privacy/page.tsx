@@ -46,7 +46,7 @@ export default function PrivacyPage() {
           </p>
           <ul className="space-y-2 text-gray-600">
             <li><strong>מטרת האיסוף:</strong> ייצור הסיכום ושליחתו לבעל העסק בלבד.</li>
-            <li><strong>העברה לצד שלישי:</strong> ההקלטה מועברת לשירות ElevenLabs (המרת קול לטקסט) ול-Anthropic Claude (סיכום) - הכפופים למדיניות פרטיות משלהם.</li>
+            <li><strong>העברה לצד שלישי:</strong> ההקלטה מועברת לשירותי AI חיצוניים לצורך המרת קול לטקסט ויצירת הסיכום - שירותים אלו כפופים למדיניות הפרטיות שלהם.</li>
             <li><strong>אימון מודלים:</strong> Callnik אינה משתמשת בהקלטות לאימון מודלי AI.</li>
             <li><strong>שמירה ומחיקה:</strong> הקלטות ותמלולים נשמרים לכל משך ההתקשרות ונמחקים תוך 90 ימים מסיום המנוי.</li>
             <li><strong>זכות מחיקה מוקדמת:</strong> פנה אל <a href="mailto:mail@callnik.com" className="text-blue-600">mail@callnik.com</a> - הבקשה תטופל תוך 30 ימים.</li>
@@ -68,10 +68,10 @@ export default function PrivacyPage() {
         <Section title="5. מסירת מידע לצדדים שלישיים">
           <p className="text-gray-600 mb-3">Callnik לא תעביר מידע אישי לצדדים שלישיים, למעט:</p>
           <ul className="space-y-2 text-gray-600">
-            <li><strong>Twilio:</strong> ספק הטלפוניה - מעבד את שיחות הטלפון.</li>
-            <li><strong>ElevenLabs:</strong> שירות ה-AI לשיחה ותמלול.</li>
-            <li><strong>Anthropic Claude:</strong> שירות ה-AI לסיכום השיחה.</li>
-            <li><strong>Supabase:</strong> אחסון מאובטח של נתוני השיחות.</li>
+            <li><strong>ספק הטלפוניה:</strong> מעבד את שיחות הטלפון המועברות לשירות.</li>
+            <li><strong>שירות ה-AI לשיחה ותמלול:</strong> ממיר את הקול לטקסט ומנהל את השיחה.</li>
+            <li><strong>שירות ה-AI לסיכום:</strong> מייצר את סיכום השיחה.</li>
+            <li><strong>ספק האחסון:</strong> אחסון מאובטח של נתוני השיחות.</li>
             <li><strong>ספק הסליקה:</strong> עיבוד תשלומים - אינו שומר פרטי כרטיס אצלנו.</li>
             <li><strong>דרישת חוק:</strong> אם נחויב למסור מידע בהתאם לצו שיפוטי או דרישה חוקית.</li>
           </ul>
@@ -110,7 +110,7 @@ export default function PrivacyPage() {
 
         <Section title="9. העברת מידע מחוץ לישראל">
           <p className="text-gray-600">
-            Callnik עשויה לאחסן ולעבד מידע מחוץ לישראל, באמצעות שרתי ספקים (ElevenLabs, Anthropic, Twilio, Supabase) הממוקמים בארצות הברית ו/או באיחוד האירופי. העברת המידע נעשית בהתאם להוראות הדין החל. השימוש בשירות מהווה הסכמה להעברה כאמור.
+            Callnik עשויה לאחסן ולעבד מידע מחוץ לישראל, באמצעות שרתי ספקי שירות טכנולוגיים הממוקמים בארצות הברית ו/או באיחוד האירופי. העברת המידע נעשית בהתאם להוראות הדין החל. השימוש בשירות מהווה הסכמה להעברה כאמור.
           </p>
         </Section>
 

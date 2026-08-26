@@ -9,6 +9,7 @@ export default function Footer() {
           <Link href="/how-it-works" className="hover:text-gray-600 transition-colors">איך זה עובד</Link>
           <Link href="/pricing" className="hover:text-gray-600 transition-colors">מחירים</Link>
           <Link href="/faq" className="hover:text-gray-600 transition-colors">שאלות נפוצות</Link>
+          <Link href="/about" className="hover:text-gray-600 transition-colors">אודות</Link>
           <Link href="/terms" className="hover:text-gray-600 transition-colors">תקנון</Link>
           <Link href="/privacy" className="hover:text-gray-600 transition-colors">פרטיות</Link>
           <Link href="/accessibility" className="hover:text-gray-600 transition-colors">נגישות</Link>

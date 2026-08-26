@@ -27,6 +27,7 @@ export async function updateSession(request: NextRequest) {
     request.nextUrl.pathname.startsWith('/calls') ||
     request.nextUrl.pathname.startsWith('/settings') ||
     request.nextUrl.pathname.startsWith('/setup') ||
+    request.nextUrl.pathname.startsWith('/onboarding') ||
     request.nextUrl.pathname.startsWith('/admin')
 
   if (isAuthRoute && !user) {

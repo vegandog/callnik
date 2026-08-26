@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import PrivacyBanner from "@/components/PrivacyBanner";
 
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
   description: "Callnik עונה על שיחות שלא נענו ושולחת לך סיכום בוואטסאפ תוך דקה. המספר שלך לא משתנה.",
   metadataBase: new URL("https://callnik.com"),
   alternates: { canonical: "/" },
+  verification: { google: "K5xNCLaDOlPgbI-Ks5QhIo2d79nbTJx9XR7lcl-rKEk" },
   openGraph: {
     title: "Callnik - המזכירה האוטומטית לעסק שלך",
     description: "לא ענית לטלפון? Callnik ענתה בשבילך. סיכום בוואטסאפ תוך דקה.",
@@ -27,6 +29,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {children}
         <PrivacyBanner />
         <script src="https://widget.tabnav.com/limited-widget.min.js.gz" async />
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-DYGG736MTW" strategy="afterInteractive" />
+        <Script id="ga4" strategy="afterInteractive">{`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-DYGG736MTW');
+        `}</Script>
       </body>
     </html>
   );

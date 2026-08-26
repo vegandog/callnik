@@ -26,7 +26,7 @@ export default function TermsPage() {
             <li><strong>&quot;הלקוח&quot;</strong> - כל אדם פרטי, עוסק, חברה או גוף אחר הרשום לשירות.</li>
             <li><strong>&quot;מנוי&quot;</strong> - מסלול תשלום חודשי המקנה גישה לשירות Callnik.</li>
             <li><strong>&quot;שיחה&quot;</strong> - כל שיחה טלפונית שלא נענתה על ידי הלקוח והועברה למזכירה ה-AI לצורך מענה.</li>
-            <li><strong>&quot;שירותי צד שלישי&quot;</strong> - ספקי טכנולוגיה חיצוניים שבאמצעותם מספקת Callnik את שירותיה, לרבות Twilio (טלפוניה), ElevenLabs (קול AI), Anthropic Claude (סיכום AI), ו-Supabase (אחסון).</li>
+            <li><strong>&quot;שירותי צד שלישי&quot;</strong> - ספקי טכנולוגיה חיצוניים שבאמצעותם מספקת Callnik את שירותיה, לרבות ספקי טלפוניה, קול AI, עיבוד שפה ואחסון נתונים.</li>
           </ul>
         </Section>
 
@@ -101,7 +101,7 @@ export default function TermsPage() {
 
         <Section title="6. מגבלות שירותי צד שלישי וכוח עליון">
           <p className="text-gray-600 mb-3">
-            Callnik משתמשת בשירותי טכנולוגיה חיצוניים (Twilio, ElevenLabs, Anthropic, Supabase). לעיתים, שירותים אלו עשויים לחוות תקלות שאינן בשליטת Callnik. Callnik אינה אחראית לעיכובים הנגרמים מגורמים אלה.
+            Callnik משתמשת בשירותי טכנולוגיה חיצוניים (טלפוניה, קול AI, עיבוד שפה ואחסון). לעיתים, שירותים אלו עשויים לחוות תקלות שאינן בשליטת Callnik. Callnik אינה אחראית לעיכובים הנגרמים מגורמים אלה.
           </p>
           <p className="text-gray-600">
             Callnik לא תישא באחריות לכל עיכוב הנובע מנסיבות שאינן בשליטתה, לרבות תקלות תשתיות, הפסקות חשמל, כשלי ספקים, מגיפות, מלחמה, או מצב חירום לאומי.

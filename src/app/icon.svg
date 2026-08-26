@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <radialGradient id="sphere" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#93c5fd"/>
+      <stop offset="35%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#1e3a8a"/>
+    </radialGradient>
+  </defs>
+  <!-- Outer C arc -->
+  <path d="M 85,20 A 45,45 0 1,0 85,80" stroke="#1e40af" stroke-width="11" fill="none" stroke-linecap="round"/>
+  <!-- Inner C arc -->
+  <path d="M 75,28 A 32,32 0 1,0 75,72" stroke="#1e40af" stroke-width="7" fill="none" stroke-linecap="round"/>
+  <!-- Sphere -->
+  <circle cx="44" cy="50" r="22" fill="url(#sphere)"/>
+</svg>
