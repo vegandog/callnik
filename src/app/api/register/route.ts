@@ -24,8 +24,8 @@ export async function POST(req: NextRequest) {
   })
 
   if (authError) {
-    if (authError.message.includes('already registered')) {
-      return NextResponse.json({ error: 'אימייל זה כבר רשום' }, { status: 409 })
+    if (authError.message.toLowerCase().includes('already')) {
+      return NextResponse.json({ error: 'אימייל זה כבר רשום במערכת' }, { status: 409 })
     }
     return NextResponse.json({ error: authError.message }, { status: 500 })
   }

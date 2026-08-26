@@ -9,6 +9,7 @@ const carriers = ['פלאפון', 'פרטנר', 'סלקום', 'הוט מוביי
 export default function RegisterPage() {
   const [loading, setLoading] = useState(false)
   const [done, setDone] = useState(false)
+  const [error, setError] = useState('')
   const [form, setForm] = useState({
     business_name: '',
     category: '',
@@ -21,13 +22,21 @@ export default function RegisterPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
+    setError('')
     try {
       const res = await fetch('/api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       })
-      if (res.ok) setDone(true)
+      if (res.ok) {
+        setDone(true)
+      } else {
+        const data = await res.json()
+        setError(data.error || 'אירעה שגיאה, נסה שנית')
+      }
+    } catch {
+      setError('אירעה שגיאה, נסה שנית')
     } finally {
       setLoading(false)
     }
@@ -135,6 +144,12 @@ export default function RegisterPage() {
               </div>
             </div>
           </div>
+
+          {error && (
+            <p className="text-red-600 text-sm text-center bg-red-50 border border-red-200 rounded-lg px-4 py-2.5">
+              {error}
+            </p>
+          )}
 
           <button
             type="submit"
