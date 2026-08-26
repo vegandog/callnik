@@ -1,9 +1,11 @@
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+function getResend() {
+  return new Resend(process.env.RESEND_API_KEY ?? 'placeholder')
+}
 
 export async function sendWelcomeEmail(to: string, businessName: string) {
-  await resend.emails.send({
+  await getResend().emails.send({
     from: 'Callnik <mail@callnik.com>',
     to,
     subject: 'ברוכים הבאים ל-Callnik',
@@ -30,7 +32,7 @@ export async function sendAdminNotification(customer: {
   carrier: string
   email: string
 }) {
-  await resend.emails.send({
+  await getResend().emails.send({
     from: 'Callnik <mail@callnik.com>',
     to: 'vegandog@gmail.com',
     subject: `לקוח חדש: ${customer.businessName}`,
