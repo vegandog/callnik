@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { sendWelcomeEmail, sendAdminNotification } from '@/lib/email'
 
 export async function POST(req: NextRequest) {
   const supabase = await createClient()
@@ -26,6 +27,17 @@ export async function POST(req: NextRequest) {
   if (customerError) return NextResponse.json({ error: customerError.message }, { status: 500 })
 
   await admin.from('users').insert({ id: user.id, customer_id: customer.id, email: user.email })
+
+  await Promise.allSettled([
+    sendWelcomeEmail(user.email!, business_name),
+    sendAdminNotification({
+      businessName: business_name,
+      category,
+      whatsappNumber: whatsapp_number,
+      carrier,
+      email: user.email!,
+    }),
+  ])
 
   return NextResponse.json({ ok: true })
 }
