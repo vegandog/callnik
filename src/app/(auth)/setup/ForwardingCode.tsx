@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Zap, X, Copy, Check } from 'lucide-react'
 
 interface Props {
@@ -12,6 +12,11 @@ interface Props {
 
 export default function ForwardingCode({ activateCode, cancelCode, carrier, seconds }: Props) {
   const [copied, setCopied] = useState<'activate' | 'cancel' | null>(null)
+  const [isIphone, setIsIphone] = useState(false)
+
+  useEffect(() => {
+    setIsIphone(/iPhone|iPad|iPod/.test(navigator.userAgent))
+  }, [])
 
   const copy = async (text: string, type: 'activate' | 'cancel') => {
     await navigator.clipboard.writeText(text)
@@ -50,6 +55,29 @@ export default function ForwardingCode({ activateCode, cancelCode, carrier, seco
           לחיצה תפתח את הטלפון עם הקוד מוכן לחיוג
         </p>
       </div>
+
+      {/* iPhone fallback block - always visible for iPhone users */}
+      {isIphone && (
+        <div className="bg-amber-50 border border-amber-200 rounded-xl p-5">
+          <p className="font-semibold text-amber-800 mb-3">לא קיבלתם הודעת אישור אחרי הלחיצה?</p>
+          <p className="text-amber-700 text-sm mb-3">
+            זה קורה לפעמים באייפון בגלל חוסר סנכרון בין המכשיר לרשת. פותרים ככה:
+          </p>
+          <ol className="text-amber-700 text-sm space-y-1.5 list-none">
+            <li><span className="font-semibold">1.</span> הגדרות ← סלולרי ← אפשרויות נתונים סלולריים ← קול ונתונים</li>
+            <li><span className="font-semibold">2.</span> בחרו דור 3 (3G) במקום 4G או 5G</li>
+            <li><span className="font-semibold">3.</span> לחצו שוב על כפתור ההפעלה למעלה בעמוד הזה</li>
+            <li><span className="font-semibold">4.</span> ודאו שהתקבל אישור, לא שגיאה</li>
+            <li><span className="font-semibold">5.</span> חִזרו לאותו מסך והחזירו לדור 4 או 5</li>
+          </ol>
+          <p className="text-amber-700 text-sm mt-3">
+            ההפניה תישאר פעילה, היא נשמרת ברשת ולא במכשיר.
+          </p>
+          <p className="text-amber-700 text-sm mt-2">
+            יש לכם כמה קווים על אותו מכשיר? ודאו שההגדרה מתבצעת דרך הסים שאליו שייך המספר, לא סים משני. קוד מסים משני פשוט לא נקלט.
+          </p>
+        </div>
+      )}
 
       {/* Cancel */}
       <div className="bg-white rounded-xl border border-gray-100 p-5">

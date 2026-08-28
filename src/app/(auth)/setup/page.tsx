@@ -2,15 +2,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { AlertCircle, CheckCircle, Phone } from 'lucide-react'
 import ForwardingCode from './ForwardingCode'
-
-const CARRIER_SECONDS: Record<string, number> = {
-  'פלאפון': 25,
-  'פרטנר': 20,
-  'סלקום': 20,
-  'הוט מובייל': 20,
-  '012': 20,
-  'אחר': 20,
-}
+import { CARRIER_SECONDS } from '@/lib/constants'
 
 export default async function SetupPage() {
   const supabase = await createClient()
@@ -36,8 +28,9 @@ export default async function SetupPage() {
   const carrier = customer?.carrier || 'אחר'
   const seconds = CARRIER_SECONDS[carrier] ?? 20
 
-  const activateCode = twilioNumber
-    ? `*61*${twilioNumber}**${seconds}#`
+  const localNumber = twilioNumber?.replace(/^\+972/, '0') ?? null
+  const activateCode = localNumber
+    ? `*61*${localNumber}**${seconds}#`
     : null
   const cancelCode = `##61#`
 
