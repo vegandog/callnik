@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { sendWelcomeEmail, sendAdminNotification } from '@/lib/email'
+import { normalizePhone } from '@/lib/phone'
 
 export async function POST(req: NextRequest) {
   const supabase = await createClient()
@@ -18,18 +19,22 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'חסרים פרטים' }, { status: 400 })
   }
 
+  const normalizedWhatsapp = normalizePhone(whatsapp_number)
+  const fullName: string = user.user_metadata?.full_name || user.user_metadata?.name || ''
+  const firstName = fullName.split(' ')[0] || ''
+
   const { data: customer, error: customerError } = await admin
     .from('customers')
-    .insert({ business_name, category, whatsapp_number, carrier, status: 'pending' })
+    .insert({ business_name, category, whatsapp_number: normalizedWhatsapp, carrier, status: 'pending' })
     .select()
     .single()
 
   if (customerError) return NextResponse.json({ error: customerError.message }, { status: 500 })
 
-  await admin.from('users').insert({ id: user.id, customer_id: customer.id, email: user.email })
+  await admin.from('users').insert({ id: user.id, customer_id: customer.id, email: user.email, full_name: fullName || null })
 
   await Promise.allSettled([
-    sendWelcomeEmail(user.email!, business_name),
+    sendWelcomeEmail(user.email!, business_name, firstName),
     sendAdminNotification({
       businessName: business_name,
       category,

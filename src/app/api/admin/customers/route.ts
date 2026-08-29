@@ -99,7 +99,7 @@ export async function PATCH(req: NextRequest) {
     try {
       const { data: userRow } = await supabase
         .from('users')
-        .select('email')
+        .select('email, full_name')
         .eq('customer_id', customer_id)
         .order('created_at', { ascending: false })
         .limit(1)
@@ -107,11 +107,13 @@ export async function PATCH(req: NextRequest) {
 
       if (userRow?.email) {
         const finalTwilioNumber = twilio_number ?? current.twilio_number
+        const firstName = (userRow.full_name || '').split(' ')[0] || undefined
         await sendActivationEmail(
           userRow.email,
           current.business_name,
           finalTwilioNumber ?? null,
-          current.carrier ?? ''
+          current.carrier ?? '',
+          firstName
         )
       }
     } catch (e) {
