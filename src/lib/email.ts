@@ -192,7 +192,7 @@ export async function sendActivationEmail(to: string, businessName: string, twil
   await getResend().emails.send({
     from: 'Callnik <mail@callnik.com>',
     to,
-    subject: `✅ Callnik פעיל - ${businessName}`,
+    subject: `🔵 Callnik פעיל - ${businessName}`,
     html: baseTemplate(cardContent),
   })
 }
