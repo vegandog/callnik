@@ -61,14 +61,16 @@ async function checkRecentCalls() {
   const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
   const cutoff = new Date(Date.now() - 10 * 60 * 1000).toISOString()
 
+  // Only count calls that ElevenLabs actually processed (have a conversation_id)
   const { data } = await supabase
     .from('calls')
-    .select('id, caller_name, created_at')
+    .select('id, caller_name, elevenlabs_conversation_id, created_at')
     .gte('created_at', since)
     .lt('created_at', cutoff)
+    .not('elevenlabs_conversation_id', 'is', null)
 
   const total = data?.length ?? 0
-  if (total === 0) return { ok: true, message: 'no calls in last 24h' }
+  if (total === 0) return { ok: true, message: 'no processed calls in last 24h' }
 
   const succeeded = data!.filter(c => c.caller_name).length
   const rate = Math.round((succeeded / total) * 100)
