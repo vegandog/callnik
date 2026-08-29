@@ -9,6 +9,15 @@ async function checkTwilioWebhook() {
   const authToken = process.env.TWILIO_AUTH_TOKEN!
   const creds = Buffer.from(`${accountSid}:${authToken}`).toString('base64')
 
+  const supabase = createAdminClient()
+  const { data: customers } = await supabase
+    .from('customers')
+    .select('twilio_number')
+    .not('twilio_number', 'is', null)
+
+  const voiceNumbers = new Set((customers || []).map(c => c.twilio_number))
+  if (voiceNumbers.size === 0) return { ok: true, message: 'no voice numbers configured' }
+
   const res = await fetch(
     `https://api.twilio.com/2010-04-01/Accounts/${accountSid}/IncomingPhoneNumbers.json`,
     { headers: { Authorization: `Basic ${creds}` } }
@@ -18,11 +27,14 @@ async function checkTwilioWebhook() {
   const data = await res.json()
   const numbers: { phone_number: string; voice_url: string }[] = data.incoming_phone_numbers || []
 
-  const hijacked = numbers.filter(n => n.voice_url && !n.voice_url.includes('callnik.com/api/twilio/voice'))
+  const hijacked = numbers.filter(n =>
+    voiceNumbers.has(n.phone_number) &&
+    (!n.voice_url || !n.voice_url.includes('callnik.com/api/twilio/voice'))
+  )
   if (hijacked.length > 0) {
     return { ok: false, message: `webhook hijacked on: ${hijacked.map(n => n.phone_number).join(', ')}` }
   }
-  return { ok: true, message: `${numbers.length} number(s) OK` }
+  return { ok: true, message: `${voiceNumbers.size} voice number(s) OK` }
 }
 
 async function checkAgents() {
