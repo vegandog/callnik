@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
   const { data: customer } = await supabase
     .from('customers')
     .select('id, business_name')
-    .eq('twilio_number', calledNumber)
+    .or(`twilio_number.eq.${calledNumber},telnyx_number.eq.${calledNumber}`)
     .single()
 
   const businessName = customer?.business_name || 'העסק'

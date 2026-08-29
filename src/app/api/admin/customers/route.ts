@@ -19,7 +19,7 @@ export async function GET() {
   const supabase = createAdminClient()
   const { data: customers, error } = await supabase
     .from('customers')
-    .select('id, first_name, last_name, business_name, category, whatsapp_number, carrier, twilio_number, status, created_at')
+    .select('id, business_name, category, whatsapp_number, carrier, twilio_number, telnyx_number, status, created_at')
     .order('created_at', { ascending: false })
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
@@ -74,19 +74,20 @@ export async function PATCH(req: NextRequest) {
   if (!await assertAdmin()) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 
   const body = await req.json()
-  const { customer_id, status, twilio_number } = body
+  const { customer_id, status, twilio_number, telnyx_number } = body
   const supabase = createAdminClient()
 
   // Fetch current customer state before updating
   const { data: current } = await supabase
     .from('customers')
-    .select('status, first_name, last_name, business_name, whatsapp_number, carrier, twilio_number, voice_id')
+    .select('status, business_name, whatsapp_number, carrier, twilio_number, telnyx_number, voice_id')
     .eq('id', customer_id)
     .single()
 
   const update: Record<string, string> = {}
   if (status) update.status = status
   if (twilio_number !== undefined) update.twilio_number = twilio_number
+  if (telnyx_number !== undefined) update.telnyx_number = telnyx_number
 
   const { error } = await supabase
     .from('customers')
@@ -108,14 +109,21 @@ export async function PATCH(req: NextRequest) {
 
       if (userRow?.email) {
         const finalTwilioNumber = twilio_number ?? current.twilio_number
+        let firstName: string | undefined
+        let lastName: string | undefined
+        if (userRow.id) {
+          const { data: authData } = await supabase.auth.admin.getUserById(userRow.id)
+          firstName = authData?.user?.user_metadata?.first_name || undefined
+          lastName = authData?.user?.user_metadata?.last_name || undefined
+        }
         const voiceName = getVoiceName(current.voice_id)
         await sendActivationEmail(
           userRow.email,
           current.business_name,
           finalTwilioNumber ?? null,
           current.carrier ?? '',
-          current.first_name || undefined,
-          current.last_name || undefined,
+          firstName,
+          lastName,
           voiceName
         )
       }

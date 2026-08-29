@@ -10,6 +10,7 @@ interface Customer {
   whatsapp_number: string
   carrier: string
   twilio_number: string | null
+  telnyx_number: string | null
   status: string
   created_at: string
   call_count: number
@@ -46,7 +47,7 @@ export default function AdminPanel() {
   const [toggling, setToggling] = useState<string | null>(null)
   const [deleting, setDeleting] = useState<string | null>(null)
   const [confirmDelete, setConfirmDelete] = useState<Customer | null>(null)
-  const [editingNumber, setEditingNumber] = useState<string | null>(null)
+  const [editingNumber, setEditingNumber] = useState<{ id: string; field: 'twilio' | 'telnyx' } | null>(null)
   const [editValue, setEditValue] = useState('')
   const [search, setSearch] = useState('')
   const [health, setHealth] = useState<HealthStatus | null>(null)
@@ -69,13 +70,14 @@ export default function AdminPanel() {
 
   useEffect(() => { load() }, [])
 
-  const saveTwilioNumber = async (customerId: string, number: string) => {
+  const saveNumber = async (customerId: string, field: 'twilio' | 'telnyx', number: string) => {
+    const key = field === 'twilio' ? 'twilio_number' : 'telnyx_number'
     await fetch('/api/admin/customers', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ customer_id: customerId, twilio_number: number }),
+      body: JSON.stringify({ customer_id: customerId, [key]: number }),
     })
-    setCustomers(prev => prev.map(c => c.id === customerId ? { ...c, twilio_number: number } : c))
+    setCustomers(prev => prev.map(c => c.id === customerId ? { ...c, [key]: number } : c))
     setEditingNumber(null)
   }
 
@@ -188,7 +190,8 @@ export default function AdminPanel() {
                 <th className="text-right font-medium text-gray-500 px-4 py-3">תחום</th>
                 <th className="text-right font-medium text-gray-500 px-4 py-3">וואטסאפ</th>
                 <th className="text-right font-medium text-gray-500 px-4 py-3">חברה</th>
-                <th className="text-right font-medium text-gray-500 px-4 py-3">מספר Twilio</th>
+                <th className="text-right font-medium text-gray-500 px-4 py-3">Twilio</th>
+                <th className="text-right font-medium text-gray-500 px-4 py-3">Telnyx</th>
                 <th className="text-right font-medium text-gray-500 px-4 py-3">שיחות</th>
                 <th className="text-right font-medium text-gray-500 px-4 py-3">סטטוס</th>
                 <th className="text-right font-medium text-gray-500 px-4 py-3">פעולה</th>
@@ -213,33 +216,42 @@ export default function AdminPanel() {
                   <td className="px-4 py-3 text-gray-600">{customer.category || '-'}</td>
                   <td className="px-4 py-3 text-gray-600 font-mono text-xs">{customer.whatsapp_number}</td>
                   <td className="px-4 py-3 text-gray-600 text-xs">{customer.carrier || '-'}</td>
-                  <td className="px-4 py-3 text-gray-600 font-mono text-xs">
-                    {editingNumber === customer.id ? (
-                      <div className="flex items-center gap-1">
-                        <input
-                          autoFocus
-                          value={editValue}
-                          onChange={e => setEditValue(e.target.value)}
-                          placeholder="+97293764692"
-                          className="border border-blue-300 rounded px-2 py-0.5 text-xs w-32 font-mono"
-                          dir="ltr"
-                          onKeyDown={e => { if (e.key === 'Enter') saveTwilioNumber(customer.id, editValue); if (e.key === 'Escape') setEditingNumber(null) }}
-                        />
-                        <button onClick={() => saveTwilioNumber(customer.id, editValue)} className="text-green-600"><Check className="w-3 h-3" /></button>
-                        <button onClick={() => setEditingNumber(null)} className="text-gray-400"><X className="w-3 h-3" /></button>
-                      </div>
-                    ) : (
-                      <div className="flex items-center gap-1 group">
-                        <span>{customer.twilio_number || <span className="text-gray-300">-</span>}</span>
-                        <button
-                          onClick={() => { setEditingNumber(customer.id); setEditValue(customer.twilio_number || '') }}
-                          className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-blue-600 transition-all"
-                        >
-                          <Pencil className="w-3 h-3" />
-                        </button>
-                      </div>
-                    )}
-                  </td>
+                  {(['twilio', 'telnyx'] as const).map(field => {
+                    const numVal = field === 'twilio' ? customer.twilio_number : customer.telnyx_number
+                    const isEditing = editingNumber?.id === customer.id && editingNumber?.field === field
+                    return (
+                      <td key={field} className="px-4 py-3 text-gray-600 font-mono text-xs">
+                        {isEditing ? (
+                          <div className="flex items-center gap-1">
+                            <input
+                              autoFocus
+                              value={editValue}
+                              onChange={e => setEditValue(e.target.value)}
+                              placeholder="+972XXXXXXXXX"
+                              className="border border-blue-300 rounded px-2 py-0.5 text-xs w-32 font-mono"
+                              dir="ltr"
+                              onKeyDown={e => {
+                                if (e.key === 'Enter') saveNumber(customer.id, field, editValue)
+                                if (e.key === 'Escape') setEditingNumber(null)
+                              }}
+                            />
+                            <button onClick={() => saveNumber(customer.id, field, editValue)} className="text-green-600"><Check className="w-3 h-3" /></button>
+                            <button onClick={() => setEditingNumber(null)} className="text-gray-400"><X className="w-3 h-3" /></button>
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-1 group">
+                            <span>{numVal || <span className="text-gray-300">-</span>}</span>
+                            <button
+                              onClick={() => { setEditingNumber({ id: customer.id, field }); setEditValue(numVal || '') }}
+                              className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-blue-600 transition-all"
+                            >
+                              <Pencil className="w-3 h-3" />
+                            </button>
+                          </div>
+                        )}
+                      </td>
+                    )
+                  })}
                   <td className="px-4 py-3 text-center">
                     {customer.call_count > 0 ? (
                       <a
