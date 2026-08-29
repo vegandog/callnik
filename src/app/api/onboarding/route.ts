@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { sendWelcomeEmail, sendAdminNotification } from '@/lib/email'
 import { normalizePhone } from '@/lib/phone'
+import { getVoiceName } from '@/lib/constants'
 
 export async function POST(req: NextRequest) {
   const supabase = await createClient()
@@ -34,7 +35,7 @@ export async function POST(req: NextRequest) {
   await admin.from('users').insert({ id: user.id, customer_id: customer.id, email: user.email })
 
   await Promise.allSettled([
-    sendWelcomeEmail(user.email!, business_name, firstName),
+    sendWelcomeEmail(user.email!, business_name, firstName, getVoiceName(null)),
     sendAdminNotification({
       businessName: business_name,
       category,

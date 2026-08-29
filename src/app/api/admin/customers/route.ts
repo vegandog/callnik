@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { sendActivationEmail } from '@/lib/email'
+import { getVoiceName } from '@/lib/constants'
 import { NextRequest, NextResponse } from 'next/server'
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'vegandog@gmail.com'
@@ -79,7 +80,7 @@ export async function PATCH(req: NextRequest) {
   // Fetch current customer state before updating
   const { data: current } = await supabase
     .from('customers')
-    .select('status, business_name, whatsapp_number, carrier, twilio_number')
+    .select('status, business_name, whatsapp_number, carrier, twilio_number, voice_id')
     .eq('id', customer_id)
     .single()
 
@@ -113,12 +114,14 @@ export async function PATCH(req: NextRequest) {
           const fullName: string = authData?.user?.user_metadata?.full_name || authData?.user?.user_metadata?.name || ''
           firstName = fullName.split(' ')[0] || undefined
         }
+        const voiceName = getVoiceName(current.voice_id)
         await sendActivationEmail(
           userRow.email,
           current.business_name,
           finalTwilioNumber ?? null,
           current.carrier ?? '',
-          firstName
+          firstName,
+          voiceName
         )
       }
     } catch (e) {

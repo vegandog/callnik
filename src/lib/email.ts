@@ -54,7 +54,7 @@ function baseTemplate(cardContent: string) {
 </html>`
 }
 
-export async function sendWelcomeEmail(to: string, businessName: string, firstName?: string) {
+export async function sendWelcomeEmail(to: string, businessName: string, firstName?: string, voiceName = 'דנה') {
   const steps = [
     'שיחה שלא נענית מועברת אוטומטית ל-Callnik',
     'דנה, הנציגה הדיגיטלית, מדברת עם המתקשר ולוקחת הודעה',
@@ -85,10 +85,18 @@ export async function sendWelcomeEmail(to: string, businessName: string, firstNa
     <tr>
       <td style="padding:30px 36px 24px;text-align:right;">
         <p style="margin:0 0 6px;font-size:15px;color:#111827;font-weight:600;font-family:${F};text-align:right;">שלום${firstName ? ` ${firstName}` : ''},</p>
-        <p style="margin:0 0 22px;font-size:15px;color:#374151;line-height:1.75;font-family:${F};text-align:right;">
+        <p style="margin:0 0 16px;font-size:15px;color:#374151;line-height:1.75;font-family:${F};text-align:right;">
           קיבלנו את ההרשמה של <strong>${businessName}</strong> ואנחנו שמחים שהצטרפת!<br>
           ניצור איתך קשר בהקדם - בדרך כלל תוך 24 שעות - כדי להקצות מספר ייעודי ולהפעיל את השירות.
         </p>
+        <table width="100%" cellpadding="0" cellspacing="0" style="background:#eff6ff;border-radius:10px;margin-bottom:22px;">
+          <tr><td style="padding:14px 18px;text-align:right;">
+            <p style="margin:0;font-size:14px;color:#1d4ed8;font-family:${F};text-align:right;">
+              הנציג/ה שבחרת: <strong>${voiceName}</strong> -
+              <a href="https://callnik.com/settings" style="color:#2563eb;text-decoration:underline;">שינוי בהגדרות</a>
+            </p>
+          </td></tr>
+        </table>
 
         <p style="margin:0 0 12px;font-size:14px;color:#6b7280;font-family:${F};text-align:right;">ככה זה עובד:</p>
         <table dir="rtl" width="100%" cellpadding="0" cellspacing="0" style="background:#f9fafb;border-radius:10px;">
@@ -121,7 +129,7 @@ export async function sendWelcomeEmail(to: string, businessName: string, firstNa
   })
 }
 
-export async function sendActivationEmail(to: string, businessName: string, twilioNumber: string | null, carrier: string, firstName?: string) {
+export async function sendActivationEmail(to: string, businessName: string, twilioNumber: string | null, carrier: string, firstName?: string, voiceName = 'דנה') {
   const seconds = CARRIER_SECONDS[carrier] ?? 20
   const localNumber = twilioNumber?.replace(/^\+972/, '0') ?? null
   const forwardCode = localNumber ? `*61*${localNumber}**${seconds}#` : null
@@ -150,10 +158,18 @@ export async function sendActivationEmail(to: string, businessName: string, twil
     <tr>
       <td style="padding:30px 36px 24px;text-align:right;">
         <p style="margin:0 0 6px;font-size:15px;color:#111827;font-weight:600;font-family:${F};text-align:right;">שלום${firstName ? ` ${firstName}` : ''},</p>
-        <p style="margin:0 0 20px;font-size:15px;color:#374151;line-height:1.75;font-family:${F};text-align:right;">
+        <p style="margin:0 0 16px;font-size:15px;color:#374151;line-height:1.75;font-family:${F};text-align:right;">
           חשבון Callnik של <strong>${businessName}</strong> פעיל ומוכן לקלוט שיחות.<br>
-          מעכשיו כל שיחה שלא תענה תועבר לדנה, שתלקח הודעה ותשלח לך סיכום בוואטסאפ תוך כדקה.
+          מעכשיו כל שיחה שלא תענה תועבר ל<strong>${voiceName}</strong>, שתלקח הודעה ותשלח לך סיכום בוואטסאפ תוך כדקה.
         </p>
+        <table width="100%" cellpadding="0" cellspacing="0" style="background:#eff6ff;border-radius:10px;margin-bottom:20px;">
+          <tr><td style="padding:14px 18px;text-align:right;">
+            <p style="margin:0;font-size:14px;color:#1d4ed8;font-family:${F};text-align:right;">
+              הנציג/ה שבחרת: <strong>${voiceName}</strong> -
+              <a href="https://callnik.com/settings" style="color:#2563eb;text-decoration:underline;">רוצה לשנות? לחץ כאן</a>
+            </p>
+          </td></tr>
+        </table>
         <p style="margin:0 0 14px;font-size:15px;color:#374151;font-family:${F};text-align:right;">
           כדי להפעיל את הפניית השיחות, חייג את הקוד הבא מהטלפון שלך:
         </p>
