@@ -8,7 +8,9 @@ const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET!
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
   const code = searchParams.get('code')
+  const state = searchParams.get('state')
   const origin = 'https://callnik.com'
+  const redirectAfterLogin = state && state.startsWith('/') ? state : '/dashboard'
 
   if (!code) return NextResponse.redirect(`${origin}/login`)
 
@@ -40,5 +42,5 @@ export async function GET(request: NextRequest) {
   const admin = createAdminClient()
   const { data: existing } = await admin.from('users').select('id').eq('id', user.id).single()
 
-  return NextResponse.redirect(`${origin}${existing ? '/dashboard' : '/onboarding'}`)
+  return NextResponse.redirect(`${origin}${existing ? redirectAfterLogin : '/onboarding'}`)
 }

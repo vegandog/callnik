@@ -2,6 +2,16 @@ import { redirect, notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { Phone, Clock, User } from 'lucide-react'
 
+function stripMarkdown(text: string): string {
+  return text
+    .replace(/^(?:#\s*)?תמצית[^\n]*[\n:]\s*/m, '')
+    .replace(/^#{1,6}\s+/gm, '')
+    .replace(/\*\*(.+?)\*\*/g, '$1')
+    .replace(/\*(.+?)\*/g, '$1')
+    .replace(/^[-*]\s+/gm, '')
+    .trim()
+}
+
 export default async function CallPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const supabase = await createClient()
@@ -68,7 +78,7 @@ export default async function CallPage({ params }: { params: Promise<{ id: strin
       {call.reason_summary && (
         <div className="bg-white rounded-xl border border-gray-100 px-5 py-4">
           <p className="text-xs text-gray-400 mb-2">סיכום</p>
-          <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">{call.reason_summary}</p>
+          <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">{stripMarkdown(call.reason_summary)}</p>
         </div>
       )}
 

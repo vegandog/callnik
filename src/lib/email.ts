@@ -54,7 +54,7 @@ function baseTemplate(cardContent: string) {
 </html>`
 }
 
-export async function sendWelcomeEmail(to: string, businessName: string, firstName?: string, voiceName = 'דנה') {
+export async function sendWelcomeEmail(to: string, businessName: string, firstName?: string, lastName?: string, voiceName = 'דנה') {
   const steps = [
     'שיחה שלא נענית מועברת אוטומטית ל-Callnik',
     'דנה, הנציגה הדיגיטלית, מדברת עם המתקשר ולוקחת הודעה',
@@ -84,7 +84,7 @@ export async function sendWelcomeEmail(to: string, businessName: string, firstNa
     </tr>
     <tr>
       <td style="padding:30px 36px 24px;text-align:right;">
-        <p style="margin:0 0 6px;font-size:15px;color:#111827;font-weight:600;font-family:${F};text-align:right;">שלום${firstName ? ` ${firstName}` : ''},</p>
+        <p style="margin:0 0 6px;font-size:15px;color:#111827;font-weight:600;font-family:${F};text-align:right;">שלום${firstName ? ` ${firstName} ${lastName || ''}`.trimEnd() : ''},</p>
         <p style="margin:0 0 16px;font-size:15px;color:#374151;line-height:1.75;font-family:${F};text-align:right;">
           קיבלנו את ההרשמה של <strong>${businessName}</strong> ואנחנו שמחים שהצטרפת!<br>
           ניצור איתך קשר בהקדם - בדרך כלל תוך 24 שעות - כדי להקצות מספר ייעודי ולהפעיל את השירות.
@@ -129,7 +129,7 @@ export async function sendWelcomeEmail(to: string, businessName: string, firstNa
   })
 }
 
-export async function sendActivationEmail(to: string, businessName: string, twilioNumber: string | null, carrier: string, firstName?: string, voiceName = 'דנה') {
+export async function sendActivationEmail(to: string, businessName: string, twilioNumber: string | null, carrier: string, firstName?: string, lastName?: string, voiceName = 'דנה') {
   const seconds = CARRIER_SECONDS[carrier] ?? 20
   const localNumber = twilioNumber?.replace(/^\+972/, '0') ?? null
   const forwardCode = localNumber ? `*61*${localNumber}**${seconds}#` : null
@@ -157,7 +157,7 @@ export async function sendActivationEmail(to: string, businessName: string, twil
     </tr>
     <tr>
       <td style="padding:30px 36px 24px;text-align:right;">
-        <p style="margin:0 0 6px;font-size:15px;color:#111827;font-weight:600;font-family:${F};text-align:right;">שלום${firstName ? ` ${firstName}` : ''},</p>
+        <p style="margin:0 0 6px;font-size:15px;color:#111827;font-weight:600;font-family:${F};text-align:right;">שלום${firstName ? ` ${firstName} ${lastName || ''}`.trimEnd() : ''},</p>
         <p style="margin:0 0 16px;font-size:15px;color:#374151;line-height:1.75;font-family:${F};text-align:right;">
           חשבון Callnik של <strong>${businessName}</strong> פעיל ומוכן לקלוט שיחות.<br>
           מעכשיו כל שיחה שלא תענה תועבר ל<strong>${voiceName}</strong>, שתלקח הודעה ותשלח לך סיכום בוואטסאפ תוך כדקה.

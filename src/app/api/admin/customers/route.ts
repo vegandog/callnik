@@ -19,7 +19,7 @@ export async function GET() {
   const supabase = createAdminClient()
   const { data: customers, error } = await supabase
     .from('customers')
-    .select('id, business_name, category, whatsapp_number, carrier, twilio_number, status, created_at')
+    .select('id, first_name, last_name, business_name, category, whatsapp_number, carrier, twilio_number, status, created_at')
     .order('created_at', { ascending: false })
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
@@ -80,7 +80,7 @@ export async function PATCH(req: NextRequest) {
   // Fetch current customer state before updating
   const { data: current } = await supabase
     .from('customers')
-    .select('status, business_name, whatsapp_number, carrier, twilio_number, voice_id')
+    .select('status, first_name, last_name, business_name, whatsapp_number, carrier, twilio_number, voice_id')
     .eq('id', customer_id)
     .single()
 
@@ -108,19 +108,14 @@ export async function PATCH(req: NextRequest) {
 
       if (userRow?.email) {
         const finalTwilioNumber = twilio_number ?? current.twilio_number
-        let firstName: string | undefined
-        if (userRow.id) {
-          const { data: authData } = await supabase.auth.admin.getUserById(userRow.id)
-          const fullName: string = authData?.user?.user_metadata?.full_name || authData?.user?.user_metadata?.name || ''
-          firstName = fullName.split(' ')[0] || undefined
-        }
         const voiceName = getVoiceName(current.voice_id)
         await sendActivationEmail(
           userRow.email,
           current.business_name,
           finalTwilioNumber ?? null,
           current.carrier ?? '',
-          firstName,
+          current.first_name || undefined,
+          current.last_name || undefined,
           voiceName
         )
       }

@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Google_Sans } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import PrivacyBanner from "@/components/PrivacyBanner";
 
-const geist = Geist({ subsets: ["latin"] });
+const googleSans = Google_Sans({
+  subsets: ["latin", "hebrew"],
+  weight: ["400", "500", "700"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Callnik - המזכירה האוטומטית לעסק שלך",
@@ -25,7 +29,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="he" dir="rtl" className="h-full">
-      <body className={`${geist.className} min-h-full`}>
+      <body className={`${googleSans.className} min-h-full`}>
         {children}
         <PrivacyBanner />
         <script src="https://widget.tabnav.com/limited-widget.min.js.gz" async />

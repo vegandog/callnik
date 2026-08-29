@@ -1,5 +1,6 @@
 import { createAdminClient } from '@/lib/supabase/admin'
 import { sendCallNotification } from '@/lib/notify'
+import { sendCallNotificationEmail } from '@/lib/email'
 import { NextRequest, NextResponse } from 'next/server'
 
 // Allow up to 60s (Vercel Pro limit)
@@ -21,15 +22,16 @@ async function summarizeWithClaude(transcript: string, businessName: string): Pr
       max_tokens: 200,
       messages: [{
         role: 'user',
-        content: `תמצת את השיחה הבאה לבעל העסק "${businessName}" בשלוש שורות בלבד:
-- שם המתקשר
-- מה ביקש
-- מספר ליצירת קשר (אם ניתן)
+        content: `תמצת את השיחה הבאה לבעל העסק "${businessName}".
+כתוב בדיוק שלוש שורות טקסט רגיל, ללא markdown, ללא כוכביות, ללא כותרות:
+שם המתקשר: [שם]
+בקשה: [מה ביקש]
+מספר לחזרה: [מספר או "לא צוין"]
 
 תמלול השיחה:
 ${transcript}
 
-ענה בעברית בלבד, תמציתי.`,
+ענה בעברית בלבד, שלוש שורות בלבד, טקסט רגיל בלי עיצוב.`,
       }],
     }),
   })
@@ -150,12 +152,12 @@ export async function POST(req: NextRequest) {
           ).join('\n')
         : String(rawTranscript)
 
+      if (transcript) summary = await summarizeWithClaude(transcript, customer.business_name)
+
       if (summary) {
-        const nameMatch = summary.match(/שם המתקשר[^:\n]*:\s*\*?\*?\s*([^\n*]+)/i)
+        const nameMatch = summary.match(/שם המתקשר[^:\n]*:\s*([^\n]+)/i)
         callerName = nameMatch?.[1]?.trim() || ''
       }
-
-      if (transcript) summary = await summarizeWithClaude(transcript, customer.business_name)
 
       // Upload recording to Supabase Storage
       const audioRes = await fetch(
@@ -193,8 +195,9 @@ export async function POST(req: NextRequest) {
     })
     .eq('id', callRecord.id)
 
+  const callTime = new Date().toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jerusalem' })
+
   try {
-    const callTime = new Date().toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jerusalem' })
     await sendCallNotification(
       customer.whatsapp_number,
       callerName || '',
@@ -205,6 +208,30 @@ export async function POST(req: NextRequest) {
     )
   } catch (e) {
     console.error('WhatsApp send failed:', e)
+  }
+
+  // Also send email notification
+  try {
+    const { data: userRow } = await supabase
+      .from('users')
+      .select('email')
+      .eq('customer_id', callRecord.customer_id)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .single()
+    if (userRow?.email) {
+      await sendCallNotificationEmail(
+        userRow.email,
+        customer.business_name,
+        callerName || '',
+        callTime,
+        summary,
+        callRecord.caller_number || '',
+        callRecord.id
+      )
+    }
+  } catch (e) {
+    console.error('Email send failed:', e)
   }
 
   return NextResponse.json({ ok: true })

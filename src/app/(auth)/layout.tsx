@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import AuthMobileNav from '@/components/AuthMobileNav'
 
 export default async function AuthLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()
@@ -12,6 +13,8 @@ export default async function AuthLayout({ children }: { children: React.ReactNo
     .select('customer_id')
     .eq('id', user.id)
     .single()
+
+  if (!userRecord) redirect('/onboarding')
 
   let businessName = ''
   if (userRecord) {
@@ -33,10 +36,10 @@ export default async function AuthLayout({ children }: { children: React.ReactNo
   return (
     <div className="min-h-screen bg-gray-50">
       <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
-        <div className="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+        <div className="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between relative">
           <div className="flex items-center gap-6">
-            <Link href="/" className="text-xl font-bold text-blue-600 tracking-tight">Callnik</Link>
-            <div className="flex items-center gap-5 text-sm text-gray-600">
+            <Link href="/" className="text-xl font-bold text-blue-600 tracking-tight shrink-0">Callnik</Link>
+            <div className="hidden md:flex items-center gap-5 text-sm text-gray-600">
               <Link href="/dashboard" className="hover:text-gray-900 transition-colors">לוח בקרה</Link>
               <Link href="/calls" className="hover:text-gray-900 transition-colors">שיחות</Link>
               <Link href="/setup" className="hover:text-gray-900 transition-colors">הגדרת הפניה</Link>
@@ -44,10 +47,11 @@ export default async function AuthLayout({ children }: { children: React.ReactNo
             </div>
           </div>
           <div className="flex items-center gap-4 text-sm">
-            {businessName && <span className="text-gray-400 hidden sm:block">{businessName}</span>}
-            <form action={logout}>
-              <button type="submit" className="text-gray-500 hover:text-gray-800 transition-colors">יציאה</button>
+            {businessName && <span className="text-gray-400 hidden sm:block text-xs">{businessName}</span>}
+            <form action={logout} className="hidden md:block">
+              <button type="submit" className="text-gray-500 hover:text-gray-800 transition-colors text-sm">יציאה</button>
             </form>
+            <AuthMobileNav />
           </div>
         </div>
       </nav>

@@ -3,6 +3,17 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { Phone, Settings, Zap, AlertCircle, CheckCircle } from 'lucide-react'
 
+function stripMarkdown(text: string): string {
+  return text
+    .replace(/^(?:#\s*)?תמצית[^\n]*[\n:]\s*/m, '')
+    .replace(/^#{1,6}\s+/gm, '')
+    .replace(/\*\*(.+?)\*\*/g, '$1')
+    .replace(/\*(.+?)\*/g, '$1')
+    .replace(/^[-*]\s+/gm, '')
+    .replace(/\n{2,}/g, ' ')
+    .trim()
+}
+
 export default async function DashboardPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -116,15 +127,15 @@ export default async function DashboardPage() {
           <h2 className="font-semibold text-gray-800 mb-4">שיחות אחרונות</h2>
           <div className="space-y-3">
             {calls.map(call => (
-              <div key={call.id} className="flex items-start justify-between gap-4 py-2 border-b border-gray-50 last:border-0">
+              <Link key={call.id} href={`/calls/${call.id}`} className="flex items-start justify-between gap-4 py-2 border-b border-gray-50 last:border-0 hover:bg-gray-50 rounded-lg px-2 -mx-2 transition-colors">
                 <div>
                   <p className="font-medium text-gray-800 text-sm">{call.caller_name || 'לא זוהה'}</p>
-                  <p className="text-gray-500 text-xs mt-0.5">{call.reason_summary}</p>
+                  <p className="text-gray-500 text-xs mt-0.5">{call.reason_summary ? stripMarkdown(call.reason_summary) : ''}</p>
                 </div>
                 <p className="text-xs text-gray-400 shrink-0">
                   {new Date(call.created_at).toLocaleDateString('he-IL', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
                 </p>
-              </div>
+              </Link>
             ))}
           </div>
           <Link href="/calls" className="block text-center text-sm text-blue-600 hover:underline mt-4">כל השיחות</Link>

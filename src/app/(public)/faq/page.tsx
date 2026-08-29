@@ -40,15 +40,29 @@ export default function FaqPage() {
   return (
     <>
       <Navbar />
-      <main className="max-w-2xl mx-auto px-4 py-16">
-        <h1 className="text-3xl font-bold text-gray-900 mb-12 text-center">שאלות נפוצות</h1>
-        <div className="space-y-6">
-          {faqs.map((faq, i) => (
-            <div key={i} className="border-b border-gray-100 pb-6">
-              <h3 className="font-semibold text-gray-800 mb-2">{faq.q}</h3>
-              <p className="text-gray-500 leading-relaxed">{faq.a}</p>
-            </div>
-          ))}
+      <main className="py-20 px-4">
+        <div className="max-w-2xl mx-auto">
+          <h1 className="text-3xl font-bold text-gray-900 mb-3 text-center">שאלות נפוצות</h1>
+          <p className="text-gray-500 text-center mb-14">הכל שרצית לדעת על Callnik</p>
+
+          <div className="space-y-4">
+            {faqs.map((faq, i) => (
+              <div key={i} className="bg-white rounded-xl border border-gray-100 px-6 py-5 hover:border-blue-100 transition-colors">
+                <h3 className="font-semibold text-gray-900 mb-2">{faq.q}</h3>
+                <p className="text-gray-500 text-sm leading-relaxed">{faq.a}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-12 bg-blue-50 border border-blue-100 rounded-2xl p-6 text-center">
+            <p className="text-gray-700 font-medium mb-2">לא מצאת תשובה?</p>
+            <a
+              href="mailto:mail@callnik.com"
+              className="text-blue-600 text-sm font-medium hover:underline"
+            >
+              mail@callnik.com
+            </a>
+          </div>
         </div>
       </main>
       <Footer />

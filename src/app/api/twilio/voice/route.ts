@@ -1,4 +1,5 @@
 import { createAdminClient } from '@/lib/supabase/admin'
+import { getAgentIdForVoice } from '@/lib/constants'
 import { NextRequest, NextResponse } from 'next/server'
 
 const ELEVENLABS_INBOUND_URL = 'https://api.us.elevenlabs.io/twilio/inbound_call'
@@ -7,6 +8,14 @@ function twiml(xml: string) {
   return new NextResponse(xml, {
     headers: { 'Content-Type': 'text/xml' },
   })
+}
+
+function twimlRedirect(url: string) {
+  const safe = url.replace(/&/g, '&amp;')
+  return twiml(`<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+  <Redirect method="POST">${safe}</Redirect>
+</Response>`)
 }
 
 export async function POST(req: NextRequest) {
@@ -18,7 +27,7 @@ export async function POST(req: NextRequest) {
   const supabase = createAdminClient()
   const { data: customer } = await supabase
     .from('customers')
-    .select('id, business_name, status')
+    .select('id, business_name, status, voice_id')
     .eq('twilio_number', to)
     .single()
 
@@ -30,22 +39,13 @@ export async function POST(req: NextRequest) {
 </Response>`)
   }
 
-  const { data: callRow } = await supabase.from('calls').insert({
+  await supabase.from('calls').insert({
     customer_id: customer.id,
     caller_number: from,
     call_sid: callSid,
     created_at: new Date().toISOString(),
-  }).select('id').single()
+  })
 
-  // Proxy to ElevenLabs native Twilio handler with business_name + call_record_id injected
-  const vars = encodeURIComponent(JSON.stringify({
-    business_name: customer.business_name,
-    call_record_id: callRow?.id ?? '',
-  }))
-  const redirectUrl = `${ELEVENLABS_INBOUND_URL}?dynamic_variables=${vars}`
-
-  return twiml(`<?xml version="1.0" encoding="UTF-8"?>
-<Response>
-  <Redirect method="POST">${redirectUrl}</Redirect>
-</Response>`)
+  const agentId = getAgentIdForVoice(customer.voice_id)
+  return twimlRedirect(`${ELEVENLABS_INBOUND_URL}?agent_id=${agentId}`)
 }

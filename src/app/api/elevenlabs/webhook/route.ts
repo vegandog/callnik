@@ -1,5 +1,6 @@
 import { createAdminClient } from '@/lib/supabase/admin'
 import { sendCallNotification } from '@/lib/notify'
+import { sendCallNotificationEmail } from '@/lib/email'
 import { NextRequest, NextResponse } from 'next/server'
 
 const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY!
@@ -18,15 +19,16 @@ async function summarizeWithClaude(transcript: string, businessName: string): Pr
       max_tokens: 200,
       messages: [{
         role: 'user',
-        content: `תמצת את השיחה הבאה לבעל העסק "${businessName}" בשלוש שורות בלבד:
-- שם המתקשר
-- מה ביקש
-- מספר ליצירת קשר (אם ניתן)
+        content: `תמצת את השיחה הבאה לבעל העסק "${businessName}".
+כתוב בדיוק שלוש שורות טקסט רגיל, ללא markdown, ללא כוכביות, ללא כותרות:
+שם המתקשר: [שם]
+בקשה: [מה ביקש]
+מספר לחזרה: [מספר או "לא צוין"]
 
 תמלול השיחה:
 ${transcript}
 
-ענה בעברית בלבד, תמציתי.`,
+ענה בעברית בלבד, שלוש שורות בלבד, טקסט רגיל בלי עיצוב.`,
       }],
     }),
   })
@@ -131,18 +133,44 @@ export async function POST(req: NextRequest) {
     console.error('Recording upload failed:', e)
   }
 
+  const callTime = new Date().toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jerusalem' })
+  const notifyCallerNumber = callerNumber || callRecord.caller_number || ''
+
   try {
-    const callTime = new Date().toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jerusalem' })
     await sendCallNotification(
       customer.whatsapp_number,
       callerName || '',
       callTime,
       summary,
-      callerNumber || callRecord.caller_number || '',
+      notifyCallerNumber,
       callRecord.id
     )
   } catch (e) {
     console.error('WhatsApp send failed:', e)
+  }
+
+  // Also send email - fetch the primary user email for this customer
+  try {
+    const { data: userRow } = await supabase
+      .from('users')
+      .select('email')
+      .eq('customer_id', callRecord.customer_id)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .single()
+    if (userRow?.email) {
+      await sendCallNotificationEmail(
+        userRow.email,
+        customer.business_name,
+        callerName || '',
+        callTime,
+        summary,
+        notifyCallerNumber,
+        callRecord.id
+      )
+    }
+  } catch (e) {
+    console.error('Email send failed:', e)
   }
 
   return NextResponse.json({ ok: true })

@@ -32,7 +32,9 @@ export async function updateSession(request: NextRequest) {
 
   if (isAuthRoute && !user) {
     const url = request.nextUrl.clone()
+    const redirectTo = request.nextUrl.pathname + request.nextUrl.search
     url.pathname = '/login'
+    url.searchParams.set('redirect', redirectTo)
     return NextResponse.redirect(url)
   }
 

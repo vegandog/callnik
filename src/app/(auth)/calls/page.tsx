@@ -1,6 +1,18 @@
+import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { Phone } from 'lucide-react'
+
+function stripMarkdown(text: string): string {
+  return text
+    .replace(/^(?:#\s*)?תמצית[^\n]*[\n:]\s*/m, '')
+    .replace(/^#{1,6}\s+/gm, '')
+    .replace(/\*\*(.+?)\*\*/g, '$1')
+    .replace(/\*(.+?)\*/g, '$1')
+    .replace(/^[-*]\s+/gm, '')
+    .replace(/\n{2,}/g, ' ')
+    .trim()
+}
 
 export default async function CallsPage() {
   const supabase = await createClient()
@@ -19,6 +31,8 @@ export default async function CallsPage() {
     .from('calls')
     .select('id, caller_name, caller_number, reason_summary, duration_seconds, created_at')
     .eq('customer_id', userRecord.customer_id)
+    .not('reason_summary', 'is', null)
+    .neq('reason_summary', '')
     .order('created_at', { ascending: false })
 
   return (
@@ -48,17 +62,27 @@ export default async function CallsPage() {
             </thead>
             <tbody>
               {calls.map(call => (
-                <tr key={call.id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
-                  <td className="px-5 py-3 font-medium text-gray-800">{call.caller_name || '-'}</td>
-                  <td className="px-5 py-3 text-gray-600 font-mono text-xs">{call.caller_number || '-'}</td>
-                  <td className="px-5 py-3 text-gray-600 max-w-xs truncate">{call.reason_summary || '-'}</td>
+                <tr key={call.id} className="border-b border-gray-50 hover:bg-blue-50 transition-colors cursor-pointer">
+                  <td className="px-5 py-3 font-medium text-gray-800">
+                    <Link href={`/calls/${call.id}`} className="block w-full h-full">{call.caller_name || '-'}</Link>
+                  </td>
+                  <td className="px-5 py-3 text-gray-600 font-mono text-xs">
+                    <Link href={`/calls/${call.id}`} className="block w-full h-full">{call.caller_number || '-'}</Link>
+                  </td>
+                  <td className="px-5 py-3 text-gray-600 max-w-xs truncate">
+                    <Link href={`/calls/${call.id}`} className="block w-full h-full">{call.reason_summary ? stripMarkdown(call.reason_summary) : '-'}</Link>
+                  </td>
                   <td className="px-5 py-3 text-gray-500">
-                    {call.duration_seconds ? `${Math.floor(call.duration_seconds / 60)}:${String(call.duration_seconds % 60).padStart(2, '0')}` : '-'}
+                    <Link href={`/calls/${call.id}`} className="block w-full h-full">
+                      {call.duration_seconds ? `${Math.floor(call.duration_seconds / 60)}:${String(call.duration_seconds % 60).padStart(2, '0')}` : '-'}
+                    </Link>
                   </td>
                   <td className="px-5 py-3 text-gray-500 whitespace-nowrap">
-                    {new Date(call.created_at).toLocaleDateString('he-IL', {
-                      day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
-                    })}
+                    <Link href={`/calls/${call.id}`} className="block w-full h-full">
+                      {new Date(call.created_at).toLocaleDateString('he-IL', {
+                        day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
+                      })}
+                    </Link>
                   </td>
                 </tr>
               ))}
