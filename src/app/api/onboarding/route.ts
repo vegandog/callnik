@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
 
   if (customerError) return NextResponse.json({ error: customerError.message }, { status: 500 })
 
-  await admin.from('users').insert({ id: user.id, customer_id: customer.id, email: user.email, full_name: fullName || null })
+  await admin.from('users').insert({ id: user.id, customer_id: customer.id, email: user.email })
 
   await Promise.allSettled([
     sendWelcomeEmail(user.email!, business_name, firstName),
