@@ -13,6 +13,7 @@ function WhatsAppIcon({ className }: { className?: string }) {
 }
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import ChatWidget from '@/components/ChatWidget'
 
 const industries = [
   { icon: Wrench,    label: 'שרברבים ואינסטלטורים' },
@@ -208,17 +209,7 @@ export default function Home() {
       </main>
       <Footer />
 
-      {/* WhatsApp floating widget */}
-      <a
-        href="https://wa.me/19405388128?text=%D7%A9%D7%9C%D7%95%D7%9D%2C%20%D7%90%D7%A0%D7%99%20%D7%9E%D7%AA%D7%A2%D7%A0%D7%99%D7%99%D7%9F%20%D7%91-Callnik"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="fixed bottom-6 left-6 z-50 flex items-center gap-3 bg-[#25D366] text-white px-4 py-3 rounded-full shadow-xl hover:bg-[#1ebe5d] transition-all hover:scale-105 group"
-        aria-label="שיחה ב-WhatsApp"
-      >
-        <WhatsAppIcon className="w-6 h-6 shrink-0" />
-        <span className="text-sm font-semibold whitespace-nowrap hidden sm:block">שאל אותנו ב-WhatsApp</span>
-      </a>
+      <ChatWidget />
     </>
   )
 }
