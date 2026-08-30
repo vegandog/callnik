@@ -55,10 +55,10 @@ export default function Home() {
                 href="/register"
                 className="inline-flex items-center gap-2 bg-blue-600 text-white text-lg font-semibold px-8 py-4 rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-100"
               >
-                מתחילים בחינם
+                מתחילים עכשיו
                 <ChevronLeft className="w-5 h-5" />
               </Link>
-              <p className="text-sm text-gray-400 mt-3">ללא כרטיס אשראי. הפעלה תוך 5 דקות.</p>
+              <p className="text-sm text-gray-400 mt-3">הפעלה תוך 5 דקות. ביטול בכל עת.</p>
             </div>
 
             {/* WhatsApp phone mockup — left on desktop, top on mobile */}
@@ -178,7 +178,7 @@ export default function Home() {
               ₪149{' '}
               <span className="text-xl font-normal text-gray-400">לחודש</span>
             </p>
-            <p className="text-gray-400 text-sm mb-5">עד 500 שיחות בחודש. ללא כרטיס אשראי להתחלה.</p>
+            <p className="text-gray-400 text-sm mb-5">עד 500 שיחות בחודש. ביטול בכל עת.</p>
             <Link
               href="/pricing"
               className="inline-flex items-center gap-1 text-blue-600 text-sm font-medium hover:underline"
@@ -207,6 +207,18 @@ export default function Home() {
         </section>
       </main>
       <Footer />
+
+      {/* WhatsApp floating widget */}
+      <a
+        href="https://wa.me/19405388128?text=%D7%A9%D7%9C%D7%95%D7%9D%2C%20%D7%90%D7%A0%D7%99%20%D7%9E%D7%AA%D7%A2%D7%A0%D7%99%D7%99%D7%9F%20%D7%91-Callnik"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 left-6 z-50 flex items-center gap-3 bg-[#25D366] text-white px-4 py-3 rounded-full shadow-xl hover:bg-[#1ebe5d] transition-all hover:scale-105 group"
+        aria-label="שיחה ב-WhatsApp"
+      >
+        <WhatsAppIcon className="w-6 h-6 shrink-0" />
+        <span className="text-sm font-semibold whitespace-nowrap hidden sm:block">שאל אותנו ב-WhatsApp</span>
+      </a>
     </>
   )
 }

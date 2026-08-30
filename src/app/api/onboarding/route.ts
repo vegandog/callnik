@@ -22,9 +22,14 @@ export async function POST(req: NextRequest) {
 
   const normalizedWhatsapp = normalizePhone(whatsapp_number)
 
+  // Store name in auth metadata - no schema change needed
+  await admin.auth.admin.updateUserById(user.id, {
+    user_metadata: { first_name, last_name }
+  })
+
   const { data: customer, error: customerError } = await admin
     .from('customers')
-    .insert({ first_name, last_name, business_name, category, whatsapp_number: normalizedWhatsapp, carrier, status: 'pending' })
+    .insert({ business_name, category, whatsapp_number: normalizedWhatsapp, carrier, status: 'pending' })
     .select()
     .single()
 

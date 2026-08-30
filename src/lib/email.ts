@@ -260,6 +260,37 @@ export async function sendCallNotificationEmail(
   })
 }
 
+export async function sendWhatsAppLeadNotification(phone: string, firstMessage: string) {
+  const cardContent = `
+    <tr>
+      <td style="background:#25D366;padding:30px 36px;text-align:right;">
+        <h1 style="margin:0 0 5px;font-size:22px;color:#ffffff;font-weight:700;font-family:${F};text-align:right;">ליד חדש ב-WhatsApp!</h1>
+        <p style="margin:0;font-size:14px;color:#dcfce7;font-family:${F};text-align:right;">${phone}</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:30px 36px 24px;text-align:right;">
+        <p style="margin:0 0 12px;font-size:14px;color:#6b7280;font-family:${F};text-align:right;">ההודעה הראשונה:</p>
+        <table width="100%" cellpadding="0" cellspacing="0" style="background:#f0fdf4;border-right:3px solid #25D366;border-radius:0 8px 8px 0;margin-bottom:20px;">
+          <tr><td style="padding:16px 20px;text-align:right;">
+            <p style="margin:0;font-size:15px;color:#374151;font-family:${F};text-align:right;">${firstMessage}</p>
+          </td></tr>
+        </table>
+        <p style="margin:0;font-size:14px;color:#6b7280;font-family:${F};text-align:right;">
+          הבוט כבר ענה. אם הליד איכותי - צור קשר ישירות ב-WhatsApp.
+        </p>
+      </td>
+    </tr>
+  `
+
+  await getResend().emails.send({
+    from: 'Callnik <mail@callnik.com>',
+    to: 'vegandog@gmail.com',
+    subject: `ליד WhatsApp חדש: ${phone}`,
+    html: baseTemplate(cardContent),
+  })
+}
+
 export async function sendAdminNotification(customer: {
   businessName: string
   category: string

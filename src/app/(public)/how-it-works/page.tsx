@@ -70,7 +70,7 @@ export default function HowItWorksPage() {
               href="/register"
               className="inline-flex items-center gap-2 bg-blue-600 text-white font-semibold px-8 py-4 rounded-xl hover:bg-blue-700 transition-colors shadow-lg shadow-blue-100"
             >
-              מתחילים בחינם
+              מתחילים עכשיו
               <ChevronLeft className="w-5 h-5" />
             </Link>
           </div>

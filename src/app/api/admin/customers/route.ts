@@ -108,7 +108,7 @@ export async function PATCH(req: NextRequest) {
         .single()
 
       if (userRow?.email) {
-        const finalTwilioNumber = twilio_number ?? current.twilio_number
+        const finalTwilioNumber = twilio_number ?? current.twilio_number ?? telnyx_number ?? current.telnyx_number
         let firstName: string | undefined
         let lastName: string | undefined
         if (userRow.id) {

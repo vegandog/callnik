@@ -1,24 +1,26 @@
 import Anthropic from '@anthropic-ai/sdk'
+import { createAdminClient } from '@/lib/supabase/admin'
+import { sendWhatsAppLeadNotification } from '@/lib/email'
 import { NextRequest, NextResponse } from 'next/server'
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY! })
 
-// In-memory conversation store (per Vercel instance — good enough for MVP)
-const conversations = new Map<string, Array<{ role: 'user' | 'assistant'; content: string }>>()
+// Fallback in-memory store (used if Supabase table doesn't exist yet)
+const memStore = new Map<string, Array<{ role: 'user' | 'assistant'; content: string }>>()
 
 const SYSTEM_PROMPT = `אתה נציג מכירות של Callnik - שירות AI לניהול שיחות טלפון לעסקים בישראל.
 
 מה זה Callnik?
 Callnik הוא בוט AI שעונה על שיחות שלא נענו לעסק שלך.
 הבוט מזהה את המתקשר, מבין מה הוא צריך, ושולח לך סיכום ב-WhatsApp תוך דקה.
-מחיר: ₪149 לחודש בלבד.
+מחיר: ₪149 לחודש בלבד. ביטול בכל עת.
 מתאים לכל עסק שמפסיד לקוחות בגלל שיחות שלא נענות.
 
 הדרך להתחיל: callnik.com/register
 
 תפקידך:
 1. ענה על שאלות בצורה קצרה וידידותית
-2. הסבר את היתרונות - לא להאריך, נקודות קצרות
+2. הסבר את היתרונות - נקודות קצרות, לא מאמר
 3. כשמישהו מתעניין - תשאל לשם ומספר טלפון ותגיד שצוות Callnik יחזור אליו
 4. אם רוצה להירשם לבד - כוון ל callnik.com/register
 
@@ -29,27 +31,54 @@ Callnik הוא בוט AI שעונה על שיחות שלא נענו לעסק ש�
 - אל תמציא מידע שאין לך`
 
 function twiml(body: string) {
-  const safe = body.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  const safe = body
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
   return new NextResponse(
     `<?xml version="1.0" encoding="UTF-8"?><Response><Message>${safe}</Message></Response>`,
     { headers: { 'Content-Type': 'text/xml' } }
   )
 }
 
+async function getHistory(phone: string): Promise<Array<{ role: 'user' | 'assistant'; content: string }>> {
+  try {
+    const supabase = createAdminClient()
+    const { data } = await supabase
+      .from('whatsapp_leads')
+      .select('messages')
+      .eq('phone', phone)
+      .single()
+    return (data?.messages as Array<{ role: 'user' | 'assistant'; content: string }>) ?? []
+  } catch {
+    return memStore.get(phone) ?? []
+  }
+}
+
+async function saveHistory(phone: string, messages: Array<{ role: 'user' | 'assistant'; content: string }>, isFirst: boolean) {
+  try {
+    const supabase = createAdminClient()
+    await supabase.from('whatsapp_leads').upsert(
+      { phone, messages, interested: isFirst, updated_at: new Date().toISOString() },
+      { onConflict: 'phone' }
+    )
+  } catch {
+    memStore.set(phone, messages)
+  }
+}
+
 export async function POST(req: NextRequest) {
   const form = await req.formData()
-  const from = form.get('From') as string  // e.g. "whatsapp:+972521234567"
+  const from = form.get('From') as string
   const body = form.get('Body') as string
 
-  if (!from || !body) return twiml('שלום! אפשר לעזור?')
+  if (!from || !body) return twiml('שלום! במה אפשר לעזור?')
 
   const phone = from.replace('whatsapp:', '')
+  const history = await getHistory(phone)
+  const isFirst = history.length === 0
 
-  // Get or init conversation history
-  const history = conversations.get(phone) ?? []
   history.push({ role: 'user', content: body })
-
-  // Keep last 20 messages to avoid token overflow
   const trimmed = history.slice(-20)
 
   let reply = 'שגיאה זמנית, נסה שוב בעוד רגע.'
@@ -66,7 +95,12 @@ export async function POST(req: NextRequest) {
   }
 
   history.push({ role: 'assistant', content: reply })
-  conversations.set(phone, history.slice(-20))
+  await saveHistory(phone, history.slice(-20), isFirst)
+
+  // Email notification on first message
+  if (isFirst) {
+    sendWhatsAppLeadNotification(phone, body).catch(console.error)
+  }
 
   return twiml(reply)
 }

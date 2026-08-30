@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   description: "Callnik עונה על שיחות שלא נענו ושולחת לך סיכום בוואטסאפ תוך דקה. המספר שלך לא משתנה.",
   metadataBase: new URL("https://callnik.com"),
   alternates: { canonical: "/" },
-  verification: { google: "K5xNCLaDOlPgbI-Ks5QhIo2d79nbTJx9XR7lcl-rKEk" },
+  verification: { google: "K5xNCLaDOlPgbI-Ks5QhIo2d79nbTJx9XR7lcl-rKEk", other: { "facebook-domain-verification": ["98shcp75fs0e40a7y4atqel2hgy55m"] } },
   openGraph: {
     title: "Callnik - המזכירה האוטומטית לעסק שלך",
     description: "לא ענית לטלפון? Callnik ענתה בשבילך. סיכום בוואטסאפ תוך דקה.",

@@ -36,7 +36,11 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-gray-200 pt-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-gray-400">
+        <div className="border-t border-gray-200 pt-5 pb-3 text-xs text-gray-400 leading-relaxed text-right">
+          <span className="font-semibold text-gray-500">הגבלת אחריות:</span> השירות מסופק כפי שהוא (as-is), ללא אחריות לשלמות המידע, לדיוקו או לזמינות רציפה. עיבוד השיחות מבוסס על בינה מלאכותית ועשוי להכיל שגיאות בתמלול, באיות שמות, במספרי טלפון, או בפרטים שנמסרו בעל-פה על ידי המתקשר. Callnik אינה מאמתת מידע שמסרו מתקשרים ואינה אחראית לכל נזק הנובע מהסתמכות על פרטים אלה. הודעה תגיע לבעל העסק בכפוף לכך שהמתקשר מסר פרטי יצירת קשר. Callnik לא תישא באחריות לשיחות שלא הגיעו ליעדן, לכשלי תשתיות טלפוניה, לשיבושים אצל ספקי צד שלישי, או לכל נזק עקיף הנובע משימוש בשירות. השירות מיועד לקליטת פניות בלבד ואין לראות בו ייעוץ מקצועי, רפואי, משפטי, פיננסי או אחר. Callnik רשאית לשנות את מחיר השירות, היקפו ותנאיו בכל עת, בהתראה מוקדמת למנויים פעילים. שימוש בשירות מהווה הסכמה לתנאי השימוש המלאים.
+        </div>
+
+        <div className="border-t border-gray-100 pt-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-gray-400">
           <span>© 2026 Callnik. כל הזכויות שמורות.</span>
           <Link href="/admin" className="hover:text-gray-500 transition-colors">ניהול</Link>
         </div>
