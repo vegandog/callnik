@@ -117,6 +117,17 @@ export default function ChatWidget() {
             <div ref={bottomRef} />
           </div>
 
+          {/* WhatsApp link */}
+          <a
+            href="https://wa.me/19405388128"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 bg-[#25D366]/10 hover:bg-[#25D366]/20 text-[#075E54] text-xs font-medium py-2 transition-colors border-t border-[#25D366]/20"
+          >
+            <WhatsAppIcon className="w-3.5 h-3.5" />
+            המשך את השיחה ב-WhatsApp
+          </a>
+
           {/* Input */}
           <div className="bg-[#F0F0F0] px-3 py-2 flex items-center gap-2">
             <input
