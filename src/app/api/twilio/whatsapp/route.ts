@@ -1,6 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { sendWhatsAppLeadNotification } from '@/lib/email'
+import { sendWhatsAppLeadNotification, sendHumanRequestedNotification } from '@/lib/email'
 import { NextRequest, NextResponse } from 'next/server'
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY! })
@@ -28,7 +28,9 @@ Callnik הוא בוט AI שעונה על שיחות שלא נענו לעסק ש�
 - תגובות קצרות! WhatsApp, לא מאמר. מקסימום 3-4 שורות
 - בעברית בלבד
 - ידידותי, לא מכירתי מדי
-- אל תמציא מידע שאין לך`
+- אל תמציא מידע שאין לך
+
+אם המשתמש מבקש לדבר עם נציג אנושי / אדם אמיתי / בן אדם - ענה בצורה חמה שהצוות יחזור אליו בהקדם, ובסוף התגובה הוסף בדיוק את המחרוזת: [HUMAN_REQUESTED]`
 
 function twiml(body: string) {
   const safe = body
@@ -82,6 +84,7 @@ export async function POST(req: NextRequest) {
   const trimmed = history.slice(-20)
 
   let reply = 'שגיאה זמנית, נסה שוב בעוד רגע.'
+  let humanRequested = false
   try {
     const response = await anthropic.messages.create({
       model: 'claude-haiku-4-5-20251001',
@@ -90,6 +93,8 @@ export async function POST(req: NextRequest) {
       messages: trimmed,
     })
     reply = (response.content[0] as { text: string }).text
+    humanRequested = reply.includes('[HUMAN_REQUESTED]')
+    reply = reply.replace('[HUMAN_REQUESTED]', '').trim()
   } catch (e) {
     console.error('Claude error:', e)
   }
@@ -97,9 +102,12 @@ export async function POST(req: NextRequest) {
   history.push({ role: 'assistant', content: reply })
   await saveHistory(phone, history.slice(-20), isFirst)
 
-  // Email notification on first message
   if (isFirst) {
     sendWhatsAppLeadNotification(phone, body).catch(console.error)
+  }
+
+  if (humanRequested) {
+    sendHumanRequestedNotification(`WhatsApp: ${phone}`, history.slice(-10)).catch(console.error)
   }
 
   return twiml(reply)

@@ -291,6 +291,49 @@ export async function sendWhatsAppLeadNotification(phone: string, firstMessage: 
   })
 }
 
+export async function sendHumanRequestedNotification(
+  source: string,
+  conversation: Array<{ role: string; content: string }>
+) {
+  const chatHtml = conversation.map(m => `
+    <tr>
+      <td style="padding:8px 0;border-bottom:1px solid #f3f4f6;text-align:right;">
+        <span style="font-size:12px;font-weight:700;color:${m.role === 'user' ? '#2563eb' : '#6b7280'};font-family:${F};">
+          ${m.role === 'user' ? '👤 לקוח' : '🤖 בוט'}:
+        </span>
+        <p style="margin:4px 0 0;font-size:14px;color:#374151;font-family:${F};text-align:right;white-space:pre-wrap;">${m.content}</p>
+      </td>
+    </tr>`).join('')
+
+  const cardContent = `
+    <tr>
+      <td style="background:#dc2626;padding:30px 36px;text-align:right;">
+        <h1 style="margin:0 0 5px;font-size:22px;color:#ffffff;font-weight:700;font-family:${F};text-align:right;">🔴 מישהו רוצה נציג אנושי!</h1>
+        <p style="margin:0;font-size:14px;color:#fecaca;font-family:${F};text-align:right;">${source}</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:30px 36px 24px;text-align:right;">
+        <p style="margin:0 0 16px;font-size:15px;color:#111827;font-weight:600;font-family:${F};text-align:right;">כל השיחה:</p>
+        <table dir="rtl" width="100%" cellpadding="0" cellspacing="0" style="background:#f9fafb;border-radius:10px;border:1px solid #e5e7eb;">
+          <tr><td style="padding:8px 16px;text-align:right;">
+            <table dir="rtl" width="100%" cellpadding="0" cellspacing="0">
+              ${chatHtml}
+            </table>
+          </td></tr>
+        </table>
+      </td>
+    </tr>
+  `
+
+  await getResend().emails.send({
+    from: 'Callnik <mail@callnik.com>',
+    to: 'vegandog@gmail.com',
+    subject: `🔴 נציג אנושי התבקש - ${source}`,
+    html: baseTemplate(cardContent),
+  })
+}
+
 export async function sendAdminNotification(customer: {
   businessName: string
   category: string
