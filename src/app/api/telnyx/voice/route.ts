@@ -1,9 +1,8 @@
 import { createAdminClient } from '@/lib/supabase/admin'
-import { getAgentIdForVoice } from '@/lib/constants'
 import { NextRequest, NextResponse } from 'next/server'
 
-// Telnyx TeXML is Twilio-compatible, so we use the same ElevenLabs inbound URL
-const ELEVENLABS_INBOUND_URL = 'https://api.us.elevenlabs.io/twilio/inbound_call'
+// ElevenLabs SIP trunk endpoint for Telnyx
+const ELEVENLABS_SIP_DOMAIN = 'sip.rtc.elevenlabs.io'
 
 function texml(xml: string) {
   return new NextResponse(xml, {
@@ -11,11 +10,13 @@ function texml(xml: string) {
   })
 }
 
-function texmlRedirect(url: string) {
-  const safe = url.replace(/&/g, '&amp;')
+function texmlSipDial(toNumber: string) {
+  // Route call directly to ElevenLabs via SIP trunk
   return texml(`<?xml version="1.0" encoding="UTF-8"?>
 <Response>
-  <Redirect method="POST">${safe}</Redirect>
+  <Dial>
+    <Sip>${toNumber}@${ELEVENLABS_SIP_DOMAIN}</Sip>
+  </Dial>
 </Response>`)
 }
 
@@ -47,6 +48,5 @@ export async function POST(req: NextRequest) {
     created_at: new Date().toISOString(),
   })
 
-  const agentId = getAgentIdForVoice(customer.voice_id)
-  return texmlRedirect(`${ELEVENLABS_INBOUND_URL}?agent_id=${agentId}`)
+  return texmlSipDial(to)
 }
