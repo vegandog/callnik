@@ -176,10 +176,10 @@ export default function Home() {
           <div className="max-w-2xl mx-auto text-center">
             <p className="text-gray-400 text-sm mb-2">מחיר פשוט, ללא הפתעות</p>
             <p className="text-5xl font-bold text-gray-900 mb-2">
-              ₪149{' '}
-              <span className="text-xl font-normal text-gray-400">לחודש</span>
+              ₪99{' '}
+              <span className="text-xl font-normal text-gray-400">לחודש + מע&quot;מ</span>
             </p>
-            <p className="text-gray-400 text-sm mb-5">עד 500 שיחות בחודש. ביטול בכל עת.</p>
+            <p className="text-blue-600 text-sm font-medium mb-5">או ₪79 לחודש בתשלום שנתי מראש</p>
             <Link
               href="/pricing"
               className="inline-flex items-center gap-1 text-blue-600 text-sm font-medium hover:underline"

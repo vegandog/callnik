@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>Callnik - מה יוצא לי בכיס</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, 'Segoe UI', Arial, sans-serif; background: #f4f6f9; color: #1a1a2e; direction: rtl; }
+  .page { max-width: 860px; margin: 40px auto; padding: 0 20px 60px; }
+  h1 { font-size: 26px; font-weight: 700; margin-bottom: 6px; }
+  .subtitle { color: #6b7280; font-size: 14px; margin-bottom: 36px; }
+
+  .section { background: white; border-radius: 14px; padding: 24px 28px; margin-bottom: 22px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+  .sec-title { font-size: 16px; font-weight: 700; color: #111827; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 2px solid #f3f4f6; display: flex; align-items: center; gap: 8px; }
+
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: right; font-size: 12px; font-weight: 600; color: #6b7280; padding: 0 12px 10px; }
+  td { padding: 11px 12px; font-size: 14px; border-bottom: 1px solid #f3f4f6; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  .sub { font-size: 11px; color: #9ca3af; margin-top: 2px; }
+  .total-row td { background: #f8fafc; font-weight: 700; border-top: 2px solid #e5e7eb; border-bottom: none; padding-top: 13px; padding-bottom: 13px; }
+  .est { display: inline; background: #fef3c7; color: #92400e; font-size: 10px; padding: 1px 5px; border-radius: 3px; margin-right: 4px; }
+
+  .red { color: #dc2626; font-weight: 700; }
+  .green { color: #059669; font-weight: 700; }
+  .orange { color: #d97706; font-weight: 700; }
+  .blue { color: #2563eb; font-weight: 700; }
+  .gray { color: #6b7280; }
+
+  .box { border-radius: 10px; padding: 16px 20px; }
+  .box.yellow { background: #fffbeb; border: 1.5px solid #fde68a; }
+  .box.green { background: #f0fdf4; border: 1.5px solid #bbf7d0; }
+  .box.red { background: #fef2f2; border: 1.5px solid #fecaca; }
+  .box.blue { background: #eff6ff; border: 1.5px solid #bfdbfe; }
+
+  .row { display: flex; justify-content: space-between; font-size: 14px; padding: 7px 0; color: #374151; }
+  .row.divider { border-top: 1.5px solid #e5e7eb; margin-top: 6px; padding-top: 12px; font-weight: 700; font-size: 15px; }
+  .row.divider.red { border-color: #fecaca; }
+  .row.divider.green { border-color: #bbf7d0; }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+  .badge.profit { background: #d1fae5; color: #065f46; }
+  .badge.loss { background: #fee2e2; color: #991b1b; }
+  .badge.marginal { background: #fef3c7; color: #92400e; }
+
+  .scenario-title { font-size: 14px; font-weight: 700; margin-bottom: 12px; }
+
+  .note { font-size: 12px; color: #9ca3af; line-height: 1.7; margin-top: 16px; padding-top: 14px; border-top: 1px dashed #e5e7eb; }
+
+  @media(max-width:600px){ .grid2,.grid3{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <h1>מה יוצא לי בכיס - Callnik</h1>
+  <p class="subtitle">ספטמבר 2026 · תמחור חדש: ₪99/חודש כולל 60 שיחות + 99 אג׳/שיחה מעל · $1 = ₪3.65</p>
+
+
+  <!-- עלויות קבועות שלי -->
+  <div class="section">
+    <div class="sec-title"><span>📋</span> עלויות קבועות שלי - כל חודש בלי קשר ללקוחות</div>
+    <table>
+      <thead><tr>
+        <th>מה</th><th>למה</th><th>בחודש</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td>ElevenLabs Creator<div class="sub">תוכנית ה-AI הקולי</div></td>
+          <td>כולל ~300 שיחות בחודש לפני חיוב נוסף</td>
+          <td class="red">₪80</td>
+        </tr>
+        <tr>
+          <td>Vercel<div class="sub">אחסון האתר</div></td>
+          <td>callnik.com רץ עליו (Hobby Plan)</td>
+          <td class="green">₪0 (חינם)</td>
+        </tr>
+        <tr>
+          <td>Supabase<div class="sub">מסד נתונים</div></td>
+          <td>לקוחות, שיחות, היסטוריה</td>
+          <td class="green">₪0</td>
+        </tr>
+        <tr class="total-row">
+          <td colspan="2">סה"כ קבועות</td>
+          <td class="red">₪80/חודש</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="box green" style="margin-top:16px;">
+      <div class="row"><span>כסה את הקבועות עם:</span><span><strong>לקוח אחד</strong> = ₪99 מכסה ₪80</span></div>
+    </div>
+  </div>
+
+
+  <!-- עלות לכל לקוח -->
+  <div class="section">
+    <div class="sec-title"><span>👤</span> מה עולה לי כל לקוח בנפרד - לפי נפח שיחות</div>
+    <table>
+      <thead><tr>
+        <th>עלות</th><th>Twilio (עכשיו)</th><th>Telnyx (כשיתקנו)</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td>מספר ישראלי - קבוע<div class="sub">מדי חודש, לא משנה כמה שיחות</div></td>
+          <td class="red">₪20/חודש</td>
+          <td class="orange">₪14/חודש</td>
+        </tr>
+        <tr>
+          <td>שיחה נכנסת (2 דק')<div class="sub">Twilio/Telnyx - מחיר הקו</div></td>
+          <td class="red">₪0.08</td>
+          <td class="green">₪0.04</td>
+        </tr>
+        <tr>
+          <td>AI קולי ElevenLabs<div class="sub"><span class="est">הערכה</span> לשיחה של 2 דק'</div></td>
+          <td class="red">₪0.30</td>
+          <td class="red">₪0.30</td>
+        </tr>
+        <tr>
+          <td>WhatsApp ללקוח<div class="sub">הודעת סיכום אחרי כל שיחה</div></td>
+          <td class="red">₪0.02</td>
+          <td class="red">₪0.02</td>
+        </tr>
+        <tr class="total-row">
+          <td>עלות לשיחה אחת</td>
+          <td class="red">₪0.40</td>
+          <td class="orange">₪0.36</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- תרחישים לפי מספר שיחות ללקוח -->
+  <div class="section">
+    <div class="sec-title"><span>📞</span> כמה אני מרוויח על לקוח אחד לפי נפח שיחות (Twilio)</div>
+    <div class="grid3" style="margin-bottom:0;">
+
+      <div class="box green">
+        <div class="scenario-title">לקוח קטן<br><span class="gray" style="font-weight:400;font-size:12px;">20 שיחות/חודש</span></div>
+        <div class="row"><span>הכנסה</span><span class="green">₪99</span></div>
+        <div class="row"><span>מספר</span><span>₪20</span></div>
+        <div class="row"><span>20 שיחות × ₪0.40</span><span>₪8</span></div>
+        <div class="row"><span>חלק מקבועות</span><span>₪15</span></div>
+        <div class="row divider green"><span>רווח נקי</span><span class="green">+₪56</span></div>
+        <div style="text-align:center;margin-top:10px;"><span class="badge profit">רווחי</span></div>
+      </div>
+
+      <div class="box green">
+        <div class="scenario-title">לקוח ממוצע<br><span class="gray" style="font-weight:400;font-size:12px;">50 שיחות/חודש</span></div>
+        <div class="row"><span>הכנסה</span><span class="green">₪99</span></div>
+        <div class="row"><span>מספר</span><span>₪20</span></div>
+        <div class="row"><span>50 שיחות × ₪0.40</span><span>₪20</span></div>
+        <div class="row"><span>חלק מקבועות</span><span>₪15</span></div>
+        <div class="row divider green"><span>רווח נקי</span><span class="green">+₪44</span></div>
+        <div style="text-align:center;margin-top:10px;"><span class="badge profit">רווחי</span></div>
+      </div>
+
+      <div class="box yellow">
+        <div class="scenario-title">לקוח פעיל<br><span class="gray" style="font-weight:400;font-size:12px;">80 שיחות/חודש</span></div>
+        <div class="row"><span>הכנסה ₪99 + 20×₪0.99</span><span class="green">₪119</span></div>
+        <div class="row"><span>מספר</span><span>₪20</span></div>
+        <div class="row"><span>80 שיחות × ₪0.40</span><span>₪32</span></div>
+        <div class="row"><span>חלק מקבועות</span><span>₪15</span></div>
+        <div class="row divider"><span>רווח נקי</span><span class="orange">+₪52</span></div>
+        <div style="text-align:center;margin-top:10px;"><span class="badge profit">רווחי</span></div>
+      </div>
+
+      <div class="box yellow">
+        <div class="scenario-title">לקוח עסוק<br><span class="gray" style="font-weight:400;font-size:12px;">150 שיחות/חודש</span></div>
+        <div class="row"><span>הכנסה ₪99 + 90×₪0.99</span><span class="green">₪188</span></div>
+        <div class="row"><span>מספר</span><span>₪20</span></div>
+        <div class="row"><span>150 שיחות × ₪0.40</span><span>₪60</span></div>
+        <div class="row"><span>חלק מקבועות</span><span>₪15</span></div>
+        <div class="row divider"><span>רווח נקי</span><span class="orange">+₪93</span></div>
+        <div style="text-align:center;margin-top:10px;"><span class="badge profit">רווחי מאוד</span></div>
+      </div>
+
+      <div class="box red">
+        <div class="scenario-title">לקוח בעייתי<br><span class="gray" style="font-weight:400;font-size:12px;">300 שיחות/חודש</span></div>
+        <div class="row"><span>הכנסה ₪99 + 240×₪0.99</span><span class="green">₪337</span></div>
+        <div class="row"><span>מספר</span><span>₪20</span></div>
+        <div class="row"><span>300 שיחות × ₪0.40</span><span>₪120</span></div>
+        <div class="row"><span>חלק מקבועות</span><span>₪15</span></div>
+        <div class="row divider green"><span>רווח נקי</span><span class="green">+₪182</span></div>
+        <div style="text-align:center;margin-top:10px;"><span class="badge profit">רווחי מאוד</span></div>
+      </div>
+
+      <div class="box blue">
+        <div class="scenario-title">מסקנה<br><span class="gray" style="font-weight:400;font-size:12px;">עם 99 אג׳ לשיחה</span></div>
+        <div style="font-size:13px;color:#1e40af;line-height:1.7;margin-top:4px;">
+          המודל רווחי בכל נפח שיחות.<br><br>
+          הסיכון היחיד: לקוח עם מאות שיחות <strong>ללא חיוב עודף</strong> - לכן חובה לממש את מנגנון 99 אג׳.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- תמונת גדולה - לפי מספר לקוחות -->
+  <div class="section">
+    <div class="sec-title"><span>📈</span> תמונה גדולה - לפי מספר לקוחות (ממוצע 50 שיחות/לקוח)</div>
+    <table>
+      <thead><tr>
+        <th>לקוחות</th>
+        <th>הכנסה</th>
+        <th>עלויות (Twilio)</th>
+        <th>עלויות (Telnyx)</th>
+        <th>רווח Twilio</th>
+        <th>רווח Telnyx</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>1</strong></td>
+          <td>₪99</td>
+          <td>₪188</td>
+          <td>₪182</td>
+          <td class="red">-₪89</td>
+          <td class="red">-₪83</td>
+        </tr>
+        <tr>
+          <td><strong>2</strong></td>
+          <td>₪198</td>
+          <td>₪223</td>
+          <td>₪211</td>
+          <td class="red">-₪25</td>
+          <td class="red">-₪13</td>
+        </tr>
+        <tr>
+          <td><strong>3</strong></td>
+          <td>₪297</td>
+          <td>₪258</td>
+          <td>₪240</td>
+          <td class="green">+₪39</td>
+          <td class="green">+₪57</td>
+        </tr>
+        <tr>
+          <td><strong>5</strong></td>
+          <td>₪495</td>
+          <td>₪328</td>
+          <td>₪298</td>
+          <td class="green">+₪167</td>
+          <td class="green">+₪197</td>
+        </tr>
+        <tr>
+          <td><strong>10</strong></td>
+          <td>₪990</td>
+          <td>₪503</td>
+          <td>₪443</td>
+          <td class="green">+₪487</td>
+          <td class="green">+₪547</td>
+        </tr>
+        <tr>
+          <td><strong>25</strong></td>
+          <td>₪2,475</td>
+          <td>₪1,028</td>
+          <td>₪878</td>
+          <td class="green">+₪1,447</td>
+          <td class="green">+₪1,597</td>
+        </tr>
+        <tr>
+          <td><strong>50</strong></td>
+          <td>₪4,950</td>
+          <td>₪1,903</td>
+          <td>₪1,603</td>
+          <td class="green">+₪3,047</td>
+          <td class="green">+₪3,347</td>
+        </tr>
+        <tr class="total-row">
+          <td><strong>100</strong></td>
+          <td class="green">₪9,900</td>
+          <td>₪3,653</td>
+          <td>₪3,053</td>
+          <td class="green">+₪6,247</td>
+          <td class="green">+₪6,847</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="note">
+      חישוב עלויות: מספר × (עלות מספר + 50 שיחות × ₪0.40) + ₪80 קבועות.<br>
+      <span class="est">הערכה</span> עלות ElevenLabs לשיחה (₪0.30) טעונה אימות - המספרים האמיתיים יכולים להיות טובים יותר.
+    </div>
+  </div>
+
+
+  <!-- ההשוואה Twilio vs Telnyx -->
+  <div class="section">
+    <div class="sec-title"><span>⚡</span> כמה שווה לי ש-Telnyx יתקנו את הבאג</div>
+    <div class="grid2">
+      <div class="box yellow">
+        <div class="scenario-title">10 לקוחות</div>
+        <div class="row"><span>חיסכון חודשי</span><span class="green">+₪60</span></div>
+        <div class="row"><span>חיסכון שנתי</span><span class="green">+₪720</span></div>
+      </div>
+      <div class="box green">
+        <div class="scenario-title">50 לקוחות</div>
+        <div class="row"><span>חיסכון חודשי</span><span class="green">+₪300</span></div>
+        <div class="row"><span>חיסכון שנתי</span><span class="green">+₪3,600</span></div>
+      </div>
+    </div>
+    <div class="note">החיסכון הוא ₪6/לקוח/חודש (הפרש מספר ₪20 לעומת ₪14). ב-50 לקוחות = ₪300 לחודש חינם.</div>
+  </div>
+
+
+  <!-- מה הכי חשוב לעשות -->
+  <div class="section">
+    <div class="sec-title"><span>🎯</span> מה הכי חשוב לבצע עכשיו לפי סדר עדיפות</div>
+    <table>
+      <tbody>
+        <tr>
+          <td style="width:30px;text-align:center;font-size:18px;">1</td>
+          <td><strong>מנגנון ספירת שיחות + חיוב ₪1.50</strong><div class="sub">בלי זה לקוח עם 500 שיחות עולה לך כסף</div></td>
+          <td><span class="badge loss">דחוף</span></td>
+        </tr>
+        <tr>
+          <td style="text-align:center;font-size:18px;">2</td>
+          <td><strong>Telnyx - לחכות לתיקון ה-AI Suite</strong><div class="sub">חיסכון ₪6/לקוח/חודש על המספר</div></td>
+          <td><span class="badge marginal">ממתין</span></td>
+        </tr>
+        <tr>
+          <td style="text-align:center;font-size:18px;">3</td>
+          <td><strong>אימות עלות ElevenLabs לשיחה</strong><div class="sub">אם פחות מ-₪0.30 - המרווח טוב יותר</div></td>
+          <td><span class="badge marginal">לבדוק</span></td>
+        </tr>
+        <tr>
+          <td style="text-align:center;font-size:18px;">4</td>
+          <td><strong>Cardcom - לחבר סליקה</strong><div class="sub">בלי תשלום אוטומטי אין עסק אמיתי</div></td>
+          <td><span class="badge marginal">ממתין לפגישה</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+</body>
+</html>

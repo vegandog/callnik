@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { RefreshCw, Pencil, Check, X, Trash2 } from 'lucide-react'
+import { RefreshCw, Pencil, Check, X, Trash2, Plus } from 'lucide-react'
+import { VOICES } from '@/lib/constants'
 
 interface Customer {
   id: string
@@ -11,6 +12,7 @@ interface Customer {
   carrier: string
   twilio_number: string | null
   telnyx_number: string | null
+  voice_id: string | null
   status: string
   created_at: string
   call_count: number
@@ -38,8 +40,12 @@ const STATUS_COLORS: Record<string, string> = {
   cancelled: 'bg-gray-100 text-gray-500',
 }
 
+const CARRIERS = ['פלאפון', 'פרטנר', 'סלקום', 'הוט מובייל', '012', 'גולן טלקום', 'רמי לוי תקשורת', 'Welcome', '019', 'אחר']
+
 interface HealthCheck { name: string; ok: boolean; message: string }
 interface HealthStatus { ok: boolean; checks: HealthCheck[] }
+
+const emptyForm = { business_name: '', whatsapp_number: '', carrier: 'פלאפון', category: '', voice_id: 'FA7xLUuWpSuAX9pUCVmy', twilio_number: '', telnyx_number: '' }
 
 export default function AdminPanel() {
   const [customers, setCustomers] = useState<Customer[]>([])
@@ -51,6 +57,10 @@ export default function AdminPanel() {
   const [editValue, setEditValue] = useState('')
   const [search, setSearch] = useState('')
   const [health, setHealth] = useState<HealthStatus | null>(null)
+  const [showAddForm, setShowAddForm] = useState(false)
+  const [addForm, setAddForm] = useState(emptyForm)
+  const [adding, setAdding] = useState(false)
+  const [addError, setAddError] = useState('')
 
   const load = async () => {
     setLoading(true)
@@ -81,6 +91,15 @@ export default function AdminPanel() {
     setEditingNumber(null)
   }
 
+  const saveVoice = async (customerId: string, voice_id: string) => {
+    await fetch('/api/admin/customers', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ customer_id: customerId, voice_id }),
+    })
+    setCustomers(prev => prev.map(c => c.id === customerId ? { ...c, voice_id } : c))
+  }
+
   const toggle = async (customer: Customer) => {
     const newStatus = STATUS_NEXT[customer.status] || 'active'
     setToggling(customer.id)
@@ -103,6 +122,25 @@ export default function AdminPanel() {
     }
     setDeleting(null)
     setConfirmDelete(null)
+  }
+
+  const addCustomer = async () => {
+    setAdding(true)
+    setAddError('')
+    const res = await fetch('/api/admin/customers', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(addForm),
+    })
+    if (res.ok) {
+      setShowAddForm(false)
+      setAddForm(emptyForm)
+      await load()
+    } else {
+      const data = await res.json()
+      setAddError(data.error || 'שגיאה')
+    }
+    setAdding(false)
   }
 
   const filtered = customers.filter(c => {
@@ -143,6 +181,105 @@ export default function AdminPanel() {
           </div>
         </div>
       )}
+
+      {showAddForm && (
+        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
+          <div className="bg-white rounded-xl shadow-xl p-6 w-[420px] space-y-4" dir="rtl">
+            <h2 className="text-base font-bold text-gray-900">הוסף לקוח</h2>
+            <div className="space-y-3">
+              <div>
+                <label className="text-xs text-gray-500 block mb-1">שם עסק *</label>
+                <input
+                  value={addForm.business_name}
+                  onChange={e => setAddForm(f => ({ ...f, business_name: e.target.value }))}
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="מסעדת ישראלי"
+                />
+              </div>
+              <div>
+                <label className="text-xs text-gray-500 block mb-1">וואטסאפ *</label>
+                <input
+                  value={addForm.whatsapp_number}
+                  onChange={e => setAddForm(f => ({ ...f, whatsapp_number: e.target.value }))}
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="+972501234567"
+                  dir="ltr"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs text-gray-500 block mb-1">חברת סלולר *</label>
+                  <select
+                    value={addForm.carrier}
+                    onChange={e => setAddForm(f => ({ ...f, carrier: e.target.value }))}
+                    className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    {CARRIERS.map(c => <option key={c} value={c}>{c}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label className="text-xs text-gray-500 block mb-1">קול</label>
+                  <select
+                    value={addForm.voice_id}
+                    onChange={e => setAddForm(f => ({ ...f, voice_id: e.target.value }))}
+                    className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    {VOICES.map(v => <option key={v.id} value={v.id}>{v.name}</option>)}
+                  </select>
+                </div>
+              </div>
+              <div>
+                <label className="text-xs text-gray-500 block mb-1">תחום (אופציונלי)</label>
+                <input
+                  value={addForm.category}
+                  onChange={e => setAddForm(f => ({ ...f, category: e.target.value }))}
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="מסעדות, רפואה, שיפוצים..."
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs text-gray-500 block mb-1">מספר Twilio</label>
+                  <input
+                    value={addForm.twilio_number}
+                    onChange={e => setAddForm(f => ({ ...f, twilio_number: e.target.value }))}
+                    className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="+97293..."
+                    dir="ltr"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs text-gray-500 block mb-1">מספר Telnyx</label>
+                  <input
+                    value={addForm.telnyx_number}
+                    onChange={e => setAddForm(f => ({ ...f, telnyx_number: e.target.value }))}
+                    className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="+97283..."
+                    dir="ltr"
+                  />
+                </div>
+              </div>
+            </div>
+            {addError && <p className="text-xs text-red-600">{addError}</p>}
+            <div className="flex gap-3 justify-end pt-1">
+              <button
+                onClick={() => { setShowAddForm(false); setAddForm(emptyForm); setAddError('') }}
+                className="text-sm text-gray-500 hover:text-gray-800 px-4 py-2"
+              >
+                ביטול
+              </button>
+              <button
+                onClick={addCustomer}
+                disabled={adding || !addForm.business_name || !addForm.whatsapp_number}
+                className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-5 py-2 rounded-lg disabled:opacity-50"
+              >
+                {adding ? 'מוסיף...' : 'הוסף לקוח'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {health && (
         <div className={`rounded-lg border px-4 py-3 text-sm ${health.ok ? 'border-green-200 bg-green-50' : 'border-red-200 bg-red-50'}`}>
           <div className="flex items-center gap-2 font-medium mb-1">
@@ -160,6 +297,7 @@ export default function AdminPanel() {
           )}
         </div>
       )}
+
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <p className="text-sm text-gray-500">{customers.length} לקוחות</p>
@@ -172,10 +310,19 @@ export default function AdminPanel() {
             dir="rtl"
           />
         </div>
-        <button onClick={load} className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-800 transition-colors">
-          <RefreshCw className="w-4 h-4" />
-          רענון
-        </button>
+        <div className="flex items-center gap-3">
+          <button onClick={load} className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-800 transition-colors">
+            <RefreshCw className="w-4 h-4" />
+            רענון
+          </button>
+          <button
+            onClick={() => setShowAddForm(true)}
+            className="flex items-center gap-1.5 text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg transition-colors"
+          >
+            <Plus className="w-4 h-4" />
+            הוסף לקוח
+          </button>
+        </div>
       </div>
 
       <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
@@ -190,6 +337,7 @@ export default function AdminPanel() {
                 <th className="text-right font-medium text-gray-500 px-4 py-3">תחום</th>
                 <th className="text-right font-medium text-gray-500 px-4 py-3">וואטסאפ</th>
                 <th className="text-right font-medium text-gray-500 px-4 py-3">חברה</th>
+                <th className="text-right font-medium text-gray-500 px-4 py-3">קול</th>
                 <th className="text-right font-medium text-gray-500 px-4 py-3">Twilio</th>
                 <th className="text-right font-medium text-gray-500 px-4 py-3">Telnyx</th>
                 <th className="text-right font-medium text-gray-500 px-4 py-3">שיחות</th>
@@ -216,6 +364,15 @@ export default function AdminPanel() {
                   <td className="px-4 py-3 text-gray-600">{customer.category || '-'}</td>
                   <td className="px-4 py-3 text-gray-600 font-mono text-xs">{customer.whatsapp_number}</td>
                   <td className="px-4 py-3 text-gray-600 text-xs">{customer.carrier || '-'}</td>
+                  <td className="px-4 py-3">
+                    <select
+                      value={customer.voice_id || 'FA7xLUuWpSuAX9pUCVmy'}
+                      onChange={e => saveVoice(customer.id, e.target.value)}
+                      className="text-xs border border-gray-200 rounded px-2 py-1 text-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500 bg-white"
+                    >
+                      {VOICES.map(v => <option key={v.id} value={v.id}>{v.name}</option>)}
+                    </select>
+                  </td>
                   {(['twilio', 'telnyx'] as const).map(field => {
                     const numVal = field === 'twilio' ? customer.twilio_number : customer.telnyx_number
                     const isEditing = editingNumber?.id === customer.id && editingNumber?.field === field

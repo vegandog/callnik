@@ -3,6 +3,10 @@
     {
       "path": "/api/cron/check-failed-calls",
       "schedule": "0 6 * * *"
+    },
+    {
+      "path": "/api/cron/monthly-billing",
+      "schedule": "0 5 * * *"
     }
   ]
 }

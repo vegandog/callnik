@@ -31,7 +31,7 @@ export default function OnboardingPage() {
     })
 
     if (res.ok) {
-      router.push('/setup')
+      router.push('/payment')
     } else {
       const data = await res.json()
       setError(data.error || 'אירעה שגיאה, נסה שנית')

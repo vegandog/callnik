@@ -53,8 +53,9 @@ export default function TermsPage() {
         </Section>
 
         <Section title="4. מחירים ותשלום">
-          <p className="text-gray-600 mb-4">המחירים המפורטים להלן הם לפני מע&quot;מ ועשויים להשתנות. המחיר הנהוג בעת ביצוע ההזמנה הוא הקובע.</p>
+          <p className="text-gray-600 mb-4">המחירים המפורטים להלן הם לפני מע&quot;מ ועשויים להשתנות מעת לעת. המחיר הנהוג בעת ביצוע ההזמנה הוא הקובע.</p>
 
+          <h3 className="font-semibold text-gray-800 mb-3">4.1 מסלולי מנוי</h3>
           <div className="overflow-x-auto mb-4">
             <table className="w-full text-sm text-gray-600 border border-gray-200 rounded-lg">
               <thead className="bg-gray-50">
@@ -67,33 +68,55 @@ export default function TermsPage() {
               <tbody>
                 <tr>
                   <td className="p-3 border-b border-gray-100">מנוי חודשי</td>
-                  <td className="p-3 border-b border-gray-100">₪149 לחודש</td>
-                  <td className="p-3 border-b border-gray-100">עד 500 שיחות בחודש</td>
+                  <td className="p-3 border-b border-gray-100">₪99 לחודש</td>
+                  <td className="p-3 border-b border-gray-100">חיוב חודשי. ביטול בכל עת.</td>
+                </tr>
+                <tr>
+                  <td className="p-3">מנוי שנתי</td>
+                  <td className="p-3">₪948 לשנה (₪79 לחודש)</td>
+                  <td className="p-3">תשלום חד-פעמי מראש לשנה שלמה. חסכון של ₪240 לעומת חודשי.</td>
                 </tr>
               </tbody>
             </table>
           </div>
 
-          <p className="text-gray-600 mb-3">
-            התשלום מתבצע בכרטיס אשראי דרך מערכת הסליקה המאובטחת. Callnik אינה שומרת פרטי כרטיס אשראי.
+          <h3 className="font-semibold text-gray-800 mb-2 mt-5">4.2 אמצעי תשלום</h3>
+          <p className="text-gray-600 mb-4">
+            התשלום מתבצע בכרטיס אשראי דרך מערכת הסליקה המאובטחת. Callnik אינה שומרת פרטי כרטיס אשראי. חיוב המנוי השנתי מתבצע פעם בשנה.
           </p>
-          <p className="text-gray-600">
-            שיחות מעל 500 בחודש - יטופלו בהסכמה אישית מול הלקוח.
+
+          <h3 className="font-semibold text-gray-800 mb-2">4.3 מעבר ממסלול חודשי לשנתי</h3>
+          <p className="text-gray-600 mb-4">
+            לקוח הרשום למסלול חודשי רשאי לעבור למסלול שנתי בכל עת. המעבר מחויב בתשלום מלא של שנה ממועד המעבר, ללא קיזוז תשלומים חודשיים קודמים.
           </p>
+
         </Section>
 
         <Section title="5. ביטול עסקה והחזרים כספיים">
-          <h3 className="font-semibold text-gray-800 mb-2">5.1 ביטול מנוי פעיל</h3>
+          <h3 className="font-semibold text-gray-800 mb-2">5.1 ביטול לפני הפעלת השירות</h3>
           <p className="text-gray-600 mb-4">
-            ניתן לבטל את המנוי בכל עת, בהודעה בכתב אל <a href="mailto:mail@callnik.com" className="text-blue-600">mail@callnik.com</a>. הביטול ייכנס לתוקף בתחילת החודש הבא. לא יינתן החזר על חלקי חודש או על תקופת חיוב ששולמה.
+            לקוח שביקש לבטל לפני שהופעל השירות בפועל (לפני קבלת מספר Callnik והגדרת ההפניה) זכאי לביטול מלא תוך 14 ימי עסקים, בהתאם לחוק הגנת הצרכן, תשמ&quot;א-1981. הביטול ייעשה בכתב בלבד אל <a href="mailto:mail@callnik.com" className="text-blue-600">mail@callnik.com</a>.
           </p>
 
-          <h3 className="font-semibold text-gray-800 mb-2">5.2 ביטול לפני הפעלת השירות</h3>
+          <h3 className="font-semibold text-gray-800 mb-2">5.2 ביטול מנוי חודשי פעיל</h3>
           <p className="text-gray-600 mb-4">
-            לקוח שביקש לבטל לפני שהופעל השירות בפועל (לפני קבלת מספר Callnik והגדרת ההפניה) זכאי לביטול מלא תוך 14 ימי עסקים, בהתאם לחוק הגנת הצרכן, תשמ&quot;א-1981.
+            ניתן לבטל בכל עת, ללא קנס, בהודעה בכתב אל <a href="mailto:mail@callnik.com" className="text-blue-600">mail@callnik.com</a>. הביטול ייכנס לתוקף בסוף החודש השוטף. לא יינתן החזר על חלקי חודש.
           </p>
 
-          <h3 className="font-semibold text-gray-800 mb-2">5.3 ביטול על ידי Callnik</h3>
+          <h3 className="font-semibold text-gray-800 mb-2">5.3 ביטול מנוי שנתי פעיל</h3>
+          <p className="text-gray-600 mb-2">
+            ניתן לבטל בכל עת, ללא קנס, בהודעה בכתב אל <a href="mailto:mail@callnik.com" className="text-blue-600">mail@callnik.com</a>. עם אישור הביטול יפסיק השירות לפעול ויבוצע החזר כספי יחסי כדלקמן:
+          </p>
+          <ul className="text-gray-600 space-y-1 mb-3 list-disc list-inside">
+            <li>מחשבים את מספר החודשים שבהם נעשה שימוש בפועל.</li>
+            <li>על חודשים אלה חל המחיר החודשי הרגיל (₪99 לחודש, לפני מע&quot;מ).</li>
+            <li>ההחזר הוא: סכום ששולם בפועל פחות (מספר חודשי שימוש × ₪99).</li>
+          </ul>
+          <div className="bg-blue-50 rounded-lg px-4 py-3 text-sm text-blue-800 mb-4">
+            <strong>דוגמה:</strong> שילמת ₪948 לשנה וביטלת אחרי 6 חודשים — ₪948 פחות 6×₪99 (₪594) = <strong>החזר של ₪354</strong>. אין קנסות, אין עמלות.
+          </div>
+
+          <h3 className="font-semibold text-gray-800 mb-2">5.4 ביטול על ידי Callnik</h3>
           <p className="text-gray-600">
             Callnik רשאית לבטל מנוי בהודעה מוקדמת של 14 ימים במקרים של הפרת תנאי שימוש, אי-תשלום, או שימוש לרעה. אם Callnik ביטלה מסיבה עסקית שאינה הפרת תנאים מצד הלקוח - יוחזר החלק היחסי מדמי המנוי שטרם נוצל.
           </p>
@@ -140,9 +163,18 @@ export default function TermsPage() {
           <p className="text-gray-600 mb-3">
             השימוש בשירות כפוף ל<a href="/privacy" className="text-blue-600">מדיניות הפרטיות של Callnik</a>, המפורסמת בנפרד. Callnik נוקטת אמצעי אבטחה סבירים לאחסון המידע.
           </p>
-          <h3 className="font-semibold text-gray-800 mb-2">10.1 הקלטות שיחה</h3>
+          <h3 className="font-semibold text-gray-800 mb-2">10.1 הקלטות ותמלול שיחות</h3>
+          <p className="text-gray-600 mb-3">
+            כל שיחה המועברת למזכירה ה-AI של Callnik <strong>מוקלטת ומתומללת באופן אוטומטי</strong>. ההקלטה והתמלול מהווים חלק בלתי נפרד מהשירות ואינם ניתנים להשבתה.
+          </p>
+          <p className="text-gray-600 mb-3">
+            ההקלטה והתמלול נועדו אך ורק ליצירת הסיכום שנשלח לבעל העסק ולצפייה בפאנל הניהול. Callnik לא תשתמש בתכנים אלה לאימון מודלי AI ולא תעביר אותם לצד שלישי, למעט ספקי הטכנולוגיה הנדרשים לאספקת השירות.
+          </p>
+          <p className="text-gray-600 mb-3">
+            <strong>חובת הודעה למתקשרים:</strong> הלקוח אחראי להודיע למתקשרים לעסקו כי שיחות עשויות להיות מוקלטות ומתומללות. מזכירת ה-AI של Callnik מציגה את עצמה כמזכירה אוטומטית בתחילת כל שיחה.
+          </p>
           <p className="text-gray-600">
-            שיחות המועברות לCallnik מוקלטות ומתומללות לצורך יצירת הסיכום. ההקלטות משמשות לייצור הסיכום בלבד, נשמרות לכל משך ההתקשרות, ונמחקות תוך 90 ימים מסיום המנוי. לקוח המבקש למחוק הקלטות מוקדם יפנה אל <a href="mailto:mail@callnik.com" className="text-blue-600">mail@callnik.com</a>.
+            ההקלטות נשמרות לכל משך ההתקשרות ונמחקות תוך 90 ימים מסיום המנוי. לקוח המבקש למחוק הקלטות לפני כן יפנה אל <a href="mailto:mail@callnik.com" className="text-blue-600">mail@callnik.com</a>.
           </p>
         </Section>
 
@@ -156,8 +188,11 @@ export default function TermsPage() {
         </Section>
 
         <Section title="12. שינויים בתנאי השימוש">
-          <p className="text-gray-600">
+          <p className="text-gray-600 mb-3">
             Callnik רשאית לעדכן תנאים אלה מעת לעת. לקוחות פעילים יקבלו הודעה בדוא&quot;ל לפחות 14 ימים לפני כניסת שינויים מהותיים לתוקף. המשך שימוש בשירות מהווה הסכמה לתנאים המעודכנים.
+          </p>
+          <p className="text-gray-600">
+            שינוי מחיר שיחול על חידוש מנוי קיים ייודע ללקוח לפחות 30 ימים מראש. ביטול המנוי לפני מועד החידוש יתאפשר ללא קנס.
           </p>
         </Section>
 

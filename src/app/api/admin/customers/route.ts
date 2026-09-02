@@ -19,7 +19,7 @@ export async function GET() {
   const supabase = createAdminClient()
   const { data: customers, error } = await supabase
     .from('customers')
-    .select('id, business_name, category, whatsapp_number, carrier, twilio_number, telnyx_number, status, created_at')
+    .select('id, business_name, category, whatsapp_number, carrier, twilio_number, telnyx_number, voice_id, status, created_at, cardcom_token, card_month, card_year, token_expiry, plan, next_billing_date, billing_failures')
     .order('created_at', { ascending: false })
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
@@ -53,6 +53,36 @@ export async function GET() {
   })
 }
 
+export async function POST(req: NextRequest) {
+  if (!await assertAdmin()) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+
+  const body = await req.json()
+  const { business_name, whatsapp_number, carrier, category, voice_id, twilio_number, telnyx_number } = body
+
+  if (!business_name || !whatsapp_number || !carrier) {
+    return NextResponse.json({ error: 'שם עסק, וואטסאפ וחברה הם שדות חובה' }, { status: 400 })
+  }
+
+  const supabase = createAdminClient()
+  const { data, error } = await supabase
+    .from('customers')
+    .insert({
+      business_name,
+      whatsapp_number,
+      carrier,
+      category: category || null,
+      voice_id: voice_id || 'FA7xLUuWpSuAX9pUCVmy',
+      twilio_number: twilio_number || null,
+      telnyx_number: telnyx_number || null,
+      status: 'pending',
+    })
+    .select('id')
+    .single()
+
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  return NextResponse.json({ ok: true, id: data.id })
+}
+
 export async function DELETE(req: NextRequest) {
   if (!await assertAdmin()) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 
@@ -74,7 +104,7 @@ export async function PATCH(req: NextRequest) {
   if (!await assertAdmin()) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 
   const body = await req.json()
-  const { customer_id, status, twilio_number, telnyx_number } = body
+  const { customer_id, status, twilio_number, telnyx_number, voice_id } = body
   const supabase = createAdminClient()
 
   // Fetch current customer state before updating
@@ -88,6 +118,7 @@ export async function PATCH(req: NextRequest) {
   if (status) update.status = status
   if (twilio_number !== undefined) update.twilio_number = twilio_number
   if (telnyx_number !== undefined) update.telnyx_number = telnyx_number
+  if (voice_id !== undefined) update.voice_id = voice_id
 
   const { error } = await supabase
     .from('customers')

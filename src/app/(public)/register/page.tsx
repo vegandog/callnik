@@ -27,7 +27,7 @@ export default function RegisterPage() {
       <Navbar />
       <main className="max-w-sm mx-auto px-4 py-24 text-center">
         <h1 className="text-2xl font-bold text-gray-900 mb-2">הצטרפות ל-Callnik</h1>
-        <p className="text-gray-500 text-sm mb-10">הרשמה בשתי דקות. ביטול בכל עת.</p>
+        <p className="text-gray-500 text-sm mb-10">הרשמה בשתי דקות. ניצור איתך קשר להפעלה.</p>
 
         <button
           onClick={handleGoogle}
