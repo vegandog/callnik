@@ -43,6 +43,7 @@ export default async function AuthLayout({ children }: { children: React.ReactNo
               <Link href="/dashboard" className="hover:text-gray-900 transition-colors">לוח בקרה</Link>
               <Link href="/calls" className="hover:text-gray-900 transition-colors">שיחות</Link>
               <Link href="/setup" className="hover:text-gray-900 transition-colors">הגדרת הפניה</Link>
+              <Link href="/billing" className="hover:text-gray-900 transition-colors">חשבוניות</Link>
               <Link href="/settings" className="hover:text-gray-900 transition-colors">הגדרות</Link>
             </div>
           </div>

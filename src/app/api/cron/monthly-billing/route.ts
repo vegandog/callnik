@@ -112,6 +112,16 @@ export async function GET(req: NextRequest) {
           .update({ next_billing_date: next.toISOString().split('T')[0], billing_failures: 0 })
           .eq('id', customer.id)
 
+        await supabase.from('billing_history').insert({
+          customer_id: customer.id,
+          amount,
+          cardcom_transaction_id: data.TranzactionId || null,
+          cardcom_document_number: data.DocumentNumber || null,
+          document_url: data.DocumentUrl || null,
+          plan: customer.plan,
+          description: planLabel,
+        })
+
         results.push({ id: customer.id, status: 'charged', amount, calls: callCount ?? 0, excessCalls, invoice: data.DocumentNumber > 0 ? data.DocumentNumber : null })
       } else {
         const failures = (customer.billing_failures || 0) + 1

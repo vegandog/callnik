@@ -23,6 +23,7 @@ export default function AuthMobileNav() {
             <Link href="/dashboard" onClick={() => setOpen(false)} className="py-3.5 text-gray-700 border-b border-gray-50 font-medium text-sm">לוח בקרה</Link>
             <Link href="/calls" onClick={() => setOpen(false)} className="py-3.5 text-gray-700 border-b border-gray-50 font-medium text-sm">שיחות</Link>
             <Link href="/setup" onClick={() => setOpen(false)} className="py-3.5 text-gray-700 border-b border-gray-50 font-medium text-sm">הגדרת הפניה</Link>
+            <Link href="/billing" onClick={() => setOpen(false)} className="py-3.5 text-gray-700 border-b border-gray-50 font-medium text-sm">חשבוניות</Link>
             <Link href="/settings" onClick={() => setOpen(false)} className="py-3.5 text-gray-700 font-medium text-sm">הגדרות</Link>
           </nav>
         </div>

@@ -13,6 +13,18 @@ async function dbGet(table: string, filter: string, columns: string) {
   return Array.isArray(data) ? data[0] : null
 }
 
+async function dbPost(table: string, body: Record<string, unknown>) {
+  await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
+    method: 'POST',
+    headers: {
+      apikey: SUPABASE_KEY,
+      Authorization: `Bearer ${SUPABASE_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  })
+}
+
 async function dbPatch(table: string, filter: string, body: Record<string, unknown>) {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${filter}`, {
     method: 'PATCH',
@@ -55,6 +67,9 @@ export async function POST(req: NextRequest) {
   let cardMonth: string | null = null
   let cardYear: string | null = null
   let tokenExDate: string | null = null
+  let lpTransactionId: number | null = null
+  let lpDocumentNumber: number | null = null
+  let lpDocumentUrl: string | null = null
 
   if (lowProfileId) {
     try {
@@ -69,6 +84,9 @@ export async function POST(req: NextRequest) {
         cardMonth = String(lpData.TokenInfo.CardMonth || lpData.UIValues?.CardMonth || '')
         cardYear = String(lpData.TokenInfo.CardYear || lpData.UIValues?.CardYear || '')
         tokenExDate = lpData.TokenInfo.TokenExDate || null
+        lpTransactionId = lpData.TranzactionId || null
+        lpDocumentNumber = lpData.DocumentNumber || null
+        lpDocumentUrl = lpData.DocumentUrl || null
       }
     } catch (e) {
       console.error('GetLpResult error:', e)
@@ -79,6 +97,23 @@ export async function POST(req: NextRequest) {
   const nextBilling = plan === 'annual'
     ? new Date(now.getFullYear() + 1, now.getMonth(), now.getDate())
     : new Date(now.getFullYear(), now.getMonth() + 1, now.getDate())
+
+  const firstPaymentAmount = plan === 'annual' ? 948 : plan === 'test' ? 1 : 99
+  const firstPaymentLabel = plan === 'annual'
+    ? 'מנוי Callnik שנתי - callnik.com | ₪948 + מע"מ לשנה'
+    : plan === 'test'
+    ? 'טסט Callnik - callnik.com'
+    : 'מנוי Callnik חודשי - callnik.com | ₪99 + מע"מ לחודש'
+
+  await dbPost('billing_history', {
+    customer_id: customerId,
+    amount: firstPaymentAmount,
+    cardcom_transaction_id: lpTransactionId,
+    cardcom_document_number: lpDocumentNumber,
+    document_url: lpDocumentUrl,
+    plan: plan === 'test' ? 'monthly' : plan || 'monthly',
+    description: firstPaymentLabel,
+  })
 
   await dbPatch('customers', `id=eq.${customerId}`, {
     status: 'active',
