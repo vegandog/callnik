@@ -45,6 +45,22 @@ export default async function DashboardPage() {
     .select('id', { count: 'exact', head: true })
     .eq('customer_id', userRecord.customer_id)
 
+  // Count calls this billing month (answered calls only)
+  const nextBilling = customer?.next_billing_date
+  const periodStart = nextBilling
+    ? (() => { const d = new Date(nextBilling + 'T00:00:00Z'); d.setMonth(d.getMonth() - 1); return d.toISOString() })()
+    : new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
+
+  const { count: monthCalls } = await supabase
+    .from('calls')
+    .select('id', { count: 'exact', head: true })
+    .eq('customer_id', userRecord.customer_id)
+    .not('elevenlabs_conversation_id', 'is', null)
+    .gte('created_at', periodStart)
+
+  const INCLUDED_CALLS = 60
+  const excessCalls = Math.max(0, (monthCalls ?? 0) - INCLUDED_CALLS)
+
   const isActive = customer?.status === 'active'
 
   return (
@@ -79,10 +95,18 @@ export default async function DashboardPage() {
       )}
 
       {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
         <div className="bg-white rounded-xl border border-gray-100 p-5">
           <p className="text-sm text-gray-500">סה"כ שיחות</p>
           <p className="text-3xl font-bold text-gray-900 mt-1">{totalCalls ?? 0}</p>
+        </div>
+        <div className="bg-white rounded-xl border border-gray-100 p-5">
+          <p className="text-sm text-gray-500">שיחות החודש</p>
+          <p className="text-3xl font-bold text-gray-900 mt-1">{monthCalls ?? 0}</p>
+          {excessCalls > 0
+            ? <p className="text-xs text-amber-600 mt-1">{excessCalls} שיחות עודפות × ₪0.99</p>
+            : <p className="text-xs text-gray-400 mt-1">{INCLUDED_CALLS - (monthCalls ?? 0)} נותרו בחינם</p>
+          }
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-5">
           <p className="text-sm text-gray-500">שיחה אחרונה</p>

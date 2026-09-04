@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
 
   const { data: customers, error } = await supabase
     .from('customers')
-    .select('id, business_name, plan, cardcom_token, card_month, card_year, billing_failures')
+    .select('id, business_name, plan, cardcom_token, card_month, card_year, billing_failures, next_billing_date')
     .eq('status', 'active')
     .lte('next_billing_date', today)
     .not('cardcom_token', 'is', null)
@@ -27,8 +27,11 @@ export async function GET(req: NextRequest) {
 
   const results = []
 
+  const INCLUDED_CALLS = 60
+  const EXCESS_RATE = 0.99 // ₪ per call above 60
+
   for (const customer of customers) {
-    const amount = customer.plan === 'annual' ? 948 : customer.plan === 'daily_test' ? 1 : 99
+    const baseAmount = customer.plan === 'annual' ? 948 : customer.plan === 'daily_test' ? 1 : 99
     const mm = String(customer.card_month || '').padStart(2, '0')
     const yy = String(customer.card_year || '').slice(-2)
 
@@ -38,6 +41,24 @@ export async function GET(req: NextRequest) {
       .select('email')
       .eq('customer_id', customer.id)
       .single()
+
+    // Count answered calls in the current billing period
+    const periodEnd = new Date(customer.next_billing_date + 'T00:00:00Z')
+    const periodStart = new Date(periodEnd)
+    if (customer.plan === 'annual') periodStart.setFullYear(periodStart.getFullYear() - 1)
+    else periodStart.setMonth(periodStart.getMonth() - 1)
+
+    const { count: callCount } = await supabase
+      .from('calls')
+      .select('id', { count: 'exact', head: true })
+      .eq('customer_id', customer.id)
+      .not('elevenlabs_conversation_id', 'is', null)
+      .gte('created_at', periodStart.toISOString())
+      .lt('created_at', periodEnd.toISOString())
+
+    const excessCalls = Math.max(0, (callCount ?? 0) - INCLUDED_CALLS)
+    const excessAmount = Math.round(excessCalls * EXCESS_RATE * 100) / 100
+    const amount = Math.round((baseAmount + excessAmount) * 100) / 100
 
     try {
       const planLabel = customer.plan === 'annual'
@@ -55,10 +76,20 @@ export async function GET(req: NextRequest) {
       }
 
       if (userRecord?.email) {
+        const products: { Description: string; UnitCost: number; Quantity: number }[] = [
+          { Description: planLabel, UnitCost: baseAmount, Quantity: 1 },
+        ]
+        if (excessCalls > 0) {
+          products.push({
+            Description: `שיחות עודפות Callnik - ${excessCalls} שיחות × ₪${EXCESS_RATE}`,
+            UnitCost: EXCESS_RATE,
+            Quantity: excessCalls,
+          })
+        }
         transactionBody.Document = {
           Name: customer.business_name || userRecord.email,
           Email: userRecord.email,
-          Products: [{ Description: planLabel, UnitCost: amount, Quantity: 1 }],
+          Products: products,
         }
       }
 
@@ -81,7 +112,7 @@ export async function GET(req: NextRequest) {
           .update({ next_billing_date: next.toISOString().split('T')[0], billing_failures: 0 })
           .eq('id', customer.id)
 
-        results.push({ id: customer.id, status: 'charged', amount, invoice: data.DocumentNumber > 0 ? data.DocumentNumber : null })
+        results.push({ id: customer.id, status: 'charged', amount, calls: callCount ?? 0, excessCalls, invoice: data.DocumentNumber > 0 ? data.DocumentNumber : null })
       } else {
         const failures = (customer.billing_failures || 0) + 1
         const update: Record<string, unknown> = { billing_failures: failures }
