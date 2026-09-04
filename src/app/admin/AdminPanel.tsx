@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { RefreshCw, Pencil, Check, X, Trash2, Plus, Mail } from 'lucide-react'
+import { RefreshCw, Pencil, Check, X, Trash2, Plus, Mail, Zap } from 'lucide-react'
 import { VOICES } from '@/lib/constants'
 
 interface Customer {
@@ -53,6 +53,8 @@ export default function AdminPanel() {
   const [toggling, setToggling] = useState<string | null>(null)
   const [deleting, setDeleting] = useState<string | null>(null)
   const [sendingActivation, setSendingActivation] = useState<string | null>(null)
+  const [provisioning, setProvisioning] = useState<string | null>(null)
+  const [provisionResult, setProvisionResult] = useState<{ id: string; number: string; instant: boolean } | null>(null)
   const [confirmDelete, setConfirmDelete] = useState<Customer | null>(null)
   const [editingNumber, setEditingNumber] = useState<{ id: string; field: 'twilio' | 'telnyx' } | null>(null)
   const [editValue, setEditValue] = useState('')
@@ -113,6 +115,28 @@ export default function AdminPanel() {
       setCustomers(prev => prev.map(c => c.id === customer.id ? { ...c, status: newStatus } : c))
     }
     setToggling(null)
+  }
+
+  const provisionNumber = async (customer: Customer) => {
+    setProvisioning(customer.id)
+    setProvisionResult(null)
+    const res = await fetch('/api/admin/provision-number', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ customer_id: customer.id }),
+    })
+    const data = await res.json()
+    if (res.ok && data.phone_number) {
+      setCustomers(prev => prev.map(c =>
+        c.id === customer.id
+          ? { ...c, telnyx_number: data.phone_number, status: data.instant ? 'active' : c.status }
+          : c
+      ))
+      setProvisionResult({ id: customer.id, number: data.phone_number, instant: data.instant })
+    } else {
+      alert(data.error || 'שגיאה בהקצאת מספר')
+    }
+    setProvisioning(null)
   }
 
   const sendActivation = async (customer: Customer) => {
@@ -446,6 +470,24 @@ export default function AdminPanel() {
                       >
                         {toggling === customer.id ? '...' : customer.status === 'active' ? 'השהה' : 'הפעל'}
                       </button>
+                      {!customer.telnyx_number && !customer.twilio_number && (
+                        <button
+                          onClick={() => provisionNumber(customer)}
+                          disabled={provisioning === customer.id}
+                          className="text-gray-400 hover:text-green-600 transition-colors disabled:opacity-40"
+                          title="קנה מספר ישראלי והפעל את הלקוח"
+                        >
+                          {provisioning === customer.id
+                            ? <RefreshCw className="w-4 h-4 animate-spin" />
+                            : <Zap className="w-4 h-4" />
+                          }
+                        </button>
+                      )}
+                      {provisionResult?.id === customer.id && (
+                        <span className="text-xs text-green-600 font-mono">
+                          {provisionResult.number} {provisionResult.instant ? '✓' : '⏳'}
+                        </span>
+                      )}
                       {customer.status === 'active' && (customer.telnyx_number || customer.twilio_number) && (
                         <button
                           onClick={() => sendActivation(customer)}
