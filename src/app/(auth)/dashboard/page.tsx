@@ -72,7 +72,7 @@ export default async function DashboardPage() {
             <p className="font-semibold text-green-800">השירות פעיל</p>
             <p className="text-green-700 text-sm mt-1">
               Callnik מוכנה לענות על שיחות שלא נענו.
-              {!customer?.twilio_number && ' כדי להפעיל את ההפניה, לחץ על "הגדרת הפניה".'}
+              {!customer?.twilio_number && !customer?.telnyx_number && ' כדי להפעיל את ההפניה, לחץ על "הגדרת הפניה".'}
             </p>
           </div>
         </div>

@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
   }
 
   if (data.ResponseCode !== 0) {
-    return NextResponse.json({ ok: false })
+    return new NextResponse('-1', { headers: { 'Content-Type': 'text/plain' } })
   }
 
   const parts = (data.ReturnValue || '').split(':')
@@ -81,6 +81,7 @@ export async function POST(req: NextRequest) {
     : new Date(now.getFullYear(), now.getMonth() + 1, now.getDate())
 
   await dbPatch('customers', `id=eq.${customerId}`, {
+    status: 'active',
     cardcom_token: token || null,
     card_month: cardMonth || null,
     card_year: cardYear || null,
@@ -91,7 +92,7 @@ export async function POST(req: NextRequest) {
     pending_lp_id: null,
   })
 
-  return NextResponse.json({ ok: true })
+  return new NextResponse('-1', { headers: { 'Content-Type': 'text/plain' } })
 }
 
 function parseExpiry(raw: string): string | null {

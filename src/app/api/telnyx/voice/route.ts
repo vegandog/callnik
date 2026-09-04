@@ -1,23 +1,12 @@
 import { createAdminClient } from '@/lib/supabase/admin'
 import { NextRequest, NextResponse } from 'next/server'
 
-// ElevenLabs SIP trunk endpoint for Telnyx
-const ELEVENLABS_SIP_DOMAIN = 'sip.rtc.elevenlabs.io'
+const TELNYX_AI_ASSISTANT_ID = 'assistant-7c76ae16-b91e-49f7-80ed-8b80805161d1'
 
 function texml(xml: string) {
   return new NextResponse(xml, {
     headers: { 'Content-Type': 'text/xml' },
   })
-}
-
-function texmlSipDial(toNumber: string) {
-  // Route call directly to ElevenLabs via SIP trunk
-  return texml(`<?xml version="1.0" encoding="UTF-8"?>
-<Response>
-  <Dial>
-    <Sip>${toNumber}@${ELEVENLABS_SIP_DOMAIN}</Sip>
-  </Dial>
-</Response>`)
 }
 
 export async function POST(req: NextRequest) {
@@ -29,7 +18,7 @@ export async function POST(req: NextRequest) {
   const supabase = createAdminClient()
   const { data: customer } = await supabase
     .from('customers')
-    .select('id, business_name, status, voice_id')
+    .select('id, business_name, status')
     .eq('telnyx_number', to)
     .single()
 
@@ -48,5 +37,12 @@ export async function POST(req: NextRequest) {
     created_at: new Date().toISOString(),
   })
 
-  return texmlSipDial(to)
+  const dynamicVariables = JSON.stringify({ business_name: customer.business_name })
+
+  return texml(`<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+  <Connect>
+    <AI assistantId="${TELNYX_AI_ASSISTANT_ID}" dynamicVariables='${dynamicVariables}'/>
+  </Connect>
+</Response>`)
 }

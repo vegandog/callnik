@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { sendBillingFailureEmail } from '@/lib/email'
 
 const CARDCOM_TERMINAL = 190666
 const CARDCOM_API_NAME = 'sAwPXwN5jjRPhSKn5NRn'
@@ -39,16 +40,32 @@ export async function GET(req: NextRequest) {
       .single()
 
     try {
+      const planLabel = customer.plan === 'annual'
+        ? 'מנוי Callnik שנתי - callnik.com | ₪948 + מע"מ לשנה'
+        : customer.plan === 'daily_test'
+        ? 'טסט Callnik - callnik.com'
+        : 'מנוי Callnik חודשי - callnik.com | ₪99 + מע"מ לחודש'
+
+      const transactionBody: Record<string, unknown> = {
+        TerminalNumber: CARDCOM_TERMINAL,
+        ApiName: CARDCOM_API_NAME,
+        Amount: amount,
+        Token: customer.cardcom_token,
+        CardExpirationMMYY: `${mm}${yy}`,
+      }
+
+      if (userRecord?.email) {
+        transactionBody.Document = {
+          Name: customer.business_name || userRecord.email,
+          Email: userRecord.email,
+          Products: [{ Description: planLabel, UnitCost: amount, Quantity: 1 }],
+        }
+      }
+
       const res = await fetch('https://secure.cardcom.solutions/api/v11/Transactions/Transaction', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          TerminalNumber: CARDCOM_TERMINAL,
-          ApiName: CARDCOM_API_NAME,
-          Amount: amount,
-          Token: customer.cardcom_token,
-          CardExpirationMMYY: `${mm}${yy}`,
-        }),
+        body: JSON.stringify(transactionBody),
       })
 
       const data = await res.json()
@@ -64,33 +81,7 @@ export async function GET(req: NextRequest) {
           .update({ next_billing_date: next.toISOString().split('T')[0], billing_failures: 0 })
           .eq('id', customer.id)
 
-        // Send invoice via Cardcom CreateDocument
-        if (data.TranzactionId && userRecord?.email) {
-          const planLabel = customer.plan === 'annual'
-            ? 'מנוי Callnik שנתי - callnik.com | ₪948 + מע"מ לשנה'
-            : customer.plan === 'daily_test'
-            ? 'טסט Callnik - callnik.com'
-            : 'מנוי Callnik חודשי - callnik.com | ₪99 + מע"מ לחודש'
-
-          await fetch('https://secure.cardcom.solutions/api/v11/Documents/CreateDocument', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              TerminalNumber: CARDCOM_TERMINAL,
-              ApiName: CARDCOM_API_NAME,
-              DealNumbers: [{ DealNumber: data.TranzactionId }],
-              Document: {
-                DocumentTypeToCreate: 'TaxInvoiceAndReceipt',
-                Name: customer.business_name || '',
-                Email: userRecord.email,
-                IsSendByEmail: true,
-                Products: [{ Description: planLabel, UnitCost: amount, Quantity: 1 }],
-              },
-            }),
-          }).catch(e => console.error('CreateDocument error:', e))
-        }
-
-        results.push({ id: customer.id, status: 'charged', amount })
+        results.push({ id: customer.id, status: 'charged', amount, invoice: data.DocumentNumber > 0 ? data.DocumentNumber : null })
       } else {
         const failures = (customer.billing_failures || 0) + 1
         const update: Record<string, unknown> = { billing_failures: failures }
@@ -98,6 +89,15 @@ export async function GET(req: NextRequest) {
 
         await supabase.from('customers').update(update).eq('id', customer.id)
         results.push({ id: customer.id, status: 'failed', error: data.Description, failures })
+
+        sendBillingFailureEmail({
+          businessName: customer.business_name || customer.id,
+          email: userRecord?.email || '',
+          amount,
+          failures,
+          error: data.Description || 'שגיאה לא ידועה',
+          customerId: customer.id,
+        }).catch(e => console.error('billing failure email error:', e))
       }
     } catch (e) {
       console.error(`Billing error for ${customer.id}:`, e)

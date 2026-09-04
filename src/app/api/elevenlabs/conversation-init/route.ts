@@ -1,14 +1,34 @@
 import { createAdminClient } from '@/lib/supabase/admin'
 import { NextRequest, NextResponse } from 'next/server'
 
+function normalizeNumber(n: string | null | undefined): string | null {
+  if (!n) return null
+  // Add + if missing (ElevenLabs sends "97283762282" not "+97283762282")
+  return n.startsWith('+') ? n : `+${n}`
+}
+
 export async function POST(req: NextRequest) {
   const data = await req.json()
 
-  // ElevenLabs sends the called number so we can look up the customer
-  const calledNumber =
+  // ElevenLabs SIP trunk sends called number as system__called_number
+  const rawCalledNumber =
     data.called_number ||
     data.conversation_initiation_metadata_event?.called_number ||
-    data.metadata?.called_number
+    data.metadata?.called_number ||
+    data.system__called_number ||
+    null
+
+  const rawCallerNumber =
+    data.caller_id ||
+    data.conversation_initiation_metadata_event?.caller_id ||
+    data.metadata?.caller_id ||
+    data.system__caller_id ||
+    null
+
+  const calledNumber = normalizeNumber(rawCalledNumber)
+  const callerNumber = rawCallerNumber
+    ? rawCallerNumber.startsWith('+') ? rawCallerNumber : `+972${rawCallerNumber.replace(/^0/, '')}`
+    : null
 
   if (!calledNumber) {
     return NextResponse.json({ dynamic_variables: { business_name: 'העסק' } })
@@ -35,7 +55,21 @@ export async function POST(req: NextRequest) {
       .order('created_at', { ascending: false })
       .limit(1)
       .single()
-    callRecordId = recentCall?.id || null
+
+    if (recentCall?.id) {
+      callRecordId = recentCall.id
+    } else {
+      const { data: newCall } = await supabase
+        .from('calls')
+        .insert({
+          customer_id: customer.id,
+          caller_number: callerNumber || 'unknown',
+          created_at: new Date().toISOString(),
+        })
+        .select('id')
+        .single()
+      callRecordId = newCall?.id || null
+    }
   }
 
   return NextResponse.json({

@@ -334,6 +334,69 @@ export async function sendHumanRequestedNotification(
   })
 }
 
+export async function sendBillingFailureEmail(customer: {
+  businessName: string
+  email: string
+  amount: number
+  failures: number
+  error: string
+  customerId: string
+}) {
+  const isCancelled = customer.failures >= 3
+  const headerColor = isCancelled ? '#dc2626' : '#f59e0b'
+  const title = isCancelled ? 'מנוי בוטל - 3 כשלונות חיוב' : `כשלון חיוב (${customer.failures}/3)`
+
+  const cardContent = `
+    <tr>
+      <td style="background:${headerColor};padding:30px 36px;text-align:right;">
+        <h1 style="margin:0 0 5px;font-size:22px;color:#ffffff;font-weight:700;font-family:${F};text-align:right;">${title}</h1>
+        <p style="margin:0;font-size:14px;color:#fef3c7;font-family:${F};text-align:right;">${customer.businessName}</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:28px 36px 24px;text-align:right;">
+        <table width="100%" cellpadding="0" cellspacing="0" style="border-radius:8px;overflow:hidden;border:1px solid #e5e7eb;">
+          <tr style="background:#f9fafb;">
+            <td style="padding:11px 16px;font-size:13px;color:#6b7280;font-weight:600;border-bottom:1px solid #f3f4f6;text-align:right;font-family:${F};">לקוח</td>
+            <td style="padding:11px 16px;font-size:14px;color:#111827;border-bottom:1px solid #f3f4f6;text-align:right;font-family:${F};">${customer.businessName} (${customer.email})</td>
+          </tr>
+          <tr>
+            <td style="padding:11px 16px;font-size:13px;color:#6b7280;font-weight:600;border-bottom:1px solid #f3f4f6;text-align:right;font-family:${F};">סכום שנכשל</td>
+            <td style="padding:11px 16px;font-size:14px;color:#111827;border-bottom:1px solid #f3f4f6;text-align:right;font-family:${F};">₪${customer.amount}</td>
+          </tr>
+          <tr style="background:#f9fafb;">
+            <td style="padding:11px 16px;font-size:13px;color:#6b7280;font-weight:600;border-bottom:1px solid #f3f4f6;text-align:right;font-family:${F};">שגיאה</td>
+            <td style="padding:11px 16px;font-size:14px;color:#dc2626;border-bottom:1px solid #f3f4f6;text-align:right;font-family:${F};">${customer.error}</td>
+          </tr>
+          <tr>
+            <td style="padding:11px 16px;font-size:13px;color:#6b7280;font-weight:600;text-align:right;font-family:${F};">כשלונות</td>
+            <td style="padding:11px 16px;font-size:14px;color:#111827;text-align:right;font-family:${F};">${customer.failures}/3</td>
+          </tr>
+        </table>
+        ${isCancelled ? `<p style="margin:16px 0 0;font-size:14px;color:#dc2626;font-family:${F};text-align:right;">המנוי בוטל אוטומטית. הלקוח צריך לחדש תשלום.</p>` : `<p style="margin:16px 0 0;font-size:14px;color:#92400e;font-family:${F};text-align:right;">יתבצע ניסיון נוסף מחר. ${3 - customer.failures} ניסיון/ות נותרו לפני ביטול אוטומטי.</p>`}
+      </td>
+    </tr>
+    <tr>
+      <td align="center" style="padding:0 36px 30px;text-align:center;">
+        <table cellpadding="0" cellspacing="0">
+          <tr>
+            <td style="background:#1e40af;border-radius:8px;">
+              <a href="https://callnik.com/admin" style="display:inline-block;padding:13px 36px;font-size:15px;font-weight:600;color:#ffffff;text-decoration:none;font-family:${F};">פאנל ניהול</a>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  `
+
+  await getResend().emails.send({
+    from: 'Callnik <mail@callnik.com>',
+    to: 'vegandog@gmail.com',
+    subject: `${isCancelled ? '🔴' : '⚠️'} ${title} - ${customer.businessName}`,
+    html: baseTemplate(cardContent),
+  })
+}
+
 export async function sendAdminNotification(customer: {
   businessName: string
   category: string
