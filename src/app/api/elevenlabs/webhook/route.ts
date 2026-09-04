@@ -1,6 +1,7 @@
 import { createAdminClient } from '@/lib/supabase/admin'
 import { sendCallNotification } from '@/lib/notify'
 import { sendCallNotificationEmail } from '@/lib/email'
+import { getVoiceName } from '@/lib/constants'
 import { NextRequest, NextResponse } from 'next/server'
 
 const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY!
@@ -80,16 +81,17 @@ export async function POST(req: NextRequest) {
 
   const { data: customer } = await supabase
     .from('customers')
-    .select('business_name, whatsapp_number')
+    .select('business_name, whatsapp_number, voice_id')
     .eq('id', callRecord.customer_id)
     .single()
 
   if (!customer?.whatsapp_number) return NextResponse.json({ ok: true })
 
   // Build transcript string
+  const agentName = getVoiceName(customer?.voice_id)
   const transcriptText = Array.isArray(transcript)
     ? transcript.map((t: { role: string; message: string }) =>
-        `${t.role === 'agent' ? 'דנה' : 'מתקשר'}: ${t.message}`
+        `${t.role === 'agent' ? agentName : 'מתקשר'}: ${t.message}`
       ).join('\n')
     : String(transcript)
 

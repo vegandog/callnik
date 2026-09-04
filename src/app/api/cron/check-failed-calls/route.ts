@@ -18,10 +18,10 @@ export async function GET(req: NextRequest) {
 
   const supabase = createAdminClient()
 
-  // Window: calls created 10–20 min ago with no caller_name
-  // Cron runs every 10 min → each failed call appears in exactly one window
+  // Window: calls from the last 25h that are older than 10 min (processing grace period)
+  // Cron runs once daily → covers everything since the previous run
   const windowEnd = new Date(Date.now() - 10 * 60 * 1000).toISOString()
-  const windowStart = new Date(Date.now() - 20 * 60 * 1000).toISOString()
+  const windowStart = new Date(Date.now() - 25 * 60 * 60 * 1000).toISOString()
 
   const { data: failed } = await supabase
     .from('calls')

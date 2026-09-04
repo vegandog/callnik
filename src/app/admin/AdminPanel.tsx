@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { RefreshCw, Pencil, Check, X, Trash2, Plus } from 'lucide-react'
+import { RefreshCw, Pencil, Check, X, Trash2, Plus, Mail } from 'lucide-react'
 import { VOICES } from '@/lib/constants'
 
 interface Customer {
@@ -52,6 +52,7 @@ export default function AdminPanel() {
   const [loading, setLoading] = useState(true)
   const [toggling, setToggling] = useState<string | null>(null)
   const [deleting, setDeleting] = useState<string | null>(null)
+  const [sendingActivation, setSendingActivation] = useState<string | null>(null)
   const [confirmDelete, setConfirmDelete] = useState<Customer | null>(null)
   const [editingNumber, setEditingNumber] = useState<{ id: string; field: 'twilio' | 'telnyx' } | null>(null)
   const [editValue, setEditValue] = useState('')
@@ -112,6 +113,16 @@ export default function AdminPanel() {
       setCustomers(prev => prev.map(c => c.id === customer.id ? { ...c, status: newStatus } : c))
     }
     setToggling(null)
+  }
+
+  const sendActivation = async (customer: Customer) => {
+    setSendingActivation(customer.id)
+    await fetch('/api/admin/customers', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ customer_id: customer.id, action: 'send_activation' }),
+    })
+    setSendingActivation(null)
   }
 
   const deleteCustomer = async (customer: Customer) => {
@@ -435,6 +446,16 @@ export default function AdminPanel() {
                       >
                         {toggling === customer.id ? '...' : customer.status === 'active' ? 'השהה' : 'הפעל'}
                       </button>
+                      {customer.status === 'active' && (customer.telnyx_number || customer.twilio_number) && (
+                        <button
+                          onClick={() => sendActivation(customer)}
+                          disabled={sendingActivation === customer.id}
+                          className="text-gray-400 hover:text-blue-600 transition-colors disabled:opacity-40"
+                          title="שלח מייל הפעלה עם קוד הפניה"
+                        >
+                          <Mail className="w-4 h-4" />
+                        </button>
+                      )}
                       <button
                         onClick={() => setConfirmDelete(customer)}
                         className="text-gray-300 hover:text-red-500 transition-colors"

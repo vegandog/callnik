@@ -104,8 +104,34 @@ export async function PATCH(req: NextRequest) {
   if (!await assertAdmin()) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 
   const body = await req.json()
-  const { customer_id, status, twilio_number, telnyx_number, voice_id } = body
+  const { customer_id, status, twilio_number, telnyx_number, voice_id, action } = body
   const supabase = createAdminClient()
+
+  // Resend activation email without changing status
+  if (action === 'send_activation') {
+    const { data: c } = await supabase
+      .from('customers')
+      .select('business_name, carrier, twilio_number, telnyx_number, voice_id')
+      .eq('id', customer_id)
+      .single()
+    const { data: userRow } = await supabase
+      .from('users')
+      .select('id, email')
+      .eq('customer_id', customer_id)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .single()
+    if (!c || !userRow?.email) return NextResponse.json({ error: 'לא נמצא לקוח/מייל' }, { status: 404 })
+    const number = c.telnyx_number || c.twilio_number
+    let firstName: string | undefined, lastName: string | undefined
+    if (userRow.id) {
+      const { data: authData } = await supabase.auth.admin.getUserById(userRow.id)
+      firstName = authData?.user?.user_metadata?.first_name
+      lastName = authData?.user?.user_metadata?.last_name
+    }
+    await sendActivationEmail(userRow.email, c.business_name, number ?? null, c.carrier ?? '', firstName, lastName, getVoiceName(c.voice_id))
+    return NextResponse.json({ ok: true })
+  }
 
   // Fetch current customer state before updating
   const { data: current } = await supabase
