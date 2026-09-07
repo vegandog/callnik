@@ -49,6 +49,7 @@ export async function POST(req: NextRequest) {
     || {}
   const callRecordId = dynVars.call_record_id
   const callerNumber = dynVars.system__caller_id
+  const agentNameFromInit = dynVars.agent_name as string | undefined
 
   if (!conversationId) {
     return NextResponse.json({ ok: true })
@@ -88,7 +89,7 @@ export async function POST(req: NextRequest) {
   if (!customer?.whatsapp_number) return NextResponse.json({ ok: true })
 
   // Build transcript string
-  const agentName = getVoiceName(customer?.voice_id)
+  const agentName = agentNameFromInit || getVoiceName(customer?.voice_id)
   const transcriptText = Array.isArray(transcript)
     ? transcript.map((t: { role: string; message: string }) =>
         `${t.role === 'agent' ? agentName : 'מתקשר'}: ${t.message}`

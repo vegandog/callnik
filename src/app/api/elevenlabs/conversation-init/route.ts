@@ -1,4 +1,5 @@
 import { createAdminClient } from '@/lib/supabase/admin'
+import { getVoiceName } from '@/lib/constants'
 import { NextRequest, NextResponse } from 'next/server'
 
 function normalizeNumber(n: string | null | undefined): string | null {
@@ -37,11 +38,12 @@ export async function POST(req: NextRequest) {
   const supabase = createAdminClient()
   const { data: customer } = await supabase
     .from('customers')
-    .select('id, business_name')
+    .select('id, business_name, voice_id')
     .or(`twilio_number.eq.${calledNumber},telnyx_number.eq.${calledNumber}`)
     .single()
 
   const businessName = customer?.business_name || 'העסק'
+  const agentName = getVoiceName(customer?.voice_id)
 
   let callRecordId: string | null = null
   if (customer?.id) {
@@ -73,6 +75,6 @@ export async function POST(req: NextRequest) {
   }
 
   return NextResponse.json({
-    dynamic_variables: { business_name: businessName, call_record_id: callRecordId },
+    dynamic_variables: { business_name: businessName, call_record_id: callRecordId, agent_name: agentName },
   })
 }
