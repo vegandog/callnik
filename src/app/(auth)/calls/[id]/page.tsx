@@ -26,12 +26,16 @@ export default async function CallPage({ params }: { params: Promise<{ id: strin
 
   if (!userRecord) redirect('/login')
 
-  const { data: call } = await supabase
+  const isAdmin = user.email === 'vegandog@gmail.com'
+
+  let query = supabase
     .from('calls')
     .select('id, caller_name, caller_number, reason_summary, transcript_full, duration_seconds, created_at, elevenlabs_conversation_id')
     .eq('id', id)
-    .eq('customer_id', userRecord.customer_id)
-    .single()
+
+  if (!isAdmin) query = query.eq('customer_id', userRecord.customer_id)
+
+  const { data: call } = await query.single()
 
   if (!call) notFound()
 
