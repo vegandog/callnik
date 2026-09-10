@@ -20,15 +20,13 @@ export async function POST(req: NextRequest) {
   const supabase = createAdminClient()
 
   let code = ''
-  let lastError: unknown = null
   for (let attempt = 0; attempt < 5; attempt++) {
     const candidate = randomCode()
     const { error } = await supabase.from('promo_codes').insert({ code: candidate, source })
     if (!error) { code = candidate; break }
-    lastError = error
   }
 
-  if (!code) return NextResponse.json({ error: 'Failed to generate code', detail: lastError }, { status: 500 })
+  if (!code) return NextResponse.json({ error: 'Failed to generate code' }, { status: 500 })
 
   return NextResponse.json({ code })
 }
