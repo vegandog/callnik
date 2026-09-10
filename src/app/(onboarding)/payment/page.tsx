@@ -25,7 +25,11 @@ export default function PaymentPage() {
     })
     const data = await res.json()
     setCouponStatus(data.valid ? 'valid' : 'invalid')
-    if (data.valid) createSession(plan, code.trim())
+    if (data.valid) {
+      // Force monthly when coupon is applied - annual cannot be used with promo
+      if (plan === 'annual') setPlan('monthly')
+      createSession('monthly', code.trim())
+    }
   }
 
   const createSession = async (selectedPlan: 'monthly' | 'annual' | 'test', appliedCoupon?: string) => {

@@ -62,8 +62,10 @@ export async function POST(req: NextRequest) {
 
   // Mark promo code as used
   if (promoCodeId) {
+    const promoUser = await dbGet('users', `customer_id=eq.${customerId}`, 'id')
     await dbPatch('promo_codes', `id=eq.${promoCodeId}`, {
       used_at: new Date().toISOString(),
+      used_by: promoUser?.id || null,
     })
   }
 
