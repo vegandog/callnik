@@ -12,15 +12,30 @@ export default function PaymentPage() {
   const isTestMode = searchParams.get('test') === '1'
   const [loading, setLoading] = useState(false)
   const [err, setErr] = useState(error ? 'התשלום נכשל. אנא נסה שנית.' : '')
+  const [coupon, setCoupon] = useState('')
+  const [couponStatus, setCouponStatus] = useState<'idle' | 'checking' | 'valid' | 'invalid'>('idle')
 
-  const createSession = async (selectedPlan: 'monthly' | 'annual' | 'test') => {
+  const checkCoupon = async (code: string) => {
+    if (!code.trim()) { setCouponStatus('idle'); return }
+    setCouponStatus('checking')
+    const res = await fetch('/api/promo/validate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code: code.trim() }),
+    })
+    const data = await res.json()
+    setCouponStatus(data.valid ? 'valid' : 'invalid')
+    if (data.valid) createSession(plan, code.trim())
+  }
+
+  const createSession = async (selectedPlan: 'monthly' | 'annual' | 'test', appliedCoupon?: string) => {
     setLoading(true)
     setErr('')
     setIframeUrl(null)
     const res = await fetch('/api/cardcom/create-session', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ plan: selectedPlan }),
+      body: JSON.stringify({ plan: selectedPlan, coupon: appliedCoupon || (couponStatus === 'valid' ? coupon : undefined) }),
     })
     if (res.ok) {
       const { url } = await res.json()
@@ -39,6 +54,11 @@ export default function PaymentPage() {
     setPlan(p)
     createSession(p)
   }
+
+  useEffect(() => {
+    const urlCoupon = searchParams.get('promo')
+    if (urlCoupon) { setCoupon(urlCoupon); checkCoupon(urlCoupon) }
+  }, []) // eslint-disable-line
 
   return (
     <div className="py-8 max-w-lg mx-auto">
@@ -80,6 +100,34 @@ export default function PaymentPage() {
           🧪 טסט — ₪1 + מע"מ
         </button>
       )}
+
+      {/* Coupon field */}
+      <div className="mb-4">
+        <div className="flex gap-2">
+          <input
+            type="text"
+            placeholder="קוד קופון (אופציונלי)"
+            value={coupon}
+            onChange={e => { setCoupon(e.target.value.toUpperCase()); setCouponStatus('idle') }}
+            className="flex-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-right focus:outline-none focus:border-blue-500"
+          />
+          <button
+            onClick={() => checkCoupon(coupon)}
+            disabled={!coupon.trim() || couponStatus === 'checking'}
+            className="px-4 py-2.5 rounded-xl bg-gray-100 text-sm font-medium text-gray-700 hover:bg-gray-200 disabled:opacity-40 transition-all"
+          >
+            {couponStatus === 'checking' ? '...' : 'החל'}
+          </button>
+        </div>
+        {couponStatus === 'valid' && (
+          <div className="mt-2 text-green-600 text-xs font-medium flex items-center gap-1">
+            ✓ קוד אושר - חודש ראשון ב-1 ₪ + מע&quot;מ בלבד
+          </div>
+        )}
+        {couponStatus === 'invalid' && (
+          <div className="mt-2 text-red-500 text-xs">קוד לא תקין או כבר שומש</div>
+        )}
+      </div>
 
       {err && (
         <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg px-4 py-3 mb-4">

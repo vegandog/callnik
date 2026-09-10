@@ -10,13 +10,32 @@ export async function POST(req: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const { plan } = await req.json()
+  const { plan, coupon } = await req.json()
   const isAnnual = plan === 'annual'
   const isTest = plan === 'test'
-  const amount = isTest ? 1 : isAnnual ? 948 : 99
+
+  // Validate coupon if provided
+  let couponValid = false
+  let couponId: string | null = null
+  if (coupon && !isTest) {
+    const adminSupabase = (await import('@/lib/supabase/admin')).createAdminClient()
+    const { data: promoRow } = await adminSupabase
+      .from('promo_codes')
+      .select('id, used_at, expires_at')
+      .eq('code', (coupon as string).toUpperCase().trim())
+      .single()
+    if (promoRow && !promoRow.used_at && (!promoRow.expires_at || new Date(promoRow.expires_at) > new Date())) {
+      couponValid = true
+      couponId = promoRow.id
+    }
+  }
+
+  const amount = isTest ? 1 : couponValid ? 1 : isAnnual ? 948 : 99
   const productName = isTest ? 'טסט Callnik' : isAnnual ? 'מנוי Callnik שנתי' : 'מנוי Callnik חודשי'
   const productDescription = isTest
     ? 'טסט Callnik - callnik.com'
+    : couponValid
+    ? 'מנוי Callnik חודשי - callnik.com | חודש ראשון ב-₪1 + מע"מ | מחודש 2: ₪99 + מע"מ לחודש'
     : isAnnual
     ? 'מנוי Callnik שנתי - callnik.com | ₪948 + מע"מ לשנה (₪79 לחודש)'
     : 'מנוי Callnik חודשי - callnik.com | ₪99 + מע"מ לחודש | חיוב חוזר מדי חודש'
@@ -42,7 +61,7 @@ export async function POST(req: NextRequest) {
       TerminalNumber: CARDCOM_TERMINAL,
       ApiName: CARDCOM_API_NAME,
       Operation: 'ChargeAndCreateToken',
-      ReturnValue: `${userRecord.customer_id}:${plan}`,
+      ReturnValue: `${userRecord.customer_id}:${plan}${couponId ? `:promo:${couponId}` : ''}`,
       Amount: amount,
       SuccessRedirectUrl: `${BASE_URL}/api/cardcom/callback`,
       FailedRedirectUrl: `${BASE_URL}/payment?error=1`,

@@ -56,8 +56,16 @@ export async function POST(req: NextRequest) {
   const parts = (data.ReturnValue || '').split(':')
   const customerId = parts[0]
   const plan = parts[1]
+  const promoCodeId = parts[2] === 'promo' ? parts[3] : null
 
   if (!customerId) return NextResponse.json({ ok: false })
+
+  // Mark promo code as used
+  if (promoCodeId) {
+    await dbPatch('promo_codes', `id=eq.${promoCodeId}`, {
+      used_at: new Date().toISOString(),
+    })
+  }
 
   // LowProfileId was saved at session creation — use it to fetch the token
   const customer = await dbGet('customers', `id=eq.${customerId}`, 'pending_lp_id')
