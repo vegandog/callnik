@@ -130,7 +130,7 @@ export default function PaymentPage() {
         </div>
         {couponStatus === 'valid' && (
           <div className="mt-2 text-green-600 text-xs font-medium flex items-center gap-1">
-            ✓ קוד אושר - חודש ראשון ב-1 ₪ + מע&quot;מ בלבד
+            ✓ קוד אושר - חודש ראשון ב-1 ₪ בלבד
           </div>
         )}
         {couponStatus === 'invalid' && (

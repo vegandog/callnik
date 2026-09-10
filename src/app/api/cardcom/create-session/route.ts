@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
   const productDescription = isTest
     ? 'טסט Callnik - callnik.com'
     : couponValid
-    ? 'מנוי Callnik חודשי - callnik.com | חודש ראשון ב-₪1 + מע"מ (₪1.18) | מחודש 2: ₪116.82 לחודש כולל מע"מ'
+    ? 'מנוי Callnik חודשי - callnik.com | חודש ראשון ב-₪1 בלבד | מחודש 2: ₪116.82 לחודש כולל מע"מ'
     : isAnnual
     ? 'מנוי Callnik שנתי - callnik.com | ₪1,118.64 לשנה כולל מע"מ (₪79 לחודש + מע"מ)'
     : 'מנוי Callnik חודשי - callnik.com | ₪116.82 לחודש כולל מע"מ | חיוב חוזר מדי חודש'
