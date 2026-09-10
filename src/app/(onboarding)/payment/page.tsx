@@ -82,13 +82,13 @@ export default function PaymentPage() {
           <div className="text-gray-400 text-xs mt-1">חיוב חודשי</div>
         </button>
         <button
-          onClick={() => switchPlan('annual')}
-          className={`rounded-xl border-2 p-4 text-right transition-all relative ${plan === 'annual' ? 'border-blue-600 bg-blue-50' : 'border-gray-200 bg-white'}`}
+          onClick={() => { if (couponStatus === 'valid') return; switchPlan('annual') }}
+          className={`rounded-xl border-2 p-4 text-right transition-all relative ${plan === 'annual' ? 'border-blue-600 bg-blue-50' : 'border-gray-200 bg-white'} ${couponStatus === 'valid' ? 'opacity-40 cursor-not-allowed' : ''}`}
         >
           <div className="absolute top-2 left-2 bg-green-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">חסכון 20%</div>
           <div className="font-bold text-gray-900 text-lg">₪948</div>
           <div className="text-gray-500 text-xs">לשנה + מע"מ</div>
-          <div className="text-gray-400 text-xs mt-1">₪79 לחודש</div>
+          <div className="text-gray-400 text-xs mt-1">{couponStatus === 'valid' ? 'לא זמין עם קופון' : '₪79 לחודש'}</div>
         </button>
       </div>
 

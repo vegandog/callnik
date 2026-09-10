@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
   // Validate coupon if provided
   let couponValid = false
   let couponId: string | null = null
-  if (coupon && !isTest) {
+  if (coupon && !isTest && !isAnnual) {
     const adminSupabase = (await import('@/lib/supabase/admin')).createAdminClient()
     const { data: promoRow } = await adminSupabase
       .from('promo_codes')
