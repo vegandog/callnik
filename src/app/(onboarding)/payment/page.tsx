@@ -51,18 +51,21 @@ export default function PaymentPage() {
   }
 
   useEffect(() => {
-    createSession(plan)
+    // Check URL param first, then sessionStorage - prevents double session creation
+    const urlCoupon = searchParams.get('promo') || sessionStorage.getItem('callnik_promo')
+    if (urlCoupon) {
+      sessionStorage.removeItem('callnik_promo')
+      setCoupon(urlCoupon)
+      checkCoupon(urlCoupon) // checkCoupon calls createSession with coupon
+    } else {
+      createSession(plan)
+    }
   }, []) // eslint-disable-line
 
   const switchPlan = (p: 'monthly' | 'annual' | 'test') => {
     setPlan(p)
     createSession(p)
   }
-
-  useEffect(() => {
-    const urlCoupon = searchParams.get('promo')
-    if (urlCoupon) { setCoupon(urlCoupon); checkCoupon(urlCoupon) }
-  }, []) // eslint-disable-line
 
   return (
     <div className="py-8 max-w-lg mx-auto">

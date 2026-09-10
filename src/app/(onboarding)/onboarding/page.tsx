@@ -31,7 +31,8 @@ export default function OnboardingPage() {
     })
 
     if (res.ok) {
-      router.push('/payment')
+      const savedPromo = sessionStorage.getItem('callnik_promo')
+      router.push(savedPromo ? `/payment?promo=${encodeURIComponent(savedPromo)}` : '/payment')
     } else {
       const data = await res.json()
       setError(data.error || 'אירעה שגיאה, נסה שנית')
