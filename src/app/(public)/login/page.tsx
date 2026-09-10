@@ -34,6 +34,11 @@ function LoginForm() {
 
   const handleGoogle = () => {
     setGoogleLoading(true)
+    // Save promo from redirect URL to sessionStorage - survives onboarding for new users
+    try {
+      const promoInRedirect = new URLSearchParams(redirectTo.split('?')[1] || '').get('promo')
+      if (promoInRedirect) sessionStorage.setItem('callnik_promo', promoInRedirect)
+    } catch { /* ignore */ }
     const params = new URLSearchParams({
       client_id: '419201388686-k83ee8pifckjjkqbvc8c416c4rn0taqn.apps.googleusercontent.com',
       redirect_uri: `${window.location.origin}/auth/callback`,
