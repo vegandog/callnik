@@ -30,15 +30,16 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  const amount = isTest ? 1 : couponValid ? 1 : isAnnual ? 948 : 99
+  // All amounts include 18% VAT: monthly 99×1.18=116.82, annual 948×1.18=1118.64
+  const amount = isTest ? 1 : couponValid ? 1.18 : isAnnual ? 1118.64 : 116.82
   const productName = isTest ? 'טסט Callnik' : isAnnual ? 'מנוי Callnik שנתי' : 'מנוי Callnik חודשי'
   const productDescription = isTest
     ? 'טסט Callnik - callnik.com'
     : couponValid
-    ? 'מנוי Callnik חודשי - callnik.com | חודש ראשון ב-₪1 + מע"מ | מחודש 2: ₪99 + מע"מ לחודש'
+    ? 'מנוי Callnik חודשי - callnik.com | חודש ראשון ב-₪1 + מע"מ (₪1.18) | מחודש 2: ₪116.82 לחודש כולל מע"מ'
     : isAnnual
-    ? 'מנוי Callnik שנתי - callnik.com | ₪948 + מע"מ לשנה (₪79 לחודש)'
-    : 'מנוי Callnik חודשי - callnik.com | ₪99 + מע"מ לחודש | חיוב חוזר מדי חודש'
+    ? 'מנוי Callnik שנתי - callnik.com | ₪1,118.64 לשנה כולל מע"מ (₪79 לחודש + מע"מ)'
+    : 'מנוי Callnik חודשי - callnik.com | ₪116.82 לחודש כולל מע"מ | חיוב חוזר מדי חודש'
 
   const { data: userRecord } = await supabase
     .from('users')

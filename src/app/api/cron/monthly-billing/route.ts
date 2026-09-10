@@ -28,10 +28,11 @@ export async function GET(req: NextRequest) {
   const results = []
 
   const INCLUDED_CALLS = 60
-  const EXCESS_RATE = 0.99 // ₪ per call above 60
+  const EXCESS_RATE = 1.17 // ₪ per call above 60 (0.99 + 18% VAT)
 
   for (const customer of customers) {
-    const baseAmount = customer.plan === 'annual' ? 948 : customer.plan === 'daily_test' ? 1 : 99
+    // All amounts include 18% VAT: monthly 99×1.18=116.82, annual 948×1.18=1118.64
+    const baseAmount = customer.plan === 'annual' ? 1118.64 : customer.plan === 'daily_test' ? 1 : 116.82
     const mm = String(customer.card_month || '').padStart(2, '0')
     const yy = String(customer.card_year || '').slice(-2)
 
@@ -62,10 +63,10 @@ export async function GET(req: NextRequest) {
 
     try {
       const planLabel = customer.plan === 'annual'
-        ? 'מנוי Callnik שנתי - callnik.com | ₪948 + מע"מ לשנה'
+        ? 'מנוי Callnik שנתי - callnik.com | ₪1,118.64 לשנה כולל מע"מ'
         : customer.plan === 'daily_test'
         ? 'טסט Callnik - callnik.com'
-        : 'מנוי Callnik חודשי - callnik.com | ₪99 + מע"מ לחודש'
+        : 'מנוי Callnik חודשי - callnik.com | ₪116.82 לחודש כולל מע"מ'
 
       const transactionBody: Record<string, unknown> = {
         TerminalNumber: CARDCOM_TERMINAL,
