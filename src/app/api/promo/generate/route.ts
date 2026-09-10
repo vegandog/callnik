@@ -4,10 +4,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 const PROMO_SECRET = process.env.PROMO_API_SECRET
 
 function randomCode(): string {
-  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
-  let s = ''
-  for (let i = 0; i < 6; i++) s += chars[Math.floor(Math.random() * chars.length)]
-  return `JINGLE-${s}`
+  return String(Math.floor(10000 + Math.random() * 90000))
 }
 
 export async function POST(req: NextRequest) {
