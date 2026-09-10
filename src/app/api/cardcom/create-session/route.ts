@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
   }
 
   // All amounts include 18% VAT: monthly 99×1.18=116.82, annual 948×1.18=1118.64
-  const amount = isTest ? 1 : couponValid ? 1.18 : isAnnual ? 1118.64 : 116.82
+  const amount = isTest ? 1 : couponValid ? 1 : isAnnual ? 1118.64 : 116.82
   const productName = isTest ? 'טסט Callnik' : isAnnual ? 'מנוי Callnik שנתי' : 'מנוי Callnik חודשי'
   const productDescription = isTest
     ? 'טסט Callnik - callnik.com'
