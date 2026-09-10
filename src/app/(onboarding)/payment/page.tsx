@@ -14,6 +14,7 @@ export default function PaymentPage() {
   const [err, setErr] = useState(error ? 'התשלום נכשל. אנא נסה שנית.' : '')
   const [coupon, setCoupon] = useState('')
   const [couponStatus, setCouponStatus] = useState<'idle' | 'checking' | 'valid' | 'invalid'>('idle')
+  const [couponAcknowledged, setCouponAcknowledged] = useState(false)
 
   const checkCoupon = async (code: string) => {
     if (!code.trim()) { setCouponStatus('idle'); return }
@@ -26,12 +27,16 @@ export default function PaymentPage() {
     const data = await res.json()
     setCouponStatus(data.valid ? 'valid' : 'invalid')
     if (data.valid) {
-      // Force monthly when coupon is applied - annual cannot be used with promo
       if (plan === 'annual') setPlan('monthly')
-      createSession('monthly', code.trim())
+      // Don't load iframe yet - wait for user to acknowledge recurring charge
     } else {
-      createSession(plan) // Coupon invalid - still load payment form at regular price
+      createSession(plan)
     }
+  }
+
+  const handleAcknowledge = (checked: boolean) => {
+    setCouponAcknowledged(checked)
+    if (checked) createSession('monthly', coupon.trim())
   }
 
   const createSession = async (selectedPlan: 'monthly' | 'annual' | 'test', appliedCoupon?: string) => {
@@ -130,8 +135,17 @@ export default function PaymentPage() {
         </div>
         {couponStatus === 'valid' && (
           <div className="mt-3 bg-amber-50 border border-amber-300 rounded-xl px-4 py-3">
-            <div className="text-green-700 text-sm font-bold mb-1">✓ קוד אושר - חודש התנסות ב-1 ₪ בלבד</div>
-            <div className="text-gray-600 text-xs leading-relaxed">שים ♥️ מהחודש השני החיוב עובר למחיר המלא: 99₪ +מע&quot;מ /חודש. אפשר לבטל בכל עת, ללא קנס.</div>
+            <div className="text-green-700 text-sm font-bold mb-2">✓ קוד אושר - חודש התנסות ב-1 ₪ בלבד</div>
+            <div className="text-gray-600 text-xs leading-relaxed mb-3">שים ♥️ מהחודש השני החיוב עובר למחיר המלא: 99₪ +מע&quot;מ /חודש. אפשר לבטל בכל עת, ללא קנס.</div>
+            <label className="flex items-start gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={couponAcknowledged}
+                onChange={e => handleAcknowledge(e.target.checked)}
+                className="mt-0.5 w-4 h-4 accent-blue-600 flex-shrink-0"
+              />
+              <span className="text-xs text-gray-700 font-medium">הבנתי - מהחודש השני אחויב ב-99₪ +מע&quot;מ לחודש, וניתן לבטל בכל עת</span>
+            </label>
           </div>
         )}
         {couponStatus === 'invalid' && (
