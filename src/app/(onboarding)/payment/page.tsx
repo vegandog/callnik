@@ -29,6 +29,8 @@ export default function PaymentPage() {
       // Force monthly when coupon is applied - annual cannot be used with promo
       if (plan === 'annual') setPlan('monthly')
       createSession('monthly', code.trim())
+    } else {
+      createSession(plan) // Coupon invalid - still load payment form at regular price
     }
   }
 
