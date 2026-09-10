@@ -135,8 +135,8 @@ export default function PaymentPage() {
         </div>
         {couponStatus === 'valid' && (
           <div className="mt-3 bg-amber-50 border border-amber-300 rounded-xl px-4 py-3">
-            <div className="text-green-700 text-sm font-bold mb-2">✓ קוד אושר - חודש התנסות ב-1 ₪ בלבד</div>
-            <div className="text-gray-600 text-xs leading-relaxed mb-3">שים ♥️ מהחודש השני החיוב עובר למחיר המלא: 99₪ +מע&quot;מ /חודש. אפשר לבטל בכל עת, ללא קנס.</div>
+            <div className="text-green-700 text-sm font-bold mb-2">✓ הקוד אושר - חודש התנסות ב-1 ₪ בלבד!</div>
+            <div className="text-gray-600 text-xs leading-relaxed mb-3">שימו ♥️ מהחודש השני החיוב עובר למחיר המלא: 99₪ +מע&quot;מ /חודש.<br /><strong>אפשר לבטל בכל עת, ללא קנס.</strong></div>
             <label className="flex items-start gap-2 cursor-pointer">
               <input
                 type="checkbox"
@@ -144,7 +144,7 @@ export default function PaymentPage() {
                 onChange={e => handleAcknowledge(e.target.checked)}
                 className="mt-0.5 w-4 h-4 accent-blue-600 flex-shrink-0"
               />
-              <span className="text-xs text-gray-700 font-medium">הבנתי - מהחודש השני אחויב ב-99₪ +מע&quot;מ לחודש, וניתן לבטל בכל עת</span>
+              <span className="text-xs text-gray-700 font-medium">סבבה?</span>
             </label>
           </div>
         )}
