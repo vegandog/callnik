@@ -108,12 +108,14 @@ export async function POST(req: NextRequest) {
     ? new Date(now.getFullYear() + 1, now.getMonth(), now.getDate())
     : new Date(now.getFullYear(), now.getMonth() + 1, now.getDate())
 
-  const firstPaymentAmount = plan === 'annual' ? 948 : plan === 'test' ? 1 : 99
+  const firstPaymentAmount = plan === 'annual' ? 1118.64 : plan === 'test' ? 1 : promoCodeId ? 1 : 116.82
   const firstPaymentLabel = plan === 'annual'
-    ? 'מנוי Callnik שנתי - callnik.com | ₪948 + מע"מ לשנה'
+    ? 'מנוי Callnik שנתי - callnik.com | ₪1,118.64 לשנה כולל מע"מ'
     : plan === 'test'
     ? 'טסט Callnik - callnik.com'
-    : 'מנוי Callnik חודשי - callnik.com | ₪99 + מע"מ לחודש'
+    : promoCodeId
+    ? 'מנוי Callnik חודשי - callnik.com | חודש ראשון ב-₪1 (קופון ג\'ינגלפון)'
+    : 'מנוי Callnik חודשי - callnik.com | ₪116.82 לחודש כולל מע"מ'
 
   await dbPost('billing_history', {
     customer_id: customerId,
