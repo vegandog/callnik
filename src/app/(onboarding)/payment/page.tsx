@@ -129,8 +129,9 @@ export default function PaymentPage() {
           </button>
         </div>
         {couponStatus === 'valid' && (
-          <div className="mt-2 text-green-600 text-xs font-medium flex items-center gap-1">
-            ✓ קוד אושר - חודש ראשון ב-1 ₪ בלבד
+          <div className="mt-3 bg-amber-50 border border-amber-300 rounded-xl px-4 py-3">
+            <div className="text-green-700 text-sm font-bold mb-1">✓ קוד אושר - חודש התנסות ב-1 ₪ בלבד</div>
+            <div className="text-gray-600 text-xs leading-relaxed">מחודש שני החיוב עובר למחיר המלא: 116.82 ₪/חודש כולל מע&quot;מ. מבטל בכל עת, ללא קנס.</div>
           </div>
         )}
         {couponStatus === 'invalid' && (
