@@ -366,149 +366,161 @@ export default function AdminPanel() {
         ) : (
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-gray-100 bg-gray-50">
+              <tr className="border-b border-gray-200 bg-gray-50">
                 <th className="text-right font-medium text-gray-500 px-4 py-3">עסק</th>
                 <th className="text-right font-medium text-gray-500 px-4 py-3">מייל</th>
                 <th className="text-right font-medium text-gray-500 px-4 py-3">תחום</th>
                 <th className="text-right font-medium text-gray-500 px-4 py-3">וואטסאפ</th>
                 <th className="text-right font-medium text-gray-500 px-4 py-3">חברה</th>
-                <th className="text-right font-medium text-gray-500 px-4 py-3">קול</th>
-                <th className="text-right font-medium text-gray-500 px-4 py-3">Twilio</th>
-                <th className="text-right font-medium text-gray-500 px-4 py-3">Telnyx</th>
-                <th className="text-right font-medium text-gray-500 px-4 py-3">שיחות</th>
                 <th className="text-right font-medium text-gray-500 px-4 py-3">סטטוס</th>
                 <th className="text-right font-medium text-gray-500 px-4 py-3">פעולה</th>
               </tr>
             </thead>
             <tbody>
-              {filtered.map(customer => (
-                <tr key={customer.id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
-                  <td className="px-4 py-3">
-                    <div>
-                      <p className="font-medium text-gray-800">{customer.business_name}</p>
-                      <p className="text-xs text-gray-400">
-                        {new Date(customer.created_at).toLocaleDateString('he-IL', { day: 'numeric', month: 'short', year: 'numeric' })}
-                      </p>
+              {filtered.map((customer, idx) => {
+                const rowBg = idx % 2 === 0 ? 'bg-white' : 'bg-slate-50'
+                const isEditing = (field: 'twilio' | 'telnyx') =>
+                  editingNumber?.id === customer.id && editingNumber?.field === field
+
+                const numberCell = (field: 'twilio' | 'telnyx') => {
+                  const numVal = field === 'twilio' ? customer.twilio_number : customer.telnyx_number
+                  return isEditing(field) ? (
+                    <div className="flex items-center gap-1">
+                      <input
+                        autoFocus
+                        value={editValue}
+                        onChange={e => setEditValue(e.target.value)}
+                        placeholder="+972XXXXXXXXX"
+                        className="border border-blue-300 rounded px-2 py-0.5 text-xs w-28 font-mono"
+                        dir="ltr"
+                        onKeyDown={e => {
+                          if (e.key === 'Enter') saveNumber(customer.id, field, editValue)
+                          if (e.key === 'Escape') setEditingNumber(null)
+                        }}
+                      />
+                      <button onClick={() => saveNumber(customer.id, field, editValue)} className="text-green-600"><Check className="w-3 h-3" /></button>
+                      <button onClick={() => setEditingNumber(null)} className="text-gray-400"><X className="w-3 h-3" /></button>
                     </div>
-                  </td>
-                  <td className="px-4 py-3 text-gray-600 text-xs">
-                    {customer.email
-                      ? <a href={`mailto:${customer.email}`} className="hover:text-blue-600 transition-colors">{customer.email}</a>
-                      : <span className="text-gray-300">-</span>}
-                  </td>
-                  <td className="px-4 py-3 text-gray-600">{customer.category || '-'}</td>
-                  <td className="px-4 py-3 text-gray-600 font-mono text-xs">{customer.whatsapp_number}</td>
-                  <td className="px-4 py-3 text-gray-600 text-xs">{customer.carrier || '-'}</td>
-                  <td className="px-4 py-3">
-                    <select
-                      value={customer.voice_id || 'FA7xLUuWpSuAX9pUCVmy'}
-                      onChange={e => saveVoice(customer.id, e.target.value)}
-                      className="text-xs border border-gray-200 rounded px-2 py-1 text-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500 bg-white"
-                    >
-                      {VOICES.map(v => <option key={v.id} value={v.id}>{v.name}</option>)}
-                    </select>
-                  </td>
-                  {(['twilio', 'telnyx'] as const).map(field => {
-                    const numVal = field === 'twilio' ? customer.twilio_number : customer.telnyx_number
-                    const isEditing = editingNumber?.id === customer.id && editingNumber?.field === field
-                    return (
-                      <td key={field} className="px-4 py-3 text-gray-600 font-mono text-xs">
-                        {isEditing ? (
-                          <div className="flex items-center gap-1">
-                            <input
-                              autoFocus
-                              value={editValue}
-                              onChange={e => setEditValue(e.target.value)}
-                              placeholder="+972XXXXXXXXX"
-                              className="border border-blue-300 rounded px-2 py-0.5 text-xs w-32 font-mono"
-                              dir="ltr"
-                              onKeyDown={e => {
-                                if (e.key === 'Enter') saveNumber(customer.id, field, editValue)
-                                if (e.key === 'Escape') setEditingNumber(null)
-                              }}
-                            />
-                            <button onClick={() => saveNumber(customer.id, field, editValue)} className="text-green-600"><Check className="w-3 h-3" /></button>
-                            <button onClick={() => setEditingNumber(null)} className="text-gray-400"><X className="w-3 h-3" /></button>
-                          </div>
+                  ) : (
+                    <div className="flex items-center gap-1 group">
+                      <span className="font-mono text-xs text-gray-600">{numVal || <span className="text-gray-300">-</span>}</span>
+                      <button
+                        onClick={() => { setEditingNumber({ id: customer.id, field }); setEditValue(numVal || '') }}
+                        className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-blue-600 transition-all"
+                      >
+                        <Pencil className="w-3 h-3" />
+                      </button>
+                    </div>
+                  )
+                }
+
+                return (
+                  <>
+                    {/* Row 1 – business info */}
+                    <tr key={`${customer.id}-1`} className={`${rowBg} border-t border-gray-200`}>
+                      <td className="px-4 pt-3 pb-1">
+                        <p className="font-semibold text-gray-800">{customer.business_name}</p>
+                        <p className="text-xs text-gray-400">
+                          {new Date(customer.created_at).toLocaleDateString('he-IL', { day: 'numeric', month: 'short', year: 'numeric' })}
+                        </p>
+                      </td>
+                      <td className="px-4 pt-3 pb-1 text-gray-600 text-xs">
+                        {customer.email
+                          ? <a href={`mailto:${customer.email}`} className="hover:text-blue-600 transition-colors">{customer.email}</a>
+                          : <span className="text-gray-300">-</span>}
+                      </td>
+                      <td className="px-4 pt-3 pb-1 text-gray-600 text-xs">{customer.category || '-'}</td>
+                      <td className="px-4 pt-3 pb-1 text-gray-600 font-mono text-xs">{customer.whatsapp_number}</td>
+                      <td className="px-4 pt-3 pb-1 text-gray-600 text-xs">{customer.carrier || '-'}</td>
+                      <td className="px-4 pt-3 pb-1">
+                        <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${STATUS_COLORS[customer.status] || 'bg-gray-100 text-gray-500'}`}>
+                          {STATUS_LABELS[customer.status] || customer.status}
+                        </span>
+                      </td>
+                      <td className="px-4 pt-3 pb-1">
+                        <div className="flex items-center gap-3">
+                          <button
+                            onClick={() => toggle(customer)}
+                            disabled={toggling === customer.id}
+                            className="text-xs font-medium text-blue-600 hover:underline disabled:opacity-40"
+                          >
+                            {toggling === customer.id ? '...' : customer.status === 'active' ? 'השהה' : 'הפעל'}
+                          </button>
+                          <button
+                            onClick={() => setConfirmDelete(customer)}
+                            className="text-red-400 hover:text-red-600 transition-colors"
+                            title="מחק לקוח"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+
+                    {/* Row 2 – technical info */}
+                    <tr key={`${customer.id}-2`} className={`${rowBg}`}>
+                      <td className="px-4 pt-1 pb-3" />
+                      <td className="px-4 pt-1 pb-3 text-xs text-gray-400">
+                        <span className="font-medium text-gray-500">קול:</span>{' '}
+                        <select
+                          value={customer.voice_id || 'FA7xLUuWpSuAX9pUCVmy'}
+                          onChange={e => saveVoice(customer.id, e.target.value)}
+                          className="text-xs border border-gray-200 rounded px-2 py-0.5 text-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500 bg-white"
+                        >
+                          {VOICES.map(v => <option key={v.id} value={v.id}>{v.name}</option>)}
+                        </select>
+                      </td>
+                      <td className="px-4 pt-1 pb-3 text-xs text-gray-400">
+                        <span className="font-medium text-gray-500">Twilio:</span>{' '}{numberCell('twilio')}
+                      </td>
+                      <td className="px-4 pt-1 pb-3 text-xs text-gray-400">
+                        <span className="font-medium text-gray-500">Telnyx:</span>{' '}{numberCell('telnyx')}
+                      </td>
+                      <td className="px-4 pt-1 pb-3 text-xs text-center">
+                        {customer.call_count > 0 ? (
+                          <a href={`/admin/calls?customer=${customer.id}`} className="font-semibold text-blue-600 hover:underline">
+                            {customer.call_count} שיחות
+                          </a>
                         ) : (
-                          <div className="flex items-center gap-1 group">
-                            <span>{numVal || <span className="text-gray-300">-</span>}</span>
-                            <button
-                              onClick={() => { setEditingNumber({ id: customer.id, field }); setEditValue(numVal || '') }}
-                              className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-blue-600 transition-all"
-                            >
-                              <Pencil className="w-3 h-3" />
-                            </button>
-                          </div>
+                          <span className="text-gray-300">0 שיחות</span>
                         )}
                       </td>
-                    )
-                  })}
-                  <td className="px-4 py-3 text-center">
-                    {customer.call_count > 0 ? (
-                      <a
-                        href={`/admin/calls?customer=${customer.id}`}
-                        className="font-semibold text-blue-600 hover:underline"
-                      >
-                        {customer.call_count}
-                      </a>
-                    ) : (
-                      <span className="text-gray-400">0</span>
-                    )}
-                  </td>
-                  <td className="px-4 py-3">
-                    <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${STATUS_COLORS[customer.status] || 'bg-gray-100 text-gray-500'}`}>
-                      {STATUS_LABELS[customer.status] || customer.status}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3">
-                    <div className="flex items-center gap-3">
-                      <button
-                        onClick={() => toggle(customer)}
-                        disabled={toggling === customer.id}
-                        className="text-xs font-medium text-blue-600 hover:underline disabled:opacity-40"
-                      >
-                        {toggling === customer.id ? '...' : customer.status === 'active' ? 'השהה' : 'הפעל'}
-                      </button>
-                      {!customer.telnyx_number && !customer.twilio_number && (
-                        <button
-                          onClick={() => provisionNumber(customer)}
-                          disabled={provisioning === customer.id}
-                          className="text-gray-400 hover:text-green-600 transition-colors disabled:opacity-40"
-                          title="קנה מספר ישראלי והפעל את הלקוח"
-                        >
-                          {provisioning === customer.id
-                            ? <RefreshCw className="w-4 h-4 animate-spin" />
-                            : <Zap className="w-4 h-4" />
-                          }
-                        </button>
-                      )}
-                      {provisionResult?.id === customer.id && (
-                        <span className="text-xs text-green-600 font-mono">
-                          {provisionResult.number} {provisionResult.instant ? '✓' : '⏳'}
-                        </span>
-                      )}
-                      {customer.status === 'active' && (customer.telnyx_number || customer.twilio_number) && (
-                        <button
-                          onClick={() => sendActivation(customer)}
-                          disabled={sendingActivation === customer.id}
-                          className="text-gray-400 hover:text-blue-600 transition-colors disabled:opacity-40"
-                          title="שלח מייל הפעלה עם קוד הפניה"
-                        >
-                          <Mail className="w-4 h-4" />
-                        </button>
-                      )}
-                      <button
-                        onClick={() => setConfirmDelete(customer)}
-                        className="text-gray-300 hover:text-red-500 transition-colors"
-                        title="מחק לקוח"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
+                      <td className="px-4 pt-1 pb-3" />
+                      <td className="px-4 pt-1 pb-3">
+                        <div className="flex items-center gap-2">
+                          {!customer.telnyx_number && !customer.twilio_number && (
+                            <button
+                              onClick={() => provisionNumber(customer)}
+                              disabled={provisioning === customer.id}
+                              className="text-gray-400 hover:text-green-600 transition-colors disabled:opacity-40"
+                              title="קנה מספר ישראלי"
+                            >
+                              {provisioning === customer.id
+                                ? <RefreshCw className="w-4 h-4 animate-spin" />
+                                : <Zap className="w-4 h-4" />}
+                            </button>
+                          )}
+                          {provisionResult?.id === customer.id && (
+                            <span className="text-xs text-green-600 font-mono">
+                              {provisionResult.number} {provisionResult.instant ? '✓' : '⏳'}
+                            </span>
+                          )}
+                          {customer.status === 'active' && (customer.telnyx_number || customer.twilio_number) && (
+                            <button
+                              onClick={() => sendActivation(customer)}
+                              disabled={sendingActivation === customer.id}
+                              className="text-gray-400 hover:text-blue-600 transition-colors disabled:opacity-40"
+                              title="שלח מייל הפעלה"
+                            >
+                              <Mail className="w-4 h-4" />
+                            </button>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  </>
+                )
+              })}
             </tbody>
           </table>
         )}
