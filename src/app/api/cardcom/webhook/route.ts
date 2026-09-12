@@ -1,4 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { createAdminClient } from '@/lib/supabase/admin'
+import { sendActivationEmail } from '@/lib/email'
+import { getVoiceName } from '@/lib/constants'
+import { findAvailableIsraeliNumber, orderIsraeliNumber } from '@/lib/telnyx'
 
 const CARDCOM_TERMINAL = 190666
 const CARDCOM_API_NAME = 'sAwPXwN5jjRPhSKn5NRn'
@@ -69,8 +73,8 @@ export async function POST(req: NextRequest) {
     })
   }
 
-  // LowProfileId was saved at session creation — use it to fetch the token
-  const customer = await dbGet('customers', `id=eq.${customerId}`, 'pending_lp_id')
+  // Fetch customer (including fields needed for activation email + telnyx check)
+  const customer = await dbGet('customers', `id=eq.${customerId}`, 'pending_lp_id,business_name,carrier,voice_id,telnyx_number')
   const lowProfileId = customer?.pending_lp_id
 
   let token: string | null = null
@@ -138,6 +142,46 @@ export async function POST(req: NextRequest) {
     billing_failures: 0,
     pending_lp_id: null,
   })
+
+  // Auto-provision Telnyx number (skip if already assigned)
+  if (!customer?.telnyx_number) {
+    try {
+      const phoneNumber = await findAvailableIsraeliNumber()
+      if (phoneNumber) {
+        const orderStatus = await orderIsraeliNumber(phoneNumber, customerId)
+        if (orderStatus === 'success') {
+          await dbPatch('customers', `id=eq.${customerId}`, { telnyx_number: phoneNumber })
+          const admin = createAdminClient()
+          const { data: userRow } = await admin
+            .from('users')
+            .select('id, email')
+            .eq('customer_id', customerId)
+            .order('created_at', { ascending: false })
+            .limit(1)
+            .single()
+          if (userRow?.email) {
+            const { data: authData } = await admin.auth.admin.getUserById(userRow.id)
+            const firstName = authData?.user?.user_metadata?.first_name
+            const lastName = authData?.user?.user_metadata?.last_name
+            sendActivationEmail(
+              userRow.email,
+              customer.business_name,
+              phoneNumber,
+              customer.carrier ?? '',
+              firstName,
+              lastName,
+              getVoiceName(customer.voice_id)
+            ).catch(console.error)
+          }
+        }
+        // If pending: Telnyx webhook will set telnyx_number and send activation email
+      } else {
+        console.error(`Auto-provision: no Israeli numbers available for customer ${customerId}`)
+      }
+    } catch (e) {
+      console.error(`Auto-provision error for customer ${customerId}:`, e)
+    }
+  }
 
   return new NextResponse('-1', { headers: { 'Content-Type': 'text/plain' } })
 }

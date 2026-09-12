@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { sendBillingFailureEmail } from '@/lib/email'
+import { releaseNumber } from '@/lib/telnyx'
 
 const CARDCOM_TERMINAL = 190666
 const CARDCOM_API_NAME = 'sAwPXwN5jjRPhSKn5NRn'
@@ -18,20 +19,25 @@ export async function GET(req: NextRequest) {
   // סגור מנויים שבוטלו ותאריך החיוב הגיע
   const { data: cancellingDue } = await supabase
     .from('customers')
-    .select('id')
+    .select('id, telnyx_number')
     .eq('status', 'cancelling')
     .lte('next_billing_date', today)
 
   if (cancellingDue?.length) {
+    await Promise.allSettled(
+      cancellingDue
+        .filter(c => c.telnyx_number)
+        .map(c => releaseNumber(c.telnyx_number!))
+    )
     await supabase
       .from('customers')
-      .update({ status: 'cancelled' })
+      .update({ status: 'cancelled', telnyx_number: null })
       .in('id', cancellingDue.map(c => c.id))
   }
 
   const { data: customers, error } = await supabase
     .from('customers')
-    .select('id, business_name, plan, cardcom_token, card_month, card_year, billing_failures, next_billing_date')
+    .select('id, business_name, plan, cardcom_token, card_month, card_year, billing_failures, next_billing_date, telnyx_number')
     .eq('status', 'active')
     .lte('next_billing_date', today)
     .not('cardcom_token', 'is', null)
@@ -141,7 +147,11 @@ export async function GET(req: NextRequest) {
       } else {
         const failures = (customer.billing_failures || 0) + 1
         const update: Record<string, unknown> = { billing_failures: failures }
-        if (failures >= 3) update.status = 'cancelled'
+        if (failures >= 3) {
+          update.status = 'cancelled'
+          update.telnyx_number = null
+          if (customer.telnyx_number) releaseNumber(customer.telnyx_number).catch(console.error)
+        }
 
         await supabase.from('customers').update(update).eq('id', customer.id)
         results.push({ id: customer.id, status: 'failed', error: data.Description, failures })

@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
   // Activate customer
   const { data: customer } = await admin
     .from('customers')
-    .select('id, business_name, carrier, voice_id, status')
+    .select('id, business_name, carrier, voice_id, status, telnyx_number')
     .eq('id', customerId)
     .single()
 
@@ -73,8 +73,8 @@ export async function POST(req: NextRequest) {
     .update({ telnyx_number: phoneNumber, status: 'active' })
     .eq('id', customerId)
 
-  // Only send activation email if not already active (avoid duplicate emails)
-  if (customer.status !== 'active') {
+  // Send activation email only for pending→complete transitions (number not previously set)
+  if (!customer.telnyx_number) {
     const { data: userRow } = await admin
       .from('users')
       .select('id, email')
