@@ -397,6 +397,50 @@ export async function sendBillingFailureEmail(customer: {
   })
 }
 
+export async function sendCancellationEmail(customer: {
+  businessName: string
+  email: string
+  untilDate: string
+}) {
+  const cardContent = `
+    <tr>
+      <td style="background:#dc2626;padding:30px 36px;text-align:right;">
+        <h1 style="margin:0 0 5px;font-size:22px;color:#ffffff;font-weight:700;font-family:${F};text-align:right;">לקוח ביטל מנוי</h1>
+        <p style="margin:0;font-size:14px;color:#fca5a5;font-family:${F};text-align:right;">${customer.businessName}</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:30px 36px 24px;text-align:right;">
+        <p style="margin:0 0 16px;font-size:15px;color:#374151;font-family:${F};">השירות ימשיך לפעול עד <strong>${customer.untilDate}</strong> ואז יופסק אוטומטית.</p>
+        <table width="100%" cellpadding="0" cellspacing="0" style="border-radius:8px;overflow:hidden;border:1px solid #e5e7eb;">
+          <tr style="background:#f9fafb;">
+            <td style="padding:11px 16px;font-size:13px;color:#6b7280;font-weight:600;text-align:right;font-family:${F};">מייל</td>
+            <td style="padding:11px 16px;font-size:14px;color:#111827;text-align:right;font-family:${F};">${customer.email}</td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td align="center" style="padding:0 36px 30px;">
+        <table cellpadding="0" cellspacing="0">
+          <tr>
+            <td style="background:#2563eb;border-radius:8px;">
+              <a href="https://callnik.com/admin" style="display:inline-block;padding:13px 36px;font-size:15px;font-weight:600;color:#ffffff;text-decoration:none;font-family:${F};">פאנל ניהול</a>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  `
+
+  await getResend().emails.send({
+    from: 'Callnik <mail@callnik.com>',
+    to: 'vegandog@gmail.com',
+    subject: `ביטול מנוי: ${customer.businessName}`,
+    html: baseTemplate(cardContent),
+  })
+}
+
 export async function sendAdminNotification(customer: {
   businessName: string
   category: string

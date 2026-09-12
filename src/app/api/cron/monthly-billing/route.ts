@@ -15,6 +15,20 @@ export async function GET(req: NextRequest) {
   const supabase = createAdminClient()
   const today = new Date().toISOString().split('T')[0]
 
+  // סגור מנויים שבוטלו ותאריך החיוב הגיע
+  const { data: cancellingDue } = await supabase
+    .from('customers')
+    .select('id')
+    .eq('status', 'cancelling')
+    .lte('next_billing_date', today)
+
+  if (cancellingDue?.length) {
+    await supabase
+      .from('customers')
+      .update({ status: 'cancelled' })
+      .in('id', cancellingDue.map(c => c.id))
+  }
+
   const { data: customers, error } = await supabase
     .from('customers')
     .select('id, business_name, plan, cardcom_token, card_month, card_year, billing_failures, next_billing_date')

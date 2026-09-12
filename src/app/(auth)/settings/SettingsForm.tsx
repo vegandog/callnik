@@ -22,6 +22,10 @@ export default function SettingsForm({ businessName, whatsappNumber, carrier, vo
   const [error, setError] = useState('')
   const [playing, setPlaying] = useState<string | null>(null)
   const audioRef = useRef<HTMLAudioElement | null>(null)
+  const [showCancel, setShowCancel] = useState(false)
+  const [cancelling, setCancelling] = useState(false)
+  const [cancelled, setCancelled] = useState(false)
+  const [cancelUntil, setCancelUntil] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -56,6 +60,22 @@ export default function SettingsForm({ businessName, whatsappNumber, carrier, vo
     audio.play()
     setPlaying(name)
     audio.onended = () => setPlaying(null)
+  }
+
+  const handleCancel = async () => {
+    setCancelling(true)
+    const res = await fetch('/api/customer/cancel', { method: 'POST' })
+    if (res.ok) {
+      const data = await res.json()
+      const until = data.until
+        ? new Date(data.until).toLocaleDateString('he-IL', { day: 'numeric', month: 'long', year: 'numeric' })
+        : 'סוף החודש'
+      setCancelUntil(until)
+      setCancelled(true)
+    } else {
+      setError('שגיאה בביטול, נסה שוב או פנה אלינו')
+    }
+    setCancelling(false)
   }
 
   return (
@@ -142,6 +162,53 @@ export default function SettingsForm({ businessName, whatsappNumber, carrier, vo
           {saving ? 'שומר...' : 'שמירת שינויים'}
         </button>
       </form>
+
+      {/* ביטול מנוי */}
+      <div className="mt-8 pt-6 border-t border-gray-100">
+        {cancelled ? (
+          <div className="bg-gray-50 rounded-lg p-4 text-sm text-gray-600">
+            המנוי בוטל. השירות ימשיך לפעול עד <strong>{cancelUntil}</strong> ולא תחויב שוב.
+          </div>
+        ) : !showCancel ? (
+          <button
+            type="button"
+            onClick={() => setShowCancel(true)}
+            className="text-sm text-gray-400 hover:text-red-500 transition-colors"
+          >
+            ביטול מנוי
+          </button>
+        ) : (
+          <div className="bg-gray-50 rounded-lg p-5 space-y-4">
+            <p className="font-semibold text-gray-800">לפני שמבטלים</p>
+            <p className="text-sm text-gray-600">
+              הביטול ייכנס לתוקף בתום תקופת החיוב הנוכחית - השירות ימשיך לפעול עד אז וללא חיוב נוסף.
+            </p>
+            <div className="bg-blue-50 border border-blue-100 rounded-lg p-4 text-sm">
+              <p className="font-medium text-blue-800 mb-1">אם הבעיה היא המענה הקולי</p>
+              <p className="text-blue-700">
+                <a href="https://bizme.chat" target="_blank" rel="noopener" className="underline">BizMe</a> עושה אותו דבר - אבל בוואטסאפ. הלקוח כותב, הבוט עונה, הסיכום מגיע אליך. אולי מתאים יותר.
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={handleCancel}
+                disabled={cancelling}
+                className="text-sm text-red-600 hover:text-red-700 font-medium disabled:opacity-50"
+              >
+                {cancelling ? 'מבטל...' : 'כן, בטל את המנוי'}
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowCancel(false)}
+                className="text-sm text-gray-500 hover:text-gray-700"
+              >
+                השאר פעיל
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   )
 }

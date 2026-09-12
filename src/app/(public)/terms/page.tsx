@@ -100,7 +100,7 @@ export default function TermsPage() {
 
           <h3 className="font-semibold text-gray-800 mb-2">5.2 ביטול מנוי חודשי פעיל</h3>
           <p className="text-gray-600 mb-4">
-            ניתן לבטל בכל עת, ללא קנס, בהודעה בכתב אל <a href="mailto:mail@callnik.com" className="text-blue-600">mail@callnik.com</a>. הביטול ייכנס לתוקף בסוף החודש השוטף. לא יינתן החזר על חלקי חודש.
+            ניתן לבטל בכל עת, ללא קנס, דרך הגדרות החשבון או בהודעה בכתב אל <a href="mailto:mail@callnik.com" className="text-blue-600">mail@callnik.com</a>. הביטול ייכנס לתוקף בסוף החודש השוטף. לא יינתן החזר על חלקי חודש.
           </p>
 
           <h3 className="font-semibold text-gray-800 mb-2">5.3 ביטול מנוי שנתי פעיל</h3>
