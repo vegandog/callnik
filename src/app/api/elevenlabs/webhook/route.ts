@@ -86,7 +86,7 @@ export async function POST(req: NextRequest) {
     .eq('id', callRecord.customer_id)
     .single()
 
-  if (!customer?.whatsapp_number) return NextResponse.json({ ok: true })
+  if (!customer) return NextResponse.json({ ok: true })
 
   // Build transcript string
   const agentName = agentNameFromInit || getVoiceName(customer?.voice_id)
@@ -139,17 +139,19 @@ export async function POST(req: NextRequest) {
   const callTime = new Date().toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jerusalem' })
   const notifyCallerNumber = callerNumber || callRecord.caller_number || ''
 
-  try {
-    await sendCallNotification(
-      customer.whatsapp_number,
-      callerName || '',
-      callTime,
-      summary,
-      notifyCallerNumber,
-      callRecord.id
-    )
-  } catch (e) {
-    console.error('WhatsApp send failed:', e)
+  if (customer.whatsapp_number) {
+    try {
+      await sendCallNotification(
+        customer.whatsapp_number,
+        callerName || '',
+        callTime,
+        summary,
+        notifyCallerNumber,
+        callRecord.id
+      )
+    } catch (e) {
+      console.error('WhatsApp send failed:', e)
+    }
   }
 
   // Also send email - fetch the primary user email for this customer
