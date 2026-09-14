@@ -20,7 +20,7 @@ export async function sendCallNotification(
   const reasonMatch = summary?.match(/(?:בקשה|מה ביקש)[^:]*:\s*([^\n]+)/i)
   const templateSummary = reasonMatch?.[1]?.trim() || summary || 'שיחה נכנסת'
 
-  const smsBody = `🔵 Callnik\n📞 ${displayName} ב-${callTime}\n📝 ${templateSummary}\n📱 ${callerNumber || 'לא ידוע'}\ncallnik.com/calls/${callId}`
+  const smsBody = `Callnik - הודעה חדשה מ-${displayName} ב-${callTime}.\n${templateSummary}\nלחזרה: Callnik — ${callerNumber || 'לא ידוע'}\ncallnik.com/calls/${callId}`
 
   // WhatsApp primary
   let whatsappOk = false
