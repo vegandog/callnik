@@ -17,7 +17,7 @@ export default async function SettingsPage() {
 
   const { data: customer } = await supabase
     .from('customers')
-    .select('business_name, whatsapp_number, carrier, voice_id')
+    .select('business_name, whatsapp_number, carrier, voice_id, opening_message')
     .eq('id', userRecord.customer_id)
     .single()
 
@@ -32,6 +32,7 @@ export default async function SettingsPage() {
         whatsappNumber={customer?.whatsapp_number || ''}
         carrier={customer?.carrier || ''}
         voiceId={customer?.voice_id || 'FA7xLUuWpSuAX9pUCVmy'}
+        openingMessage={customer?.opening_message || ''}
       />
     </div>
   )
