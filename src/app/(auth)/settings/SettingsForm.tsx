@@ -9,15 +9,13 @@ interface Props {
   whatsappNumber: string
   carrier: string
   voiceId: string
-  openingMessage: string
 }
 
-export default function SettingsForm({ businessName, whatsappNumber, carrier, voiceId, openingMessage }: Props) {
+export default function SettingsForm({ businessName, whatsappNumber, carrier, voiceId }: Props) {
   const [form, setForm] = useState({
     business_name: businessName,
     whatsapp_number: whatsappNumber,
     voice_id: voiceId,
-    opening_message: openingMessage,
   })
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
@@ -152,20 +150,6 @@ export default function SettingsForm({ businessName, whatsappNumber, carrier, vo
               )
             })}
           </div>
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">הודעת פתיחה</label>
-          <textarea
-            rows={3}
-            placeholder={`שלום! הגעת ל{{business_name}}, אני {{agent_name}}. איך אפשר לעזור?`}
-            value={form.opening_message}
-            onChange={e => setForm(f => ({ ...f, opening_message: e.target.value }))}
-            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-          />
-          <p className="text-xs text-gray-400 mt-1">
-            ניתן להשתמש ב-{'{{business_name}}'} ו-{'{{agent_name}}'}. ריק = ברירת המחדל של הנציג.
-          </p>
         </div>
 
         {error && <p className="text-red-600 text-sm">{error}</p>}

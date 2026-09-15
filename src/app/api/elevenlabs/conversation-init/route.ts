@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
   const supabase = createAdminClient()
   const { data: customer } = await supabase
     .from('customers')
-    .select('id, business_name, voice_id, opening_message')
+    .select('id, business_name, voice_id')
     .or(`twilio_number.eq.${calledNumber},telnyx_number.eq.${calledNumber}`)
     .single()
 
@@ -74,16 +74,7 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  const response: Record<string, unknown> = {
+  return NextResponse.json({
     dynamic_variables: { business_name: businessName, call_record_id: callRecordId, agent_name: agentName },
-  }
-
-  if (customer?.opening_message) {
-    const firstMessage = customer.opening_message
-      .replace(/\{\{business_name\}\}/g, businessName)
-      .replace(/\{\{agent_name\}\}/g, agentName)
-    response.conversation_config_override = { agent: { first_message: firstMessage } }
-  }
-
-  return NextResponse.json(response)
+  })
 }
