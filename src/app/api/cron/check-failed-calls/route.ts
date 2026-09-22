@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
     .select('id, caller_number, customer_id, created_at')
     .gte('created_at', windowStart)
     .lt('created_at', windowEnd)
-    .is('caller_name', null)
+    .is('elevenlabs_conversation_id', null)
 
   if (!failed || failed.length === 0) {
     return NextResponse.json({ ok: true, checked: 0 })

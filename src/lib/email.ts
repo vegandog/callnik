@@ -87,7 +87,7 @@ export async function sendWelcomeEmail(to: string, businessName: string, firstNa
         <p style="margin:0 0 6px;font-size:15px;color:#111827;font-weight:600;font-family:${F};text-align:right;">שלום${firstName ? ` ${firstName} ${lastName || ''}`.trimEnd() : ''},</p>
         <p style="margin:0 0 16px;font-size:15px;color:#374151;line-height:1.75;font-family:${F};text-align:right;">
           קיבלנו את ההרשמה של <strong>${businessName}</strong> ואנחנו שמחים שהצטרפת!<br>
-          ניצור איתך קשר בהקדם - בדרך כלל תוך 24 שעות - כדי להקצות מספר ייעודי ולהפעיל את השירות.
+          לאחר השלמת התשלום, מספר ייעודי יוקצה לך <strong>אוטומטית תוך כמה דקות</strong> ותקבל מייל עם הוראות הפעלה.
         </p>
         <table width="100%" cellpadding="0" cellspacing="0" style="background:#eff6ff;border-radius:10px;margin-bottom:22px;">
           <tr><td style="padding:14px 18px;text-align:right;">

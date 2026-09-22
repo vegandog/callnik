@@ -39,22 +39,14 @@ export default function PrivacyBanner() {
         boxShadow: '0 -4px 24px rgba(0,0,0,.2)',
       }}
     >
-      <div style={{ fontSize: 14, lineHeight: 1.6, margin: 0, maxWidth: 720 }}>
-        <p style={{ margin: '0 0 6px' }}>
-          על ידי המשך השימוש באתר שלנו, אתה מאשר כי אתה מקבל את{' '}
-          <Link href="/privacy" style={{ color: '#67e8f9', textDecoration: 'underline' }}>
-            מדיניות הפרטיות
-          </Link>{' '}
-          שלנו עבור האתר ואת{' '}
-          <Link href="/terms" style={{ color: '#67e8f9', textDecoration: 'underline' }}>
-            תנאי השימוש
-          </Link>
-          .
-        </p>
-        <p style={{ margin: 0 }}>
-          אנו גם משתמשים בעוגיות כדי לספק לך את החוויה הטובה ביותר האפשרית באתר האינטרנט שלנו.
-        </p>
-      </div>
+      <p style={{ fontSize: 14, lineHeight: 1.6, margin: 0, maxWidth: 860 }}>
+        על ידי המשך השימוש באתר שלנו, אתה מאשר כי אתה מקבל את{' '}
+        <Link href="/privacy" style={{ color: '#67e8f9', textDecoration: 'underline' }}>מדיניות הפרטיות</Link>
+        {' '}שלנו עבור האתר ואת{' '}
+        <Link href="/terms" style={{ color: '#67e8f9', textDecoration: 'underline', whiteSpace: 'nowrap' }}>תנאי השימוש</Link>
+        .<br />
+        אנו גם משתמשים בעוגיות כדי לספק לך את החוויה הטובה ביותר האפשרית באתר האינטרנט שלנו.
+      </p>
       <button
         onClick={accept}
         style={{

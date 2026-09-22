@@ -19,16 +19,16 @@ export default async function SetupPage() {
 
   const { data: customer } = await supabase
     .from('customers')
-    .select('business_name, carrier, twilio_number, status')
+    .select('business_name, carrier, telnyx_number, status')
     .eq('id', userRecord.customer_id)
     .single()
 
-  const isPending = !customer?.twilio_number
-  const twilioNumber = customer?.twilio_number
+  const isPending = !customer?.telnyx_number
+  const telnyxNumber = customer?.telnyx_number
   const carrier = customer?.carrier || 'אחר'
   const seconds = CARRIER_SECONDS[carrier] ?? 20
 
-  const localNumber = twilioNumber?.replace(/^\+972/, '0') ?? null
+  const localNumber = telnyxNumber?.replace(/^\+972/, '0') ?? null
   const activateCode = localNumber ? `*61*${localNumber}**${seconds}#` : null
   const cancelCode = `##61#`
 
@@ -53,8 +53,8 @@ export default async function SetupPage() {
             <Settings className="w-10 h-10 mx-auto mb-4 text-blue-200" />
             <h2 className="text-xl font-bold mb-2">אנחנו מכינים הכל בשבילך</h2>
             <p className="text-blue-100 leading-relaxed text-sm">
-              הצוות שלנו מגדיר את הנציג/ה האישי/ת שלך ומקצה לך מספר ייעודי.
-              זה לוקח בדרך כלל עד 24 שעות - ותקבל מייל כשהכל מוכן.
+              מקצים לך מספר ייעודי - זה לוקח בדרך כלל כמה דקות.
+               תקבל מייל כשהכל מוכן.
             </p>
           </div>
 

@@ -58,7 +58,7 @@ export default function AccessibilityPage() {
           <div className="bg-gray-50 rounded-xl p-5 space-y-2 text-gray-700">
             <p><strong>רכז נגישות:</strong> ד. ארליך</p>
             <p><strong>דוא&quot;ל:</strong> <a href="mailto:mail@callnik.com" className="text-blue-600">mail@callnik.com</a></p>
-            <p><strong>טלפון / וואטסאפ:</strong> 055-309-2131</p>
+            <p><strong>טלפון / וואטסאפ:</strong> 052-468-0164</p>
           </div>
           <p className="text-gray-600 mt-4">
             לא קיבלת מענה מספק? ניתן לפנות לנציבות שוויון זכויות לאנשים עם מוגבלות:{' '}

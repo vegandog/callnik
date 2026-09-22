@@ -77,7 +77,7 @@ export default async function DashboardPage() {
           <div>
             <p className="font-semibold text-amber-800">ממתין להפעלה</p>
             <p className="text-amber-700 text-sm mt-1">
-              קיבלנו את הרשמתך. ניצור איתך קשר תוך 24 שעות כדי להפעיל את השירות ולהקצות לך מספר ייעודי.
+              קיבלנו את הרשמתך. לאחר השלמת התשלום, מספר ייעודי יוקצה לך אוטומטית תוך כמה דקות.
             </p>
           </div>
         </div>

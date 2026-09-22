@@ -81,7 +81,7 @@ export default function PricingPage() {
                 מתחילים
                 <ChevronLeft className="w-4 h-4" />
               </Link>
-              <p className="text-xs text-gray-400 mt-3 text-center">הפעלה ידנית לאחר רישום. ניצור איתך קשר.</p>
+              <p className="text-xs text-gray-400 mt-3 text-center">הפעלה אוטומטית תוך כמה דקות לאחר תשלום.</p>
             </div>
 
             {/* Monthly */}
@@ -110,7 +110,7 @@ export default function PricingPage() {
                 מתחילים
                 <ChevronLeft className="w-4 h-4" />
               </Link>
-              <p className="text-xs text-gray-400 mt-3 text-center">הפעלה ידנית לאחר רישום. ניצור איתך קשר.</p>
+              <p className="text-xs text-gray-400 mt-3 text-center">הפעלה אוטומטית תוך כמה דקות לאחר תשלום.</p>
             </div>
 
           </div>
