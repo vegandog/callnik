@@ -7,7 +7,10 @@ import { NextRequest, NextResponse } from 'next/server'
 const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY!
 const CLAUDE_API_KEY = process.env.ANTHROPIC_API_KEY!
 
-async function summarizeWithClaude(transcript: string, businessName: string): Promise<string> {
+async function summarizeWithClaude(transcript: string, businessName: string, callerNumber?: string): Promise<string> {
+  const callerHint = callerNumber
+    ? `\nשים לב: המתקשר התקשר מהמספר ${callerNumber}. אם הוא/היא הסכים/ה שיחזרו אליו/ה לאותו מספר, כתוב מספר זה בשורת "מספר לחזרה".`
+    : ''
   const res = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: {
@@ -25,7 +28,7 @@ async function summarizeWithClaude(transcript: string, businessName: string): Pr
 שם המתקשר: [שם]
 בקשה: [מה ביקש]
 מספר לחזרה: [מספר או "לא צוין"]
-
+${callerHint}
 תמלול השיחה:
 ${transcript}
 
@@ -97,7 +100,7 @@ export async function POST(req: NextRequest) {
     : String(transcript)
 
   // Summarize
-  const summary = transcriptText ? await summarizeWithClaude(transcriptText, customer.business_name) : ''
+  const summary = transcriptText ? await summarizeWithClaude(transcriptText, customer.business_name, callerNumber || callRecord.caller_number || '') : ''
 
   // Extract caller name from Claude summary (e.g. "שם המתקשר: דניאל")
   const nameMatch = summary.match(/שם המתקשר[^:\n]*:\s*\*?\*?\s*([^\n*]+)/i)
