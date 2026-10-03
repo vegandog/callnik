@@ -10,6 +10,7 @@ export default function PaymentPage() {
   const [iframeUrl, setIframeUrl] = useState<string | null>(null)
   const [plan, setPlan] = useState<'monthly' | 'annual' | 'test'>('monthly')
   const isTestMode = searchParams.get('test') === '1'
+  const isIntro = searchParams.get('intro') === '1'
   const [loading, setLoading] = useState(false)
   const [err, setErr] = useState(error ? 'התשלום נכשל. אנא נסה שנית.' : '')
   const [coupon, setCoupon] = useState('')
@@ -46,7 +47,7 @@ export default function PaymentPage() {
     const res = await fetch('/api/cardcom/create-session', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ plan: selectedPlan, coupon: appliedCoupon || (couponStatus === 'valid' ? coupon : undefined) }),
+      body: JSON.stringify({ plan: selectedPlan, coupon: appliedCoupon || (couponStatus === 'valid' ? coupon : undefined), intro: isIntro }),
     })
     if (res.ok) {
       const { url } = await res.json()
@@ -91,9 +92,9 @@ export default function PaymentPage() {
           onClick={() => switchPlan('monthly')}
           className={`rounded-xl border-2 p-4 text-right transition-all ${plan === 'monthly' ? 'border-blue-600 bg-blue-50' : 'border-gray-200 bg-white'}`}
         >
-          <div className="font-bold text-gray-900 text-lg">₪29 <span className="text-sm font-normal text-gray-400">+ מע&quot;מ</span></div>
-          <div className="text-green-600 text-xs font-medium">חודש ראשון בלבד</div>
-          <div className="text-gray-400 text-xs mt-1">מחודש שני: ₪99 + מע&quot;מ</div>
+          <div className="font-bold text-gray-900 text-lg">{isIntro ? '₪29' : '₪99'} <span className="text-sm font-normal text-gray-400">+ מע&quot;מ</span></div>
+          {isIntro && <div className="text-green-600 text-xs font-medium">חודש ראשון בלבד</div>}
+          {isIntro && <div className="text-gray-400 text-xs mt-1">מחודש שני: ₪99 + מע&quot;מ</div>}
         </button>
         <button
           onClick={() => { if (couponStatus === 'valid') return; switchPlan('annual') }}
@@ -106,7 +107,7 @@ export default function PaymentPage() {
         </button>
       </div>
 
-      {plan === 'monthly' && couponStatus !== 'valid' && (
+      {plan === 'monthly' && couponStatus !== 'valid' && isIntro && (
         <div className="mb-4 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 text-xs text-amber-800 leading-relaxed">
           <strong>שים לב:</strong> החיוב הראשון הוא ₪29 + מע&quot;מ בלבד (חודש ניסיון). מחודש שני החיוב עובר ל-₪99 + מע&quot;מ לחודש. ניתן לבטל בכל עת ללא קנס.
         </div>

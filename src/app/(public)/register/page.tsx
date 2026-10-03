@@ -11,9 +11,11 @@ export default function RegisterPage() {
 
   const handleGoogle = () => {
     setLoading(true)
-    // Preserve promo code across OAuth redirect via sessionStorage
+    // Preserve promo/intro across OAuth redirect via sessionStorage
     const promo = new URLSearchParams(window.location.search).get('promo')
     if (promo) sessionStorage.setItem('callnik_promo', promo)
+    const intro = new URLSearchParams(window.location.search).get('intro')
+    if (intro) sessionStorage.setItem('callnik_intro', intro)
 
     const params = new URLSearchParams({
       client_id: GOOGLE_CLIENT_ID,

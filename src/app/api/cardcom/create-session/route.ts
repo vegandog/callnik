@@ -10,9 +10,10 @@ export async function POST(req: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const { plan, coupon } = await req.json()
+  const { plan, coupon, intro } = await req.json()
   const isAnnual = plan === 'annual'
   const isTest = plan === 'test'
+  const isIntro = !!intro && !isAnnual && !isTest
 
   // Validate coupon if provided
   let couponValid = false
@@ -30,8 +31,8 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  // All amounts include 18% VAT: monthly intro 29×1.18=34.22, regular 99×1.18=116.82, annual 948×1.18=1118.64
-  const amount = isTest ? 1 : couponValid ? 1 : isAnnual ? 1118.64 : 34.22
+  // All amounts include 18% VAT: intro 29×1.18=34.22, regular 99×1.18=116.82, annual 948×1.18=1118.64
+  const amount = isTest ? 1 : couponValid ? 1 : isAnnual ? 1118.64 : isIntro ? 34.22 : 116.82
   const productName = isTest ? 'טסט Callnik' : isAnnual ? 'מנוי Callnik שנתי' : 'מנוי Callnik חודשי'
   const productDescription = isTest
     ? 'טסט Callnik - callnik.com'
@@ -39,7 +40,9 @@ export async function POST(req: NextRequest) {
     ? 'מנוי Callnik חודשי - callnik.com | חודש ראשון ב-₪1 בלבד | מחודש 2: ₪116.82 לחודש כולל מע"מ'
     : isAnnual
     ? 'מנוי Callnik שנתי - callnik.com | ₪1,118.64 לשנה כולל מע"מ (₪79 לחודש + מע"מ)'
-    : 'מנוי Callnik חודשי - callnik.com | חודש ראשון ₪34.22 כולל מע"מ (₪29 לפני מע"מ) | מחודש שני: ₪116.82 לחודש כולל מע"מ'
+    : isIntro
+    ? 'מנוי Callnik חודשי - callnik.com | חודש ראשון ₪34.22 כולל מע"מ (₪29 לפני מע"מ) | מחודש שני: ₪116.82 לחודש כולל מע"מ'
+    : 'מנוי Callnik חודשי - callnik.com | ₪116.82 לחודש כולל מע"מ'
 
   const { data: userRecord } = await supabase
     .from('users')

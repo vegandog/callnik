@@ -55,7 +55,7 @@ export default function LandingPage() {
             ושולחת לך סיכום מיידי בוואטסאפ.
           </p>
           <Link
-            href="/register"
+            href="/register?intro=1"
             className="inline-block bg-[#22C55E] hover:bg-[#16A34A] text-white font-bold text-lg px-8 py-4 rounded-full transition-colors shadow-lg"
           >
             התחל עכשיו - ₪29 + מע&quot;מ לחודש הראשון
@@ -177,7 +177,7 @@ export default function LandingPage() {
               ))}
             </ul>
             <Link
-              href="/register"
+              href="/register?intro=1"
               className="block w-full bg-[#22C55E] hover:bg-[#16A34A] text-white font-bold text-lg py-4 rounded-xl text-center transition-colors"
             >
               התחל עכשיו
@@ -202,7 +202,7 @@ export default function LandingPage() {
           <h2 className="text-3xl font-bold mb-4 text-gray-900">מוכן לא לפספס אף לקוח?</h2>
           <p className="text-gray-500 mb-8">הגדרה תוך 5 דקות. ביטול בכל עת.</p>
           <Link
-            href="/register"
+            href="/register?intro=1"
             className="inline-block bg-[#22C55E] hover:bg-[#16A34A] text-white font-bold text-lg px-10 py-4 rounded-full transition-colors shadow-lg"
           >
             התחל עכשיו - ₪29 + מע&quot;מ לחודש הראשון
