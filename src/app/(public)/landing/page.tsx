@@ -33,24 +33,24 @@ export default function LandingPage() {
     <div dir="rtl" className="min-h-screen bg-white font-sans">
 
       {/* HERO */}
-      <section className="bg-[#0A0E2A] text-white px-6 py-16 text-center">
+      <section className="bg-white px-6 py-16 text-center border-b border-gray-100">
         <div className="max-w-2xl mx-auto">
           <div className="flex justify-center mb-6">
             <Image
-              src="/callnik-logo-neon.png"
+              src="/callnik-logo.png"
               alt="Callnik"
-              width={220}
-              height={80}
-              style={{ mixBlendMode: 'screen' }}
+              width={160}
+              height={55}
+              style={{ objectFit: 'contain' }}
               priority
             />
           </div>
           <p className="text-[#06B6D4] text-sm font-medium tracking-wide mb-4 uppercase">דנה המזכירה שלך</p>
-          <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4 text-gray-900">
             פספסת שיחה?<br />
             <span className="text-[#22C55E]">הלקוח כבר אצל המתחרה.</span>
           </h1>
-          <p className="text-gray-300 text-lg mb-8 leading-relaxed">
+          <p className="text-gray-500 text-lg mb-8 leading-relaxed">
             Callnik עונה לכל שיחה שלא הצלחת לקחת, לוקחת הודעה,<br className="hidden md:block" />
             ושולחת לך סיכום מיידי בוואטסאפ.
           </p>
@@ -198,17 +198,17 @@ export default function LandingPage() {
       </section>
 
       {/* FINAL CTA */}
-      <section className="bg-[#0A0E2A] text-white py-16 px-6 text-center">
+      <section className="bg-gray-50 py-16 px-6 text-center border-t border-gray-200">
         <div className="max-w-xl mx-auto">
-          <h2 className="text-3xl font-bold mb-4">מוכן לא לפספס אף לקוח?</h2>
-          <p className="text-gray-400 mb-8">הגדרה תוך 5 דקות. ביטול בכל עת.</p>
+          <h2 className="text-3xl font-bold mb-4 text-gray-900">מוכן לא לפספס אף לקוח?</h2>
+          <p className="text-gray-500 mb-8">הגדרה תוך 5 דקות. ביטול בכל עת.</p>
           <Link
             href="/register"
             className="inline-block bg-[#22C55E] hover:bg-[#16A34A] text-white font-bold text-lg px-10 py-4 rounded-full transition-colors shadow-lg"
           >
             התחל עכשיו - ₪29 לחודש הראשון
           </Link>
-          <p className="text-gray-500 text-sm mt-4">callnik.com</p>
+          <p className="text-gray-400 text-sm mt-4">callnik.com</p>
         </div>
       </section>
 
