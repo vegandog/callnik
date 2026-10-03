@@ -91,7 +91,7 @@ export default function PaymentPage() {
           onClick={() => switchPlan('monthly')}
           className={`rounded-xl border-2 p-4 text-right transition-all ${plan === 'monthly' ? 'border-blue-600 bg-blue-50' : 'border-gray-200 bg-white'}`}
         >
-          <div className="font-bold text-gray-900 text-lg">₪29 <span className="text-sm font-normal text-gray-400">← ₪99</span></div>
+          <div className="font-bold text-gray-900 text-lg">₪29 <span className="text-sm font-normal text-gray-400">+ מע&quot;מ</span></div>
           <div className="text-green-600 text-xs font-medium">חודש ראשון בלבד</div>
           <div className="text-gray-400 text-xs mt-1">מחודש שני: ₪99 + מע&quot;מ</div>
         </button>

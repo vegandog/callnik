@@ -58,9 +58,9 @@ export default function LandingPage() {
             href="/register"
             className="inline-block bg-[#22C55E] hover:bg-[#16A34A] text-white font-bold text-lg px-8 py-4 rounded-full transition-colors shadow-lg"
           >
-            התחל עכשיו - ₪29 לחודש הראשון
+            התחל עכשיו - ₪29 + מע&quot;מ לחודש הראשון
           </Link>
-          <p className="text-gray-400 text-sm mt-3">אחר כך ₪99/חודש + מע&quot;מ · ביטול בכל עת</p>
+          <p className="text-gray-400 text-sm mt-3">כל המחירים לפני מע&quot;מ · אחר כך ₪99/חודש · ביטול בכל עת</p>
         </div>
       </section>
 
@@ -159,7 +159,7 @@ export default function LandingPage() {
             </div>
             <div className="text-center mb-2">
               <span className="text-5xl font-bold text-gray-900">₪29</span>
-              <span className="text-gray-400 text-lg"> לחודש הראשון</span>
+              <span className="text-gray-400 text-lg"> + מע&quot;מ לחודש הראשון</span>
             </div>
             <p className="text-center text-gray-400 text-sm mb-6">מחודש שני: ₪99/חודש + מע&quot;מ</p>
             <ul className="space-y-3 mb-8">
@@ -205,7 +205,7 @@ export default function LandingPage() {
             href="/register"
             className="inline-block bg-[#22C55E] hover:bg-[#16A34A] text-white font-bold text-lg px-10 py-4 rounded-full transition-colors shadow-lg"
           >
-            התחל עכשיו - ₪29 לחודש הראשון
+            התחל עכשיו - ₪29 + מע&quot;מ לחודש הראשון
           </Link>
           <p className="text-gray-400 text-sm mt-4">callnik.com</p>
         </div>
