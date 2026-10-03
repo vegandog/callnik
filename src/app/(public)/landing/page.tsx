@@ -1,5 +1,6 @@
 'use client'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useState } from 'react'
 import { Check, ChevronDown, Phone, MessageSquare, Zap } from 'lucide-react'
 
@@ -34,7 +35,17 @@ export default function LandingPage() {
       {/* HERO */}
       <section className="bg-[#0A0E2A] text-white px-6 py-16 text-center">
         <div className="max-w-2xl mx-auto">
-          <p className="text-[#06B6D4] text-sm font-medium tracking-wide mb-4 uppercase">Callnik · דנה המזכירה שלך</p>
+          <div className="flex justify-center mb-6">
+            <Image
+              src="/callnik-logo-neon.png"
+              alt="Callnik"
+              width={220}
+              height={80}
+              style={{ mixBlendMode: 'screen' }}
+              priority
+            />
+          </div>
+          <p className="text-[#06B6D4] text-sm font-medium tracking-wide mb-4 uppercase">דנה המזכירה שלך</p>
           <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4">
             פספסת שיחה?<br />
             <span className="text-[#22C55E]">הלקוח כבר אצל המתחרה.</span>
