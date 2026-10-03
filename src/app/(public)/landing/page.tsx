@@ -67,7 +67,6 @@ export default function LandingPage() {
       {/* VIDEO */}
       <section className="py-14 px-6 bg-white">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">ראה איך דנה עובדת</h2>
           <div className="rounded-2xl overflow-hidden shadow-2xl" style={{ padding: '56.25% 0 0 0', position: 'relative' }}>
             <iframe
               src="https://player.vimeo.com/video/1232669320?badge=0&autopause=0&player_id=0&app_id=58479"
