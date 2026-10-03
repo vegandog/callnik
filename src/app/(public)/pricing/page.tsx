@@ -26,7 +26,7 @@ const faqs = [
   },
   {
     q: 'האם ניתן לבטל? יש קנסות?',
-    a: 'ביטול בכל עת, ללא קנס. מנוי חודשי - הביטול נכנס לתוקף בסוף החודש. מנוי שנתי - מחשבים כמה חודשים השתמשת לפי מחיר חודשי רגיל (₪99), ומחזירים את השאר. לדוגמה: שילמת ₪948 לשנה וביטלת אחרי 6 חודשים - תקבל בחזרה ₪948 פחות 6×₪99 = ₪354. אין קאטצ\'.',
+    a: 'ביטול בכל עת, ללא קנס. מנוי חודשי - הביטול נכנס לתוקף בסוף החודש (כולל חודש הניסיון ב-₪29). מנוי שנתי - מחשבים כמה חודשים השתמשת לפי מחיר חודשי רגיל (₪99), ומחזירים את השאר. לדוגמה: שילמת ₪948 לשנה וביטלת אחרי 6 חודשים - תקבל בחזרה ₪948 פחות 6×₪99 = ₪354. אין קאטצ\'.',
   },
   {
     q: 'האם צריך להחליף מספר טלפון?',
@@ -86,13 +86,16 @@ export default function PricingPage() {
 
             {/* Monthly */}
             <div className="bg-white border border-gray-200 rounded-2xl p-8 flex flex-col">
-              <div className="h-7 mb-6" />
+              <div className="bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded-full inline-block mb-6 self-center">
+                חודש ראשון ב-₪29 בלבד
+              </div>
               <p className="text-gray-500 text-sm font-medium mb-1">תשלום חודשי</p>
               <div className="text-5xl font-bold text-gray-900 mb-1">
                 ₪99
                 <span className="text-xl font-normal text-gray-400">/חודש</span>
               </div>
-              <p className="text-gray-400 text-sm mb-8">+ מע&quot;מ</p>
+              <p className="text-gray-400 text-sm mb-1">+ מע&quot;מ</p>
+              <p className="text-green-600 text-sm font-medium mb-8">חודש ראשון ב-₪29 בלבד - אחר כך ₪99</p>
               <ul className="text-right space-y-3 mb-8 flex-1">
                 {features.map((f) => (
                   <li key={f} className="flex items-center gap-3 text-gray-700">
