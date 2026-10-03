@@ -53,6 +53,23 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* VIDEO */}
+      <section className="py-14 px-6 bg-white">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">ראה איך דנה עובדת</h2>
+          <div className="rounded-2xl overflow-hidden shadow-2xl" style={{ padding: '56.25% 0 0 0', position: 'relative' }}>
+            <iframe
+              src="https://player.vimeo.com/video/1232669320?badge=0&autopause=0&player_id=0&app_id=58479"
+              frameBorder="0"
+              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
+              referrerPolicy="strict-origin-when-cross-origin"
+              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+              title="Callnik demo"
+            />
+          </div>
+        </div>
+      </section>
+
       {/* WHATSAPP MOCKUP */}
       <section className="py-16 px-6 bg-gray-50">
         <div className="max-w-lg mx-auto text-center">
