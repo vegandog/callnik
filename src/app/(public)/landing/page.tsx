@@ -34,7 +34,7 @@ export default function LandingPage() {
       {/* HERO */}
       <section className="bg-[#0A0E2A] text-white px-6 py-16 text-center">
         <div className="max-w-2xl mx-auto">
-          <p className="text-[#06B6D4] text-sm font-medium tracking-wide mb-4 uppercase">Callnik · המזכירה הדיגיטלית שלך</p>
+          <p className="text-[#06B6D4] text-sm font-medium tracking-wide mb-4 uppercase">Callnik · דנה המזכירה שלך</p>
           <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4">
             פספסת שיחה?<br />
             <span className="text-[#22C55E]">הלקוח כבר אצל המתחרה.</span>
@@ -59,29 +59,39 @@ export default function LandingPage() {
           <h2 className="text-2xl font-bold text-gray-900 mb-2">ככה אתה לא מפספס שום לקוח</h2>
           <p className="text-gray-500 mb-8">תוך שניות מהשיחה - תקבל זה בוואטסאפ:</p>
 
-          {/* Phone mockup */}
-          <div className="bg-[#0A0E2A] rounded-3xl p-4 shadow-2xl max-w-xs mx-auto">
-            <div className="bg-[#111827] rounded-2xl overflow-hidden">
-              {/* WhatsApp header */}
-              <div className="bg-[#128C7E] px-4 py-3 flex items-center gap-3">
-                <div className="w-8 h-8 bg-[#22C55E] rounded-full flex items-center justify-center text-white text-xs font-bold">C</div>
-                <div className="text-right flex-1">
-                  <p className="text-white text-sm font-medium">Callnik Bot</p>
-                  <p className="text-green-200 text-xs">מזכירה דיגיטלית</p>
+          {/* WhatsApp realistic mockup */}
+          <div className="max-w-sm mx-auto rounded-2xl overflow-hidden shadow-2xl border border-gray-200">
+            {/* WA background - beige with subtle pattern */}
+            <div className="px-4 py-6" style={{ backgroundColor: '#EFE7DD', backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c8b89a' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")` }}>
+              {/* Message bubble */}
+              <div className="bg-white rounded-2xl rounded-tr-sm px-5 py-4 shadow-sm text-right">
+                {/* Sender name + avatar */}
+                <div className="flex items-center justify-end gap-2 mb-3">
+                  <span className="font-bold text-gray-900 text-base">Callnik</span>
+                  <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0">
+                    <div className="w-3 h-3 rounded-full bg-white" />
+                  </div>
                 </div>
-              </div>
-              {/* Chat bubble */}
-              <div className="bg-[#ECE5DD] px-4 py-5">
-                <div className="bg-white rounded-xl rounded-tl-none px-4 py-3 shadow-sm max-w-[85%]">
-                  <p className="text-gray-800 text-sm leading-relaxed text-right">
-                    📞 <strong>שיחה שהוחמצה</strong><br />
-                    <br />
-                    👤 שם: דניאל כהן<br />
-                    📱 טלפון: 050-1234567<br />
-                    💬 נושא: רוצה לברר על מחירים<br />
-                    ⏰ שעה: 14:32
-                  </p>
-                  <p className="text-gray-400 text-xs mt-2 text-left">14:32 ✓✓</p>
+
+                {/* Message text */}
+                <p className="text-gray-800 text-[15px] leading-relaxed mb-3">
+                  הודעה חדשה מ-<strong>דניאל</strong> ב 11.13.<br />
+                  ביקש הצעת מחיר למטבח קומפלט ולחזור<br />
+                  אליו בהקדם האפשרי
+                </p>
+
+                {/* Phone number line */}
+                <p className="text-gray-700 text-[14px] mb-4">
+                  לחזרה: <span className="text-blue-600 font-medium">055-3092131</span> — Callnik
+                </p>
+
+                {/* Time + listen link */}
+                <div className="flex items-center justify-between border-t border-gray-100 pt-3">
+                  <p className="text-gray-400 text-xs">11:13</p>
+                  <a href="#" className="flex items-center gap-1 text-[#25D366] font-medium text-sm">
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                    האזן להקלטה
+                  </a>
                 </div>
               </div>
             </div>
@@ -96,7 +106,7 @@ export default function LandingPage() {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               { icon: <Phone className="w-7 h-7" />, n: '1', title: 'לקוח מתקשר', desc: 'כשאתה לא זמין, Callnik עונה תוך שנייה' },
-              { icon: <Zap className="w-7 h-7" />, n: '2', title: 'AI מנהל שיחה', desc: 'שואל שם, סיבת שיחה ומספר לחזרה - בעברית טבעית' },
+              { icon: <Zap className="w-7 h-7" />, n: '2', title: 'דנה מנהלת שיחה', desc: 'שואלת שם, סיבת שיחה ומספר לחזרה - בעברית טבעית' },
               { icon: <MessageSquare className="w-7 h-7" />, n: '3', title: 'אתה מקבל סיכום', desc: 'הודעת וואטסאפ עם כל הפרטים - תוך שניות' },
             ].map(({ icon, n, title, desc }) => (
               <div key={n} className="text-center">
