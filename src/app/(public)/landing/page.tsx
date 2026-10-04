@@ -43,41 +43,40 @@ export default function LandingPage() {
     <div dir="rtl" className="min-h-screen bg-white font-sans">
 
       {/* HERO */}
-      <section className="bg-white px-6 py-16 text-center border-b border-gray-100 relative overflow-hidden">
-        {/* Banner - large seal style like jinglephone */}
-        <div
-          className="absolute -left-6 top-6 z-10"
-          style={{ filter: 'drop-shadow(0 4px 16px rgba(0,0,0,0.18))' }}
-        >
-          <div style={{ transform: 'rotate(-12deg)' }}>
-            <Image
-              src="/banner-70.png"
-              alt="70% הנחה לחודש הראשון"
-              width={220}
-              height={220}
-              style={{ objectFit: 'contain' }}
-              priority
-            />
+      <section className="bg-white border-b border-gray-100">
+        <div className="max-w-5xl mx-auto px-6 py-16 flex items-center gap-0 md:gap-6">
+          {/* Banner - left, next to text */}
+          <div className="flex-shrink-0 hidden md:block" style={{ filter: 'drop-shadow(0 6px 20px rgba(0,0,0,0.2))' }}>
+            <div style={{ transform: 'rotate(-10deg)' }}>
+              <Image src="/banner-70.png" alt="70% הנחה לחודש הראשון" width={260} height={260} style={{ objectFit: 'contain' }} priority />
+            </div>
           </div>
-        </div>
 
-        <div className="max-w-2xl mx-auto">
-          <div className="flex justify-center mb-6">
-            <Image src="/callnik-logo.png" alt="Callnik" width={160} height={55} style={{ objectFit: 'contain' }} priority />
+          {/* Text content */}
+          <div className="flex-1 text-center">
+            {/* Mobile banner */}
+            <div className="flex justify-center mb-4 md:hidden" style={{ filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.18))' }}>
+              <div style={{ transform: 'rotate(-8deg)' }}>
+                <Image src="/banner-70.png" alt="70% הנחה לחודש הראשון" width={160} height={160} style={{ objectFit: 'contain' }} />
+              </div>
+            </div>
+            <div className="flex justify-center mb-6">
+              <Image src="/callnik-logo.png" alt="Callnik" width={160} height={55} style={{ objectFit: 'contain' }} priority />
+            </div>
+            <p className="text-[#06B6D4] text-sm font-medium tracking-wide mb-4 uppercase">דנה המזכירה שלך</p>
+            <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4 text-gray-900">
+              פספסת שיחה?<br />
+              <span className="text-[#22C55E]">הלקוח כבר אצל המתחרה.</span>
+            </h1>
+            <p className="text-gray-500 text-lg mb-8 leading-relaxed">
+              Callnik עונה לכל שיחה שלא הצלחת לקחת, לוקחת הודעה,<br className="hidden md:block" />
+              ושולחת לך סיכום מיידי בוואטסאפ.
+            </p>
+            <Link href="/register?intro=1" className="inline-block bg-[#22C55E] hover:bg-[#16A34A] text-white font-bold text-lg px-8 py-4 rounded-full transition-colors shadow-lg">
+              התחל עכשיו - ₪29 + מע&quot;מ לחודש הראשון
+            </Link>
+            <p className="text-gray-400 text-sm mt-3">כל המחירים לפני מע&quot;מ · אחר כך ₪99/חודש · ביטול בכל עת</p>
           </div>
-          <p className="text-[#06B6D4] text-sm font-medium tracking-wide mb-4 uppercase">דנה המזכירה שלך</p>
-          <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4 text-gray-900">
-            פספסת שיחה?<br />
-            <span className="text-[#22C55E]">הלקוח כבר אצל המתחרה.</span>
-          </h1>
-          <p className="text-gray-500 text-lg mb-8 leading-relaxed">
-            Callnik עונה לכל שיחה שלא הצלחת לקחת, לוקחת הודעה,<br className="hidden md:block" />
-            ושולחת לך סיכום מיידי בוואטסאפ.
-          </p>
-          <Link href="/register?intro=1" className="inline-block bg-[#22C55E] hover:bg-[#16A34A] text-white font-bold text-lg px-8 py-4 rounded-full transition-colors shadow-lg">
-            התחל עכשיו - ₪29 + מע&quot;מ לחודש הראשון
-          </Link>
-          <p className="text-gray-400 text-sm mt-3">כל המחירים לפני מע&quot;מ · אחר כך ₪99/חודש · ביטול בכל עת</p>
         </div>
       </section>
 
@@ -172,12 +171,12 @@ export default function LandingPage() {
           <div className="grid grid-cols-3 md:grid-cols-6 gap-6">
             {voices.map(({ name, gender }) => (
               <div key={name} className="flex flex-col items-center gap-3">
-                <div className="w-16 h-16 rounded-full overflow-hidden shadow-md border-2 border-white ring-2 ring-gray-100">
+                <div className="w-24 h-24 rounded-full overflow-hidden shadow-lg border-2 border-white ring-2 ring-gray-100">
                   <Image
                     src={`/voices/photo-${name}.jpg`}
                     alt={name}
-                    width={64}
-                    height={64}
+                    width={96}
+                    height={96}
                     className="object-cover w-full h-full"
                   />
                 </div>

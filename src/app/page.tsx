@@ -187,8 +187,8 @@ export default function Home() {
                 { name: 'יואב', gender: 'm' },
               ].map(({ name, gender }) => (
                 <div key={name} className="flex flex-col items-center gap-3">
-                  <div className="w-16 h-16 rounded-full overflow-hidden shadow-md border-2 border-white ring-2 ring-gray-100">
-                    <Image src={`/voices/photo-${name}.jpg`} alt={name} width={64} height={64} className="object-cover w-full h-full" />
+                  <div className="w-24 h-24 rounded-full overflow-hidden shadow-lg border-2 border-white ring-2 ring-gray-100">
+                    <Image src={`/voices/photo-${name}.jpg`} alt={name} width={96} height={96} className="object-cover w-full h-full" />
                   </div>
                   <div>
                     <p className="text-gray-900 font-semibold text-sm">{name}</p>
