@@ -6,6 +6,7 @@ import { Check, ChevronDown, Phone, MessageSquare, Headset } from 'lucide-react'
 import Footer from '@/components/Footer'
 
 const faqs = [
+  { q: 'מי מגדיר את השירות על הקו שלי?', a: 'ההגדרה מאוד פשוטה, ולוקחת כ-5 דקות. אם תסתבך ותרצה עזרה - נשמח לסייע :)' },
   { q: 'האם אני צריך להחליף מספר טלפון?', a: 'לא. Callnik מקבל את השיחות שלא ענית - המספר שלך נשאר אותו דבר. הלקוח לא ידע שדיבר עם AI.' },
   { q: 'כמה זמן לוקחת ההגדרה?', a: 'כ-5 דקות. בוחר קול, כותב מה Callnik יגיד, ומקבל מספר. זהו.' },
   { q: 'מה קורה אחרי 60 שיחות?', a: 'ממשיכים לענות בלי הפרעה. בסוף החודש 99 אגורות לכל שיחה נוספת. עסק עם 80 שיחות ישלם ₪99 + ₪19.80 = ₪118.80 בלבד.' },
@@ -79,7 +80,7 @@ export default function LandingPage() {
           <Link href="/register?intro=1" className="inline-block bg-[#22C55E] hover:bg-[#16A34A] text-white font-bold text-lg px-8 py-4 rounded-full transition-colors shadow-lg">
             התחל עכשיו - ₪29 + מע&quot;מ לחודש הראשון
           </Link>
-          <p className="text-gray-400 text-sm mt-3">כל המחירים לפני מע&quot;מ · אחר כך ₪99/חודש · ביטול בכל עת</p>
+          <p className="text-gray-400 text-sm mt-3">מהחודש השני ₪99/חודש | ביטול בכל עת | המחירים לפני מע&quot;מ</p>
         </div>
       </section>
 
