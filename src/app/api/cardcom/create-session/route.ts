@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
       TerminalNumber: CARDCOM_TERMINAL,
       ApiName: CARDCOM_API_NAME,
       Operation: 'ChargeAndCreateToken',
-      ReturnValue: `${userRecord.customer_id}:${plan}${couponId ? `:promo:${couponId}` : ''}`,
+      ReturnValue: `${userRecord.customer_id}:${plan}${couponId ? `:promo:${couponId}` : isIntro ? ':intro' : ''}`,
       Amount: amount,
       SuccessRedirectUrl: `${BASE_URL}/api/cardcom/callback`,
       FailedRedirectUrl: `${BASE_URL}/payment?error=1`,
