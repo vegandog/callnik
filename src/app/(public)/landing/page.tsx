@@ -43,40 +43,43 @@ export default function LandingPage() {
     <div dir="rtl" className="min-h-screen bg-white font-sans">
 
       {/* HERO */}
-      <section className="bg-white border-b border-gray-100">
-        <div className="max-w-5xl mx-auto px-6 py-16 flex items-center gap-0 md:gap-6">
-          {/* Banner - left, next to text */}
-          <div className="flex-shrink-0 hidden md:block" style={{ filter: 'drop-shadow(0 6px 20px rgba(0,0,0,0.2))' }}>
-            <div style={{ transform: 'rotate(-10deg)' }}>
-              <Image src="/banner-70.png" alt="70% הנחה לחודש הראשון" width={260} height={260} style={{ objectFit: 'contain' }} priority />
-            </div>
-          </div>
+      <section className="bg-white border-b border-gray-100 relative overflow-hidden">
+        {/* Banner - absolute, left of center text, not affecting layout */}
+        <div
+          className="absolute hidden md:block"
+          style={{
+            left: 'calc(50% - 520px)',
+            top: '50%',
+            transform: 'translateY(-50%) rotate(-10deg)',
+            filter: 'drop-shadow(0 6px 24px rgba(0,0,0,0.22))',
+          }}
+        >
+          <Image src="/banner-70.png" alt="70% הנחה לחודש הראשון" width={250} height={250} style={{ objectFit: 'contain' }} priority />
+        </div>
 
-          {/* Text content */}
-          <div className="flex-1 text-center">
-            {/* Mobile banner */}
-            <div className="flex justify-center mb-4 md:hidden" style={{ filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.18))' }}>
-              <div style={{ transform: 'rotate(-8deg)' }}>
-                <Image src="/banner-70.png" alt="70% הנחה לחודש הראשון" width={160} height={160} style={{ objectFit: 'contain' }} />
-              </div>
+        <div className="max-w-2xl mx-auto px-6 py-16 text-center">
+          {/* Mobile banner */}
+          <div className="flex justify-center mb-4 md:hidden" style={{ filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.18))' }}>
+            <div style={{ transform: 'rotate(-8deg)' }}>
+              <Image src="/banner-70.png" alt="70% הנחה לחודש הראשון" width={150} height={150} style={{ objectFit: 'contain' }} />
             </div>
-            <div className="flex justify-center mb-6">
-              <Image src="/callnik-logo.png" alt="Callnik" width={160} height={55} style={{ objectFit: 'contain' }} priority />
-            </div>
-            <p className="text-[#06B6D4] text-sm font-medium tracking-wide mb-4 uppercase">דנה המזכירה שלך</p>
-            <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4 text-gray-900">
-              פספסת שיחה?<br />
-              <span className="text-[#22C55E]">הלקוח כבר אצל המתחרה.</span>
-            </h1>
-            <p className="text-gray-500 text-lg mb-8 leading-relaxed">
-              Callnik עונה לכל שיחה שלא הצלחת לקחת, לוקחת הודעה,<br className="hidden md:block" />
-              ושולחת לך סיכום מיידי בוואטסאפ.
-            </p>
-            <Link href="/register?intro=1" className="inline-block bg-[#22C55E] hover:bg-[#16A34A] text-white font-bold text-lg px-8 py-4 rounded-full transition-colors shadow-lg">
-              התחל עכשיו - ₪29 + מע&quot;מ לחודש הראשון
-            </Link>
-            <p className="text-gray-400 text-sm mt-3">כל המחירים לפני מע&quot;מ · אחר כך ₪99/חודש · ביטול בכל עת</p>
           </div>
+          <div className="flex justify-center mb-6">
+            <Image src="/callnik-logo.png" alt="Callnik" width={160} height={55} style={{ objectFit: 'contain' }} priority />
+          </div>
+          <p className="text-[#06B6D4] text-sm font-medium tracking-wide mb-4 uppercase">דנה המזכירה שלך</p>
+          <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4 text-gray-900">
+            פספסת שיחה?<br />
+            <span className="text-[#22C55E]">הלקוח כבר אצל המתחרה.</span>
+          </h1>
+          <p className="text-gray-500 text-lg mb-8 leading-relaxed">
+            Callnik עונה לכל שיחה שלא הצלחת לקחת, לוקחת הודעה,<br className="hidden md:block" />
+            ושולחת לך סיכום מיידי בוואטסאפ.
+          </p>
+          <Link href="/register?intro=1" className="inline-block bg-[#22C55E] hover:bg-[#16A34A] text-white font-bold text-lg px-8 py-4 rounded-full transition-colors shadow-lg">
+            התחל עכשיו - ₪29 + מע&quot;מ לחודש הראשון
+          </Link>
+          <p className="text-gray-400 text-sm mt-3">כל המחירים לפני מע&quot;מ · אחר כך ₪99/חודש · ביטול בכל עת</p>
         </div>
       </section>
 
