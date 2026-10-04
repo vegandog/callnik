@@ -32,8 +32,8 @@ function FaqItem({ q, a }: { q: string; a: string }) {
 
 const voices = [
   { name: 'דנה',  gender: 'f' },
-  { name: 'נועה', gender: 'f' },
   { name: 'עלמה', gender: 'f' },
+  { name: 'נועה', gender: 'f' },
   { name: 'עדן',  gender: 'f' },
   { name: 'קובי', gender: 'm' },
   { name: 'יואב', gender: 'm' },

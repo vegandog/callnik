@@ -180,8 +180,8 @@ export default function Home() {
             <div className="grid grid-cols-3 md:grid-cols-6 gap-6">
               {[
                 { name: 'דנה',  gender: 'f' },
-                { name: 'נועה', gender: 'f' },
                 { name: 'עלמה', gender: 'f' },
+                { name: 'נועה', gender: 'f' },
                 { name: 'עדן',  gender: 'f' },
                 { name: 'קובי', gender: 'm' },
                 { name: 'יואב', gender: 'm' },
