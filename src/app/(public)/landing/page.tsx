@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState } from 'react'
-import { Check, ChevronDown, Phone, MessageSquare } from 'lucide-react'
+import { Check, ChevronDown, Phone, MessageSquare, Headset } from 'lucide-react'
 import Footer from '@/components/Footer'
 
 const faqs = [
@@ -16,13 +16,13 @@ const faqs = [
 function FaqItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false)
   return (
-    <div className="border-b border-gray-200 last:border-0">
+    <div className="border-b border-gray-200 last:border-0" dir="rtl">
       <button
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between py-4 text-right font-medium text-gray-900 hover:text-blue-600 transition-colors"
+        className="w-full flex flex-row-reverse items-center justify-between py-4 font-medium text-gray-900 hover:text-blue-600 transition-colors"
       >
-        <ChevronDown className={`w-5 h-5 text-gray-400 flex-shrink-0 transition-transform ${open ? 'rotate-180' : ''}`} />
-        <span className="text-right">{q}</span>
+        <span className="text-right flex-1">{q}</span>
+        <ChevronDown className={`w-5 h-5 text-gray-400 flex-shrink-0 ml-2 transition-transform ${open ? 'rotate-180' : ''}`} />
       </button>
       {open && <p className="pb-4 text-gray-600 leading-relaxed text-right">{a}</p>}
     </div>
@@ -30,12 +30,12 @@ function FaqItem({ q, a }: { q: string; a: string }) {
 }
 
 const voices = [
-  { name: 'דנה',  gender: 'f', color: 'from-pink-500 to-rose-400' },
-  { name: 'נועה', gender: 'f', color: 'from-purple-500 to-violet-400' },
-  { name: 'עלמה', gender: 'f', color: 'from-teal-500 to-cyan-400' },
-  { name: 'עדן',  gender: 'f', color: 'from-orange-400 to-amber-300' },
-  { name: 'קובי', gender: 'm', color: 'from-blue-500 to-indigo-400' },
-  { name: 'יואב', gender: 'm', color: 'from-green-500 to-emerald-400' },
+  { name: 'דנה',  gender: 'f' },
+  { name: 'נועה', gender: 'f' },
+  { name: 'עלמה', gender: 'f' },
+  { name: 'עדן',  gender: 'f' },
+  { name: 'קובי', gender: 'm' },
+  { name: 'יואב', gender: 'm' },
 ]
 
 export default function LandingPage() {
@@ -43,11 +43,24 @@ export default function LandingPage() {
     <div dir="rtl" className="min-h-screen bg-white font-sans">
 
       {/* HERO */}
-      <section className="bg-white px-6 py-16 text-center border-b border-gray-100 relative">
-        {/* Banner top-left */}
-        <div className="absolute top-4 left-4">
-          <Image src="/banner-70.png" alt="70% הנחה לחודש הראשון" width={140} height={140} style={{ objectFit: 'contain' }} />
+      <section className="bg-white px-6 py-16 text-center border-b border-gray-100 relative overflow-hidden">
+        {/* Banner - large seal style like jinglephone */}
+        <div
+          className="absolute -left-6 top-6 z-10"
+          style={{ filter: 'drop-shadow(0 4px 16px rgba(0,0,0,0.18))' }}
+        >
+          <div style={{ transform: 'rotate(-12deg)' }}>
+            <Image
+              src="/banner-70.png"
+              alt="70% הנחה לחודש הראשון"
+              width={220}
+              height={220}
+              style={{ objectFit: 'contain' }}
+              priority
+            />
+          </div>
         </div>
+
         <div className="max-w-2xl mx-auto">
           <div className="flex justify-center mb-6">
             <Image src="/callnik-logo.png" alt="Callnik" width={160} height={55} style={{ objectFit: 'contain' }} priority />
@@ -133,7 +146,7 @@ export default function LandingPage() {
             </div>
             <div className="text-center">
               <div className="w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <Image src="/headset-icon.webp" alt="מוקדנית" width={56} height={56} style={{ objectFit: 'contain' }} />
+                <Headset className="w-10 h-10 text-[#0A0E2A]" />
               </div>
               <div className="text-[#22C55E] font-bold text-sm mb-1">שלב 2</div>
               <h3 className="font-bold text-gray-900 mb-2">דנה מנהלת שיחה</h3>
@@ -151,16 +164,22 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* VOICES */}
+      {/* VOICES - real photos */}
       <section className="py-16 px-6 bg-gray-50">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">תבחר קול שמתאים לעסק שלך</h2>
           <p className="text-gray-500 mb-10">6 קולות עבריים טבעיים - תשמע כל אחד לפני שתחליט</p>
-          <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
-            {voices.map(({ name, gender, color }) => (
+          <div className="grid grid-cols-3 md:grid-cols-6 gap-6">
+            {voices.map(({ name, gender }) => (
               <div key={name} className="flex flex-col items-center gap-3">
-                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${color} flex items-center justify-center shadow-md`}>
-                  <span className="text-white text-2xl">{gender === 'f' ? '👩' : '👨'}</span>
+                <div className="w-16 h-16 rounded-full overflow-hidden shadow-md border-2 border-white ring-2 ring-gray-100">
+                  <Image
+                    src={`/voices/photo-${name}.jpg`}
+                    alt={name}
+                    width={64}
+                    height={64}
+                    className="object-cover w-full h-full"
+                  />
                 </div>
                 <div>
                   <p className="text-gray-900 font-semibold text-sm">{name}</p>

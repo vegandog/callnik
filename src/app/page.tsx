@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import {
   Phone, Headset, ChevronLeft,
   Wrench, Heart, Leaf, HardHat, Scale, Scissors, PawPrint, Car,
@@ -178,16 +179,16 @@ export default function Home() {
             <p className="text-gray-500 mb-10">6 קולות עבריים טבעיים - תשמע כל אחד לפני שתחליט</p>
             <div className="grid grid-cols-3 md:grid-cols-6 gap-6">
               {[
-                { name: 'דנה',  gender: 'f', color: 'from-pink-500 to-rose-400' },
-                { name: 'נועה', gender: 'f', color: 'from-purple-500 to-violet-400' },
-                { name: 'עלמה', gender: 'f', color: 'from-teal-500 to-cyan-400' },
-                { name: 'עדן',  gender: 'f', color: 'from-orange-400 to-amber-300' },
-                { name: 'קובי', gender: 'm', color: 'from-blue-500 to-indigo-400' },
-                { name: 'יואב', gender: 'm', color: 'from-green-500 to-emerald-400' },
-              ].map(({ name, gender, color }) => (
+                { name: 'דנה',  gender: 'f' },
+                { name: 'נועה', gender: 'f' },
+                { name: 'עלמה', gender: 'f' },
+                { name: 'עדן',  gender: 'f' },
+                { name: 'קובי', gender: 'm' },
+                { name: 'יואב', gender: 'm' },
+              ].map(({ name, gender }) => (
                 <div key={name} className="flex flex-col items-center gap-3">
-                  <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${color} flex items-center justify-center shadow-md`}>
-                    <span className="text-white text-2xl">{gender === 'f' ? '👩' : '👨'}</span>
+                  <div className="w-16 h-16 rounded-full overflow-hidden shadow-md border-2 border-white ring-2 ring-gray-100">
+                    <Image src={`/voices/photo-${name}.jpg`} alt={name} width={64} height={64} className="object-cover w-full h-full" />
                   </div>
                   <div>
                     <p className="text-gray-900 font-semibold text-sm">{name}</p>
