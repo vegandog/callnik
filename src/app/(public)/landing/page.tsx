@@ -49,8 +49,8 @@ export default function LandingPage() {
         <div
           className="absolute hidden md:block"
           style={{
-            left: 'calc(50% - 650px)',
-            top: '50%',
+            left: 'calc(50% - 590px)',
+            top: '62%',
             transform: 'translateY(-50%) rotate(-10deg)',
             filter: 'drop-shadow(0 6px 24px rgba(0,0,0,0.22))',
           }}
