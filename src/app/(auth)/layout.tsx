@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import AuthMobileNav from '@/components/AuthMobileNav'
@@ -38,7 +39,9 @@ export default async function AuthLayout({ children }: { children: React.ReactNo
       <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between relative">
           <div className="flex items-center gap-6">
-            <Link href="/" className="text-xl font-bold text-blue-600 tracking-tight shrink-0">Callnik</Link>
+            <Link href="/" className="shrink-0">
+              <Image src="/callnik-logo.png" alt="Callnik" width={100} height={34} style={{ objectFit: 'contain' }} />
+            </Link>
             <div className="hidden md:flex items-center gap-5 text-sm text-gray-600">
               <Link href="/dashboard" className="hover:text-gray-900 transition-colors">לוח בקרה</Link>
               <Link href="/calls" className="hover:text-gray-900 transition-colors">שיחות</Link>
