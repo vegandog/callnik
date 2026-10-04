@@ -2,7 +2,8 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState } from 'react'
-import { Check, ChevronDown, Phone, MessageSquare, Zap } from 'lucide-react'
+import { Check, ChevronDown, Phone, MessageSquare } from 'lucide-react'
+import Footer from '@/components/Footer'
 
 const faqs = [
   { q: 'האם אני צריך להחליף מספר טלפון?', a: 'לא. Callnik מקבל את השיחות שלא ענית - המספר שלך נשאר אותו דבר. הלקוח לא ידע שדיבר עם AI.' },
@@ -21,29 +22,35 @@ function FaqItem({ q, a }: { q: string; a: string }) {
         className="w-full flex items-center justify-between py-4 text-right font-medium text-gray-900 hover:text-blue-600 transition-colors"
       >
         <ChevronDown className={`w-5 h-5 text-gray-400 flex-shrink-0 transition-transform ${open ? 'rotate-180' : ''}`} />
-        <span>{q}</span>
+        <span className="text-right">{q}</span>
       </button>
       {open && <p className="pb-4 text-gray-600 leading-relaxed text-right">{a}</p>}
     </div>
   )
 }
 
+const voices = [
+  { name: 'דנה',  gender: 'f', color: 'from-pink-500 to-rose-400' },
+  { name: 'נועה', gender: 'f', color: 'from-purple-500 to-violet-400' },
+  { name: 'עלמה', gender: 'f', color: 'from-teal-500 to-cyan-400' },
+  { name: 'עדן',  gender: 'f', color: 'from-orange-400 to-amber-300' },
+  { name: 'קובי', gender: 'm', color: 'from-blue-500 to-indigo-400' },
+  { name: 'יואב', gender: 'm', color: 'from-green-500 to-emerald-400' },
+]
+
 export default function LandingPage() {
   return (
     <div dir="rtl" className="min-h-screen bg-white font-sans">
 
       {/* HERO */}
-      <section className="bg-white px-6 py-16 text-center border-b border-gray-100">
+      <section className="bg-white px-6 py-16 text-center border-b border-gray-100 relative">
+        {/* Banner top-left */}
+        <div className="absolute top-4 left-4">
+          <Image src="/banner-70.png" alt="70% הנחה לחודש הראשון" width={140} height={140} style={{ objectFit: 'contain' }} />
+        </div>
         <div className="max-w-2xl mx-auto">
           <div className="flex justify-center mb-6">
-            <Image
-              src="/callnik-logo.png"
-              alt="Callnik"
-              width={160}
-              height={55}
-              style={{ objectFit: 'contain' }}
-              priority
-            />
+            <Image src="/callnik-logo.png" alt="Callnik" width={160} height={55} style={{ objectFit: 'contain' }} priority />
           </div>
           <p className="text-[#06B6D4] text-sm font-medium tracking-wide mb-4 uppercase">דנה המזכירה שלך</p>
           <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4 text-gray-900">
@@ -54,10 +61,7 @@ export default function LandingPage() {
             Callnik עונה לכל שיחה שלא הצלחת לקחת, לוקחת הודעה,<br className="hidden md:block" />
             ושולחת לך סיכום מיידי בוואטסאפ.
           </p>
-          <Link
-            href="/register?intro=1"
-            className="inline-block bg-[#22C55E] hover:bg-[#16A34A] text-white font-bold text-lg px-8 py-4 rounded-full transition-colors shadow-lg"
-          >
+          <Link href="/register?intro=1" className="inline-block bg-[#22C55E] hover:bg-[#16A34A] text-white font-bold text-lg px-8 py-4 rounded-full transition-colors shadow-lg">
             התחל עכשיו - ₪29 + מע&quot;מ לחודש הראשון
           </Link>
           <p className="text-gray-400 text-sm mt-3">כל המחירים לפני מע&quot;מ · אחר כך ₪99/חודש · ביטול בכל עת</p>
@@ -84,35 +88,23 @@ export default function LandingPage() {
       <section className="py-16 px-6 bg-gray-50">
         <div className="max-w-lg mx-auto text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">ככה אתה לא מפספס שום לקוח</h2>
-          <p className="text-gray-500 mb-8">תוך שניות מהשיחה - תקבל זה בוואטסאפ:</p>
+          <p className="text-gray-500 mb-8">תוך שניות מהשיחה - תקבל את זה בוואטסאפ:</p>
 
-          {/* WhatsApp realistic mockup */}
           <div className="max-w-sm mx-auto rounded-2xl overflow-hidden shadow-2xl border border-gray-200">
-            {/* WA background - beige with subtle pattern */}
             <div className="px-4 py-6" style={{ backgroundColor: '#EFE7DD', backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c8b89a' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")` }}>
-              {/* Message bubble */}
               <div className="bg-white rounded-2xl rounded-tr-sm px-5 py-4 shadow-sm text-right">
-                {/* Sender name + avatar */}
                 <div className="flex items-center justify-end gap-2 mb-3">
                   <span className="font-bold text-gray-900 text-base">Callnik</span>
-                  <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0">
-                    <div className="w-3 h-3 rounded-full bg-white" />
-                  </div>
+                  <span className="text-2xl leading-none">🔵</span>
                 </div>
-
-                {/* Message text */}
                 <p className="text-gray-800 text-[15px] leading-relaxed mb-3">
-                  הודעה חדשה מ-<strong>דניאל</strong> ב 11.13.<br />
+                  הודעה חדשה מ-<strong>דניאל</strong> ב 11:13.<br />
                   ביקש הצעת מחיר למטבח קומפלט ולחזור<br />
                   אליו בהקדם האפשרי
                 </p>
-
-                {/* Phone number line */}
                 <p className="text-gray-700 text-[14px] mb-4">
                   לחזרה: <span className="text-blue-600 font-medium">055-3092131</span> — Callnik
                 </p>
-
-                {/* Time + listen link */}
                 <div className="flex items-center justify-between border-t border-gray-100 pt-3">
                   <p className="text-gray-400 text-xs">11:13</p>
                   <a href="#" className="flex items-center gap-1 text-[#25D366] font-medium text-sm">
@@ -131,45 +123,48 @@ export default function LandingPage() {
         <div className="max-w-3xl mx-auto">
           <h2 className="text-2xl font-bold text-gray-900 text-center mb-12">איך זה עובד?</h2>
           <div className="grid md:grid-cols-3 gap-8">
-            {[
-              { icon: <Phone className="w-7 h-7" />, n: '1', title: 'לקוח מתקשר', desc: 'כשאתה לא זמין, Callnik עונה תוך שנייה' },
-              { icon: <Zap className="w-7 h-7" />, n: '2', title: 'דנה מנהלת שיחה', desc: 'שואלת שם, סיבת שיחה ומספר לחזרה - בעברית טבעית' },
-              { icon: <MessageSquare className="w-7 h-7" />, n: '3', title: 'אתה מקבל סיכום', desc: 'הודעת וואטסאפ עם כל הפרטים - תוך שניות' },
-            ].map(({ icon, n, title, desc }) => (
-              <div key={n} className="text-center">
-                <div className="w-16 h-16 bg-[#0A0E2A] text-[#06B6D4] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md">
-                  {icon}
-                </div>
-                <div className="text-[#22C55E] font-bold text-sm mb-1">שלב {n}</div>
-                <h3 className="font-bold text-gray-900 mb-2">{title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">{desc}</p>
+            <div className="text-center">
+              <div className="w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <Phone className="w-10 h-10 text-[#0A0E2A]" />
               </div>
-            ))}
+              <div className="text-[#22C55E] font-bold text-sm mb-1">שלב 1</div>
+              <h3 className="font-bold text-gray-900 mb-2">לקוח מתקשר</h3>
+              <p className="text-gray-500 text-sm leading-relaxed">כשאתה לא זמין, Callnik עונה תוך שנייה</p>
+            </div>
+            <div className="text-center">
+              <div className="w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <Image src="/headset-icon.webp" alt="מוקדנית" width={56} height={56} style={{ objectFit: 'contain' }} />
+              </div>
+              <div className="text-[#22C55E] font-bold text-sm mb-1">שלב 2</div>
+              <h3 className="font-bold text-gray-900 mb-2">דנה מנהלת שיחה</h3>
+              <p className="text-gray-500 text-sm leading-relaxed">שואלת שם, סיבת שיחה ומספר לחזרה - בעברית טבעית</p>
+            </div>
+            <div className="text-center">
+              <div className="w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <MessageSquare className="w-10 h-10 text-[#0A0E2A]" />
+              </div>
+              <div className="text-[#22C55E] font-bold text-sm mb-1">שלב 3</div>
+              <h3 className="font-bold text-gray-900 mb-2">אתה מקבל סיכום</h3>
+              <p className="text-gray-500 text-sm leading-relaxed">הודעת וואטסאפ עם כל הפרטים - תוך שניות</p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* VOICES */}
-      <section className="py-16 px-6 bg-[#0A0E2A]">
+      <section className="py-16 px-6 bg-gray-50">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-2xl font-bold text-white mb-2">6 קולות לבחירה</h2>
-          <p className="text-gray-400 mb-10">תבחר את הקול שמתאים הכי טוב לעסק שלך - אחרי ההרשמה תשמע כל אחד לפני שתחליט</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">תבחר קול שמתאים לעסק שלך</h2>
+          <p className="text-gray-500 mb-10">6 קולות עבריים טבעיים - תשמע כל אחד לפני שתחליט</p>
           <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
-            {[
-              { name: 'דנה',  gender: 'f', color: 'from-pink-500 to-rose-400' },
-              { name: 'נועה', gender: 'f', color: 'from-purple-500 to-violet-400' },
-              { name: 'עלמה', gender: 'f', color: 'from-teal-500 to-cyan-400' },
-              { name: 'עדן',  gender: 'f', color: 'from-orange-400 to-amber-300' },
-              { name: 'קובי', gender: 'm', color: 'from-blue-500 to-indigo-400' },
-              { name: 'יואב', gender: 'm', color: 'from-green-500 to-emerald-400' },
-            ].map(({ name, gender, color }) => (
+            {voices.map(({ name, gender, color }) => (
               <div key={name} className="flex flex-col items-center gap-3">
-                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${color} flex items-center justify-center shadow-lg`}>
+                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${color} flex items-center justify-center shadow-md`}>
                   <span className="text-white text-2xl">{gender === 'f' ? '👩' : '👨'}</span>
                 </div>
                 <div>
-                  <p className="text-white font-semibold text-sm">{name}</p>
-                  <p className="text-gray-500 text-xs">{gender === 'f' ? 'קול נשי' : 'קול גברי'}</p>
+                  <p className="text-gray-900 font-semibold text-sm">{name}</p>
+                  <p className="text-gray-400 text-xs">{gender === 'f' ? 'קול נשי' : 'קול גברי'}</p>
                 </div>
               </div>
             ))}
@@ -178,7 +173,7 @@ export default function LandingPage() {
       </section>
 
       {/* PRICING */}
-      <section className="py-16 px-6 bg-gray-50">
+      <section className="py-16 px-6 bg-white">
         <div className="max-w-sm mx-auto">
           <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">מחיר פשוט, ברור</h2>
           <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
@@ -191,23 +186,14 @@ export default function LandingPage() {
             </div>
             <p className="text-center text-gray-400 text-sm mb-6">מחודש שני: ₪99/חודש + מע&quot;מ</p>
             <ul className="space-y-3 mb-8">
-              {[
-                '60 שיחות כלולות',
-                '6 קולות AI לבחירה',
-                'תמלול + הקלטה',
-                'וואטסאפ + מייל מיידי',
-                'ביטול בכל עת',
-              ].map(f => (
+              {['60 שיחות כלולות', '6 קולות AI לבחירה', 'תמלול + הקלטה', 'וואטסאפ + מייל מיידי', 'ביטול בכל עת'].map(f => (
                 <li key={f} className="flex items-center gap-3">
                   <Check className="w-5 h-5 text-[#22C55E] flex-shrink-0" />
                   <span className="text-gray-700">{f}</span>
                 </li>
               ))}
             </ul>
-            <Link
-              href="/register?intro=1"
-              className="block w-full bg-[#22C55E] hover:bg-[#16A34A] text-white font-bold text-lg py-4 rounded-xl text-center transition-colors"
-            >
+            <Link href="/register?intro=1" className="block w-full bg-[#22C55E] hover:bg-[#16A34A] text-white font-bold text-lg py-4 rounded-xl text-center transition-colors">
               התחל עכשיו
             </Link>
           </div>
@@ -215,30 +201,27 @@ export default function LandingPage() {
       </section>
 
       {/* FAQ */}
-      <section className="py-16 px-6 bg-white">
+      <section className="py-16 px-6 bg-gray-50">
         <div className="max-w-2xl mx-auto">
           <h2 className="text-2xl font-bold text-gray-900 text-center mb-10">שאלות נפוצות</h2>
-          <div className="bg-gray-50 rounded-2xl px-6">
+          <div className="bg-white rounded-2xl px-6 shadow-sm border border-gray-100">
             {faqs.map(f => <FaqItem key={f.q} {...f} />)}
           </div>
         </div>
       </section>
 
       {/* FINAL CTA */}
-      <section className="bg-gray-50 py-16 px-6 text-center border-t border-gray-200">
+      <section className="bg-white py-16 px-6 text-center border-t border-gray-200">
         <div className="max-w-xl mx-auto">
           <h2 className="text-3xl font-bold mb-4 text-gray-900">מוכן לא לפספס אף לקוח?</h2>
           <p className="text-gray-500 mb-8">הגדרה תוך 5 דקות. ביטול בכל עת.</p>
-          <Link
-            href="/register?intro=1"
-            className="inline-block bg-[#22C55E] hover:bg-[#16A34A] text-white font-bold text-lg px-10 py-4 rounded-full transition-colors shadow-lg"
-          >
+          <Link href="/register?intro=1" className="inline-block bg-[#22C55E] hover:bg-[#16A34A] text-white font-bold text-lg px-10 py-4 rounded-full transition-colors shadow-lg">
             התחל עכשיו - ₪29 + מע&quot;מ לחודש הראשון
           </Link>
-          <p className="text-gray-400 text-sm mt-4">callnik.com</p>
         </div>
       </section>
 
+      <Footer />
     </div>
   )
 }

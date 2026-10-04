@@ -171,6 +171,34 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Voices */}
+        <section className="py-16 px-4 bg-white border-t border-gray-100">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">תבחר קול שמתאים לעסק שלך</h2>
+            <p className="text-gray-500 mb-10">6 קולות עבריים טבעיים - תשמע כל אחד לפני שתחליט</p>
+            <div className="grid grid-cols-3 md:grid-cols-6 gap-6">
+              {[
+                { name: 'דנה',  gender: 'f', color: 'from-pink-500 to-rose-400' },
+                { name: 'נועה', gender: 'f', color: 'from-purple-500 to-violet-400' },
+                { name: 'עלמה', gender: 'f', color: 'from-teal-500 to-cyan-400' },
+                { name: 'עדן',  gender: 'f', color: 'from-orange-400 to-amber-300' },
+                { name: 'קובי', gender: 'm', color: 'from-blue-500 to-indigo-400' },
+                { name: 'יואב', gender: 'm', color: 'from-green-500 to-emerald-400' },
+              ].map(({ name, gender, color }) => (
+                <div key={name} className="flex flex-col items-center gap-3">
+                  <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${color} flex items-center justify-center shadow-md`}>
+                    <span className="text-white text-2xl">{gender === 'f' ? '👩' : '👨'}</span>
+                  </div>
+                  <div>
+                    <p className="text-gray-900 font-semibold text-sm">{name}</p>
+                    <p className="text-gray-400 text-xs">{gender === 'f' ? 'קול נשי' : 'קול גברי'}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* Pricing anchor */}
         <section className="py-16 px-4 bg-white border-y border-gray-100">
           <div className="max-w-2xl mx-auto text-center">
