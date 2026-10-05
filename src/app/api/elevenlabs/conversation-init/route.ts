@@ -49,9 +49,6 @@ export async function POST(req: NextRequest) {
   const apptWord = customer?.gcal_appointment_type || 'פגישה'
   const hoursStart = customer?.gcal_hours_start || '09:00'
   const hoursEnd = customer?.gcal_hours_end || '18:00'
-  const schedulingSection = customer?.gcal_refresh_token
-    ? `\n[יכולת קביעת ${apptWord}]\nתאריך היום: ${today}. שעות קבלה: ${hoursStart}-${hoursEnd}, כל 30 דקות.\n\n**שנה את פתיחת השיחה:** לאחר ברכת הפתיחה, שאל: "אשמח לעזור — עדיף לך להשאיר הודעה, או לקבוע ${apptWord}?"\n- אם הודעה → תהליך רגיל (שם, הודעה, מספר לחזרה)\n- אם ${apptWord}:\n  1. שאל לאיזה תאריך (המר ל-YYYY-MM-DD)\n  2. קרא ל-check_availability עם call_record_id ו-date\n  3. הצג עד 4 זמנים פנויים\n  4. שאל שם מלא וסיבת ה${apptWord}\n  5. קרא ל-book_appointment\n  6. אשר: "ה${apptWord} נקבעה ל-[תאריך] בשעה [שעה]!"`
-    : ''
 
   let callRecordId: string | null = null
   if (customer?.id) {
@@ -81,6 +78,10 @@ export async function POST(req: NextRequest) {
       callRecordId = newCall?.id || null
     }
   }
+
+  const schedulingSection = customer?.gcal_refresh_token && callRecordId
+    ? `\n[יכולת קביעת ${apptWord}]\nתאריך היום: ${today}. שעות קבלה: ${hoursStart}-${hoursEnd}, כל 30 דקות.\nה-call_record_id לשיחה זו: ${callRecordId}\n\n**שנה את פתיחת השיחה:** לאחר ברכת הפתיחה, שאל: "אשמח לעזור — עדיף לך להשאיר הודעה, או לקבוע ${apptWord}?"\n- אם הודעה → תהליך רגיל (שם, הודעה, מספר לחזרה)\n- אם ${apptWord}:\n  1. שאל לאיזה תאריך מועדף (המר ל-YYYY-MM-DD, לדוגמה: מחר = ${new Date(Date.now() + 86400000).toLocaleDateString('sv-SE', { timeZone: 'Asia/Jerusalem' })})\n  2. קרא ל-check_availability עם call_record_id="${callRecordId}" ו-date=YYYY-MM-DD\n  3. הצג עד 4 זמנים פנויים\n  4. שאל שם מלא וסיבת ה${apptWord}\n  5. קרא ל-book_appointment עם call_record_id="${callRecordId}", date, time, caller_name, reason\n  6. אשר: "ה${apptWord} נקבעה ל-[תאריך] בשעה [שעה]!"`
+    : ''
 
   return NextResponse.json({
     dynamic_variables: {
