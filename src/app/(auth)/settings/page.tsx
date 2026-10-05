@@ -2,7 +2,11 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import SettingsForm from './SettingsForm'
 
-export default async function SettingsPage() {
+interface Props {
+  searchParams: Promise<{ gcal?: string }>
+}
+
+export default async function SettingsPage({ searchParams }: Props) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
@@ -17,9 +21,11 @@ export default async function SettingsPage() {
 
   const { data: customer } = await supabase
     .from('customers')
-    .select('business_name, whatsapp_number, carrier, voice_id')
+    .select('business_name, whatsapp_number, carrier, voice_id, gcal_refresh_token')
     .eq('id', userRecord.customer_id)
     .single()
+
+  const { gcal: gcalParam } = await searchParams
 
   return (
     <div className="max-w-lg space-y-6">
@@ -32,6 +38,8 @@ export default async function SettingsPage() {
         whatsappNumber={customer?.whatsapp_number || ''}
         carrier={customer?.carrier || ''}
         voiceId={customer?.voice_id || 'FA7xLUuWpSuAX9pUCVmy'}
+        gcalConnected={!!customer?.gcal_refresh_token}
+        gcalParam={gcalParam || null}
       />
     </div>
   )

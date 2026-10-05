@@ -38,12 +38,17 @@ export async function POST(req: NextRequest) {
   const supabase = createAdminClient()
   const { data: customer } = await supabase
     .from('customers')
-    .select('id, business_name, voice_id')
+    .select('id, business_name, voice_id, gcal_refresh_token')
     .or(`twilio_number.eq.${calledNumber},telnyx_number.eq.${calledNumber}`)
     .single()
 
   const businessName = customer?.business_name || 'העסק'
   const agentName = getVoiceName(customer?.voice_id)
+
+  const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Jerusalem' })
+  const schedulingSection = customer?.gcal_refresh_token
+    ? `\n[יכולת קביעת פגישות]\nאם המתקשר מבקש לקבוע פגישה, ייעוץ, מפגש או כל נושא שדורש תיאום - תוכל לקבוע ישירות ביומן.\nתאריך היום: ${today}. קבלת פגישות: ראשון עד שישי, 09:00-18:00, כל 30 דקות.\n\nסדר קביעת פגישה:\n1. שאל לאיזה תאריך מועדף (המר לפורמט YYYY-MM-DD).\n2. קרא ל-check_availability עם call_record_id ו-date.\n3. הצג עד 4 זמנים פנויים (אמור: "יש לי פנוי ב-09:00, 09:30, 10:00...").\n4. לאחר בחירת שעה — שאל שם מלא וסיבת הפגישה.\n5. קרא ל-book_appointment עם כל הפרטים.\n6. אשר: "הפגישה נקבעה ל-[תאריך] בשעה [שעה]. נתראה!"`
+    : ''
 
   let callRecordId: string | null = null
   if (customer?.id) {
@@ -75,6 +80,11 @@ export async function POST(req: NextRequest) {
   }
 
   return NextResponse.json({
-    dynamic_variables: { business_name: businessName, call_record_id: callRecordId, agent_name: agentName },
+    dynamic_variables: {
+      business_name: businessName,
+      call_record_id: callRecordId,
+      agent_name: agentName,
+      scheduling_section: schedulingSection,
+    },
   })
 }
