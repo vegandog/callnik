@@ -84,7 +84,7 @@ export async function POST(req: NextRequest) {
     : ''
 
   const firstQuestion = customer?.gcal_refresh_token && callRecordId
-    ? `עדיף לך להשאיר הודעה, או לקבוע ${apptWord}?`
+    ? `תרצה להשאיר הודעה, או לקבוע ${apptWord}?`
     : 'אז, מה השם, בבקשה?'
 
   return NextResponse.json({
