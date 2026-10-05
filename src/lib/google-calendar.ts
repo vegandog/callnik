@@ -68,12 +68,17 @@ export async function getAvailableSlots(customerId: string, dateStr: string): Pr
   const supabase = createAdminClient()
   const { data: customer } = await supabase
     .from('customers')
-    .select('gcal_hours_start, gcal_hours_end')
+    .select('gcal_hours_start, gcal_hours_end, gcal_working_days')
     .eq('id', customerId)
     .single()
 
   const hoursStart = customer?.gcal_hours_start || '09:00'
   const hoursEnd = customer?.gcal_hours_end || '18:00'
+
+  // Check if the requested date is a working day
+  const workingDays: number[] = JSON.parse(customer?.gcal_working_days || '[0,1,2,3,4]')
+  const dayOfWeek = new Date(`${dateStr}T12:00:00Z`).getUTCDay() // 0=Sun, 6=Sat
+  if (!workingDays.includes(dayOfWeek)) return []
 
   const timeMin = israelToDate(dateStr, hoursStart).toISOString()
   const timeMax = israelToDate(dateStr, hoursEnd).toISOString()

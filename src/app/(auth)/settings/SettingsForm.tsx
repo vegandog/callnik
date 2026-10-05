@@ -14,11 +14,15 @@ interface Props {
   appointmentType: string
   hoursStart: string
   hoursEnd: string
+  workingDays: number[]
 }
 
 const APPOINTMENT_OPTIONS = ['פגישה', 'טיפול', 'תספורת / עיצוב', 'ביקור', 'אימון', 'בדיקה']
 
-export default function SettingsForm({ businessName, whatsappNumber, carrier, voiceId, gcalConnected, gcalParam, appointmentType, hoursStart, hoursEnd }: Props) {
+const DAY_NAMES = ['א׳', 'ב׳', 'ג׳', 'ד׳', 'ה׳', 'ו׳', 'ש׳']
+const DAY_LABELS = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת']
+
+export default function SettingsForm({ businessName, whatsappNumber, carrier, voiceId, gcalConnected, gcalParam, appointmentType, hoursStart, hoursEnd, workingDays }: Props) {
   const [form, setForm] = useState({
     business_name: businessName,
     whatsapp_number: whatsappNumber,
@@ -39,6 +43,7 @@ export default function SettingsForm({ businessName, whatsappNumber, carrier, vo
   const [customApptType, setCustomApptType] = useState(isCustom ? appointmentType : '')
   const [wHoursStart, setWHoursStart] = useState(hoursStart)
   const [wHoursEnd, setWHoursEnd] = useState(hoursEnd)
+  const [wDays, setWDays] = useState<number[]>(workingDays)
   const [gcalMessage, setGcalMessage] = useState<string | null>(
     gcalParam === 'connected' ? 'היומן חובר בהצלחה' :
     gcalParam === 'error' ? 'שגיאה בחיבור היומן, נסה שוב' : null
@@ -61,7 +66,7 @@ export default function SettingsForm({ businessName, whatsappNumber, carrier, vo
     const res = await fetch('/api/customer', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...form, gcal_appointment_type: finalApptType, gcal_hours_start: wHoursStart, gcal_hours_end: wHoursEnd }),
+      body: JSON.stringify({ ...form, gcal_appointment_type: finalApptType, gcal_hours_start: wHoursStart, gcal_hours_end: wHoursEnd, gcal_working_days: JSON.stringify(wDays) }),
     })
     if (res.ok) {
       setSaved(true)
@@ -266,8 +271,8 @@ export default function SettingsForm({ businessName, whatsappNumber, carrier, vo
               )}
             </div>
             <div>
-              <label className="block text-xs text-gray-500 mb-1.5">שעות קבלה</label>
-              <div className="flex items-center gap-2">
+              <label className="block text-xs text-gray-500 mb-1.5">שעות פעילות</label>
+              <div className="flex items-center gap-2 mb-2">
                 <input
                   type="time"
                   value={wHoursStart}
@@ -283,6 +288,24 @@ export default function SettingsForm({ businessName, whatsappNumber, carrier, vo
                   className="border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   dir="ltr"
                 />
+              </div>
+              <div className="flex gap-1">
+                {DAY_NAMES.map((label, idx) => {
+                  const active = wDays.includes(idx)
+                  return (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => setWDays(d => active ? d.filter(x => x !== idx) : [...d, idx].sort())}
+                      title={DAY_LABELS[idx]}
+                      className={`w-8 h-8 rounded-full text-xs font-medium transition-colors ${
+                        active ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  )
+                })}
               </div>
             </div>
           </div>

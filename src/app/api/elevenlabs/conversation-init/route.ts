@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
   const supabase = createAdminClient()
   const { data: customer } = await supabase
     .from('customers')
-    .select('id, business_name, voice_id, gcal_refresh_token, gcal_appointment_type, gcal_hours_start, gcal_hours_end')
+    .select('id, business_name, voice_id, gcal_refresh_token, gcal_appointment_type, gcal_hours_start, gcal_hours_end, gcal_working_days')
     .or(`twilio_number.eq.${calledNumber},telnyx_number.eq.${calledNumber}`)
     .single()
 
@@ -49,6 +49,9 @@ export async function POST(req: NextRequest) {
   const apptWord = customer?.gcal_appointment_type || 'פגישה'
   const hoursStart = customer?.gcal_hours_start || '09:00'
   const hoursEnd = customer?.gcal_hours_end || '18:00'
+  const dayNames = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת']
+  const workingDaysArr: number[] = JSON.parse(customer?.gcal_working_days || '[0,1,2,3,4]')
+  const workingDaysText = workingDaysArr.map(d => dayNames[d]).join(', ')
 
   let callRecordId: string | null = null
   if (customer?.id) {
@@ -80,7 +83,7 @@ export async function POST(req: NextRequest) {
   }
 
   const schedulingSection = customer?.gcal_refresh_token && callRecordId
-    ? `\n[יכולת קביעת ${apptWord}]\nתאריך היום: ${today}. שעות קבלה: ${hoursStart}-${hoursEnd}, כל 30 דקות.\nה-call_record_id לשיחה זו: ${callRecordId}\n\n**שנה את פתיחת השיחה:** לאחר ברכת הפתיחה, שאל: "אשמח לעזור — עדיף לך להשאיר הודעה, או לקבוע ${apptWord}?"\n- אם הודעה → תהליך רגיל (שם, הודעה, מספר לחזרה)\n- אם ${apptWord}:\n  1. שאל לאיזה תאריך מועדף (המר ל-YYYY-MM-DD, לדוגמה: מחר = ${new Date(Date.now() + 86400000).toLocaleDateString('sv-SE', { timeZone: 'Asia/Jerusalem' })})\n  2. קרא ל-check_availability עם call_record_id="${callRecordId}" ו-date=YYYY-MM-DD\n  3. הצג עד 4 זמנים פנויים\n  4. שאל שם מלא וסיבת ה${apptWord}\n  5. קרא ל-book_appointment עם call_record_id="${callRecordId}", date, time, caller_name, reason\n  6. אשר: "ה${apptWord} נקבעה ל-[תאריך] בשעה [שעה]!"`
+    ? `\n[יכולת קביעת ${apptWord}]\nתאריך היום: ${today}. ימי פעילות: ${workingDaysText}. שעות פעילות: ${hoursStart}-${hoursEnd}, כל 30 דקות.\nה-call_record_id לשיחה זו: ${callRecordId}\n\n**שנה את פתיחת השיחה:** לאחר ברכת הפתיחה, שאל: "אשמח לעזור — עדיף לך להשאיר הודעה, או לקבוע ${apptWord}?"\n- אם הודעה → תהליך רגיל (שם, הודעה, מספר לחזרה)\n- אם ${apptWord}:\n  1. שאל לאיזה תאריך מועדף (המר ל-YYYY-MM-DD, לדוגמה: מחר = ${new Date(Date.now() + 86400000).toLocaleDateString('sv-SE', { timeZone: 'Asia/Jerusalem' })})\n  2. קרא ל-check_availability עם call_record_id="${callRecordId}" ו-date=YYYY-MM-DD\n  3. הצג עד 4 זמנים פנויים\n  4. שאל שם מלא וסיבת ה${apptWord}\n  5. קרא ל-book_appointment עם call_record_id="${callRecordId}", date, time, caller_name, reason\n  6. אשר: "ה${apptWord} נקבעה ל-[תאריך] בשעה [שעה]!"`
     : ''
 
   const firstQuestion = customer?.gcal_refresh_token && callRecordId

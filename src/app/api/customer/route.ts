@@ -31,7 +31,7 @@ export async function PATCH(req: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const { business_name, whatsapp_number, voice_id, gcal_appointment_type, gcal_hours_start, gcal_hours_end } = await req.json()
+  const { business_name, whatsapp_number, voice_id, gcal_appointment_type, gcal_hours_start, gcal_hours_end, gcal_working_days } = await req.json()
   const normalizedWhatsapp = whatsapp_number ? normalizePhone(whatsapp_number) : whatsapp_number
 
   const { data: userRecord } = await supabase
@@ -49,6 +49,7 @@ export async function PATCH(req: NextRequest) {
   if (gcal_appointment_type !== undefined) update.gcal_appointment_type = gcal_appointment_type
   if (gcal_hours_start !== undefined) update.gcal_hours_start = gcal_hours_start
   if (gcal_hours_end !== undefined) update.gcal_hours_end = gcal_hours_end
+  if (gcal_working_days !== undefined) update.gcal_working_days = gcal_working_days
 
   const { error } = await supabase
     .from('customers')
