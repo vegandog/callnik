@@ -24,8 +24,8 @@ async function refreshAccessToken(refreshToken: string): Promise<{ access_token:
     body: new URLSearchParams({
       grant_type: 'refresh_token',
       refresh_token: refreshToken,
-      client_id: process.env.GOOGLE_CLIENT_ID!,
-      client_secret: process.env.GOOGLE_CLIENT_SECRET!,
+      client_id: process.env.GOOGLE_CAL_CLIENT_ID!,
+      client_secret: process.env.GOOGLE_CAL_CLIENT_SECRET!,
     }),
   })
   if (!res.ok) throw new Error('Failed to refresh Google token')

@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL!
   const params = new URLSearchParams({
-    client_id: process.env.GOOGLE_CLIENT_ID!,
+    client_id: process.env.GOOGLE_CAL_CLIENT_ID!,
     redirect_uri: `${baseUrl}/api/google-calendar/callback`,
     response_type: 'code',
     scope: SCOPES,
