@@ -65,8 +65,18 @@ export async function getAvailableSlots(customerId: string, dateStr: string): Pr
   const accessToken = await getAccessToken(customerId)
   if (!accessToken) return []
 
-  const timeMin = israelToDate(dateStr, '09:00').toISOString()
-  const timeMax = israelToDate(dateStr, '18:00').toISOString()
+  const supabase = createAdminClient()
+  const { data: customer } = await supabase
+    .from('customers')
+    .select('gcal_hours_start, gcal_hours_end')
+    .eq('id', customerId)
+    .single()
+
+  const hoursStart = customer?.gcal_hours_start || '09:00'
+  const hoursEnd = customer?.gcal_hours_end || '18:00'
+
+  const timeMin = israelToDate(dateStr, hoursStart).toISOString()
+  const timeMax = israelToDate(dateStr, hoursEnd).toISOString()
 
   const params = new URLSearchParams({
     timeMin,
@@ -83,10 +93,14 @@ export async function getAvailableSlots(customerId: string, dateStr: string): Pr
   const data = await res.json()
   const events: Array<{ start: { dateTime?: string }; end: { dateTime?: string } }> = data.items || []
 
+  const [startH, startM] = hoursStart.split(':').map(Number)
+  const [endH, endM] = hoursEnd.split(':').map(Number)
+  const startMinutes = startH * 60 + startM
+  const endMinutes = endH * 60 + endM
+
   const allSlots: string[] = []
-  for (let h = 9; h < 18; h++) {
-    allSlots.push(`${String(h).padStart(2, '0')}:00`)
-    allSlots.push(`${String(h).padStart(2, '0')}:30`)
+  for (let m = startMinutes; m < endMinutes; m += 30) {
+    allSlots.push(`${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`)
   }
 
   const now = new Date()

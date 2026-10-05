@@ -11,9 +11,14 @@ interface Props {
   voiceId: string
   gcalConnected: boolean
   gcalParam: string | null
+  appointmentType: string
+  hoursStart: string
+  hoursEnd: string
 }
 
-export default function SettingsForm({ businessName, whatsappNumber, carrier, voiceId, gcalConnected, gcalParam }: Props) {
+const APPOINTMENT_OPTIONS = ['פגישה', 'טיפול', 'תספורת / עיצוב', 'ביקור', 'אימון', 'בדיקה']
+
+export default function SettingsForm({ businessName, whatsappNumber, carrier, voiceId, gcalConnected, gcalParam, appointmentType, hoursStart, hoursEnd }: Props) {
   const [form, setForm] = useState({
     business_name: businessName,
     whatsapp_number: whatsappNumber,
@@ -29,6 +34,11 @@ export default function SettingsForm({ businessName, whatsappNumber, carrier, vo
   const [cancelled, setCancelled] = useState(false)
   const [cancelUntil, setCancelUntil] = useState('')
   const [gcalStatus, setGcalStatus] = useState<'connected' | 'disconnected'>(gcalConnected ? 'connected' : 'disconnected')
+  const isCustom = !APPOINTMENT_OPTIONS.includes(appointmentType)
+  const [apptType, setApptType] = useState(isCustom ? 'אחר' : appointmentType)
+  const [customApptType, setCustomApptType] = useState(isCustom ? appointmentType : '')
+  const [wHoursStart, setWHoursStart] = useState(hoursStart)
+  const [wHoursEnd, setWHoursEnd] = useState(hoursEnd)
   const [gcalMessage, setGcalMessage] = useState<string | null>(
     gcalParam === 'connected' ? 'היומן חובר בהצלחה' :
     gcalParam === 'error' ? 'שגיאה בחיבור היומן, נסה שוב' : null
@@ -47,10 +57,11 @@ export default function SettingsForm({ businessName, whatsappNumber, carrier, vo
     setSaving(true)
     setError('')
     setSaved(false)
+    const finalApptType = apptType === 'אחר' ? customApptType : apptType
     const res = await fetch('/api/customer', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form),
+      body: JSON.stringify({ ...form, gcal_appointment_type: finalApptType, gcal_hours_start: wHoursStart, gcal_hours_end: wHoursEnd }),
     })
     if (res.ok) {
       setSaved(true)
@@ -211,19 +222,69 @@ export default function SettingsForm({ businessName, whatsappNumber, carrier, vo
         )}
 
         {gcalStatus === 'connected' ? (
-          <div className="flex items-center gap-3">
-            <span className="flex items-center gap-1.5 text-sm text-green-700 bg-green-50 px-3 py-1.5 rounded-lg">
-              <span className="w-2 h-2 rounded-full bg-green-500 inline-block" />
-              מחובר
-            </span>
-            <button
-              type="button"
-              onClick={handleGcalDisconnect}
-              disabled={disconnecting}
-              className="text-xs text-gray-400 hover:text-red-500 transition-colors disabled:opacity-50"
-            >
-              {disconnecting ? 'מנתק...' : 'נתק'}
-            </button>
+          <div className="space-y-3">
+            <div className="flex items-center gap-3">
+              <span className="flex items-center gap-1.5 text-sm text-green-700 bg-green-50 px-3 py-1.5 rounded-lg">
+                <span className="w-2 h-2 rounded-full bg-green-500 inline-block" />
+                מחובר
+              </span>
+              <button
+                type="button"
+                onClick={handleGcalDisconnect}
+                disabled={disconnecting}
+                className="text-xs text-gray-400 hover:text-red-500 transition-colors disabled:opacity-50"
+              >
+                {disconnecting ? 'מנתק...' : 'נתק'}
+              </button>
+            </div>
+            <div>
+              <label className="block text-xs text-gray-500 mb-1.5">איך קוראים לפגישה אצלך?</label>
+              <div className="flex flex-wrap gap-1.5 mb-2">
+                {[...APPOINTMENT_OPTIONS, 'אחר'].map(opt => (
+                  <button
+                    key={opt}
+                    type="button"
+                    onClick={() => setApptType(opt)}
+                    className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
+                      apptType === opt
+                        ? 'bg-blue-600 text-white border-blue-600'
+                        : 'bg-white text-gray-600 border-gray-300 hover:border-blue-400'
+                    }`}
+                  >
+                    {opt}
+                  </button>
+                ))}
+              </div>
+              {apptType === 'אחר' && (
+                <input
+                  type="text"
+                  placeholder="לדוגמה: ייעוץ, תור..."
+                  value={customApptType}
+                  onChange={e => setCustomApptType(e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              )}
+            </div>
+            <div>
+              <label className="block text-xs text-gray-500 mb-1.5">שעות קבלה</label>
+              <div className="flex items-center gap-2">
+                <input
+                  type="time"
+                  value={wHoursStart}
+                  onChange={e => setWHoursStart(e.target.value)}
+                  className="border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  dir="ltr"
+                />
+                <span className="text-gray-400 text-sm">עד</span>
+                <input
+                  type="time"
+                  value={wHoursEnd}
+                  onChange={e => setWHoursEnd(e.target.value)}
+                  className="border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  dir="ltr"
+                />
+              </div>
+            </div>
           </div>
         ) : (
           <a

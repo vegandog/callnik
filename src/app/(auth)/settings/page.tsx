@@ -21,7 +21,7 @@ export default async function SettingsPage({ searchParams }: Props) {
 
   const { data: customer } = await supabase
     .from('customers')
-    .select('business_name, whatsapp_number, carrier, voice_id, gcal_refresh_token')
+    .select('business_name, whatsapp_number, carrier, voice_id, gcal_refresh_token, gcal_appointment_type, gcal_hours_start, gcal_hours_end')
     .eq('id', userRecord.customer_id)
     .single()
 
@@ -40,6 +40,9 @@ export default async function SettingsPage({ searchParams }: Props) {
         voiceId={customer?.voice_id || 'FA7xLUuWpSuAX9pUCVmy'}
         gcalConnected={!!customer?.gcal_refresh_token}
         gcalParam={gcalParam || null}
+        appointmentType={customer?.gcal_appointment_type || 'פגישה'}
+        hoursStart={customer?.gcal_hours_start || '09:00'}
+        hoursEnd={customer?.gcal_hours_end || '18:00'}
       />
     </div>
   )
