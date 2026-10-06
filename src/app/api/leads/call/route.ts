@@ -22,6 +22,9 @@ export async function POST(req: NextRequest) {
   const normalizedPhone = normalizePhone(phone)
   const result = await makeOutboundSalesCall(normalizedPhone, name || 'שלום')
 
+  // WhatsApp notification to Eri
+  await notifyEri(normalizedPhone, name || '', result)
+
   return NextResponse.json(result)
 }
 
@@ -30,6 +33,28 @@ function normalizePhone(phone: string): string {
   if (digits.startsWith('972')) return `+${digits}`
   if (digits.startsWith('0')) return `+972${digits.slice(1)}`
   return `+${digits}`
+}
+
+async function notifyEri(phone: string, name: string, callResult: { success: boolean; conversation_id?: string }) {
+  const TWILIO_SID = process.env.TWILIO_ACCOUNT_SID
+  const TWILIO_TOKEN = process.env.TWILIO_AUTH_TOKEN
+  if (!TWILIO_SID || !TWILIO_TOKEN) return
+
+  const status = callResult.success ? 'מתחילה לצלצל' : 'נכשלה'
+  const msg = `Callnik ליד חדש!\nשם: ${name}\nטלפון: ${phone}\nשיחת מכירה: ${status}`
+
+  await fetch(`https://api.twilio.com/2010-04-01/Accounts/${TWILIO_SID}/Messages.json`, {
+    method: 'POST',
+    headers: {
+      Authorization: 'Basic ' + Buffer.from(`${TWILIO_SID}:${TWILIO_TOKEN}`).toString('base64'),
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: new URLSearchParams({
+      From: 'whatsapp:+14155238886',
+      To: 'whatsapp:+972524680164',
+      Body: msg,
+    }),
+  }).catch(() => null)
 }
 
 async function makeOutboundSalesCall(toNumber: string, leadName: string) {
