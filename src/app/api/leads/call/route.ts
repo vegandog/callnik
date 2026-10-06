@@ -50,8 +50,8 @@ async function notifyEri(phone: string, name: string, callResult: { success: boo
       'Content-Type': 'application/x-www-form-urlencoded',
     },
     body: new URLSearchParams({
-      From: 'whatsapp:+14155238886',
-      To: 'whatsapp:+972524680164',
+      From: '+19405388128',
+      To: '+972524680164',
       Body: msg,
     }),
   }).catch(() => null)
