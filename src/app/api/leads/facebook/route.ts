@@ -82,7 +82,7 @@ async function makeOutboundSalesCall(toNumber: string, leadName: string): Promis
   }
 
   try {
-    const res = await fetch('https://api.elevenlabs.io/v1/convai/sip-trunk/outbound-call', {
+    const res = await fetch('https://api.elevenlabs.io/v1/convai/twilio/outbound-call', {
       method: 'POST',
       headers: {
         'xi-api-key': ELEVENLABS_API_KEY,
