@@ -36,23 +36,25 @@ function normalizePhone(phone: string): string {
 }
 
 async function notifyEri(phone: string, name: string, callResult: { success: boolean; conversation_id?: string }) {
-  const TWILIO_SID = process.env.TWILIO_ACCOUNT_SID
-  const TWILIO_TOKEN = process.env.TWILIO_AUTH_TOKEN
-  if (!TWILIO_SID || !TWILIO_TOKEN) return
+  const RESEND_KEY = process.env.RESEND_API_KEY
+  if (!RESEND_KEY) return
 
-  const status = callResult.success ? 'מתחילה לצלצל' : 'נכשלה'
-  const msg = `Callnik ליד חדש!\nשם: ${name}\nטלפון: ${phone}\nשיחת מכירה: ${status}`
+  const status = callResult.success ? '✅ דנה מתקשרת עכשיו' : '❌ שיחה נכשלה'
 
-  await fetch(`https://api.twilio.com/2010-04-01/Accounts/${TWILIO_SID}/Messages.json`, {
+  await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
-      Authorization: 'Basic ' + Buffer.from(`${TWILIO_SID}:${TWILIO_TOKEN}`).toString('base64'),
-      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: `Bearer ${RESEND_KEY}`,
+      'Content-Type': 'application/json',
     },
-    body: new URLSearchParams({
-      From: '+19405388128',
-      To: '+972524680164',
-      Body: msg,
+    body: JSON.stringify({
+      from: 'Callnik <leads@callnik.com>',
+      to: 'vegandog@gmail.com',
+      subject: `ליד חדש: ${name || phone}`,
+      html: `<h2>ליד חדש מפייסבוק</h2>
+<p><b>שם:</b> ${name}</p>
+<p><b>טלפון:</b> ${phone}</p>
+<p><b>שיחה:</b> ${status}</p>`,
     }),
   }).catch(() => null)
 }
