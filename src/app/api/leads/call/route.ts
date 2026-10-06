@@ -37,7 +37,7 @@ async function makeOutboundSalesCall(toNumber: string, leadName: string) {
     return { success: false, error: 'ELEVENLABS_SALES_PHONE_NUMBER_ID not configured' }
   }
 
-  const res = await fetch('https://api.elevenlabs.io/v1/convai/twilio/outbound-call', {
+  const res = await fetch('https://api.elevenlabs.io/v1/convai/sip-trunk/outbound-call', {
     method: 'POST',
     headers: {
       'xi-api-key': ELEVENLABS_API_KEY,
