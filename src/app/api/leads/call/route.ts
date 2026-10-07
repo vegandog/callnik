@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 
 const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY!
 const SALES_AGENT_ID = process.env.ELEVENLABS_SALES_AGENT_ID!
@@ -21,14 +22,36 @@ export async function POST(req: NextRequest) {
 
   if (!phone) {
     // No phone - still notify Eri so the lead isn't lost
-    await notifyEri('', name, { success: false, error: 'no phone' }, email)
+    notifyEri('', name, { success: false, error: 'no phone' }, email).catch(() => null)
     return NextResponse.json({ success: false, error: 'phone required - lead saved' }, { status: 200 })
   }
 
   const normalizedPhone = normalizePhone(phone)
-  const result = await makeOutboundSalesCall(normalizedPhone, name || 'שלום')
 
-  await notifyEri(normalizedPhone, name, result, email)
+  // Deduplication: skip if same phone called in last 24h
+  const dedupKey = `fb:${normalizedPhone}`
+  const supabase = createAdminClient()
+  const { data: existing } = await supabase
+    .from('whatsapp_leads')
+    .select('updated_at')
+    .eq('phone', dedupKey)
+    .single()
+
+  if (existing) {
+    const age = Date.now() - new Date(existing.updated_at).getTime()
+    if (age < 24 * 60 * 60 * 1000) {
+      return NextResponse.json({ success: false, skipped: true, reason: 'duplicate within 24h' }, { status: 200 })
+    }
+  }
+
+  // Mark as processing immediately (prevent parallel duplicates)
+  await supabase.from('whatsapp_leads').upsert(
+    { phone: dedupKey, messages: [{ role: 'assistant', content: `facebook lead: ${name}` }], updated_at: new Date().toISOString() },
+    { onConflict: 'phone' }
+  )
+
+  const result = await makeOutboundSalesCall(normalizedPhone, name || 'שלום')
+  notifyEri(normalizedPhone, name, result, email).catch(() => null)
 
   return NextResponse.json(result)
 }
