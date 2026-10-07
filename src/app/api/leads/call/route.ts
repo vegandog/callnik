@@ -31,24 +31,25 @@ export async function POST(req: NextRequest) {
   // Deduplication: skip if same phone called in last 24h
   const dedupKey = `fb:${normalizedPhone}`
   const supabase = createAdminClient()
+  const cutoff = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
   const { data: existing } = await supabase
-    .from('whatsapp_leads')
-    .select('updated_at')
-    .eq('phone', dedupKey)
-    .single()
+    .from('promo_codes')
+    .select('created_at')
+    .eq('code', dedupKey)
+    .eq('source', 'facebook_lead')
+    .gte('created_at', cutoff)
+    .maybeSingle()
 
   if (existing) {
-    const age = Date.now() - new Date(existing.updated_at).getTime()
-    if (age < 24 * 60 * 60 * 1000) {
-      return NextResponse.json({ success: false, skipped: true, reason: 'duplicate within 24h' }, { status: 200 })
-    }
+    return NextResponse.json({ success: false, skipped: true, reason: 'duplicate within 24h' }, { status: 200 })
   }
 
   // Mark as processing immediately (prevent parallel duplicates)
-  await supabase.from('whatsapp_leads').upsert(
-    { phone: dedupKey, messages: [{ role: 'assistant', content: `facebook lead: ${name}` }], updated_at: new Date().toISOString() },
-    { onConflict: 'phone' }
-  )
+  await supabase.from('promo_codes').insert({
+    code: dedupKey,
+    source: 'facebook_lead',
+    expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+  })
 
   const result = await makeOutboundSalesCall(normalizedPhone, name || 'שלום')
   notifyEri(normalizedPhone, name, result, email).catch(() => null)
