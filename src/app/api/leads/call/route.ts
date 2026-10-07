@@ -14,16 +14,21 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const { phone, name } = body
+  // Accept multiple phone field names from Make/Facebook
+  const phone = body.phone || body.phone_number || body.PHONE_NUMBER || ''
+  const name = body.name || body.full_name || body.FULL_NAME || ''
+  const email = body.email || body.EMAIL || ''
+
   if (!phone) {
-    return NextResponse.json({ error: 'phone required' }, { status: 400 })
+    // No phone - still notify Eri so the lead isn't lost
+    await notifyEri('', name, { success: false, error: 'no phone' }, email)
+    return NextResponse.json({ success: false, error: 'phone required - lead saved' }, { status: 200 })
   }
 
   const normalizedPhone = normalizePhone(phone)
   const result = await makeOutboundSalesCall(normalizedPhone, name || 'שלום')
 
-  // WhatsApp notification to Eri
-  await notifyEri(normalizedPhone, name || '', result)
+  await notifyEri(normalizedPhone, name, result, email)
 
   return NextResponse.json(result)
 }
@@ -35,11 +40,11 @@ function normalizePhone(phone: string): string {
   return `+${digits}`
 }
 
-async function notifyEri(phone: string, name: string, callResult: { success: boolean; conversation_id?: string }) {
+async function notifyEri(phone: string, name: string, callResult: { success: boolean; conversation_id?: string; error?: unknown }, email = '') {
   const RESEND_KEY = process.env.RESEND_API_KEY
   if (!RESEND_KEY) return
 
-  const status = callResult.success ? '✅ דנה מתקשרת עכשיו' : '❌ שיחה נכשלה'
+  const status = !phone ? '⚠️ אין טלפון - לא בוצעה שיחה' : callResult.success ? '✅ דנה מתקשרת עכשיו' : '❌ שיחה נכשלה'
 
   await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -50,10 +55,11 @@ async function notifyEri(phone: string, name: string, callResult: { success: boo
     body: JSON.stringify({
       from: 'Callnik <leads@callnik.com>',
       to: 'vegandog@gmail.com',
-      subject: `ליד חדש: ${name || phone}`,
+      subject: `ליד חדש: ${name || phone || email || 'לא ידוע'}`,
       html: `<h2>ליד חדש מפייסבוק</h2>
-<p><b>שם:</b> ${name}</p>
-<p><b>טלפון:</b> ${phone}</p>
+<p><b>שם:</b> ${name || 'לא צוין'}</p>
+<p><b>טלפון:</b> ${phone || 'לא צוין'}</p>
+<p><b>אימייל:</b> ${email || 'לא צוין'}</p>
 <p><b>שיחה:</b> ${status}</p>`,
     }),
   }).catch(() => null)
