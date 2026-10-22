@@ -26,9 +26,58 @@ export const metadata: Metadata = {
   },
 };
 
+const schemaOrg = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Callnik",
+  "url": "https://callnik.com/",
+  "description": "מזכירה AI שעונה לשיחות נכנסות, מנהלת יומן ושולחת סיכומים בוואטסאפ. עובדת 24/7.",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "offers": [
+    {
+      "@type": "Offer",
+      "name": "Basic",
+      "price": "99",
+      "priceCurrency": "ILS",
+      "priceSpecification": {
+        "@type": "UnitPriceSpecification",
+        "price": "99",
+        "priceCurrency": "ILS",
+        "unitCode": "MON"
+      }
+    },
+    {
+      "@type": "Offer",
+      "name": "Pro",
+      "price": "149",
+      "priceCurrency": "ILS",
+      "priceSpecification": {
+        "@type": "UnitPriceSpecification",
+        "price": "149",
+        "priceCurrency": "ILS",
+        "unitCode": "MON"
+      }
+    }
+  ],
+  "publisher": {
+    "@type": "Organization",
+    "name": "MediaUp",
+    "url": "https://mediaup.net"
+  },
+  "inLanguage": "he",
+  "countriesSupported": "IL"
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="he" dir="rtl" className="h-full">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaOrg) }}
+        />
+      </head>
       <body className={`${googleSans.className} min-h-full`}>
         {children}
         <PrivacyBanner />
