@@ -94,9 +94,11 @@ export async function POST(req: NextRequest) {
   // Build transcript string
   const agentName = agentNameFromInit || getVoiceName(customer?.voice_id)
   const transcriptText = Array.isArray(transcript)
-    ? transcript.map((t: { role: string; message: string }) =>
-        `${t.role === 'agent' ? agentName : 'מתקשר'}: ${t.message}`
-      ).join('\n')
+    ? transcript
+        .filter((t: { role: string; message: string }) => t.message != null && t.message !== '')
+        .map((t: { role: string; message: string }) =>
+          `${t.role === 'agent' ? agentName : 'מתקשר'}: ${t.message}`
+        ).join('\n')
     : String(transcript)
 
   // Summarize

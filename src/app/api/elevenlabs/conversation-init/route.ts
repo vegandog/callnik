@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
   const supabase = createAdminClient()
   const { data: customer } = await supabase
     .from('customers')
-    .select('id, business_name, voice_id, gcal_refresh_token, gcal_appointment_type, gcal_hours_start, gcal_hours_end, gcal_working_days')
+    .select('id, business_name, voice_id, tier, gcal_refresh_token, gcal_appointment_type, gcal_hours_start, gcal_hours_end, gcal_working_days')
     .or(`twilio_number.eq.${calledNumber},telnyx_number.eq.${calledNumber}`)
     .single()
 
@@ -82,11 +82,41 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  const schedulingSection = customer?.gcal_refresh_token && callRecordId
+  // --- Call limit enforcement ---
+  const CALL_LIMITS: Record<string, number> = { basic: 60, pro: 150 }
+  const tier = customer?.tier || 'basic'
+  const monthLimit = CALL_LIMITS[tier] ?? 60
+
+  if (customer?.id) {
+    const israelNow = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Jerusalem' }))
+    const monthStart = new Date(israelNow.getFullYear(), israelNow.getMonth(), 1).toISOString()
+    const { count } = await supabase
+      .from('calls')
+      .select('id', { count: 'exact', head: true })
+      .eq('customer_id', customer.id)
+      .gte('created_at', monthStart)
+
+    if ((count ?? 0) >= monthLimit) {
+      return NextResponse.json({
+        conversation_config_override: {
+          agent: {
+            first_message: `שלום, מכסת השיחות החודשית של ${businessName} הסתיימה. אנא פנה ישירות לעסק. תודה, להתראות.`,
+            prompt: { prompt: 'אמור את ההודעה ואז סיים את השיחה.' },
+          },
+          conversation: { max_duration_seconds: 20 },
+        },
+        dynamic_variables: { business_name: businessName },
+      })
+    }
+  }
+  // --- End call limit ---
+
+  const isPro = customer?.tier === 'pro'
+  const schedulingSection = isPro && customer?.gcal_refresh_token && callRecordId
     ? `\n[יכולת קביעת ${apptWord}]\nתאריך היום: ${today}. ימי פעילות: ${workingDaysText}. שעות פעילות: ${hoursStart}-${hoursEnd}, כל 30 דקות.\nה-call_record_id לשיחה זו: ${callRecordId}\n\n**שנה את פתיחת השיחה:** לאחר ברכת הפתיחה, שאל: "אשמח לעזור — עדיף לך להשאיר הודעה, או לקבוע ${apptWord}?"\n- אם הודעה → תהליך רגיל (שם, הודעה, מספר לחזרה)\n- אם ${apptWord}:\n  1. שאל לאיזה תאריך מועדף (המר ל-YYYY-MM-DD, לדוגמה: מחר = ${new Date(Date.now() + 86400000).toLocaleDateString('sv-SE', { timeZone: 'Asia/Jerusalem' })})\n  2. קרא ל-check_availability עם call_record_id="${callRecordId}" ו-date=YYYY-MM-DD\n  3. הצג עד 4 זמנים פנויים\n  4. שאל שם מלא וסיבת ה${apptWord}\n  5. קרא ל-book_appointment עם call_record_id="${callRecordId}", date, time, caller_name, reason\n  6. אשר: "ה${apptWord} נקבעה ל-[תאריך] בשעה [שעה]!"`
     : ''
 
-  const firstQuestion = customer?.gcal_refresh_token && callRecordId
+  const firstQuestion = isPro && customer?.gcal_refresh_token && callRecordId
     ? `תרצה להשאיר הודעה, או לקבוע ${apptWord}?`
     : 'אז, מה השם, בבקשה?'
 

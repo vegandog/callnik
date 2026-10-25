@@ -16,6 +16,8 @@ interface Customer {
   status: string
   created_at: string
   call_count: number
+  monthly_call_count: number
+  tier: string | null
   email: string | null
 }
 
@@ -64,6 +66,9 @@ export default function AdminPanel() {
   const [addForm, setAddForm] = useState(emptyForm)
   const [adding, setAdding] = useState(false)
   const [addError, setAddError] = useState('')
+  const [editingCustomer, setEditingCustomer] = useState<Customer | null>(null)
+  const [editForm, setEditForm] = useState<Partial<typeof emptyForm & { email: string; tier: string }>>({})
+  const [saving, setSaving] = useState(false)
 
   const load = async () => {
     setLoading(true)
@@ -159,6 +164,34 @@ export default function AdminPanel() {
     setConfirmDelete(null)
   }
 
+  const openEdit = (customer: Customer) => {
+    setEditingCustomer(customer)
+    setEditForm({
+      business_name: customer.business_name,
+      whatsapp_number: customer.whatsapp_number,
+      carrier: customer.carrier || 'אחר',
+      category: customer.category || '',
+      voice_id: customer.voice_id || 'FA7xLUuWpSuAX9pUCVmy',
+      telnyx_number: customer.telnyx_number || '',
+      twilio_number: customer.twilio_number || '',
+      email: customer.email || '',
+      tier: customer.tier || 'basic',
+    })
+  }
+
+  const saveEdit = async () => {
+    if (!editingCustomer) return
+    setSaving(true)
+    await fetch('/api/admin/customers', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ customer_id: editingCustomer.id, ...editForm }),
+    })
+    setCustomers(prev => prev.map(c => c.id === editingCustomer.id ? { ...c, ...editForm } : c))
+    setEditingCustomer(null)
+    setSaving(false)
+  }
+
   const addCustomer = async () => {
     setAdding(true)
     setAddError('')
@@ -211,6 +244,82 @@ export default function AdminPanel() {
                 className="bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium px-4 py-2 rounded-lg"
               >
                 ביטול
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {editingCustomer && (
+        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
+          <div className="bg-white rounded-xl shadow-xl p-6 w-[420px] space-y-4" dir="rtl">
+            <h2 className="text-base font-bold text-gray-900">עריכת לקוח - {editingCustomer.business_name}</h2>
+            <div className="space-y-3">
+              <div>
+                <label className="text-xs text-gray-500 block mb-1">שם עסק</label>
+                <input value={editForm.business_name || ''} onChange={e => setEditForm(f => ({ ...f, business_name: e.target.value }))}
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              </div>
+              <div>
+                <label className="text-xs text-gray-500 block mb-1">וואטסאפ</label>
+                <input value={editForm.whatsapp_number || ''} onChange={e => setEditForm(f => ({ ...f, whatsapp_number: e.target.value }))}
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-blue-500" dir="ltr" />
+              </div>
+              <div>
+                <label className="text-xs text-gray-500 block mb-1">מייל</label>
+                <input value={editForm.email || ''} onChange={e => setEditForm(f => ({ ...f, email: e.target.value }))}
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" dir="ltr" type="email" />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs text-gray-500 block mb-1">חברת סלולר</label>
+                  <select value={editForm.carrier || 'אחר'} onChange={e => setEditForm(f => ({ ...f, carrier: e.target.value }))}
+                    className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    {CARRIERS.map(c => <option key={c} value={c}>{c}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label className="text-xs text-gray-500 block mb-1">קול</label>
+                  <select value={editForm.voice_id || 'FA7xLUuWpSuAX9pUCVmy'} onChange={e => setEditForm(f => ({ ...f, voice_id: e.target.value }))}
+                    className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    {VOICES.map(v => <option key={v.id} value={v.id}>{v.name}</option>)}
+                  </select>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs text-gray-500 block mb-1">תחום</label>
+                  <input value={editForm.category || ''} onChange={e => setEditForm(f => ({ ...f, category: e.target.value }))}
+                    className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="מסעדות, רפואה..." />
+                </div>
+                <div>
+                  <label className="text-xs text-gray-500 block mb-1">תוכנית</label>
+                  <select value={(editForm as Record<string, string>).tier || 'basic'} onChange={e => setEditForm(f => ({ ...f, tier: e.target.value }))}
+                    className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="basic">Basic (60 שיחות)</option>
+                    <option value="pro">Pro (150 שיחות)</option>
+                  </select>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs text-gray-500 block mb-1">מספר Telnyx</label>
+                  <input value={editForm.telnyx_number || ''} onChange={e => setEditForm(f => ({ ...f, telnyx_number: e.target.value }))}
+                    className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-blue-500" dir="ltr" placeholder="+97283..." />
+                </div>
+                <div>
+                  <label className="text-xs text-gray-500 block mb-1">מספר Twilio</label>
+                  <input value={editForm.twilio_number || ''} onChange={e => setEditForm(f => ({ ...f, twilio_number: e.target.value }))}
+                    className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-blue-500" dir="ltr" placeholder="+97293..." />
+                </div>
+              </div>
+            </div>
+            <div className="flex gap-3 justify-end pt-1">
+              <button onClick={() => setEditingCustomer(null)} className="text-sm text-gray-500 hover:text-gray-800 px-4 py-2">ביטול</button>
+              <button onClick={saveEdit} disabled={saving}
+                className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-5 py-2 rounded-lg disabled:opacity-50">
+                {saving ? 'שומר...' : 'שמור'}
               </button>
             </div>
           </div>
@@ -447,6 +556,13 @@ export default function AdminPanel() {
                             {toggling === customer.id ? '...' : customer.status === 'active' ? 'השהה' : 'הפעל'}
                           </button>
                           <button
+                            onClick={() => openEdit(customer)}
+                            className="text-gray-400 hover:text-blue-600 transition-colors"
+                            title="ערוך לקוח"
+                          >
+                            <Pencil className="w-4 h-4" />
+                          </button>
+                          <button
                             onClick={() => setConfirmDelete(customer)}
                             className="text-red-400 hover:text-red-600 transition-colors"
                             title="מחק לקוח"
@@ -477,13 +593,24 @@ export default function AdminPanel() {
                         <span className="font-medium text-gray-500">Telnyx:</span>{' '}{numberCell('telnyx')}
                       </td>
                       <td className="px-4 pt-1 pb-3 text-xs text-center">
-                        {customer.call_count > 0 ? (
-                          <a href={`/admin/calls?customer=${customer.id}`} className="font-semibold text-blue-600 hover:underline">
-                            {customer.call_count} שיחות
-                          </a>
-                        ) : (
-                          <span className="text-gray-300">0 שיחות</span>
-                        )}
+                        {(() => {
+                          const limit = customer.tier === 'pro' ? 150 : 60
+                          const used = customer.monthly_call_count
+                          const pct = Math.min(100, Math.round(used / limit * 100))
+                          const isOver = used >= limit
+                          const color = isOver ? 'text-red-600' : used >= limit * 0.8 ? 'text-orange-500' : 'text-gray-500'
+                          return (
+                            <div className="space-y-1">
+                              <a href={`/admin/calls?customer=${customer.id}`} className={`font-semibold hover:underline ${isOver ? 'text-red-600' : 'text-blue-600'}`}>
+                                {customer.call_count} סה&quot;כ
+                              </a>
+                              <div className={`text-[10px] font-medium ${color}`}>{used}/{limit} החודש</div>
+                              <div className="w-16 mx-auto h-1 bg-gray-100 rounded-full overflow-hidden">
+                                <div className={`h-full rounded-full ${isOver ? 'bg-red-500' : used >= limit * 0.8 ? 'bg-orange-400' : 'bg-blue-400'}`} style={{ width: `${pct}%` }} />
+                              </div>
+                            </div>
+                          )
+                        })()}
                       </td>
                       <td className="px-4 pt-1 pb-3" />
                       <td className="px-4 pt-1 pb-3">

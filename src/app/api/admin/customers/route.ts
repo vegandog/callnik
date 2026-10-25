@@ -19,18 +19,31 @@ export async function GET() {
   const supabase = createAdminClient()
   const { data: customers, error } = await supabase
     .from('customers')
-    .select('id, business_name, category, whatsapp_number, carrier, twilio_number, telnyx_number, voice_id, status, created_at, cardcom_token, card_month, card_year, token_expiry, plan, next_billing_date, billing_failures')
+    .select('id, business_name, category, whatsapp_number, carrier, twilio_number, telnyx_number, voice_id, status, created_at, cardcom_token, card_month, card_year, token_expiry, plan, next_billing_date, billing_failures, tier')
     .order('created_at', { ascending: false })
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+
+  const israelNow = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Jerusalem' }))
+  const monthStart = new Date(israelNow.getFullYear(), israelNow.getMonth(), 1).toISOString()
 
   const { data: callCounts } = await supabase
     .from('calls')
     .select('customer_id')
 
+  const { data: monthCalls } = await supabase
+    .from('calls')
+    .select('customer_id')
+    .gte('created_at', monthStart)
+
   const countMap: Record<string, number> = {}
   callCounts?.forEach(c => {
     countMap[c.customer_id] = (countMap[c.customer_id] || 0) + 1
+  })
+
+  const monthMap: Record<string, number> = {}
+  monthCalls?.forEach(c => {
+    monthMap[c.customer_id] = (monthMap[c.customer_id] || 0) + 1
   })
 
   // Fetch primary email per customer
@@ -48,6 +61,7 @@ export async function GET() {
     customers: customers?.map(c => ({
       ...c,
       call_count: countMap[c.id] || 0,
+      monthly_call_count: monthMap[c.id] || 0,
       email: emailMap[c.id] || null,
     }))
   })
@@ -104,7 +118,7 @@ export async function PATCH(req: NextRequest) {
   if (!await assertAdmin()) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 
   const body = await req.json()
-  const { customer_id, status, twilio_number, telnyx_number, voice_id, action } = body
+  const { customer_id, status, twilio_number, telnyx_number, voice_id, action, business_name, whatsapp_number, carrier, category, email, tier } = body
   const supabase = createAdminClient()
 
   // Resend activation email without changing status
@@ -140,11 +154,19 @@ export async function PATCH(req: NextRequest) {
     .eq('id', customer_id)
     .single()
 
-  const update: Record<string, string> = {}
+  const update: Record<string, string | null> = {}
   if (status) update.status = status
-  if (twilio_number !== undefined) update.twilio_number = twilio_number
-  if (telnyx_number !== undefined) update.telnyx_number = telnyx_number
+  if (twilio_number !== undefined) update.twilio_number = twilio_number || null
+  if (telnyx_number !== undefined) update.telnyx_number = telnyx_number || null
   if (voice_id !== undefined) update.voice_id = voice_id
+  if (business_name !== undefined) update.business_name = business_name
+  if (whatsapp_number !== undefined) update.whatsapp_number = whatsapp_number
+  if (carrier !== undefined) update.carrier = carrier
+  if (category !== undefined) update.category = category || null
+  if (tier !== undefined) update.tier = tier
+  if (email !== undefined) {
+    await supabase.from('users').update({ email }).eq('customer_id', customer_id)
+  }
 
   const { error } = await supabase
     .from('customers')
