@@ -130,7 +130,7 @@ export default function Home() {
                 {
                   icon: <Headset className="w-6 h-6 text-white" />,
                   title: 'Callnik לוקחת הודעה',
-                  desc: 'מזכירה אוטומטית מציגה את עצמה, לוקחת שם, סיבת הפנייה ומספר טלפון',
+                  desc: 'מזכירה אוטומטית מציגה את עצמה, לוקחת שם, סיבת הפנייה ומספר טלפון - ואם רלוונטי, קובעת פגישה ישירות ביומן',
                 },
                 {
                   icon: <WhatsAppIcon className="w-6 h-6 text-white" />,

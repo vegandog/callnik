@@ -60,8 +60,13 @@ export async function POST(req: NextRequest) {
   const parts = (data.ReturnValue || '').split(':')
   const customerId = parts[0]
   const plan = parts[1]
-  const promoCodeId = parts[2] === 'promo' ? parts[3] : null
-  const isIntro = parts[2] === 'intro'
+  // Format: customerId:billingPlan:tier[:intro|:promo:promoId]
+  // Backwards compat: old format was customerId:billingPlan[:intro|:promo:promoId]
+  const hasTier = parts[2] === 'basic' || parts[2] === 'pro'
+  const tierVal: 'basic' | 'pro' = hasTier ? (parts[2] as 'basic' | 'pro') : 'basic'
+  const p3 = hasTier ? parts[3] : parts[2]
+  const promoCodeId = p3 === 'promo' ? (hasTier ? parts[4] : parts[3]) || null : null
+  const isIntro = p3 === 'intro'
 
   if (!customerId) return NextResponse.json({ ok: false })
 
@@ -113,16 +118,19 @@ export async function POST(req: NextRequest) {
     ? new Date(now.getFullYear() + 1, now.getMonth(), now.getDate())
     : new Date(now.getFullYear(), now.getMonth() + 1, now.getDate())
 
-  const firstPaymentAmount = plan === 'annual' ? 1118.64 : plan === 'test' ? 1 : promoCodeId ? 1 : isIntro ? 34.22 : 116.82
+  const monthlyBase = tierVal === 'pro' ? 234.82 : 116.82  // ₪199 or ₪99 + 18% VAT
+  const annualBase  = tierVal === 'pro' ? 2348.20 : 1118.64 // ₪1990 or ₪948 + 18% VAT
+  const tierLabel   = tierVal === 'pro' ? 'Pro' : 'Basic'
+  const firstPaymentAmount = plan === 'annual' ? annualBase : plan === 'test' ? 1 : promoCodeId ? 1 : isIntro ? 34.22 : monthlyBase
   const firstPaymentLabel = plan === 'annual'
-    ? 'מנוי Callnik שנתי - callnik.com | ₪1,118.64 לשנה כולל מע"מ'
+    ? `מנוי Callnik ${tierLabel} שנתי - callnik.com`
     : plan === 'test'
     ? 'טסט Callnik - callnik.com'
     : promoCodeId
-    ? 'מנוי Callnik חודשי - callnik.com | חודש ראשון ב-₪1 (קופון ג\'ינגלפון)'
+    ? `מנוי Callnik ${tierLabel} חודשי - callnik.com | חודש ראשון ב-₪1 (קופון)`
     : isIntro
-    ? 'מנוי Callnik חודשי - callnik.com | חודש ראשון ₪34.22 כולל מע"מ (₪29 לפני מע"מ) | מחודש שני: ₪116.82 לחודש כולל מע"מ'
-    : 'מנוי Callnik חודשי - callnik.com | ₪116.82 לחודש כולל מע"מ'
+    ? `מנוי Callnik ${tierLabel} חודשי - callnik.com | חודש ראשון ₪34.22 כולל מע"מ | מחודש שני: ₪${monthlyBase} כולל מע"מ`
+    : `מנוי Callnik ${tierLabel} חודשי - callnik.com | ₪${monthlyBase} לחודש כולל מע"מ`
 
   await dbPost('billing_history', {
     customer_id: customerId,
@@ -141,6 +149,7 @@ export async function POST(req: NextRequest) {
     card_year: cardYear || null,
     token_expiry: tokenExDate ? parseExpiry(tokenExDate) : null,
     plan: (plan === 'test' ? 'monthly' : plan) || 'monthly',
+    tier: tierVal,
     next_billing_date: token ? nextBilling.toISOString().split('T')[0] : null,
     billing_failures: 0,
     pending_lp_id: null,

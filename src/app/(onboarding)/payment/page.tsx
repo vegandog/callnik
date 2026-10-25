@@ -9,6 +9,13 @@ export default function PaymentPage() {
   const error = searchParams.get('error')
   const [iframeUrl, setIframeUrl] = useState<string | null>(null)
   const [plan, setPlan] = useState<'monthly' | 'annual' | 'test'>('monthly')
+  const [tier, setTier] = useState<'basic' | 'pro'>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = sessionStorage.getItem('callnik_tier')
+      return (saved === 'pro' ? 'pro' : 'basic') as 'basic' | 'pro'
+    }
+    return 'basic'
+  })
   const isTestMode = searchParams.get('test') === '1'
   const isIntro = searchParams.get('intro') === '1'
   const [loading, setLoading] = useState(false)
@@ -40,14 +47,14 @@ export default function PaymentPage() {
     if (checked) createSession('monthly', coupon.trim())
   }
 
-  const createSession = async (selectedPlan: 'monthly' | 'annual' | 'test', appliedCoupon?: string) => {
+  const createSession = async (selectedPlan: 'monthly' | 'annual' | 'test', appliedCoupon?: string, tierOverride?: 'basic' | 'pro') => {
     setLoading(true)
     setErr('')
     setIframeUrl(null)
     const res = await fetch('/api/cardcom/create-session', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ plan: selectedPlan, coupon: appliedCoupon || (couponStatus === 'valid' ? coupon : undefined), intro: isIntro }),
+      body: JSON.stringify({ plan: selectedPlan, coupon: appliedCoupon || (couponStatus === 'valid' ? coupon : undefined), intro: isIntro, tier: tierOverride ?? tier }),
     })
     if (res.ok) {
       const { url } = await res.json()
@@ -72,7 +79,7 @@ export default function PaymentPage() {
 
   const switchPlan = (p: 'monthly' | 'annual' | 'test') => {
     setPlan(p)
-    createSession(p)
+    createSession(p, undefined, tier)
   }
 
   return (
@@ -85,6 +92,27 @@ export default function PaymentPage() {
 
       <h1 className="text-xl font-bold text-gray-900 mb-1">בחר תוכנית ושלם</h1>
       <p className="text-gray-500 text-sm mb-6">תוכל לבטל בכל עת. ללא קנסות.</p>
+
+      {/* Tier selector */}
+      <div className="grid grid-cols-2 gap-3 mb-5">
+        <button
+          onClick={() => { setTier('basic'); createSession(plan, undefined, 'basic') }}
+          className={`rounded-xl border-2 p-4 text-right transition-all ${tier === 'basic' ? 'border-blue-600 bg-blue-50' : 'border-gray-200 bg-white'}`}
+        >
+          <div className="font-bold text-gray-900 text-base mb-1">Basic</div>
+          <div className="text-gray-500 text-xs leading-relaxed">מזכירה AI + הודעות ב-וואטסאפ</div>
+          <div className={`text-sm font-semibold mt-2 ${tier === 'basic' ? 'text-blue-600' : 'text-gray-400'}`}>{isIntro ? '₪29 → ₪99' : '₪99'}/חודש</div>
+        </button>
+        <button
+          onClick={() => { if (couponStatus === 'valid') return; setTier('pro'); createSession(plan, undefined, 'pro') }}
+          className={`rounded-xl border-2 p-4 text-right transition-all relative ${tier === 'pro' ? 'border-blue-600 bg-blue-50' : 'border-gray-200 bg-white'}`}
+        >
+          <div className="absolute top-2 left-2 bg-purple-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">Pro</div>
+          <div className="font-bold text-gray-900 text-base mb-1">Pro</div>
+          <div className="text-gray-500 text-xs leading-relaxed">הכל + קביעת פגישות ביומן</div>
+          <div className={`text-sm font-semibold mt-2 ${tier === 'pro' ? 'text-blue-600' : 'text-gray-400'}`}>{isIntro ? '₪29 → ₪199' : '₪199'}/חודש</div>
+        </button>
+      </div>
 
       {/* Plan selector */}
       <div className="grid grid-cols-2 gap-3 mb-6">

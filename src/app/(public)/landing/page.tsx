@@ -11,6 +11,7 @@ const faqs = [
   { q: 'כמה זמן לוקחת ההגדרה?', a: 'בין 5 ל-10 דקות בפעם הראשונה. בוחרים קול, כותבים כמה מילים על העסק - ומוכנים. לא צריך טכנאי, לא צריך לתאם עם בזק, כלום.' },
   { q: 'מה קורה אחרי 60 שיחות?', a: 'ממשיכים לענות כמו תמיד, בלי שום הפרעה. בסוף החודש מוסיפים 99 אגורות על כל שיחה מעל 60. עסק עם 80 שיחות ישלם בסך הכל ₪118.80. לרוב העסקים הקטנים זה בכלל לא מגיע לזה.' },
   { q: 'האם אפשר לבטל?', a: 'כן, בכל עת. מייל אחד, ביטול בלי שאלות ובלי קנסות. אנחנו לא מאמינים בחוזים שמחזיקים אנשים בכוח. שים לב: מחיר ההיכרות ₪29 ניתן פעם אחת בלבד - חזרה לאחר ביטול מתבצעת במחיר המלא ₪99/חודש.' },
+  { q: 'האם המזכירה יכולה לקבוע פגישות?', a: 'כן. מחברים את יומן Google מהפאנל - ואז המזכירה תציע ללקוח לקבוע פגישה ישירות. הפגישה נרשמת ביומן אוטומטית, וסיכום מגיע לוואטסאפ כרגיל.' },
   { q: 'באיזה קול דנה מדברת עם הלקוחות שלי?', a: 'יש 6 קולות עבריים לבחירה - 4 נשיים ו-2 גבריים, שונים בצביון ובאופי. לפני שמחליטים, שומעים כל אחד בפועל. מה שנשמע הכי טבעי לעסק שלך - זה מה שלוקחים.' },
 ]
 
@@ -127,11 +128,18 @@ export default function LandingPage() {
             Callnik עונה לכל שיחה שלא הצלחת לקחת, לוקחת הודעה,<br className="hidden md:block" />
             ושולחת לך סיכום מיידי בוואטסאפ.
           </p>
-          <Link href="/register?intro=1" className="inline-block bg-[#22C55E] hover:bg-[#16A34A] text-white font-bold text-lg px-8 py-4 rounded-full transition-colors shadow-lg">
-            התחל עכשיו - ₪29 + מע&quot;מ לחודש הראשון
-          </Link>
-          <p className="text-gray-400 text-sm mt-3">מהחודש השני ₪99/חודש | ביטול בכל עת | המחירים לפני מע&quot;מ</p>
-          <p className="text-gray-300 text-xs mt-1">* מחיר הניסיון ₪29 חל פעם אחת בלבד - לא חוזר לאחר ביטול והצטרפות מחדש</p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center mb-2">
+            <Link href="/register?intro=1" className="inline-block bg-[#22C55E] hover:bg-[#16A34A] text-white font-bold text-base px-6 py-3.5 rounded-full transition-colors shadow-lg">
+              Basic - ₪29 לחודש הראשון
+              <span className="block text-xs font-normal opacity-80">מחודש 2: ₪99/חודש</span>
+            </Link>
+            <Link href="/register?intro=1&tier=pro" className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold text-base px-6 py-3.5 rounded-full transition-colors shadow-lg">
+              Pro - ₪29 לחודש הראשון
+              <span className="block text-xs font-normal opacity-80">מחודש 2: ₪199/חודש + קביעת פגישות</span>
+            </Link>
+          </div>
+          <p className="text-gray-400 text-sm mt-2">ביטול בכל עת | המחירים לפני מע&quot;מ</p>
+          <p className="text-gray-300 text-xs mt-1">* מחיר הניסיון ₪29 חל פעם אחת בלבד</p>
         </div>
       </section>
 

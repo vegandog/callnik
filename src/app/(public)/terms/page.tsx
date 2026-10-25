@@ -12,7 +12,7 @@ export default function TermsPage() {
       <Navbar />
       <main className="max-w-3xl mx-auto px-4 py-16 text-right">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">תנאי שימוש</h1>
-        <p className="text-sm text-gray-400 mb-8">עודכן לאחרונה: אוגוסט 2026</p>
+        <p className="text-sm text-gray-400 mb-8">עודכן לאחרונה: אוקטובר 2026</p>
 
         <p className="text-gray-600 leading-relaxed mb-10">
           ברוכים הבאים ל-Callnik. מסמך זה מגדיר את תנאי השימוש (&quot;התנאים&quot;) החלים על כל אדם או גוף המשתמש בשירותים שמציעה Callnik (להלן: &quot;החברה&quot; או &quot;Callnik&quot;), בכתובת <a href="https://callnik.com" className="text-blue-600 underline">callnik.com</a>. גלישה באתר, הרשמה לשירות או שימוש בו מהווים הסכמה מלאה לתנאים אלה. אם אינך מסכים לתנאים - אנא הימנע משימוש בשירות.
@@ -32,7 +32,7 @@ export default function TermsPage() {
 
         <Section title="2. תיאור השירות">
           <p className="text-gray-600 mb-3">
-            Callnik מאפשרת לעסקים לא לפספס שיחות. כאשר לקוח מתקשר לעסק ולא נענה, השיחה מועברת אוטומטית למזכירה ה-AI של Callnik. המזכירה מנהלת שיחה בעברית, אוספת את שם המתקשר, מטרת השיחה ומספר ליצירת קשר, ושולחת לבעל העסק סיכום בוואטסאפ תוך דקה מסיום השיחה.
+            Callnik מאפשרת לעסקים לא לפספס שיחות. כאשר לקוח מתקשר לעסק ולא נענה, השיחה מועברת אוטומטית למזכירה ה-AI של Callnik. המזכירה מנהלת שיחה בעברית, אוספת את שם המתקשר, מטרת השיחה ומספר ליצירת קשר, ושולחת לבעל העסק סיכום בוואטסאפ תוך דקה מסיום השיחה. לקוח שחיבר את Google Calendar לחשבונו יכול להגדיר שהמזכירה תציע למתקשרים לקבוע פגישה ישירות ביומן.
           </p>
           <p className="text-gray-600 mb-3">
             ההפניה הסלולרית מוגדרת ברמת הרשת הסלולרית ומתבצעת על ידי הלקוח בחיוג קצר לפי הנחיית Callnik. מספר הטלפון של הלקוח אצל לקוחותיו אינו משתנה.
@@ -67,14 +67,24 @@ export default function TermsPage() {
               </thead>
               <tbody>
                 <tr>
-                  <td className="p-3 border-b border-gray-100">מנוי חודשי</td>
+                  <td className="p-3 border-b border-gray-100">Basic חודשי</td>
                   <td className="p-3 border-b border-gray-100">₪99 לחודש</td>
-                  <td className="p-3 border-b border-gray-100">חיוב חודשי. ביטול בכל עת.</td>
+                  <td className="p-3 border-b border-gray-100">מזכירה AI + הודעות וואטסאפ. ביטול בכל עת.</td>
                 </tr>
                 <tr>
-                  <td className="p-3">מנוי שנתי</td>
-                  <td className="p-3">₪948 לשנה (₪79 לחודש)</td>
-                  <td className="p-3">תשלום חד-פעמי מראש לשנה שלמה. חסכון של ₪240 לעומת חודשי.</td>
+                  <td className="p-3 border-b border-gray-100">Basic שנתי</td>
+                  <td className="p-3 border-b border-gray-100">₪948 לשנה (₪79 לחודש)</td>
+                  <td className="p-3 border-b border-gray-100">תשלום מראש. חסכון ₪240 לעומת חודשי.</td>
+                </tr>
+                <tr>
+                  <td className="p-3 border-b border-gray-100">Pro חודשי</td>
+                  <td className="p-3 border-b border-gray-100">₪199 לחודש</td>
+                  <td className="p-3 border-b border-gray-100">הכל + קביעת פגישות ביומן Google. ביטול בכל עת.</td>
+                </tr>
+                <tr>
+                  <td className="p-3">Pro שנתי</td>
+                  <td className="p-3">₪1,990 לשנה (₪166 לחודש)</td>
+                  <td className="p-3">תשלום מראש. חסכון ₪398 לעומת חודשי.</td>
                 </tr>
               </tbody>
             </table>
@@ -113,7 +123,8 @@ export default function TermsPage() {
             <li>ההחזר הוא: סכום ששולם בפועל פחות (מספר חודשי שימוש × ₪99).</li>
           </ul>
           <div className="bg-blue-50 rounded-lg px-4 py-3 text-sm text-blue-800 mb-4">
-            <strong>דוגמה:</strong> שילמת ₪948 לשנה וביטלת אחרי 6 חודשים — ₪948 פחות 6×₪99 (₪594) = <strong>החזר של ₪354</strong>. אין קנסות, אין עמלות.
+            <strong>דוגמה Basic:</strong> שילמת ₪948 לשנה וביטלת אחרי 6 חודשים — ₪948 פחות 6×₪99 = <strong>החזר ₪354</strong>.<br/>
+            <strong>דוגמה Pro:</strong> שילמת ₪1,990 לשנה וביטלת אחרי 6 חודשים — ₪1,990 פחות 6×₪199 = <strong>החזר ₪796</strong>. אין קנסות, אין עמלות.
           </div>
 
           <h3 className="font-semibold text-gray-800 mb-2">5.4 ביטול על ידי Callnik</h3>
@@ -124,7 +135,10 @@ export default function TermsPage() {
 
         <Section title="6. מגבלות שירותי צד שלישי וכוח עליון">
           <p className="text-gray-600 mb-3">
-            Callnik משתמשת בשירותי טכנולוגיה חיצוניים (טלפוניה, קול AI, עיבוד שפה ואחסון). לעיתים, שירותים אלו עשויים לחוות תקלות שאינן בשליטת Callnik. Callnik אינה אחראית לעיכובים הנגרמים מגורמים אלה.
+            Callnik משתמשת בשירותי טכנולוגיה חיצוניים (טלפוניה, קול AI, עיבוד שפה, אחסון ו-Google Calendar). לעיתים, שירותים אלו עשויים לחוות תקלות שאינן בשליטת Callnik. Callnik אינה אחראית לעיכובים הנגרמים מגורמים אלה.
+          </p>
+          <p className="text-gray-600 mb-3">
+            לקוח שחיבר את Google Calendar לחשבונו מסכים להעברת נתוני פגישות (תאריך, שעה, שם מתקשר) ל-Google לצורך יצירת הארוע ביומן. Google כפופה לתנאי השימוש ומדיניות הפרטיות שלה, שאינן בשליטת Callnik.
           </p>
           <p className="text-gray-600">
             Callnik לא תישא באחריות לכל עיכוב הנובע מנסיבות שאינן בשליטתה, לרבות תקלות תשתיות, הפסקות חשמל, כשלי ספקים, מגיפות, מלחמה, או מצב חירום לאומי.

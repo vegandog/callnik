@@ -12,7 +12,7 @@ export default function PrivacyPage() {
       <Navbar />
       <main className="max-w-3xl mx-auto px-4 py-16 text-right">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">מדיניות פרטיות</h1>
-        <p className="text-sm text-gray-400 mb-8">עדכון אחרון: אוגוסט 2026</p>
+        <p className="text-sm text-gray-400 mb-8">עדכון אחרון: אוקטובר 2026</p>
 
         <p className="text-gray-600 leading-relaxed mb-10">
           מדיניות פרטיות זו מפרטת כיצד Callnik (&quot;החברה&quot;, &quot;אנחנו&quot;) אוספת ומעבדת מידע אישי אודות המשתמשים בשירותיה, לרבות מבקרי האתר, לקוחות רשומים, ומתקשרים שמגיעים אל מזכירת ה-AI, בקשר עם השימוש בפלטפורמת Callnik בכתובת callnik.com. החברה מכבדת את פרטיות המשתמשים בהתאם לחוק הגנת הפרטיות, התשמ&quot;א-1981.
@@ -28,6 +28,7 @@ export default function PrivacyPage() {
           <ul className="space-y-2 text-gray-600">
             <li><strong>מידע שמסרת ישירות:</strong> טופס הרשמה, יצירת חשבון, פניות בדוא&quot;ל.</li>
             <li><strong>מידע מהשיחות:</strong> הקלטות שיחות טלפון המועברות למזכירת ה-AI, תמלולים, וסיכומים שנוצרים אוטומטית.</li>
+            <li><strong>מידע יומן Google (אופציונלי):</strong> לקוח שחיבר את Google Calendar - נשמר refresh token מוצפן לצורך יצירת פגישות. Callnik אינה קוראת אירועים קיימים ביומן, רק יוצרת חדשים לפי בקשת המזכירה.</li>
             <li><strong>מידע שנאסף אוטומטית:</strong> כתובת IP, סוג דפדפן, עמודים שנצפו, זמן שהייה - באמצעות עוגיות וכלי ניטור.</li>
             <li><strong>מידע ממתקשרים:</strong> שם, מספר טלפון, וסיבת הפנייה - כפי שנמסרו למזכירת ה-AI במהלך שיחה.</li>
           </ul>
@@ -36,6 +37,7 @@ export default function PrivacyPage() {
         <Section title="3. המידע שנאסף">
           <p className="text-gray-600 mb-3"><strong>פרטי לקוח:</strong> שם, כתובת דוא&quot;ל, מספר טלפון, שם עסק, מספר וואטסאפ לקבלת סיכומים, וחברת הסלולר.</p>
           <p className="text-gray-600 mb-3"><strong>הקלטות ותמלולים:</strong> הקלטות שיחות המועברות ל-Callnik, תמלולים של השיחות, וסיכומי AI. מידע זה נאסף ומעובד לצורך אספקת השירות.</p>
+          <p className="text-gray-600 mb-3"><strong>נתוני יומן (אופציונלי):</strong> לקוח שחיבר Google Calendar - נשמר refresh token מוצפן בלבד. Callnik לא קוראת ולא שומרת אירועים קיימים ביומן.</p>
           <p className="text-gray-600 mb-3"><strong>מידע תשלום:</strong> Callnik אינה שומרת פרטי כרטיס אשראי. פרטי התשלום מועברים ישירות לספק הסליקה המאובטח.</p>
           <p className="text-gray-600"><strong>מידע טכני:</strong> כתובת IP, סוג דפדפן, מערכת הפעלה, עמודים שנצפו ומועד הגישה.</p>
         </Section>
@@ -72,6 +74,7 @@ export default function PrivacyPage() {
             <li><strong>ספק הטלפוניה:</strong> מעבד את שיחות הטלפון המועברות לשירות.</li>
             <li><strong>שירות ה-AI לשיחה ותמלול:</strong> ממיר את הקול לטקסט ומנהל את השיחה.</li>
             <li><strong>שירות ה-AI לסיכום:</strong> מייצר את סיכום השיחה.</li>
+            <li><strong>Google LLC (Calendar):</strong> לקוחות שחיברו Google Calendar - נתוני פגישות (תאריך, שעה, שם מתקשר) מועברים ל-Google לצורך יצירת הארוע. כפוף לתנאי Google.</li>
             <li><strong>ספק האחסון:</strong> אחסון מאובטח של נתוני השיחות.</li>
             <li><strong>ספק הסליקה:</strong> עיבוד תשלומים - אינו שומר פרטי כרטיס אצלנו.</li>
             <li><strong>דרישת חוק:</strong> אם נחויב למסור מידע בהתאם לצו שיפוטי או דרישה חוקית.</li>

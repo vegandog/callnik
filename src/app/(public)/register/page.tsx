@@ -12,12 +12,16 @@ export default function RegisterPage() {
   const handleGoogle = () => {
     setLoading(true)
     // Preserve promo/intro across OAuth redirect via sessionStorage
-    const promo = new URLSearchParams(window.location.search).get('promo')
+    const params = new URLSearchParams(window.location.search)
+    const promo = params.get('promo')
     if (promo) sessionStorage.setItem('callnik_promo', promo)
-    const intro = new URLSearchParams(window.location.search).get('intro')
+    const intro = params.get('intro')
     if (intro) sessionStorage.setItem('callnik_intro', intro)
+    const tierParam = params.get('tier')
+    if (tierParam === 'pro') sessionStorage.setItem('callnik_tier', 'pro')
+    else sessionStorage.removeItem('callnik_tier')
 
-    const params = new URLSearchParams({
+    const oauthParams = new URLSearchParams({
       client_id: GOOGLE_CLIENT_ID,
       redirect_uri: `${window.location.origin}/auth/callback`,
       response_type: 'code',
@@ -25,7 +29,7 @@ export default function RegisterPage() {
       access_type: 'offline',
       prompt: 'select_account',
     })
-    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?${params}`
+    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?${oauthParams}`
   }
 
   return (

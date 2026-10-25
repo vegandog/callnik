@@ -37,7 +37,7 @@ export async function GET(req: NextRequest) {
 
   const { data: customers, error } = await supabase
     .from('customers')
-    .select('id, business_name, plan, cardcom_token, card_month, card_year, billing_failures, next_billing_date, telnyx_number')
+    .select('id, business_name, plan, tier, cardcom_token, card_month, card_year, billing_failures, next_billing_date, telnyx_number')
     .eq('status', 'active')
     .lte('next_billing_date', today)
     .not('cardcom_token', 'is', null)
@@ -51,8 +51,9 @@ export async function GET(req: NextRequest) {
   const EXCESS_RATE = 1.17 // ₪ per call above 60 (0.99 + 18% VAT)
 
   for (const customer of customers) {
-    // All amounts include 18% VAT: monthly 99×1.18=116.82, annual 948×1.18=1118.64
-    const baseAmount = customer.plan === 'annual' ? 1118.64 : customer.plan === 'daily_test' ? 1 : 116.82
+    // Amounts include 18% VAT: Basic ₪99→116.82, Pro ₪199→234.82, Annual Basic →1118.64, Annual Pro →2348.20
+    const isPro = customer.tier === 'pro'
+    const baseAmount = customer.plan === 'annual' ? (isPro ? 2348.20 : 1118.64) : customer.plan === 'daily_test' ? 1 : (isPro ? 234.82 : 116.82)
     const mm = String(customer.card_month || '').padStart(2, '0')
     const yy = String(customer.card_year || '').slice(-2)
 

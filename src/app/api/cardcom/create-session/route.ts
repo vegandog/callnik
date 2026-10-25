@@ -10,10 +10,12 @@ export async function POST(req: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const { plan, coupon, intro } = await req.json()
+  const { plan, coupon, intro, tier: tierParam } = await req.json()
   const isAnnual = plan === 'annual'
   const isTest = plan === 'test'
   const isIntro = !!intro && !isAnnual && !isTest
+  const tierVal: 'basic' | 'pro' = tierParam === 'pro' ? 'pro' : 'basic'
+  const tierLabel = tierVal === 'pro' ? 'Pro' : 'Basic'
 
   // Validate coupon if provided
   let couponValid = false
@@ -31,18 +33,20 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  // All amounts include 18% VAT: intro 29×1.18=34.22, regular 99×1.18=116.82, annual 948×1.18=1118.64
-  const amount = isTest ? 1 : couponValid ? 1 : isAnnual ? 1118.64 : isIntro ? 34.22 : 116.82
-  const productName = isTest ? 'טסט Callnik' : isAnnual ? 'מנוי Callnik שנתי' : 'מנוי Callnik חודשי'
+  // Amounts include 18% VAT: Basic ₪99→116.82, Pro ₪199→234.82, Annual Basic ₪948→1118.64, Annual Pro ₪1990→2348.20
+  const monthlyBase = tierVal === 'pro' ? 234.82 : 116.82
+  const annualBase  = tierVal === 'pro' ? 2348.20 : 1118.64
+  const amount = isTest ? 1 : couponValid ? 1 : isAnnual ? annualBase : isIntro ? 34.22 : monthlyBase
+  const productName = isTest ? 'טסט Callnik' : isAnnual ? `מנוי Callnik ${tierLabel} שנתי` : `מנוי Callnik ${tierLabel} חודשי`
   const productDescription = isTest
     ? 'טסט Callnik - callnik.com'
     : couponValid
-    ? 'מנוי Callnik חודשי - callnik.com | חודש ראשון ב-₪1 בלבד | מחודש 2: ₪116.82 לחודש כולל מע"מ'
+    ? `מנוי Callnik ${tierLabel} חודשי - callnik.com | חודש ראשון ב-₪1 בלבד | מחודש 2: ₪${monthlyBase} לחודש כולל מע"מ`
     : isAnnual
-    ? 'מנוי Callnik שנתי - callnik.com | ₪1,118.64 לשנה כולל מע"מ (₪79 לחודש + מע"מ)'
+    ? `מנוי Callnik ${tierLabel} שנתי - callnik.com | ₪${annualBase} לשנה כולל מע"מ`
     : isIntro
-    ? 'מנוי Callnik חודשי - callnik.com | חודש ראשון ₪34.22 כולל מע"מ (₪29 לפני מע"מ) | מחודש שני: ₪116.82 לחודש כולל מע"מ'
-    : 'מנוי Callnik חודשי - callnik.com | ₪116.82 לחודש כולל מע"מ'
+    ? `מנוי Callnik ${tierLabel} חודשי - callnik.com | חודש ראשון ₪34.22 כולל מע"מ | מחודש שני: ₪${monthlyBase} לחודש כולל מע"מ`
+    : `מנוי Callnik ${tierLabel} חודשי - callnik.com | ₪${monthlyBase} לחודש כולל מע"מ`
 
   const { data: userRecord } = await supabase
     .from('users')
@@ -65,7 +69,7 @@ export async function POST(req: NextRequest) {
       TerminalNumber: CARDCOM_TERMINAL,
       ApiName: CARDCOM_API_NAME,
       Operation: 'ChargeAndCreateToken',
-      ReturnValue: `${userRecord.customer_id}:${plan}${couponId ? `:promo:${couponId}` : isIntro ? ':intro' : ''}`,
+      ReturnValue: `${userRecord.customer_id}:${plan}:${tierVal}${couponId ? `:promo:${couponId}` : isIntro ? ':intro' : ''}`,
       Amount: amount,
       SuccessRedirectUrl: `${BASE_URL}/api/cardcom/callback`,
       FailedRedirectUrl: `${BASE_URL}/payment?error=1`,

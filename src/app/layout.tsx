@@ -50,11 +50,11 @@ const schemaOrg = {
     {
       "@type": "Offer",
       "name": "Pro",
-      "price": "149",
+      "price": "199",
       "priceCurrency": "ILS",
       "priceSpecification": {
         "@type": "UnitPriceSpecification",
-        "price": "149",
+        "price": "199",
         "priceCurrency": "ILS",
         "unitCode": "MON"
       }

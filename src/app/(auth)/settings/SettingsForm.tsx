@@ -9,6 +9,7 @@ interface Props {
   whatsappNumber: string
   carrier: string
   voiceId: string
+  tier: 'basic' | 'pro'
   gcalConnected: boolean
   gcalParam: string | null
   appointmentType: string
@@ -22,7 +23,7 @@ const APPOINTMENT_OPTIONS = ['פגישה', 'טיפול', 'תספורת / עיצ�
 const DAY_NAMES = ['א׳', 'ב׳', 'ג׳', 'ד׳', 'ה׳', 'ו׳', 'ש׳']
 const DAY_LABELS = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת']
 
-export default function SettingsForm({ businessName, whatsappNumber, carrier, voiceId, gcalConnected, gcalParam, appointmentType, hoursStart, hoursEnd, workingDays }: Props) {
+export default function SettingsForm({ businessName, whatsappNumber, carrier, voiceId, tier, gcalConnected, gcalParam, appointmentType, hoursStart, hoursEnd, workingDays }: Props) {
   const [form, setForm] = useState({
     business_name: businessName,
     whatsapp_number: whatsappNumber,
@@ -208,17 +209,32 @@ export default function SettingsForm({ businessName, whatsappNumber, carrier, vo
 
       {/* Google Calendar */}
       <div className="mt-8 pt-6 border-t border-gray-100">
-        <div className="flex items-center gap-3 mb-3">
-          <svg viewBox="0 0 24 24" className="w-5 h-5 flex-shrink-0" fill="none">
-            <rect x="3" y="4" width="18" height="17" rx="2" stroke="#4285F4" strokeWidth="1.5"/>
-            <path d="M16 2v4M8 2v4M3 9h18" stroke="#4285F4" strokeWidth="1.5" strokeLinecap="round"/>
-            <path d="M8 13h2v2H8zM11 13h2v2h-2zM14 13h2v2h-2zM8 16h2v2H8zM11 16h2v2h-2z" fill="#4285F4"/>
-          </svg>
-          <div>
-            <p className="text-sm font-medium text-gray-900">Google Calendar</p>
-            <p className="text-xs text-gray-400">המזכירה תוכל לקבוע פגישות ישירות ביומן</p>
+        {tier !== 'pro' && (
+          <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 text-sm">
+            <p className="font-semibold text-blue-900 mb-1">קביעת פגישות - מסלול Pro</p>
+            <p className="text-blue-700 text-xs leading-relaxed mb-3">
+              חיבור Google Calendar וקביעת פגישות אוטומטית זמינים במסלול Pro בלבד (₪199/חודש).
+            </p>
+            <a
+              href="mailto:mail@callnik.com?subject=שדרוג ל-Pro"
+              className="inline-block text-xs bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+            >
+              שדרג ל-Pro
+            </a>
           </div>
-        </div>
+        )}
+        {tier === 'pro' && <>
+          <div className="flex items-center gap-3 mb-3">
+            <svg viewBox="0 0 24 24" className="w-5 h-5 flex-shrink-0" fill="none">
+              <rect x="3" y="4" width="18" height="17" rx="2" stroke="#4285F4" strokeWidth="1.5"/>
+              <path d="M16 2v4M8 2v4M3 9h18" stroke="#4285F4" strokeWidth="1.5" strokeLinecap="round"/>
+              <path d="M8 13h2v2H8zM11 13h2v2h-2zM14 13h2v2h-2zM8 16h2v2H8zM11 16h2v2h-2z" fill="#4285F4"/>
+            </svg>
+            <div>
+              <p className="text-sm font-medium text-gray-900">Google Calendar</p>
+              <p className="text-xs text-gray-400">המזכירה תוכל לקבוע פגישות ישירות ביומן</p>
+            </div>
+          </div>
 
         {gcalMessage && (
           <p className={`text-xs mb-2 ${gcalMessage.includes('שגיאה') ? 'text-red-500' : 'text-green-600'}`}>
@@ -323,6 +339,7 @@ export default function SettingsForm({ businessName, whatsappNumber, carrier, vo
             חבר את Google Calendar
           </a>
         )}
+        </>}
       </div>
 
       {/* ביטול מנוי */}
