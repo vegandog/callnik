@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
   // Amounts include 18% VAT: Basic ₪99→116.82, Pro ₪199→234.82, Annual Basic ₪948→1118.64, Annual Pro ₪1990→2348.20
   const monthlyBase = tierVal === 'pro' ? 234.82 : 116.82
   const annualBase  = tierVal === 'pro' ? 2348.20 : 1118.64
-  const amount = isTest ? 1 : couponValid ? 1 : isAnnual ? annualBase : isIntro ? 34.22 : monthlyBase
+  const amount = isTest ? 1 : couponValid ? 1 : isAnnual ? annualBase : isIntro ? 1 : monthlyBase
   const productName = isTest ? 'טסט Callnik' : isAnnual ? `מנוי Callnik ${tierLabel} שנתי` : `מנוי Callnik ${tierLabel} חודשי`
   const productDescription = isTest
     ? 'טסט Callnik - callnik.com'
@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
     : isAnnual
     ? `מנוי Callnik ${tierLabel} שנתי - callnik.com | ₪${annualBase} לשנה כולל מע"מ`
     : isIntro
-    ? `מנוי Callnik ${tierLabel} חודשי - callnik.com | חודש ראשון ₪34.22 כולל מע"מ | מחודש שני: ₪${monthlyBase} לחודש כולל מע"מ`
+    ? `מנוי Callnik ${tierLabel} חודשי - callnik.com | חודש ראשון ₪1 כולל מע"מ | מחודש שני: ₪${monthlyBase} לחודש כולל מע"מ`
     : `מנוי Callnik ${tierLabel} חודשי - callnik.com | ₪${monthlyBase} לחודש כולל מע"מ`
 
   const { data: userRecord } = await supabase

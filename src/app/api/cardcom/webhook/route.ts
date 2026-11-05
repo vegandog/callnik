@@ -121,7 +121,7 @@ export async function POST(req: NextRequest) {
   const monthlyBase = tierVal === 'pro' ? 234.82 : 116.82  // ₪199 or ₪99 + 18% VAT
   const annualBase  = tierVal === 'pro' ? 2348.20 : 1118.64 // ₪1990 or ₪948 + 18% VAT
   const tierLabel   = tierVal === 'pro' ? 'Pro' : 'Basic'
-  const firstPaymentAmount = plan === 'annual' ? annualBase : plan === 'test' ? 1 : promoCodeId ? 1 : isIntro ? 34.22 : monthlyBase
+  const firstPaymentAmount = plan === 'annual' ? annualBase : plan === 'test' ? 1 : promoCodeId ? 1 : isIntro ? 1 : monthlyBase
   const firstPaymentLabel = plan === 'annual'
     ? `מנוי Callnik ${tierLabel} שנתי - callnik.com`
     : plan === 'test'
@@ -129,7 +129,7 @@ export async function POST(req: NextRequest) {
     : promoCodeId
     ? `מנוי Callnik ${tierLabel} חודשי - callnik.com | חודש ראשון ב-₪1 (קופון)`
     : isIntro
-    ? `מנוי Callnik ${tierLabel} חודשי - callnik.com | חודש ראשון ₪34.22 כולל מע"מ | מחודש שני: ₪${monthlyBase} כולל מע"מ`
+    ? `מנוי Callnik ${tierLabel} חודשי - callnik.com | חודש ראשון ₪1 כולל מע"מ | מחודש שני: ₪${monthlyBase} כולל מע"מ`
     : `מנוי Callnik ${tierLabel} חודשי - callnik.com | ₪${monthlyBase} לחודש כולל מע"מ`
 
   await dbPost('billing_history', {

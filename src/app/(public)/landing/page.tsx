@@ -10,7 +10,7 @@ const faqs = [
   { q: 'האם אני צריך להחליף מספר טלפון?', a: 'לא. המספר שלך נשאר בדיוק כמו שהוא. Callnik נכנסת לתמונה רק כשאתה לא עונה - הלקוח ידע שדיבר עם מישהו, לאו דווקא שזה היה AI.' },
   { q: 'כמה זמן לוקחת ההגדרה?', a: 'בין 5 ל-10 דקות בפעם הראשונה. בוחרים קול, כותבים כמה מילים על העסק - ומוכנים. לא צריך טכנאי, לא צריך לתאם עם בזק, כלום.' },
   { q: 'מה קורה אחרי 60 שיחות?', a: 'ממשיכים לענות כמו תמיד, בלי שום הפרעה. בסוף החודש מוסיפים 99 אגורות על כל שיחה מעל 60. עסק עם 80 שיחות ישלם בסך הכל ₪118.80. לרוב העסקים הקטנים זה בכלל לא מגיע לזה.' },
-  { q: 'האם אפשר לבטל?', a: 'כן, בכל עת. מייל אחד, ביטול בלי שאלות ובלי קנסות. אנחנו לא מאמינים בחוזים שמחזיקים אנשים בכוח. שים לב: מחיר ההיכרות ₪29 ניתן פעם אחת בלבד - חזרה לאחר ביטול מתבצעת במחיר המלא ₪99/חודש.' },
+  { q: 'האם אפשר לבטל?', a: 'כן, בכל עת. מייל אחד, ביטול בלי שאלות ובלי קנסות. אנחנו לא מאמינים בחוזים שמחזיקים אנשים בכוח. שים לב: מחיר ההיכרות ₪1 ניתן פעם אחת בלבד - חזרה לאחר ביטול מתבצעת במחיר המלא ₪99/חודש.' },
   { q: 'האם המזכירה יכולה לקבוע פגישות?', a: 'כן. מחברים את יומן Google מהפאנל - ואז המזכירה תציע ללקוח לקבוע פגישה ישירות. הפגישה נרשמת ביומן אוטומטית, וסיכום מגיע לוואטסאפ כרגיל.' },
   { q: 'באיזה קול דנה מדברת עם הלקוחות שלי?', a: 'יש 6 קולות עבריים לבחירה - 4 נשיים ו-2 גבריים, שונים בצביון ובאופי. לפני שמחליטים, שומעים כל אחד בפועל. מה שנשמע הכי טבעי לעסק שלך - זה מה שלוקחים.' },
 ]
@@ -95,27 +95,8 @@ export default function LandingPage() {
     <div dir="rtl" className="min-h-screen bg-white font-sans">
 
       {/* HERO */}
-      <section className="bg-white border-b border-gray-100 relative overflow-hidden">
-        {/* Banner - absolute, left of center text, not affecting layout */}
-        <div
-          className="absolute hidden md:block"
-          style={{
-            left: 'calc(50% - 590px)',
-            top: '62%',
-            transform: 'translateY(-50%) rotate(-10deg)',
-            filter: 'drop-shadow(0 6px 24px rgba(0,0,0,0.22))',
-          }}
-        >
-          <Image src="/banner-70.png" alt="70% הנחה לחודש הראשון" width={250} height={250} style={{ objectFit: 'contain' }} priority />
-        </div>
-
+      <section className="bg-white border-b border-gray-100">
         <div className="max-w-2xl mx-auto px-6 py-16 text-center">
-          {/* Mobile banner */}
-          <div className="flex justify-center mb-4 md:hidden" style={{ filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.18))' }}>
-            <div style={{ transform: 'rotate(-8deg)' }}>
-              <Image src="/banner-70.png" alt="70% הנחה לחודש הראשון" width={150} height={150} style={{ objectFit: 'contain' }} />
-            </div>
-          </div>
           <div className="flex justify-center mb-6">
             <Image src="/callnik-logo.png" alt="Callnik" width={160} height={55} style={{ objectFit: 'contain' }} priority />
           </div>
@@ -130,23 +111,24 @@ export default function LandingPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-2">
             <Link href="/register?intro=1" className="inline-block bg-[#22C55E] hover:bg-[#16A34A] text-white font-bold text-base px-6 py-3.5 rounded-full transition-colors shadow-lg">
-              Basic - ₪29 לחודש הראשון
+              Basic - ₪1 לחודש הראשון
               <span className="block text-xs font-normal opacity-80">מחודש 2: ₪99/חודש</span>
             </Link>
             <Link href="/register?intro=1&tier=pro" className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold text-base px-6 py-3.5 rounded-full transition-colors shadow-lg">
-              Pro - ₪29 לחודש הראשון
+              Pro - ₪1 לחודש הראשון
               <span className="block text-xs font-normal opacity-80">מחודש 2: ₪199/חודש + קביעת פגישות</span>
             </Link>
           </div>
           <p className="text-gray-400 text-sm mt-2">ביטול בכל עת | המחירים לפני מע&quot;מ</p>
-          <p className="text-gray-300 text-xs mt-1">* מחיר הניסיון ₪29 חל פעם אחת בלבד</p>
+          <p className="text-gray-300 text-xs mt-1">* מחיר הניסיון ₪1 חל פעם אחת בלבד</p>
         </div>
       </section>
 
       {/* VIDEO */}
       <section className="py-14 px-6 bg-white">
-        <div className="max-w-3xl mx-auto">
-          <div className="rounded-2xl overflow-hidden shadow-2xl" style={{ padding: '56.25% 0 0 0', position: 'relative' }}>
+        <div className="max-w-3xl mx-auto flex flex-col md:flex-row gap-8 items-start justify-center">
+          {/* Landscape video */}
+          <div className="w-full md:flex-1 rounded-2xl overflow-hidden shadow-2xl" style={{ padding: '56.25% 0 0 0', position: 'relative' }}>
             <iframe
               src="https://player.vimeo.com/video/1232669320?badge=0&autopause=0&player_id=0&app_id=58479"
               frameBorder="0"
@@ -156,7 +138,19 @@ export default function LandingPage() {
               title="Callnik demo"
             />
           </div>
+          {/* Vertical video */}
+          <div className="w-full md:w-52 flex-shrink-0 rounded-2xl overflow-hidden shadow-2xl" style={{ padding: '177.78% 0 0 0', position: 'relative' }}>
+            <iframe
+              src="https://player.vimeo.com/video/1243516887?badge=0&autopause=0&player_id=0&app_id=58479"
+              frameBorder="0"
+              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+              title="Callnik"
+            />
+          </div>
         </div>
+        <script src="https://player.vimeo.com/api/player.js" async />
       </section>
 
       {/* WHATSAPP MOCKUP */}
@@ -248,7 +242,7 @@ export default function LandingPage() {
               <span className="bg-[#22C55E] text-white text-xs font-bold px-3 py-1 rounded-full">חודש ניסיון</span>
             </div>
             <div className="text-center mb-2">
-              <span className="text-5xl font-bold text-gray-900">₪29</span>
+              <span className="text-5xl font-bold text-gray-900">₪1</span>
               <span className="text-gray-400 text-lg"> + מע&quot;מ לחודש הראשון</span>
             </div>
             <p className="text-center text-gray-400 text-sm mb-2">מחודש שני: ₪99/חודש + מע&quot;מ</p>
@@ -284,7 +278,7 @@ export default function LandingPage() {
           <h2 className="text-3xl font-bold mb-4 text-gray-900">מוכן לא לפספס אף לקוח?</h2>
           <p className="text-gray-500 mb-8">הגדרה תוך 5 דקות. ביטול בכל עת.</p>
           <Link href="/register?intro=1" className="inline-block bg-[#22C55E] hover:bg-[#16A34A] text-white font-bold text-lg px-10 py-4 rounded-full transition-colors shadow-lg">
-            התחל עכשיו - ₪29 + מע&quot;מ לחודש הראשון
+            התחל עכשיו - ₪1 + מע&quot;מ לחודש הראשון
           </Link>
         </div>
       </section>
