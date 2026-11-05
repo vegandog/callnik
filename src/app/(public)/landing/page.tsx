@@ -124,11 +124,10 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* VIDEO */}
+      {/* VIDEO - landscape */}
       <section className="py-14 px-6 bg-white">
-        <div className="max-w-3xl mx-auto flex flex-col md:flex-row gap-8 items-start justify-center">
-          {/* Landscape video */}
-          <div className="w-full md:flex-1 rounded-2xl overflow-hidden shadow-2xl" style={{ padding: '56.25% 0 0 0', position: 'relative' }}>
+        <div className="max-w-3xl mx-auto">
+          <div className="rounded-2xl overflow-hidden shadow-2xl" style={{ padding: '56.25% 0 0 0', position: 'relative' }}>
             <iframe
               src="https://player.vimeo.com/video/1232669320?badge=0&autopause=0&player_id=0&app_id=58479"
               frameBorder="0"
@@ -138,19 +137,7 @@ export default function LandingPage() {
               title="Callnik demo"
             />
           </div>
-          {/* Vertical video */}
-          <div className="w-full md:w-52 flex-shrink-0 rounded-2xl overflow-hidden shadow-2xl" style={{ padding: '177.78% 0 0 0', position: 'relative' }}>
-            <iframe
-              src="https://player.vimeo.com/video/1243516887?badge=0&autopause=0&player_id=0&app_id=58479"
-              frameBorder="0"
-              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-              title="Callnik"
-            />
-          </div>
         </div>
-        <script src="https://player.vimeo.com/api/player.js" async />
       </section>
 
       {/* WHATSAPP MOCKUP */}
@@ -185,6 +172,23 @@ export default function LandingPage() {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* VIDEO - vertical (founder) */}
+      <section className="py-14 px-6 bg-white">
+        <div className="max-w-xs mx-auto">
+          <div className="rounded-2xl overflow-hidden shadow-2xl" style={{ padding: '177.78% 0 0 0', position: 'relative' }}>
+            <iframe
+              src="https://player.vimeo.com/video/1243516887?badge=0&autopause=0&player_id=0&app_id=58479"
+              frameBorder="0"
+              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+              title="Callnik"
+            />
+          </div>
+        </div>
+        <script src="https://player.vimeo.com/api/player.js" async />
       </section>
 
       {/* HOW IT WORKS */}
