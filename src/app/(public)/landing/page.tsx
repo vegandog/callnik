@@ -95,37 +95,61 @@ export default function LandingPage() {
     <div dir="rtl" className="min-h-screen bg-white font-sans">
 
       {/* HERO */}
-      <section className="border-b border-gray-900 relative overflow-hidden" style={{ background: 'linear-gradient(160deg, #0d0117 0%, #1a0028 50%, #0a0a1a 100%)' }}>
+      <style>{`
+        @keyframes bannerPop {
+          0%   { opacity: 0; transform: translateY(-50%) rotate(-25deg) scale(0); }
+          60%  { opacity: 1; transform: translateY(-50%) rotate(-7deg) scale(1.18); }
+          75%  { transform: translateY(-50%) rotate(-12deg) scale(0.93); }
+          88%  { transform: translateY(-50%) rotate(-8deg) scale(1.07); }
+          100% { opacity: 1; transform: translateY(-50%) rotate(-10deg) scale(1); }
+        }
+        @keyframes bannerPopMobile {
+          0%   { opacity: 0; transform: rotate(-20deg) scale(0); }
+          60%  { opacity: 1; transform: rotate(-3deg) scale(1.2); }
+          75%  { transform: rotate(-8deg) scale(0.92); }
+          88%  { transform: rotate(-4deg) scale(1.08); }
+          100% { opacity: 1; transform: rotate(-6deg) scale(1); }
+        }
+        @keyframes bannerGlow {
+          0%, 100% { filter: drop-shadow(0 8px 24px rgba(236,72,153,0.5)) drop-shadow(0 0 40px rgba(250,204,21,0.3)); }
+          50%       { filter: drop-shadow(0 8px 32px rgba(236,72,153,0.9)) drop-shadow(0 0 60px rgba(250,204,21,0.6)); }
+        }
+      `}</style>
+      <section className="bg-white border-b border-gray-100 relative overflow-hidden">
         {/* Desktop BF banner - absolute left of center */}
         <div
           className="absolute hidden md:block pointer-events-none"
           style={{
             left: 'calc(50% - 520px)',
             top: '50%',
-            transform: 'translateY(-50%) rotate(-10deg)',
-            filter: 'drop-shadow(0 8px 32px rgba(236,72,153,0.4))',
+            opacity: 0,
+            animation: 'bannerPop 0.7s cubic-bezier(0.34,1.56,0.64,1) 1s forwards, bannerGlow 2.5s ease-in-out 1.7s infinite',
           }}
         >
-          <Image src="/banner-bf.png" alt="Black Friday - חודש ראשון ב-₪1" width={260} height={260} style={{ objectFit: 'contain' }} priority />
+          <Image src="/banner-bf.png" alt="Black Friday - חודש ראשון ב-₪1" width={270} height={270} style={{ objectFit: 'contain' }} priority />
         </div>
 
         <div className="max-w-2xl mx-auto px-6 py-16 text-center">
           {/* Mobile BF banner */}
-          <div className="flex justify-center mb-4 md:hidden" style={{ filter: 'drop-shadow(0 4px 16px rgba(236,72,153,0.5))' }}>
-            <div style={{ transform: 'rotate(-6deg)' }}>
-              <Image src="/banner-bf.png" alt="Black Friday - חודש ראשון ב-₪1" width={160} height={160} style={{ objectFit: 'contain' }} />
-            </div>
+          <div
+            className="flex justify-center mb-4 md:hidden"
+            style={{
+              opacity: 0,
+              animation: 'bannerPopMobile 0.7s cubic-bezier(0.34,1.56,0.64,1) 1s forwards, bannerGlow 2.5s ease-in-out 1.7s infinite',
+            }}
+          >
+            <Image src="/banner-bf.png" alt="Black Friday - חודש ראשון ב-₪1" width={170} height={170} style={{ objectFit: 'contain' }} />
           </div>
 
           <div className="flex justify-center mb-6">
             <Image src="/callnik-logo.png" alt="Callnik" width={160} height={55} style={{ objectFit: 'contain' }} priority />
           </div>
           <p className="text-[#06B6D4] text-sm font-medium tracking-wide mb-4 uppercase">דנה המזכירה שלך</p>
-          <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4 text-white">
+          <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4 text-gray-900">
             פספסת שיחה?<br />
             <span className="text-[#22C55E]">הלקוח כבר אצל המתחרה.</span>
           </h1>
-          <p className="text-gray-400 text-lg mb-8 leading-relaxed">
+          <p className="text-gray-500 text-lg mb-8 leading-relaxed">
             Callnik עונה לכל שיחה שלא הצלחת לקחת, לוקחת הודעה,<br className="hidden md:block" />
             ושולחת לך סיכום מיידי בוואטסאפ.
           </p>
@@ -135,10 +159,10 @@ export default function LandingPage() {
               className="inline-block text-white font-bold text-base px-7 py-4 rounded-full transition-all shadow-xl"
               style={{
                 background: 'linear-gradient(135deg, #22C55E 0%, #16A34A 100%)',
-                boxShadow: '0 0 24px rgba(34,197,94,0.5), 0 4px 16px rgba(0,0,0,0.3)',
+                boxShadow: '0 0 24px rgba(34,197,94,0.45), 0 4px 16px rgba(0,0,0,0.12)',
               }}
-              onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 0 36px rgba(34,197,94,0.75), 0 4px 16px rgba(0,0,0,0.3)')}
-              onMouseLeave={e => (e.currentTarget.style.boxShadow = '0 0 24px rgba(34,197,94,0.5), 0 4px 16px rgba(0,0,0,0.3)')}
+              onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 0 40px rgba(34,197,94,0.75), 0 4px 16px rgba(0,0,0,0.15)')}
+              onMouseLeave={e => (e.currentTarget.style.boxShadow = '0 0 24px rgba(34,197,94,0.45), 0 4px 16px rgba(0,0,0,0.12)')}
             >
               Basic - ₪1 לחודש הראשון
               <span className="block text-xs font-normal opacity-80">מחודש 2: ₪99/חודש</span>
@@ -148,17 +172,17 @@ export default function LandingPage() {
               className="inline-block text-white font-bold text-base px-7 py-4 rounded-full transition-all shadow-xl"
               style={{
                 background: 'linear-gradient(135deg, #ec4899 0%, #a855f7 100%)',
-                boxShadow: '0 0 24px rgba(236,72,153,0.5), 0 4px 16px rgba(0,0,0,0.3)',
+                boxShadow: '0 0 24px rgba(236,72,153,0.45), 0 4px 16px rgba(0,0,0,0.12)',
               }}
-              onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 0 36px rgba(236,72,153,0.75), 0 4px 16px rgba(0,0,0,0.3)')}
-              onMouseLeave={e => (e.currentTarget.style.boxShadow = '0 0 24px rgba(236,72,153,0.5), 0 4px 16px rgba(0,0,0,0.3)')}
+              onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 0 40px rgba(236,72,153,0.75), 0 4px 16px rgba(0,0,0,0.15)')}
+              onMouseLeave={e => (e.currentTarget.style.boxShadow = '0 0 24px rgba(236,72,153,0.45), 0 4px 16px rgba(0,0,0,0.12)')}
             >
               Pro - ₪1 לחודש הראשון
               <span className="block text-xs font-normal opacity-80">מחודש 2: ₪199/חודש + קביעת פגישות</span>
             </Link>
           </div>
-          <p className="text-gray-500 text-sm mt-2">ביטול בכל עת | המחירים לפני מע&quot;מ</p>
-          <p className="text-gray-600 text-xs mt-1">* מחיר הניסיון ₪1 חל פעם אחת בלבד</p>
+          <p className="text-gray-400 text-sm mt-2">ביטול בכל עת | המחירים לפני מע&quot;מ</p>
+          <p className="text-gray-300 text-xs mt-1">* מחיר הניסיון ₪1 חל פעם אחת בלבד</p>
         </div>
       </section>
 
