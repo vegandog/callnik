@@ -13,6 +13,7 @@ const googleSans = Google_Sans({
 export const metadata: Metadata = {
   title: "Callnik - המזכירה האוטומטית לעסק שלך",
   description: "Callnik עונה על שיחות שלא נענו ושולחת לך סיכום בוואטסאפ תוך דקה. המספר שלך לא משתנה.",
+  keywords: "מזכירה AI, מזכירה וירטואלית, מענה אוטומטי לעסק, שיחות שלא נענו, AI secretary, מזכירה לעסק קטן, שירות מענה טלפוני, נציג AI",
   metadataBase: new URL("https://callnik.com"),
   alternates: { canonical: "/" },
   verification: { google: "K5xNCLaDOlPgbI-Ks5QhIo2d79nbTJx9XR7lcl-rKEk", other: { "facebook-domain-verification": ["98shcp75fs0e40a7y4atqel2hgy55m"] } },
@@ -23,60 +24,84 @@ export const metadata: Metadata = {
     siteName: "Callnik",
     locale: "he_IL",
     type: "website",
+    images: [{ url: "/banner-70.png", width: 1200, height: 630, alt: "Callnik - מזכירה AI לעסק" }],
   },
 };
 
-const schemaOrg = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "Callnik",
-  "url": "https://callnik.com/",
-  "description": "מזכירה AI שעונה לשיחות נכנסות, מנהלת יומן ושולחת סיכומים בוואטסאפ. עובדת 24/7.",
-  "applicationCategory": "BusinessApplication",
-  "operatingSystem": "Web",
-  "offers": [
-    {
-      "@type": "Offer",
-      "name": "Basic",
-      "price": "99",
-      "priceCurrency": "ILS",
-      "priceSpecification": {
-        "@type": "UnitPriceSpecification",
+const schemaOrg = [
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Callnik",
+    "url": "https://callnik.com/",
+    "description": "מזכירה AI שעונה לשיחות נכנסות, מנהלת יומן ושולחת סיכומים בוואטסאפ. עובדת 24/7.",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "offers": [
+      {
+        "@type": "Offer",
+        "name": "Basic",
         "price": "99",
         "priceCurrency": "ILS",
-        "unitCode": "MON"
-      }
-    },
-    {
-      "@type": "Offer",
-      "name": "Pro",
-      "price": "199",
-      "priceCurrency": "ILS",
-      "priceSpecification": {
-        "@type": "UnitPriceSpecification",
-        "price": "199",
+        "priceSpecification": {
+          "@type": "UnitPriceSpecification",
+          "price": "99",
+          "priceCurrency": "ILS",
+          "unitCode": "MON"
+        }
+      },
+      {
+        "@type": "Offer",
+        "name": "Pro",
+        "price": "149",
         "priceCurrency": "ILS",
-        "unitCode": "MON"
+        "priceSpecification": {
+          "@type": "UnitPriceSpecification",
+          "price": "149",
+          "priceCurrency": "ILS",
+          "unitCode": "MON"
+        }
       }
-    }
-  ],
-  "publisher": {
-    "@type": "Organization",
-    "name": "MediaUp",
-    "url": "https://mediaup.net"
+    ],
+    "publisher": {
+      "@type": "Organization",
+      "name": "MediaUp",
+      "url": "https://mediaup.net"
+    },
+    "inLanguage": "he",
+    "countriesSupported": "IL"
   },
-  "inLanguage": "he",
-  "countriesSupported": "IL"
-};
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Callnik",
+    "url": "https://callnik.com",
+    "logo": "https://callnik.com/callnik-logo.png",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer support",
+      "availableLanguage": "Hebrew",
+      "areaServed": "IL"
+    },
+    "parentOrganization": {
+      "@type": "Organization",
+      "name": "MediaUp",
+      "url": "https://mediaup.net"
+    }
+  }
+];
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="he" dir="rtl" className="h-full">
       <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaOrg) }}
-        />
+        {schemaOrg.map((schema, i) => (
+          <script
+            key={i}
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+          />
+        ))}
       </head>
       <body className={`${googleSans.className} min-h-full`}>
         {children}
