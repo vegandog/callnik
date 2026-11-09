@@ -146,34 +146,25 @@ export default function LandingPage() {
             Callnik עונה לכל שיחה שלא הצלחת לקחת, לוקחת הודעה,<br className="hidden md:block" />
             ושולחת לך סיכום מיידי בוואטסאפ.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-2">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-4">
             <Link
               href="/register?intro=1"
-              className="inline-block text-white font-bold text-base px-7 py-4 rounded-full transition-all shadow-xl"
-              style={{
-                background: 'linear-gradient(135deg, #22C55E 0%, #16A34A 100%)',
-                boxShadow: '0 0 24px rgba(34,197,94,0.45), 0 4px 16px rgba(0,0,0,0.12)',
-              }}
-              onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 0 40px rgba(34,197,94,0.75), 0 4px 16px rgba(0,0,0,0.15)')}
-              onMouseLeave={e => (e.currentTarget.style.boxShadow = '0 0 24px rgba(34,197,94,0.45), 0 4px 16px rgba(0,0,0,0.12)')}
+              className="flex flex-col items-center bg-[#22C55E] hover:bg-[#16A34A] text-white px-8 py-4 rounded-2xl transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_0_32px_rgba(34,197,94,0.6)] shadow-md"
             >
-              Basic - ₪1 לחודש הראשון
-              <span className="block text-xs font-normal opacity-80">מחודש 2: ₪99/חודש</span>
+              <span className="text-[11px] font-bold bg-white/20 px-2.5 py-0.5 rounded-full mb-1.5">Basic</span>
+              <span className="font-black text-xl leading-none">חודש ראשון ב-₪1</span>
+              <span className="text-xs opacity-70 mt-1 font-normal">מחודש שני: ₪99 + מע&quot;מ</span>
             </Link>
             <Link
               href="/register?intro=1&tier=pro"
-              className="inline-block text-white font-bold text-base px-7 py-4 rounded-full transition-all shadow-xl"
-              style={{
-                background: 'linear-gradient(135deg, #ec4899 0%, #a855f7 100%)',
-                boxShadow: '0 0 24px rgba(236,72,153,0.45), 0 4px 16px rgba(0,0,0,0.12)',
-              }}
-              onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 0 40px rgba(236,72,153,0.75), 0 4px 16px rgba(0,0,0,0.15)')}
-              onMouseLeave={e => (e.currentTarget.style.boxShadow = '0 0 24px rgba(236,72,153,0.45), 0 4px 16px rgba(0,0,0,0.12)')}
+              className="flex flex-col items-center text-white px-8 py-4 rounded-2xl transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_0_32px_rgba(236,72,153,0.6)] shadow-md bg-gradient-to-br from-[#ec4899] to-[#a855f7] hover:from-[#db2777] hover:to-[#9333ea]"
             >
-              Pro - ₪1 לחודש הראשון
-              <span className="block text-xs font-normal opacity-80">מחודש 2: ₪199/חודש + קביעת פגישות</span>
+              <span className="text-[11px] font-bold bg-white/20 px-2.5 py-0.5 rounded-full mb-1.5">Pro</span>
+              <span className="font-black text-xl leading-none">חודש ראשון ב-₪1</span>
+              <span className="text-xs opacity-70 mt-1 font-normal">מחודש שני: ₪199 + מע&quot;מ + פגישות</span>
             </Link>
           </div>
+          <p className="text-orange-500 text-sm font-bold mt-1">⚡ מחיר ₪1 בתוקף לנובמבר 2026 בלבד</p>
           <p className="text-gray-400 text-sm mt-2">ביטול בכל עת | המחירים לפני מע&quot;מ</p>
           <p className="text-gray-300 text-xs mt-1">* מחיר הניסיון ₪1 חל פעם אחת בלבד</p>
         </div>
