@@ -1,5 +1,12 @@
+import type { Metadata } from 'next'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+
+export const metadata: Metadata = {
+  title: 'שאלות נפוצות - Callnik',
+  description: 'כל מה שרצית לדעת על Callnik: איך עובדת ההפניה הסלולרית, מה המזכירה אומרת, אבטחת מידע, ביטול, ועוד.',
+  alternates: { canonical: '/faq' },
+}
 
 const faqs = [
   {
@@ -41,8 +48,19 @@ const faqs = [
 ]
 
 export default function FaqPage() {
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(faq => ({
+      "@type": "Question",
+      "name": faq.q,
+      "acceptedAnswer": { "@type": "Answer", "text": faq.a }
+    }))
+  }
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <Navbar />
       <main className="py-20 px-4">
         <div className="max-w-2xl mx-auto">
