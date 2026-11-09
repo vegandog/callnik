@@ -1,6 +1,6 @@
 # Callnik — מזכירה אוטומטית AI לעסק
 
-> Callnik היא מזכירה וירטואלית AI המבוססת על ElevenLabs ו-Claude. עונה לשיחות נכנסות, מנהלת יומן פגישות, ושולחת סיכומים בוואטסאפ. מחיר: ₪99/חודש (Basic) או ₪149/חודש (Pro).
+> Callnik היא מזכירה וירטואלית AI המבוססת על ElevenLabs ו-Claude. עונה לשיחות נכנסות, מנהלת יומן פגישות, ושולחת סיכומים בוואטסאפ. מחיר: ₪99/חודש (Basic) או ₪199/חודש (Pro).
 
 Callnik (https://callnik.com) מאפשר לעסקים קטנים ובינוניים בישראל להפעיל מזכירה AI שעונה לשיחות טלפון בקול אנושי מציאותי, עוזרת בקביעת פגישות, ושולחת למנהל העסק סיכום מיד אחרי כל שיחה.
 
@@ -11,16 +11,38 @@ Callnik (https://callnik.com) מאפשר לעסקים קטנים ובינוני�
 - שולחת סיכום שיחה בוואטסאפ/מייל מיד אחרי השיחה
 - עובדת 24/7 — גם אחרי שעות העבודה
 - 7 נציגים לבחירה (גברים ונשים)
+- מתאים לכל בעל עסק עצמאי — רופא, עורך דין, אינסטלטור, מספרה ועוד
 
 ## מחירון
 
-- **Basic** — ₪99/חודש: מזכירה AI + סיכומי שיחות
-- **Pro** — ₪149/חודש: הכל ב-Basic + ניהול יומן Google Calendar
+- **Basic** — ₪99/חודש: מזכירה AI + סיכומי שיחות בוואטסאפ, עד 60 שיחות
+- **Pro** — ₪199/חודש: הכל ב-Basic + ניהול יומן Google Calendar, עד 150 שיחות
 
 ## קישורים מרכזיים
 
 - [דף הבית](https://callnik.com/) — פרטים, מחירים, הרשמה
+- [מחירים](https://callnik.com/pricing) — השוואת תוכניות
+- [איך זה עובד](https://callnik.com/how-it-works) — הסבר מלא
+- [שאלות נפוצות](https://callnik.com/faq) — FAQ
 - [דף נחיתה](https://callnik.com/landing) — הצעה מיוחדת לחדשים
+
+## מאמרים לפי מקצוע
+
+- [מזכירה AI לרופא ומרפאה](https://callnik.com/blog/mazkirah-ai-rofeh)
+- [מזכירה AI לעורך דין](https://callnik.com/blog/mazkirah-ai-orekh-din)
+- [מזכירה AI לרופא שיניים](https://callnik.com/blog/mazkirah-ai-rofe-shinyaim)
+- [מזכירה AI לפסיכולוג ומטפל](https://callnik.com/blog/mazkirah-ai-psikholog)
+- [מזכירה AI לרואה חשבון](https://callnik.com/blog/mazkirah-ai-ro-heshbon)
+- [מזכירה AI לנטורופת ותזונאי](https://callnik.com/blog/mazkirah-ai-naturopath)
+- [מזכירה AI לאינסטלטור](https://callnik.com/blog/mazkirah-ai-instaklator)
+- [מזכירה AI לחשמלאי](https://callnik.com/blog/mazkirah-ai-hashmal)
+- [מזכירה AI לוטרינר](https://callnik.com/blog/mazkirah-ai-veterninar)
+- [מזכירה AI למספרה וסלון](https://callnik.com/blog/mazkirah-ai-misparot)
+- [מזכירה AI למאמן כושר](https://callnik.com/blog/mazkirah-ai-koach)
+- [מזכירה AI לפילאטיס ויוגה](https://callnik.com/blog/mazkirah-ai-pilates)
+- [מזכירה AI לעסק קטן](https://callnik.com/blog/mazkirah-ai-asak-katan)
+- [מזכירה AI מול מזכירה אנושית](https://callnik.com/blog/mazkirah-ai-vs-mazkirah-enoshit)
+- [שיחות שלא נענו](https://callnik.com/blog/shiot-shelo-naanu)
 
 ## מידע על החברה
 
