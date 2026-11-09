@@ -148,7 +148,7 @@ export default function LandingPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-4">
             <Link
-              href="/register?intro=1"
+              href="#pricing"
               className="flex flex-col items-center bg-[#22C55E] hover:bg-[#16A34A] text-white px-9 py-4 rounded-2xl transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_0_32px_rgba(34,197,94,0.6)] shadow-md"
             >
               <span className="text-[11px] font-bold bg-white/20 px-2.5 py-0.5 rounded-full mb-2">Basic</span>
@@ -156,7 +156,7 @@ export default function LandingPage() {
               <span className="text-sm opacity-70 line-through font-normal">₪99 + מע&quot;מ לחודש</span>
             </Link>
             <Link
-              href="/register?intro=1&tier=pro"
+              href="#pricing"
               className="flex flex-col items-center text-white px-9 py-4 rounded-2xl transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_0_32px_rgba(236,72,153,0.6)] shadow-md bg-gradient-to-br from-[#ec4899] to-[#a855f7] hover:from-[#db2777] hover:to-[#9333ea]"
             >
               <span className="text-[11px] font-bold bg-white/20 px-2.5 py-0.5 rounded-full mb-2">Pro + פגישות</span>
@@ -280,34 +280,70 @@ export default function LandingPage() {
       </section>
 
       {/* PRICING */}
-      <section className="py-16 px-6 bg-white">
-        <div className="max-w-sm mx-auto">
-          <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">מחיר פשוט, ברור</h2>
-          <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
-            <div className="text-center mb-6">
-              <span className="bg-[#22C55E] text-white text-xs font-bold px-3 py-1 rounded-full">חודש ניסיון</span>
+      <section id="pricing" className="py-16 px-6 bg-white scroll-mt-6">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-3xl font-black text-gray-900 text-center mb-2 tracking-tight">בחר תוכנית</h2>
+          <p className="text-center text-orange-500 font-bold text-sm mb-10">⚡ חודש ראשון ב-₪1 לנובמבר 2026 בלבד</p>
+          <div className="grid md:grid-cols-2 gap-6">
+
+            {/* Basic */}
+            <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100 flex flex-col">
+              <div className="mb-5">
+                <span className="bg-[#22C55E] text-white text-xs font-bold px-3 py-1 rounded-full">Basic</span>
+              </div>
+              <div className="mb-1">
+                <span className="text-5xl font-black text-gray-900">₪1</span>
+                <span className="text-gray-400"> + מע&quot;מ</span>
+              </div>
+              <p className="text-gray-400 text-sm mb-1">לחודש הראשון</p>
+              <p className="text-gray-500 text-sm mb-1">מחודש שני: <span className="font-bold text-gray-700">₪99 + מע&quot;מ</span> לחודש</p>
+              <p className="text-gray-300 text-xs mb-6">* מחיר ₪1 ניתן פעם אחת בלבד</p>
+              <ul className="space-y-3 mb-8 flex-1">
+                {['60 שיחות כלולות', '6 קולות AI לבחירה', 'תמלול + הקלטה', 'וואטסאפ + מייל מיידי', 'ביטול בכל עת'].map(f => (
+                  <li key={f} className="flex items-center gap-3">
+                    <Check className="w-5 h-5 text-[#22C55E] flex-shrink-0" />
+                    <span className="text-gray-700 text-sm">{f}</span>
+                  </li>
+                ))}
+              </ul>
+              <Link
+                href="/register?intro=1"
+                className="block w-full bg-[#22C55E] hover:bg-[#16A34A] text-white font-bold text-lg py-4 rounded-xl text-center transition-all"
+              >
+                הצטרף ל-Basic
+              </Link>
             </div>
-            <div className="text-center mb-2">
-              <span className="text-5xl font-bold text-gray-900">₪1</span>
-              <span className="text-gray-400 text-lg"> + מע&quot;מ לחודש הראשון</span>
+
+            {/* Pro */}
+            <div className="bg-white rounded-2xl shadow-xl p-8 border-2 border-[#ec4899] flex flex-col relative overflow-hidden">
+              <div className="absolute top-4 left-4 bg-[#ec4899] text-white text-[11px] font-bold px-2.5 py-1 rounded-full">מומלץ</div>
+              <div className="mb-5">
+                <span className="text-xs font-bold px-3 py-1 rounded-full text-white" style={{ background: 'linear-gradient(135deg,#ec4899,#a855f7)' }}>Pro</span>
+              </div>
+              <div className="mb-1">
+                <span className="text-5xl font-black text-gray-900">₪1</span>
+                <span className="text-gray-400"> + מע&quot;מ</span>
+              </div>
+              <p className="text-gray-400 text-sm mb-1">לחודש הראשון</p>
+              <p className="text-gray-500 text-sm mb-1">מחודש שני: <span className="font-bold text-gray-700">₪199 + מע&quot;מ</span> לחודש</p>
+              <p className="text-gray-300 text-xs mb-6">* מחיר ₪1 ניתן פעם אחת בלבד</p>
+              <ul className="space-y-3 mb-8 flex-1">
+                {['60 שיחות כלולות', '6 קולות AI לבחירה', 'תמלול + הקלטה', 'וואטסאפ + מייל מיידי', 'ביטול בכל עת', 'קביעת פגישות ב-Google Calendar', 'סיכום פגישה בוואטסאפ'].map((f, i) => (
+                  <li key={f} className="flex items-center gap-3">
+                    <Check className={`w-5 h-5 flex-shrink-0 ${i >= 5 ? 'text-[#ec4899]' : 'text-[#22C55E]'}`} />
+                    <span className={`text-sm ${i >= 5 ? 'font-semibold text-gray-900' : 'text-gray-700'}`}>{f}</span>
+                  </li>
+                ))}
+              </ul>
+              <Link
+                href="/register?intro=1&tier=pro"
+                className="block w-full text-white font-bold text-lg py-4 rounded-xl text-center transition-all"
+                style={{ background: 'linear-gradient(135deg,#ec4899,#a855f7)' }}
+              >
+                הצטרף ל-Pro
+              </Link>
             </div>
-            <p className="text-center text-gray-400 text-sm mb-2">מחודש שני: ₪99/חודש + מע&quot;מ</p>
-            <p className="text-center text-gray-300 text-xs mb-6">* מחיר הניסיון חל פעם אחת בלבד - לא חוזר לאחר ביטול</p>
-            <ul className="space-y-3 mb-8">
-              {['60 שיחות כלולות', '6 קולות AI לבחירה', 'תמלול + הקלטה', 'וואטסאפ + מייל מיידי', 'ביטול בכל עת'].map(f => (
-                <li key={f} className="flex items-center gap-3">
-                  <Check className="w-5 h-5 text-[#22C55E] flex-shrink-0" />
-                  <span className="text-gray-700">{f}</span>
-                </li>
-              ))}
-            </ul>
-            <Link
-              href="/register?intro=1"
-              className="block w-full text-white font-bold text-lg py-4 rounded-xl text-center transition-all"
-              style={{ background: 'linear-gradient(135deg, #22C55E 0%, #16A34A 100%)', boxShadow: '0 0 20px rgba(34,197,94,0.4)' }}
-            >
-              התחל עכשיו
-            </Link>
+
           </div>
         </div>
       </section>
