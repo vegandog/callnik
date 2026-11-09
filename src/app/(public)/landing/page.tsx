@@ -97,17 +97,11 @@ export default function LandingPage() {
       {/* HERO */}
       <style>{`
         @keyframes bannerPop {
-          0%   { opacity: 0; transform: translateY(-50%) rotate(-25deg) scale(0); }
-          60%  { opacity: 1; transform: translateY(-50%) rotate(-7deg) scale(1.18); }
-          75%  { transform: translateY(-50%) rotate(-12deg) scale(0.93); }
-          88%  { transform: translateY(-50%) rotate(-8deg) scale(1.07); }
+          0%   { opacity: 0; transform: translateY(-50%) rotate(-18deg) scale(0.2); }
           100% { opacity: 1; transform: translateY(-50%) rotate(-10deg) scale(1); }
         }
         @keyframes bannerPopMobile {
-          0%   { opacity: 0; transform: rotate(-20deg) scale(0); }
-          60%  { opacity: 1; transform: rotate(-3deg) scale(1.2); }
-          75%  { transform: rotate(-8deg) scale(0.92); }
-          88%  { transform: rotate(-4deg) scale(1.08); }
+          0%   { opacity: 0; transform: rotate(-14deg) scale(0.2); }
           100% { opacity: 1; transform: rotate(-6deg) scale(1); }
         }
         @keyframes bannerGlow {
@@ -123,7 +117,7 @@ export default function LandingPage() {
             left: 'calc(50% - 520px)',
             top: '50%',
             opacity: 0,
-            animation: 'bannerPop 0.7s cubic-bezier(0.34,1.56,0.64,1) 1s forwards, bannerGlow 2.5s ease-in-out 1.7s infinite',
+            animation: 'bannerPop 0.9s cubic-bezier(0.16,1,0.3,1) 1s forwards, bannerGlow 2.5s ease-in-out 1.9s infinite',
           }}
         >
           <Image src="/banner-bf.png" alt="Black Friday - חודש ראשון ב-₪1" width={270} height={270} style={{ objectFit: 'contain' }} priority />
@@ -144,8 +138,7 @@ export default function LandingPage() {
           <div className="flex justify-center mb-6">
             <Image src="/callnik-logo.png" alt="Callnik" width={160} height={55} style={{ objectFit: 'contain' }} priority />
           </div>
-          <p className="text-[#06B6D4] text-sm font-medium tracking-wide mb-4 uppercase">דנה המזכירה שלך</p>
-          <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4 text-gray-900">
+          <h1 className="text-5xl md:text-6xl font-black leading-tight mb-5 text-gray-900 tracking-tight">
             פספסת שיחה?<br />
             <span className="text-[#22C55E]">הלקוח כבר אצל המתחרה.</span>
           </h1>
@@ -254,34 +247,30 @@ export default function LandingPage() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section className="py-16 px-6 bg-white">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl font-bold text-gray-900 text-center mb-12">איך זה עובד?</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <Phone className="w-10 h-10 text-[#0A0E2A]" />
+      <section className="py-20 px-6 bg-gray-50">
+        <div className="max-w-2xl mx-auto">
+          <h2 className="text-3xl font-black text-gray-900 text-center mb-14 tracking-tight">איך זה עובד?</h2>
+          <div className="relative">
+            <div className="absolute right-[1.4rem] top-10 bottom-10 w-px bg-gradient-to-b from-[#22C55E] via-[#22C55E]/40 to-transparent hidden sm:block" />
+            {[
+              { Icon: Phone,        num: '01', title: 'לקוח מתקשר',      desc: 'לא ענית? Callnik עולה על הקו תוך שנייה, לפני שהלקוח מתנתק.' },
+              { Icon: Headset,      num: '02', title: 'דנה מנהלת שיחה',  desc: 'שואלת שם, סיבת שיחה ומספר לחזרה - בעברית שנשמעת אנושית לגמרי.' },
+              { Icon: MessageSquare, num: '03', title: 'אתה מקבל סיכום', desc: 'תוך שניות מסוף השיחה - הודעת וואטסאפ עם כל הפרטים ולינק להקשבה.' },
+            ].map(({ Icon, num, title, desc }) => (
+              <div key={num} className="flex items-start gap-5 mb-10 last:mb-0">
+                <div className="flex-shrink-0 w-11 h-11 rounded-full bg-white border-2 border-[#22C55E] flex items-center justify-center relative z-10 shadow-sm">
+                  <Icon className="w-5 h-5 text-[#22C55E]" />
+                </div>
+                <div className="flex-1 pt-1.5">
+                  <div className="flex items-baseline gap-3 mb-1">
+                    <span className="text-[#22C55E] font-black text-sm">{num}</span>
+                    <h3 className="text-lg font-bold text-gray-900">{title}</h3>
+                  </div>
+                  <p className="text-gray-500 leading-relaxed">{desc}</p>
+                </div>
+                <span className="hidden md:block text-[5rem] font-black text-gray-100 leading-none select-none flex-shrink-0 -mt-3">{num}</span>
               </div>
-              <div className="text-[#22C55E] font-bold text-sm mb-1">שלב 1</div>
-              <h3 className="font-bold text-gray-900 mb-2">לקוח מתקשר</h3>
-              <p className="text-gray-500 text-sm leading-relaxed">כשאתה לא זמין, Callnik עונה תוך שנייה</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <Headset className="w-10 h-10 text-[#0A0E2A]" />
-              </div>
-              <div className="text-[#22C55E] font-bold text-sm mb-1">שלב 2</div>
-              <h3 className="font-bold text-gray-900 mb-2">דנה מנהלת שיחה</h3>
-              <p className="text-gray-500 text-sm leading-relaxed">שואלת שם, סיבת שיחה ומספר לחזרה - בעברית טבעית</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <MessageSquare className="w-10 h-10 text-[#0A0E2A]" />
-              </div>
-              <div className="text-[#22C55E] font-bold text-sm mb-1">שלב 3</div>
-              <h3 className="font-bold text-gray-900 mb-2">אתה מקבל סיכום</h3>
-              <p className="text-gray-500 text-sm leading-relaxed">הודעת וואטסאפ עם כל הפרטים - תוך שניות</p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
