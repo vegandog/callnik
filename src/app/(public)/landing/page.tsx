@@ -165,7 +165,7 @@ export default function LandingPage() {
             </Link>
           </div>
           <p className="text-orange-500 text-sm font-bold mt-1">⚡ מחיר ₪1 בתוקף לנובמבר 2026 בלבד</p>
-          <p className="text-gray-400 text-sm mt-2">ביטול בכל עת | המחירים לפני מע&quot;מ</p>
+          <p className="text-gray-400 text-sm mt-2">ביטול בכל עת | המחיר החודשי לפני מע&quot;מ</p>
           <p className="text-gray-300 text-xs mt-1">* מחיר הניסיון ₪1 חל פעם אחת בלבד</p>
         </div>
       </section>
@@ -293,10 +293,10 @@ export default function LandingPage() {
               </div>
               <div className="mb-1">
                 <span className="text-5xl font-black text-gray-900">₪1</span>
-                <span className="text-gray-400"> + מע&quot;מ</span>
+                <span className="text-gray-400"> בלבד</span>
               </div>
-              <p className="text-gray-400 text-sm mb-1">לחודש הראשון</p>
-              <p className="text-gray-500 text-sm mb-1">מחודש שני: <span className="font-bold text-gray-700">₪99 + מע&quot;מ</span> לחודש</p>
+              <p className="text-gray-400 text-sm mb-1">לחודש הראשון, כולל מע&quot;מ</p>
+              <p className="text-gray-500 text-sm mb-1">מחודש שני: <span className="font-bold text-gray-700">₪116.82</span> לחודש (₪99 + מע&quot;מ)</p>
               <p className="text-gray-300 text-xs mb-6">* מחיר ₪1 ניתן פעם אחת בלבד</p>
               <ul className="space-y-3 mb-8 flex-1">
                 {['60 שיחות כלולות', '6 קולות AI לבחירה', 'תמלול + הקלטה', 'וואטסאפ + מייל מיידי', 'ביטול בכל עת'].map(f => (
@@ -322,10 +322,10 @@ export default function LandingPage() {
               </div>
               <div className="mb-1">
                 <span className="text-5xl font-black text-gray-900">₪1</span>
-                <span className="text-gray-400"> + מע&quot;מ</span>
+                <span className="text-gray-400"> בלבד</span>
               </div>
-              <p className="text-gray-400 text-sm mb-1">לחודש הראשון</p>
-              <p className="text-gray-500 text-sm mb-1">מחודש שני: <span className="font-bold text-gray-700">₪199 + מע&quot;מ</span> לחודש</p>
+              <p className="text-gray-400 text-sm mb-1">לחודש הראשון, כולל מע&quot;מ</p>
+              <p className="text-gray-500 text-sm mb-1">מחודש שני: <span className="font-bold text-gray-700">₪234.82</span> לחודש (₪199 + מע&quot;מ)</p>
               <p className="text-gray-300 text-xs mb-6">* מחיר ₪1 ניתן פעם אחת בלבד</p>
               <ul className="space-y-3 mb-8 flex-1">
                 {['60 שיחות כלולות', '6 קולות AI לבחירה', 'תמלול + הקלטה', 'וואטסאפ + מייל מיידי', 'ביטול בכל עת', 'קביעת פגישות ב-Google Calendar', 'סיכום פגישה בוואטסאפ'].map((f, i) => (
@@ -368,7 +368,7 @@ export default function LandingPage() {
             className="inline-block text-white font-bold text-lg px-10 py-4 rounded-full transition-all"
             style={{ background: 'linear-gradient(135deg, #22C55E 0%, #16A34A 100%)', boxShadow: '0 0 32px rgba(34,197,94,0.5), 0 4px 20px rgba(0,0,0,0.15)' }}
           >
-            התחל עכשיו - ₪1 + מע&quot;מ לחודש הראשון
+            התחל עכשיו - ₪1 לחודש הראשון
           </Link>
         </div>
       </section>
