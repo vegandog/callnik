@@ -166,6 +166,36 @@ const articles = [
     description: 'מאמן חיים בפגישה לא עונה. Callnik מקבלת פנייה ראשונה ומתאמת שיחת היכרות.',
     date: '2026-11-10',
   },
+  {
+    slug: 'mazkirah-ai-achizan-binyan',
+    title: 'מזכירה AI לחברת אחזקת בניין: ניהול דיירים',
+    description: 'חברת ניהול בניין מנהלת פניות דיירים, תקלות ובקשות - אוטומטית עם Callnik.',
+    date: '2026-11-10',
+  },
+  {
+    slug: 'mazkirah-ai-madricha-yoga',
+    title: 'מזכירה AI למדריכת יוגה ומדיטציה',
+    description: 'מדריכת יוגה בשיעור לא עונה. Callnik מנהלת הרשמות ומתאמת שיעור ניסיון.',
+    date: '2026-11-10',
+  },
+  {
+    slug: 'mazkirah-ai-mazkirah-mazkirut',
+    title: 'מזכירה AI למשרד קטן: כיסוי שעות ללא כוח אדם',
+    description: 'משרד עם מזכירה חלקית? Callnik מכסה ערבים, שישי ושבת - 149 ₪ במקום 5,000 ₪.',
+    date: '2026-11-10',
+  },
+  {
+    slug: 'mazkirah-ai-tour-guide-english',
+    title: 'AI Secretary for Tour Guides in Israel',
+    description: 'English-speaking tour guide? Callnik answers in Hebrew and English, takes bookings and sends WhatsApp summary.',
+    date: '2026-11-10',
+  },
+  {
+    slug: 'mazkirah-ai-afut-kadur-shel',
+    title: 'מזכירה AI לעורך וידאו ופודקאסט',
+    description: 'עורך וידאו עסוק בפרויקט - Callnik מנהלת פניות לקוחות חדשים ומתאמת שיחת גיוס.',
+    date: '2026-11-10',
+  },
 ]
 
 export default function BlogPage() {
