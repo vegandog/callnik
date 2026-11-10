@@ -196,6 +196,36 @@ const articles = [
     description: 'עורך וידאו עסוק בפרויקט - Callnik מנהלת פניות לקוחות חדשים ומתאמת שיחת גיוס.',
     date: '2026-11-10',
   },
+  {
+    slug: 'mazkirah-ai-pysio-sport',
+    title: 'מזכירה AI לפיזיותרפיסט: ניהול תורים ופגישות',
+    description: 'פיזיותרפיסט בטיפול לא יכול לענות. Callnik מתאמת תורים ומנהלת ביטולים אוטומטית.',
+    date: '2026-11-10',
+  },
+  {
+    slug: 'mazkirah-ai-seret-dvash',
+    title: 'מזכירה AI לחנות עוגות: קבלת הזמנות אוטומטית',
+    description: 'חנות עוגות מנהלת הזמנות אירועים - Callnik שואלת על טעמים, גודל ומועד. אוטומטית.',
+    date: '2026-11-10',
+  },
+  {
+    slug: 'mazkirah-ai-rehev-achizan',
+    title: 'מזכירה AI לסדנת אחזקת רכב: תיאום שירות',
+    description: 'מכונאי עסוק מתחת לרכב לא עונה. Callnik מנהלת תורי הסדנה ומתאמת ביקורים.',
+    date: '2026-11-10',
+  },
+  {
+    slug: 'mazkirah-ai-mishpat-gisha',
+    title: 'מזכירה AI לריפוי בעיסוק ונגישות',
+    description: 'מרפא בעיסוק עסוק בטיפולים - Callnik מנהלת פניות ומתאמת הערכות ראשוניות.',
+    date: '2026-11-10',
+  },
+  {
+    slug: 'mazkirah-ai-mazkirah-bi-english',
+    title: 'AI Secretary for Small Business Israel - 24/7',
+    description: 'Small business in Israel? Callnik AI secretary answers missed calls and sends WhatsApp summaries. First month 1 ILS.',
+    date: '2026-11-10',
+  },
 ]
 
 export default function BlogPage() {
