@@ -226,6 +226,36 @@ const articles = [
     description: 'Small business in Israel? Callnik AI secretary answers missed calls and sends WhatsApp summaries. First month 1 ILS.',
     date: '2026-11-10',
   },
+  {
+    slug: 'mazkirah-ai-achiyan-sport-futsal',
+    title: 'מזכירה AI למגרש ספורט: ניהול הזמנות אוטומטי',
+    description: 'מגרש ספורט, חדר כדורסל ופוטסל מנהל הזמנות שעות ואישורים - אוטומטית.',
+    date: '2026-11-10',
+  },
+  {
+    slug: 'mazkirah-ai-shamai-itzuv',
+    title: 'מזכירה AI לשמאי נדלן: פניות וביקורי הערכה',
+    description: 'שמאי בביקור לא עונה. Callnik מנהלת פניות ומתאמת ביקורי הערכה אוטומטית.',
+    date: '2026-11-10',
+  },
+  {
+    slug: 'mazkirah-ai-rof-kelev-vehavayot',
+    title: 'מזכירה AI לספרן חיות: תורים ושאלות אוטומטי',
+    description: 'ספרן כלבים עסוק בגזיזה - Callnik מנהלת תורים ושאלות על שירותים.',
+    date: '2026-11-10',
+  },
+  {
+    slug: 'mazkirah-ai-askanim-mishpatiyim',
+    title: 'מזכירה AI לנוטריון: ניהול פגישות ומסמכים',
+    description: 'נוטריון עסוק - Callnik עונה, שואלת על המסמך ומתאמת פגישת אימות.',
+    date: '2026-11-10',
+  },
+  {
+    slug: 'mazkirah-ai-mazkirah-refu-sport',
+    title: 'מזכירה AI לרופא ספורט: ניהול מטופלי ספורטאים',
+    description: 'רופא ספורט בבדיקה לא עונה. Callnik מתאמת בדיקות ומנהלת רשימות המתנה.',
+    date: '2026-11-10',
+  },
 ]
 
 export default function BlogPage() {
