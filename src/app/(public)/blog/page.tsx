@@ -106,6 +106,36 @@ const articles = [
     description: 'מדריך טיולים שעסוק בטיול לא עונה. Callnik מנהלת פניות מקבוצות ומדווחת בוואטסאפ.',
     date: '2026-11-10',
   },
+  {
+    slug: 'mazkirah-ai-merapeh-shnayim',
+    title: 'מזכירה AI לרופא שיניים: ניהול תורים אוטומטי',
+    description: 'רופא שיניים בטיפול לא יכול לענות. Callnik מתאמת תורים ביומן ומנהלת ביטולים.',
+    date: '2026-11-10',
+  },
+  {
+    slug: 'mazkirah-ai-muzika-limudim',
+    title: 'מזכירה AI למורה מוזיקה: ניהול תלמידים פשוט',
+    description: 'מורה מוזיקה בשיעור לא יכולה לענות. Callnik מתאמת שיעורי ניסיון ומנהלת לוח שיעורים.',
+    date: '2026-11-10',
+  },
+  {
+    slug: 'mazkirah-ai-dietitanit',
+    title: 'מזכירה AI לדיאטנית: ניהול לקוחות ופגישות',
+    description: 'דיאטנית בייעוץ לא יכולה לענות. Callnik עונה, מסבירה על השיטה ומתאמת ייעוץ ראשוני.',
+    date: '2026-11-10',
+  },
+  {
+    slug: 'mazkirah-ai-meamenet-klavim',
+    title: 'מזכירה AI למאמנת כלבים: ניהול לקוחות חדשים',
+    description: 'מאמנת כלבים בהדרכה - Callnik עונה, שואלת על הכלב ומתאמת שיעור ניסיון.',
+    date: '2026-11-10',
+  },
+  {
+    slug: 'mazkirah-ai-photographer-b2b',
+    title: 'מזכירה AI לצלם עסקי: לידים ופגישות אוטומטיות',
+    description: 'צלם עסקי בצילום לא עונה. Callnik מקבלת פניות מחברות ומתאמת פגישת היכרות.',
+    date: '2026-11-10',
+  },
 ]
 
 export default function BlogPage() {
