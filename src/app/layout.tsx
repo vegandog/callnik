@@ -32,6 +32,7 @@ const schemaOrg = [
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
+    "@id": "https://callnik.com/#app",
     "name": "Callnik",
     "url": "https://callnik.com/",
     "description": "מזכירה AI שעונה לשיחות נכנסות, מנהלת יומן ושולחת סיכומים בוואטסאפ. עובדת 24/7.",
@@ -74,6 +75,7 @@ const schemaOrg = [
   {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": "https://callnik.com/#organization",
     "name": "Callnik",
     "url": "https://callnik.com",
     "logo": "https://callnik.com/callnik-logo.png",
@@ -88,6 +90,85 @@ const schemaOrg = [
       "name": "MediaUp",
       "url": "https://mediaup.net"
     }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://callnik.com/#website",
+    "url": "https://callnik.com",
+    "name": "Callnik",
+    "description": "מזכירה AI לעסק - עונה לשיחות שלא נענו ושולחת סיכום בוואטסאפ",
+    "inLanguage": "he-IL",
+    "publisher": {"@id": "https://callnik.com/#organization"}
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "האם המספר שלי אצל הלקוחות משתנה?",
+        "acceptedAnswer": {"@type": "Answer", "text": "לא. המספר שלך נשאר בדיוק אותו דבר. רק שיחות שלא ענית להן בתוך X שניות מועברות ל-Callnik, ברמת הרשת הסלולרית."}
+      },
+      {
+        "@type": "Question",
+        "name": "מה Callnik אומרת ללקוח?",
+        "acceptedAnswer": {"@type": "Answer", "text": "היא מציגה את עצמה כמזכירה האוטומטית של שם העסק שלך. לא מתחזה לבעל העסק. שקוף ומקצועי."}
+      },
+      {
+        "@type": "Question",
+        "name": "האם המזכירה יכולה לקבוע פגישות ביומן?",
+        "acceptedAnswer": {"@type": "Answer", "text": "כן. אחרי ההרשמה, מחברים את Google Calendar מהגדרות הפאנל. מגדירים ימי עבודה, שעות ואיך קוראים לפגישה. מהרגע הזה, כשלקוח מתקשר ולא נענה, המזכירה תציע לו לקבוע פגישה ישירות - והיא תירשם ביומן אוטומטית."}
+      },
+      {
+        "@type": "Question",
+        "name": "באילו חברות סלולר זה עובד?",
+        "acceptedAnswer": {"@type": "Answer", "text": "פלאפון, פרטנר, סלקום, הוט מובייל, 012, גולן טלקום, רמי לוי תקשורת, Welcome ו-019. כולן."}
+      },
+      {
+        "@type": "Question",
+        "name": "מה אם אני רוצה לבטל?",
+        "acceptedAnswer": {"@type": "Answer", "text": "ביטול בכל עת. ביטול ההפניה הסלולרית נעשה בחיוג אחד מהטלפון."}
+      },
+      {
+        "@type": "Question",
+        "name": "כמה עולה Callnik?",
+        "acceptedAnswer": {"@type": "Answer", "text": "תוכנית Basic עולה 99 שקל לחודש (עד 60 שיחות). תוכנית Pro עולה 149 שקל לחודש (עד 150 שיחות + ניהול יומן). חודש ראשון ב-1 שקל בלבד."}
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "איך מתחילים עם Callnik",
+    "description": "הפעלת מזכירה AI לעסק תוך 5 דקות",
+    "inLanguage": "he",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "position": 1,
+        "name": "נרשמים ב-Callnik",
+        "text": "נרשמים לאתר callnik.com ובוחרים תוכנית Basic או Pro."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 2,
+        "name": "מגדירים את המזכירה",
+        "text": "ממלאים את שם העסק, תחום הפעילות וסוג הפגישות שרוצים לקבוע."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 3,
+        "name": "מגדירים הפניה סלולרית",
+        "text": "מחייגים קוד קצר מהסלולרי שמפנה שיחות שלא נענו למספר של Callnik."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 4,
+        "name": "מקבלים סיכומים בוואטסאפ",
+        "text": "מכל שיחה שהמזכירה ענתה, מגיע סיכום לוואטסאפ תוך דקה."
+      }
+    ]
   }
 ];
 
