@@ -15,6 +15,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/terms`,             lastModified: new Date('2026-10-25'), priority: 0.3 },
     { url: `${base}/privacy`,           lastModified: new Date('2026-10-25'), priority: 0.3 },
     { url: `${base}/accessibility`,     lastModified: new Date('2026-09-22'), priority: 0.3 },
+    // Local landing pages
+    { url: `${base}/city/tel-aviv`,      lastModified: new Date('2026-11-10'), priority: 0.7 },
+    { url: `${base}/city/jerusalem`,     lastModified: new Date('2026-11-10'), priority: 0.7 },
+    { url: `${base}/city/haifa`,         lastModified: new Date('2026-11-10'), priority: 0.7 },
+    { url: `${base}/city/beer-sheva`,    lastModified: new Date('2026-11-10'), priority: 0.7 },
+    { url: `${base}/city/rishon-lezion`, lastModified: new Date('2026-11-10'), priority: 0.7 },
+    // Compare page
+    { url: `${base}/compare`,            lastModified: new Date('2026-11-10'), priority: 0.8 },
   ]
 
   // Blog posts — date = git commit that first created the file
