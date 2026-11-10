@@ -24,19 +24,18 @@ export default function AboutPage() {
 
         <div className="grid gap-8 mb-14">
           <div className="bg-blue-50 rounded-2xl p-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-3">מאיפה באנו</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-3">חלק מקבוצת MediaUp</h2>
             <p className="text-gray-600 leading-relaxed mb-4">
-              אותו צוות שמפעיל את Callnik מפעיל גם את <strong>Jinglephone</strong> - שירות קריינות IVR לעסקים קטנים, שמשרת מאות לקוחות ברחבי הארץ. שנים של ניסיון בהפקת מסרי מענה, הפנייה חכמה, ותפריטים קוליים לימדו אותנו דבר אחד ברור: הטלפון הוא קו החזית של העסק.
+              Callnik היא מוצר של{' '}
+              <strong>
+                <a href="https://mediaup.net" target="_blank" rel="noopener" className="text-blue-600 hover:underline">
+                  MediaUp
+                </a>
+              </strong>{' '}
+              - קבוצת כלים דיגיטליים לעסקים ישראלים. אותה קבוצה שעומדת גם מאחורי Jinglephone (קריינות IVR לעסקים), Web-AI (פרזנטורי AI לאתרים), קול קו, ועוד.
             </p>
             <p className="text-gray-600 leading-relaxed">
-              ממשלם שמחכה 40 שניות עד לאות תפוס, ועד ללקוח שמשאיר הודעה שלא נשמעת - ראינו את כל הפספוסים. Callnik היא התשובה שרצינו שתהיה קיימת כבר מזמן.
-            </p>
-          </div>
-
-          <div className="bg-gray-50 rounded-2xl p-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-3">מה עוד אנחנו עושים</h2>
-            <p className="text-gray-600 leading-relaxed">
-              דרך <strong>Web-AI</strong> אנחנו גם מוציאים כלים מבוססי AI לעסקים קטנים - מוצרים שפותחו מתוך אותה תפיסה: טכנולוגיה שמישה, בלי הבטחות גדולות ובלי למידה מסובכת. כלי שעובד מהיום הראשון.
+              שנים של ניסיון בשירותי תקשורת לעסקים קטנים - מסרי מענה, הפנייה חכמה, תפריטים קוליים - לימדו אותנו דבר אחד ברור: הטלפון הוא קו החזית של העסק. Callnik היא התשובה שרצינו שתהיה קיימת כבר מזמן.
             </p>
           </div>
         </div>
