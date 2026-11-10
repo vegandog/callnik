@@ -136,6 +136,36 @@ const articles = [
     description: 'צלם עסקי בצילום לא עונה. Callnik מקבלת פניות מחברות ומתאמת פגישת היכרות.',
     date: '2026-11-10',
   },
+  {
+    slug: 'mazkirah-ai-mazgan',
+    title: 'מזכירה AI לטכנאי מזגנים: פניות דחופות מנוהלות',
+    description: 'טכנאי מזגנים עסוק בהתקנה - Callnik עונה, שואלת על הבעיה ומתאמת ביקור ביומן.',
+    date: '2026-11-10',
+  },
+  {
+    slug: 'mazkirah-ai-plumber-shravrav',
+    title: 'מזכירה AI לשרברב: מענה לתקלות דחופות',
+    description: 'שרברב עסוק בתיקון - Callnik עונה לשיחות חירום ושולחת לך סיכום בוואטסאפ.',
+    date: '2026-11-10',
+  },
+  {
+    slug: 'mazkirah-ai-askanim-refahiyim',
+    title: 'מזכירה AI לעובד סוציאלי: ניהול פגישות ופניות',
+    description: 'עובד סוציאלי בפגישה לא עונה. Callnik מנהלת פניות ומתאמת פגישות ביומן.',
+    date: '2026-11-10',
+  },
+  {
+    slug: 'mazkirah-ai-rehev-tushat',
+    title: 'מזכירה AI להובלות: הצעות מחיר ותיאום אוטומטי',
+    description: 'חברת הובלות מקבלת עשרות שיחות. Callnik לוקחת פרטי ההובלה ושולחת סיכום.',
+    date: '2026-11-10',
+  },
+  {
+    slug: 'mazkirah-ai-mazkirah-refa-mitabeket',
+    title: 'מזכירה AI למאמן חיים: פניות ושיחות היכרות',
+    description: 'מאמן חיים בפגישה לא עונה. Callnik מקבלת פנייה ראשונה ומתאמת שיחת היכרות.',
+    date: '2026-11-10',
+  },
 ]
 
 export default function BlogPage() {
