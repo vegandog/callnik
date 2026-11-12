@@ -221,6 +221,7 @@ export default function TermsPage() {
             לכל שאלה, בקשת ביטול, או פנייה הנוגעת לתנאים אלה יש לפנות בדוא&quot;ל:
           </p>
           <a href="mailto:mail@callnik.com" className="text-blue-600 font-semibold text-lg mt-2 block">mail@callnik.com</a>
+          <p className="text-gray-400 text-sm mt-4">MediaUp | ת&quot;ד 20467, תל אביב 6120302</p>
         </Section>
       </main>
       <Footer />

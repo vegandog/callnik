@@ -41,7 +41,10 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-100 pt-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-gray-400">
-          <span>© 2026 Callnik. כל הזכויות שמורות.</span>
+          <div className="flex flex-col gap-0.5 text-right">
+            <span>© 2026 Callnik. כל הזכויות שמורות.</span>
+            <span className="text-gray-400">MediaUp | ת&quot;ד 20467, תל אביב 6120302</span>
+          </div>
           <Link href="/admin" className="hover:text-gray-500 transition-colors">ניהול</Link>
         </div>
       </div>
