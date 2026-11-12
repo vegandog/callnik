@@ -129,8 +129,8 @@ export async function POST(req: NextRequest) {
     : promoCodeId
     ? `מנוי Callnik ${tierLabel} חודשי - callnik.com | חודש ראשון ב-₪1 (קופון)`
     : isIntro
-    ? `מנוי Callnik ${tierLabel} חודשי - callnik.com | חודש ראשון ₪1 כולל מע"מ | מחודש שני: ₪${monthlyBase} כולל מע"מ`
-    : `מנוי Callnik ${tierLabel} חודשי - callnik.com | ₪${monthlyBase} לחודש כולל מע"מ`
+    ? `מנוי Callnik ${tierLabel} חודשי - callnik.com | חודש ראשון ₪1 | מחודש שני: ₪${tierVal === 'pro' ? 149 : 99} + מע"מ לחודש`
+    : `מנוי Callnik ${tierLabel} חודשי - callnik.com | ₪${tierVal === 'pro' ? 149 : 99} + מע"מ לחודש`
 
   await dbPost('billing_history', {
     customer_id: customerId,

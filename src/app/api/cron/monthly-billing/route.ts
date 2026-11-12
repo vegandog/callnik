@@ -84,10 +84,10 @@ export async function GET(req: NextRequest) {
 
     try {
       const planLabel = customer.plan === 'annual'
-        ? 'מנוי Callnik שנתי - callnik.com | ₪1,118.64 לשנה כולל מע"מ'
+        ? `מנוי Callnik ${isPro ? 'Pro' : 'Basic'} שנתי - callnik.com | ₪${isPro ? 1428 : 948} + מע"מ לשנה`
         : customer.plan === 'daily_test'
         ? 'טסט Callnik - callnik.com'
-        : 'מנוי Callnik חודשי - callnik.com | ₪116.82 לחודש כולל מע"מ'
+        : `מנוי Callnik ${isPro ? 'Pro' : 'Basic'} חודשי - callnik.com | ₪${isPro ? 149 : 99} + מע"מ לחודש`
 
       const transactionBody: Record<string, unknown> = {
         TerminalNumber: CARDCOM_TERMINAL,

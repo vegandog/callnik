@@ -65,7 +65,7 @@ export default function PricingPage() {
                 <span className="text-xl font-normal text-gray-400">/חודש</span>
               </div>
               <p className="text-gray-400 text-sm mb-1">+ מע&quot;מ</p>
-              <p className="text-gray-400 text-sm mb-8">או ₪79/חודש בתשלום שנתי</p>
+              <p className="text-gray-400 text-sm mb-8">או ₪79/חודש בתשלום שנתי + מע&quot;מ</p>
               <ul className="text-right space-y-3 mb-8 flex-1">
                 {basicFeatures.map((f) => (
                   <li key={f} className="flex items-center gap-3 text-gray-700">
@@ -93,11 +93,11 @@ export default function PricingPage() {
               </div>
               <p className="text-gray-500 text-sm font-medium mb-1">Pro</p>
               <div className="text-5xl font-bold text-gray-900 mb-1">
-                ₪199
+                ₪149
                 <span className="text-xl font-normal text-gray-400">/חודש</span>
               </div>
               <p className="text-gray-400 text-sm mb-1">+ מע&quot;מ</p>
-              <p className="text-blue-600 text-sm font-medium mb-8">או ₪166/חודש בתשלום שנתי</p>
+              <p className="text-blue-600 text-sm font-medium mb-8">או ₪119/חודש בתשלום שנתי + מע&quot;מ</p>
               <ul className="text-right space-y-3 mb-8 flex-1">
                 {basicFeatures.map((f) => (
                   <li key={f} className="flex items-center gap-3 text-gray-700">

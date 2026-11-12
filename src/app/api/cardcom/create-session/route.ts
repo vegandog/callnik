@@ -41,12 +41,12 @@ export async function POST(req: NextRequest) {
   const productDescription = isTest
     ? 'טסט Callnik - callnik.com'
     : couponValid
-    ? `מנוי Callnik ${tierLabel} חודשי - callnik.com | חודש ראשון ב-₪1 בלבד | מחודש 2: ₪${monthlyBase} לחודש כולל מע"מ`
+    ? `מנוי Callnik ${tierLabel} חודשי - callnik.com | חודש ראשון ב-₪1 בלבד | מחודש 2: ₪${tierVal === 'pro' ? 149 : 99} + מע"מ לחודש`
     : isAnnual
-    ? `מנוי Callnik ${tierLabel} שנתי - callnik.com | ₪${annualBase} לשנה כולל מע"מ`
+    ? `מנוי Callnik ${tierLabel} שנתי - callnik.com | ₪${tierVal === 'pro' ? 1428 : 948} + מע"מ לשנה`
     : isIntro
-    ? `מנוי Callnik ${tierLabel} חודשי - callnik.com | חודש ראשון ₪1 כולל מע"מ | מחודש שני: ₪${monthlyBase} לחודש כולל מע"מ`
-    : `מנוי Callnik ${tierLabel} חודשי - callnik.com | ₪${monthlyBase} לחודש כולל מע"מ`
+    ? `מנוי Callnik ${tierLabel} חודשי - callnik.com | חודש ראשון ₪1 | מחודש שני: ₪${tierVal === 'pro' ? 149 : 99} + מע"מ לחודש`
+    : `מנוי Callnik ${tierLabel} חודשי - callnik.com | ₪${tierVal === 'pro' ? 149 : 99} + מע"מ לחודש`
 
   const { data: userRecord } = await supabase
     .from('users')

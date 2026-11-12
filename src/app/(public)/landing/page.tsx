@@ -165,7 +165,7 @@ export default function LandingPage() {
             </Link>
           </div>
           <p className="text-orange-500 text-sm font-bold mt-1">⚡ מחיר ₪1 בתוקף לנובמבר 2026 בלבד</p>
-          <p className="text-gray-400 text-sm mt-2">ביטול בכל עת | המחיר החודשי לפני מע&quot;מ</p>
+          <p className="text-gray-400 text-sm mt-2">ביטול בכל עת | המחירים לפני מע&quot;מ</p>
           <p className="text-gray-300 text-xs mt-1">* מחיר הניסיון ₪1 חל פעם אחת בלבד</p>
         </div>
       </section>
@@ -295,8 +295,8 @@ export default function LandingPage() {
                 <span className="text-5xl font-black text-gray-900">₪1</span>
                 <span className="text-gray-400"> בלבד</span>
               </div>
-              <p className="text-gray-400 text-sm mb-1">לחודש הראשון, כולל מע&quot;מ</p>
-              <p className="text-gray-500 text-sm mb-1">מחודש שני: <span className="font-bold text-gray-700">₪116.82</span> לחודש (₪99 + מע&quot;מ)</p>
+              <p className="text-gray-400 text-sm mb-1">לחודש הראשון</p>
+              <p className="text-gray-500 text-sm mb-1">מחודש שני: <span className="font-bold text-gray-700">₪99</span> לחודש + מע&quot;מ</p>
               <p className="text-gray-300 text-xs mb-6">* מחיר ₪1 ניתן פעם אחת בלבד</p>
               <ul className="space-y-3 mb-8 flex-1">
                 {['60 שיחות כלולות', '6 קולות AI לבחירה', 'תמלול + הקלטה', 'וואטסאפ + מייל מיידי', 'ביטול בכל עת'].map(f => (
@@ -324,8 +324,8 @@ export default function LandingPage() {
                 <span className="text-5xl font-black text-gray-900">₪1</span>
                 <span className="text-gray-400"> בלבד</span>
               </div>
-              <p className="text-gray-400 text-sm mb-1">לחודש הראשון, כולל מע&quot;מ</p>
-              <p className="text-gray-500 text-sm mb-1">מחודש שני: <span className="font-bold text-gray-700">₪234.82</span> לחודש (₪199 + מע&quot;מ)</p>
+              <p className="text-gray-400 text-sm mb-1">לחודש הראשון</p>
+              <p className="text-gray-500 text-sm mb-1">מחודש שני: <span className="font-bold text-gray-700">₪149</span> לחודש + מע&quot;מ</p>
               <p className="text-gray-300 text-xs mb-6">* מחיר ₪1 ניתן פעם אחת בלבד</p>
               <ul className="space-y-3 mb-8 flex-1">
                 {['60 שיחות כלולות', '6 קולות AI לבחירה', 'תמלול + הקלטה', 'וואטסאפ + מייל מיידי', 'ביטול בכל עת', 'קביעת פגישות ב-Google Calendar', 'סיכום פגישה בוואטסאפ'].map((f, i) => (
