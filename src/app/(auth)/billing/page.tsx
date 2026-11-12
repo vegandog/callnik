@@ -60,7 +60,7 @@ export default function BillingPage() {
           <div>
             <p className="text-xs text-gray-400 mb-0.5">תוכנית נוכחית</p>
             <p className="font-semibold text-gray-900">
-              {info?.tier === 'pro' ? 'Pro — ₪199/חודש' : 'Basic — ₪99/חודש'}
+              {info?.tier === 'pro' ? 'Pro — ₪234.82/חודש כולל מע״מ' : 'Basic — ₪116.82/חודש כולל מע״מ'}
             </p>
           </div>
           {info?.tier === 'pro' && (
@@ -97,7 +97,7 @@ export default function BillingPage() {
                 ) : (
                   <>
                     <p className="text-sm font-semibold text-blue-800">שדרג ל-Pro</p>
-                    <p className="text-xs text-blue-600 mt-0.5">150 שיחות/חודש במקום 60 — ₪199 מהחיוב הבא</p>
+                    <p className="text-xs text-blue-600 mt-0.5">150 שיחות/חודש במקום 60 — ₪234.82 כולל מע״מ מהחיוב הבא</p>
                   </>
                 )}
               </div>
