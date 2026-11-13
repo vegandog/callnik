@@ -167,6 +167,19 @@ export default function LandingPage() {
           <p className="text-orange-500 text-sm font-bold mt-1">⚡ מחיר ₪1 בתוקף לנובמבר 2026 בלבד</p>
           <p className="text-gray-400 text-sm mt-2">ביטול בכל עת | המחירים לפני מע&quot;מ</p>
           <p className="text-gray-300 text-xs mt-1">* מחיר הניסיון ₪1 חל פעם אחת בלבד</p>
+
+          {/* Try it yourself - phone CTA */}
+          <div className="mt-10 bg-gradient-to-br from-[#f0fdf4] to-[#dcfce7] border-2 border-[#22C55E] rounded-2xl px-7 py-5 inline-block">
+            <p className="text-gray-600 text-sm font-medium mb-1">נסה בעצמך!</p>
+            <p className="text-gray-800 font-bold text-base mb-3">התקשר עכשיו לדנה ודבר איתה</p>
+            <a
+              href="tel:0837622822"
+              className="flex items-center justify-center gap-3 bg-[#22C55E] hover:bg-[#16A34A] text-white rounded-xl px-7 py-3 transition-all hover:shadow-lg"
+            >
+              <Phone className="w-5 h-5 flex-shrink-0" />
+              <span className="text-2xl font-black tracking-wide">08-376-2282</span>
+            </a>
+          </div>
         </div>
       </section>
 
