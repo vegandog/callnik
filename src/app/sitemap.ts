@@ -5,24 +5,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // Static pages — date = last git commit that touched the file
   const staticPages: MetadataRoute.Sitemap = [
-    { url: base,                        lastModified: new Date('2026-10-25'), priority: 1   },
-    { url: `${base}/pricing`,           lastModified: new Date('2026-10-25'), priority: 0.8 },
-    { url: `${base}/how-it-works`,      lastModified: new Date('2026-10-25'), priority: 0.8 },
-    { url: `${base}/faq`,               lastModified: new Date('2026-11-10'), priority: 0.6 },
+    { url: base,                        lastModified: new Date('2026-11-15'), priority: 1   },
+    { url: `${base}/pricing`,           lastModified: new Date('2026-11-15'), priority: 0.8 },
+    { url: `${base}/how-it-works`,      lastModified: new Date('2026-11-15'), priority: 0.8 },
+    { url: `${base}/faq`,               lastModified: new Date('2026-11-15'), priority: 0.6 },
     { url: `${base}/about`,             lastModified: new Date('2026-08-26'), priority: 0.5 },
-    { url: `${base}/landing`,           lastModified: new Date('2026-11-09'), priority: 0.8 },
-    { url: `${base}/blog`,              lastModified: new Date('2026-11-10'), priority: 0.7 },
-    { url: `${base}/terms`,             lastModified: new Date('2026-10-25'), priority: 0.3 },
+    { url: `${base}/landing`,           lastModified: new Date('2026-11-15'), priority: 0.8 },
+    { url: `${base}/blog`,              lastModified: new Date('2026-11-15'), priority: 0.7 },
+    { url: `${base}/terms`,             lastModified: new Date('2026-11-15'), priority: 0.3 },
     { url: `${base}/privacy`,           lastModified: new Date('2026-10-25'), priority: 0.3 },
     { url: `${base}/accessibility`,     lastModified: new Date('2026-09-22'), priority: 0.3 },
     // Local landing pages
-    { url: `${base}/city/tel-aviv`,      lastModified: new Date('2026-11-10'), priority: 0.7 },
-    { url: `${base}/city/jerusalem`,     lastModified: new Date('2026-11-10'), priority: 0.7 },
-    { url: `${base}/city/haifa`,         lastModified: new Date('2026-11-10'), priority: 0.7 },
-    { url: `${base}/city/beer-sheva`,    lastModified: new Date('2026-11-10'), priority: 0.7 },
-    { url: `${base}/city/rishon-lezion`, lastModified: new Date('2026-11-10'), priority: 0.7 },
+    { url: `${base}/city/tel-aviv`,      lastModified: new Date('2026-11-15'), priority: 0.7 },
+    { url: `${base}/city/jerusalem`,     lastModified: new Date('2026-11-15'), priority: 0.7 },
+    { url: `${base}/city/haifa`,         lastModified: new Date('2026-11-15'), priority: 0.7 },
+    { url: `${base}/city/beer-sheva`,    lastModified: new Date('2026-11-15'), priority: 0.7 },
+    { url: `${base}/city/rishon-lezion`, lastModified: new Date('2026-11-15'), priority: 0.7 },
     // Compare page
-    { url: `${base}/compare`,            lastModified: new Date('2026-11-10'), priority: 0.8 },
+    { url: `${base}/compare`,            lastModified: new Date('2026-11-15'), priority: 0.8 },
   ]
 
   // Blog posts — date = git commit that first created the file

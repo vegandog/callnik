@@ -1,18 +1,11 @@
 import twilio from 'twilio'
+import { normalizePhone } from './phone'
 
 const client = () => twilio(process.env.TWILIO_ACCOUNT_SID!, process.env.TWILIO_AUTH_TOKEN!)
 
 const WHATSAPP_FROM = process.env.TWILIO_WHATSAPP_FROM || 'whatsapp:+14155238886'
 const SMS_FROM = (process.env.TWILIO_WHATSAPP_FROM || 'whatsapp:+14155238886').replace('whatsapp:', '')
 const TEMPLATE_SID = process.env.TWILIO_WHATSAPP_TEMPLATE_SID
-
-function normalizePhone(num: string): string {
-  const clean = num.replace(/\s/g, '')
-  if (clean.startsWith('+')) return clean
-  if (clean.startsWith('00')) return '+' + clean.slice(2)
-  if (clean.startsWith('0')) return '+972' + clean.slice(1)
-  return '+' + clean
-}
 
 export async function sendWhatsApp(to: string, body: string) {
   try {
