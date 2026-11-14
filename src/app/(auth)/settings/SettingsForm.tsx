@@ -39,6 +39,8 @@ export default function SettingsForm({ businessName, whatsappNumber, carrier, vo
   const [cancelled, setCancelled] = useState(false)
   const [cancelUntil, setCancelUntil] = useState('')
   const [gcalStatus, setGcalStatus] = useState<'connected' | 'disconnected'>(gcalConnected ? 'connected' : 'disconnected')
+  const [upgrading, setUpgrading] = useState(false)
+  const [upgraded, setUpgraded] = useState(false)
   const isCustom = !APPOINTMENT_OPTIONS.includes(appointmentType)
   const [apptType, setApptType] = useState(isCustom ? 'אחר' : appointmentType)
   const [customApptType, setCustomApptType] = useState(isCustom ? appointmentType : '')
@@ -215,12 +217,17 @@ export default function SettingsForm({ businessName, whatsappNumber, carrier, vo
             <p className="text-blue-700 text-xs leading-relaxed mb-3">
               חיבור Google Calendar וקביעת פגישות אוטומטית זמינים במסלול Pro בלבד (₪199/חודש).
             </p>
-            <a
-              href="mailto:mail@callnik.com?subject=שדרוג ל-Pro"
-              className="inline-block text-xs bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
-            >
-              שדרג ל-Pro
-            </a>
+            {upgraded ? (
+              <span className="text-green-600 text-xs font-semibold">✓ שודרג! רענן את הדף.</span>
+            ) : (
+              <button
+                onClick={async () => { setUpgrading(true); await fetch('/api/customer/upgrade', { method: 'POST' }); setUpgraded(true); setUpgrading(false) }}
+                disabled={upgrading}
+                className="inline-block text-xs bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
+              >
+                {upgrading ? 'רגע...' : 'שדרג ל-Pro'}
+              </button>
+            )}
           </div>
         )}
         {tier === 'pro' && <>

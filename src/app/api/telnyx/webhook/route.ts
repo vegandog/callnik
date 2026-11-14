@@ -68,9 +68,14 @@ export async function POST(req: NextRequest) {
 
   if (!customer) return NextResponse.json({ ok: true })
 
+  // Only activate if not already cancelling/cancelled
+  const updatePayload: Record<string, string> = { telnyx_number: phoneNumber }
+  if (customer.status !== 'cancelling' && customer.status !== 'cancelled') {
+    updatePayload.status = 'active'
+  }
   await admin
     .from('customers')
-    .update({ telnyx_number: phoneNumber, status: 'active' })
+    .update(updatePayload)
     .eq('id', customerId)
 
   // Send activation email only for pending→complete transitions (number not previously set)
