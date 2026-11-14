@@ -1,7 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { sendActivationEmail } from '@/lib/email'
-import { getVoiceName } from '@/lib/constants'
+import { getVoiceName, getAgentIdForVoice } from '@/lib/constants'
+import { releaseNumber } from '@/lib/telnyx'
 import { NextRequest, NextResponse } from 'next/server'
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'vegandog@gmail.com'
@@ -106,6 +107,10 @@ export async function DELETE(req: NextRequest) {
 
   const supabase = createAdminClient()
 
+  // Release Telnyx number before deleting
+  const { data: cust } = await supabase.from('customers').select('telnyx_number').eq('id', customer_id).single()
+  if (cust?.telnyx_number) await releaseNumber(cust.telnyx_number).catch(console.error)
+
   await supabase.from('calls').delete().eq('customer_id', customer_id)
   await supabase.from('users').delete().eq('customer_id', customer_id)
   const { error } = await supabase.from('customers').delete().eq('id', customer_id)
@@ -174,6 +179,28 @@ export async function PATCH(req: NextRequest) {
     .eq('id', customer_id)
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+
+  // Sync ElevenLabs agent when voice changes
+  if (voice_id !== undefined && current) {
+    const phoneNumber = telnyx_number ?? current.telnyx_number ?? twilio_number ?? current.twilio_number
+    if (phoneNumber) {
+      const agentId = getAgentIdForVoice(voice_id)
+      const ELEVENLABS_API = 'https://api.us.elevenlabs.io'
+      const headers = { 'xi-api-key': process.env.ELEVENLABS_API_KEY! }
+      fetch(`${ELEVENLABS_API}/v1/convai/phone-numbers`, { headers })
+        .then(r => r.json())
+        .then((regs: { phone_number: string; phone_number_id: string }[]) => {
+          const norm = phoneNumber.startsWith('+') ? phoneNumber : `+${phoneNumber}`
+          const match = regs.find(r => r.phone_number === norm || r.phone_number === norm.replace('+', ''))
+          if (match) fetch(`${ELEVENLABS_API}/v1/convai/phone-numbers/${match.phone_number_id}`, {
+            method: 'PATCH',
+            headers: { ...headers, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ agent_id: agentId }),
+          })
+        })
+        .catch(console.error)
+    }
+  }
 
   // Send activation email when status changes to 'active'
   if (status === 'active' && current && current.status !== 'active') {

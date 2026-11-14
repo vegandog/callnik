@@ -24,21 +24,21 @@ interface Customer {
 const STATUS_LABELS: Record<string, string> = {
   pending: 'ממתין',
   active: 'פעיל',
-  trial: 'ניסיון',
+  cancelling: 'מבטל',
   cancelled: 'בוטל',
 }
 
 const STATUS_NEXT: Record<string, string> = {
   pending: 'active',
   active: 'pending',
-  trial: 'active',
+  cancelling: 'cancelled',
   cancelled: 'active',
 }
 
 const STATUS_COLORS: Record<string, string> = {
   pending: 'bg-amber-100 text-amber-700',
   active: 'bg-green-100 text-green-700',
-  trial: 'bg-blue-100 text-blue-700',
+  cancelling: 'bg-orange-100 text-orange-700',
   cancelled: 'bg-gray-100 text-gray-500',
 }
 
