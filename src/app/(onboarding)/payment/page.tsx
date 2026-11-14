@@ -20,6 +20,7 @@ export default function PaymentPage() {
   const [loading, setLoading] = useState(false)
   const [err, setErr] = useState(error ? 'התשלום נכשל. אנא נסה שנית.' : '')
 
+  const [consented, setConsented] = useState(false)
   const [showCoupon, setShowCoupon] = useState(false)
   const [coupon, setCoupon] = useState('')
   const [couponStatus, setCouponStatus] = useState<'idle' | 'checking' | 'valid' | 'invalid'>('idle')
@@ -170,11 +171,32 @@ export default function PaymentPage() {
         </div>
       )}
 
+      {/* Consent checkbox — must accept before payment form appears */}
+      {!consented && (
+        <div className="mb-5 bg-gray-50 border border-gray-200 rounded-xl px-4 py-4">
+          <label className="flex items-start gap-3 cursor-pointer">
+            <input
+              type="checkbox"
+              onChange={e => setConsented(e.target.checked)}
+              className="mt-0.5 w-4 h-4 accent-blue-600 flex-shrink-0"
+            />
+            <span className="text-xs text-gray-600 leading-relaxed">
+              קראתי ואני מסכים/ה ל
+              <a href="/terms" target="_blank" className="text-blue-600 underline hover:text-blue-700">תנאי השימוש</a>
+              {' '}ול
+              <a href="/privacy" target="_blank" className="text-blue-600 underline hover:text-blue-700">מדיניות הפרטיות</a>.
+              {' '}השירות מסופק as-is; תגובות הנציגה הווירטואלית עשויות להכיל שגיאות ואינן מהוות ייעוץ מקצועי.
+              {' '}החיוב מחודש שני: {price} + מע&quot;מ לחודש. ניתן לבטל בכל עת.
+            </span>
+          </label>
+        </div>
+      )}
+
       {loading && (
         <div className="text-center py-16 text-gray-400 text-sm">טוען דף תשלום...</div>
       )}
 
-      {iframeUrl && !loading && (
+      {iframeUrl && !loading && consented && (
         <>
           <p className="text-center text-xs text-gray-500 mb-2">
             החיוב מתבצע על ידי קבוצת MediaUp, המפעילה את שירות Callnik.
