@@ -50,7 +50,7 @@ async function findElevenLabsConversation(
   callDuration: number
 ): Promise<string | null> {
   const listRes = await fetch(
-    `https://api.elevenlabs.io/v1/convai/conversations?agent_id=${process.env.ELEVENLABS_AGENT_ID}&page_size=50`,
+    `https://api.elevenlabs.io/v1/convai/conversations?page_size=50`,
     { headers: { 'xi-api-key': ELEVENLABS_API_KEY } }
   )
   if (!listRes.ok) return null
