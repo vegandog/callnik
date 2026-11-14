@@ -84,7 +84,7 @@ export default function Article() {
           <div className="bg-gray-900 text-white rounded-2xl p-8 text-center mt-12">
             <h3 className="text-2xl font-bold mb-3">מוכן להפסיק לפספס לקוחות?</h3>
             <p className="text-gray-400 mb-6">חודש ראשון ב-1 &#8362; בלבד. ביטול בכל עת.</p>
-            <Link href="/#signup" className="inline-block bg-blue-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-blue-700 transition">
+            <Link href="/register?intro=1" className="inline-block bg-blue-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-blue-700 transition">
               התחל עכשיו
             </Link>
           </div>

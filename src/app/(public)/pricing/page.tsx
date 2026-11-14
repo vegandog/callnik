@@ -77,7 +77,7 @@ export default function PricingPage() {
                 ))}
               </ul>
               <Link
-                href="/register"
+                href="/register?intro=1"
                 className="flex items-center justify-center gap-2 w-full bg-gray-900 text-white py-3.5 rounded-xl font-semibold hover:bg-gray-800 transition-colors"
               >
                 מתחילים
@@ -117,7 +117,7 @@ export default function PricingPage() {
                 ))}
               </ul>
               <Link
-                href="/register?tier=pro"
+                href="/register?intro=1&tier=pro"
                 className="flex items-center justify-center gap-2 w-full bg-blue-600 text-white py-3.5 rounded-xl font-semibold hover:bg-blue-700 transition-colors"
               >
                 מתחילים

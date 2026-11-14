@@ -116,7 +116,7 @@ export default function RishonLezionPage() {
           <h2 className="text-2xl font-bold mb-3">עסק בראשון לציון? תתחיל עכשיו</h2>
           <p className="text-blue-100 mb-5">הרשמה ב-5 דקות. ללא התחייבות. חודש ראשון ב-₪1.</p>
           <Link
-            href="/register"
+            href="/register?intro=1"
             className="inline-block bg-white text-blue-600 font-semibold px-7 py-3 rounded-xl hover:bg-blue-50 transition-colors"
           >
             התחל עכשיו

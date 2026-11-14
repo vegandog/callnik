@@ -54,7 +54,7 @@ export default function Home() {
                 המספר שלך לא משתנה.
               </p>
               <Link
-                href="/register"
+                href="/register?intro=1"
                 className="inline-flex items-center gap-2 bg-blue-600 text-white text-lg font-semibold px-8 py-4 rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-100"
               >
                 מתחילים עכשיו
@@ -227,7 +227,7 @@ export default function Home() {
               הפעלה תוך 5 דקות.<br className="sm:hidden" /> שום שיחה לא תיפול בין הכסאות!
             </p>
             <Link
-              href="/register"
+              href="/register?intro=1"
               className="inline-flex items-center gap-2 bg-white text-blue-600 text-lg font-semibold px-8 py-4 rounded-xl hover:bg-blue-50 transition-colors shadow-lg"
             >
               מתחילים עכשיו

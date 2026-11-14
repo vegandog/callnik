@@ -67,7 +67,7 @@ export default function HowItWorksPage() {
 
           <div className="mt-10 text-center">
             <Link
-              href="/register"
+              href="/register?intro=1"
               className="inline-flex items-center gap-2 bg-blue-600 text-white font-semibold px-8 py-4 rounded-xl hover:bg-blue-700 transition-colors shadow-lg shadow-blue-100"
             >
               מתחילים עכשיו

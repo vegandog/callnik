@@ -286,7 +286,7 @@ export default function BlogPage() {
           <h2 className="text-xl font-bold text-gray-900 mb-3">רוצים לנסות?</h2>
           <p className="text-gray-600 mb-5">הרשמה ב-5 דקות. ללא התחייבות.</p>
           <Link
-            href="/register"
+            href="/register?intro=1"
             className="inline-block bg-blue-600 text-white font-semibold px-7 py-3 rounded-xl hover:bg-blue-700 transition-colors"
           >
             התחל עכשיו – חודש ראשון ב-₪1

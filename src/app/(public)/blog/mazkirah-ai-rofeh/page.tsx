@@ -112,7 +112,7 @@ export default function Article() {
           <h2 className="text-2xl font-bold mb-3">הפסק לפספס מטופלים</h2>
           <p className="text-blue-100 mb-5">חודש ראשון ב-₪1 בלבד. ביטול בכל עת.</p>
           <Link
-            href="/register"
+            href="/register?intro=1"
             className="inline-block bg-white text-blue-600 font-semibold px-7 py-3 rounded-xl hover:bg-blue-50 transition-colors"
           >
             התחל עכשיו
