@@ -8,6 +8,13 @@ export default async function OnboardingLayout({ children }: { children: React.R
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
+  // Active customers go straight to dashboard
+  const { data: userRecord } = await supabase.from('users').select('customer_id').eq('id', user.id).single()
+  if (userRecord?.customer_id) {
+    const { data: customer } = await supabase.from('customers').select('status').eq('id', userRecord.customer_id).single()
+    if (customer?.status === 'active' || customer?.status === 'cancelling') redirect('/dashboard')
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="flex justify-center pt-8 pb-4">

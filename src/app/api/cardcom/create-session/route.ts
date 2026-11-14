@@ -58,9 +58,13 @@ export async function POST(req: NextRequest) {
 
   const { data: customer } = await supabase
     .from('customers')
-    .select('business_name')
+    .select('business_name, status')
     .eq('id', userRecord.customer_id)
     .single()
+
+  if (customer?.status === 'active' || customer?.status === 'cancelling') {
+    return NextResponse.json({ error: 'המנוי כבר פעיל' }, { status: 409 })
+  }
 
   const res = await fetch('https://secure.cardcom.solutions/api/v11/LowProfile/Create', {
     method: 'POST',
