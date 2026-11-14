@@ -51,16 +51,21 @@ export default function PaymentPage() {
     setLoading(true)
     setErr('')
     setIframeUrl(null)
-    const res = await fetch('/api/cardcom/create-session', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ plan: selectedPlan, coupon: appliedCoupon || (couponStatus === 'valid' ? coupon : undefined), intro: isIntro, tier: tierOverride ?? tier }),
-    })
-    if (res.ok) {
-      const { url } = await res.json()
-      setIframeUrl(url)
-    } else {
-      setErr('שגיאה בטעינת דף התשלום. אנא נסה שנית.')
+    try {
+      const res = await fetch('/api/cardcom/create-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan: selectedPlan, coupon: appliedCoupon || (couponStatus === 'valid' ? coupon : undefined), intro: isIntro, tier: tierOverride ?? tier }),
+      })
+      if (res.ok) {
+        const { url } = await res.json()
+        setIframeUrl(url)
+      } else {
+        const data = await res.json().catch(() => ({}))
+        setErr(data.error === 'המנוי כבר פעיל' ? 'המנוי שלך כבר פעיל. עבור לאזור האישי.' : 'שגיאה בטעינת דף התשלום. אנא נסה שנית.')
+      }
+    } catch {
+      setErr('בעיית רשת - בדוק חיבור אינטרנט ונסה שנית.')
     }
     setLoading(false)
   }
@@ -191,6 +196,9 @@ export default function PaymentPage() {
       {err && (
         <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg px-4 py-3 mb-4">
           {err}
+          {err.includes('כבר פעיל') && (
+            <a href="/dashboard" className="block mt-2 text-blue-600 font-medium underline">לאזור האישי →</a>
+          )}
         </div>
       )}
 

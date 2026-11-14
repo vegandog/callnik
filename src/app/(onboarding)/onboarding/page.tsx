@@ -24,23 +24,28 @@ export default function OnboardingPage() {
     setError('')
     setLoading(true)
 
-    const res = await fetch('/api/onboarding', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form),
-    })
+    try {
+      const res = await fetch('/api/onboarding', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
 
-    if (res.ok) {
-      const savedPromo = sessionStorage.getItem('callnik_promo')
-      const savedIntro = sessionStorage.getItem('callnik_intro')
-      const params = new URLSearchParams()
-      if (savedPromo) params.set('promo', savedPromo)
-      if (savedIntro) params.set('intro', savedIntro)
-      const qs = params.toString()
-      router.push(qs ? `/payment?${qs}` : '/payment')
-    } else {
-      const data = await res.json()
-      setError(data.error || 'אירעה שגיאה, נסה שנית')
+      if (res.ok) {
+        const savedPromo = sessionStorage.getItem('callnik_promo')
+        const savedIntro = sessionStorage.getItem('callnik_intro')
+        const params = new URLSearchParams()
+        if (savedPromo) params.set('promo', savedPromo)
+        if (savedIntro) params.set('intro', savedIntro)
+        const qs = params.toString()
+        router.push(qs ? `/payment?${qs}` : '/payment')
+      } else {
+        const data = await res.json()
+        setError(data.error || 'אירעה שגיאה, נסה שנית')
+        setLoading(false)
+      }
+    } catch {
+      setError('בעיית רשת - בדוק חיבור אינטרנט ונסה שנית')
       setLoading(false)
     }
   }
