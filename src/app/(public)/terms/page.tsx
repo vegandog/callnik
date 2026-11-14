@@ -119,8 +119,8 @@ export default function TermsPage() {
           </p>
           <ul className="text-gray-600 space-y-1 mb-3 list-disc list-inside">
             <li>מחשבים את מספר החודשים שבהם נעשה שימוש בפועל.</li>
-            <li>על חודשים אלה חל המחיר החודשי הרגיל (₪99 לחודש, לפני מע&quot;מ).</li>
-            <li>ההחזר הוא: סכום ששולם בפועל פחות (מספר חודשי שימוש × ₪99).</li>
+            <li>על חודשים אלה חל המחיר החודשי הרגיל של התוכנית (Basic: ₪99, Pro: ₪199, לפני מע&quot;מ).</li>
+            <li>ההחזר הוא: סכום ששולם בפועל פחות (מספר חודשי שימוש × מחיר חודשי התוכנית).</li>
           </ul>
           <div className="bg-blue-50 rounded-lg px-4 py-3 text-sm text-blue-800 mb-4">
             <strong>דוגמה Basic:</strong> שילמת ₪948 לשנה וביטלת אחרי 6 חודשים — ₪948 פחות 6×₪99 = <strong>החזר ₪354</strong>.<br/>

@@ -18,7 +18,7 @@ export default function Navbar() {
           <Link href="/about" className="hover:text-gray-900 transition-colors">אודות</Link>
           <Link href="/login" className="hover:text-gray-900 transition-colors">כניסה</Link>
           <Link
-            href="/register"
+            href="/register?intro=1"
             className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium"
           >
             הצטרפות

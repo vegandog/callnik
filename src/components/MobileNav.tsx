@@ -27,7 +27,7 @@ export default function MobileNav() {
             <Link href="/login" onClick={() => setOpen(false)} className="py-3.5 text-gray-700 border-b border-gray-50 hover:text-gray-900 font-medium text-sm">כניסה</Link>
             <div className="py-3">
               <Link
-                href="/register"
+                href="/register?intro=1"
                 onClick={() => setOpen(false)}
                 className="block bg-blue-600 text-white px-4 py-3 rounded-xl hover:bg-blue-700 font-semibold text-center text-sm transition-colors"
               >
