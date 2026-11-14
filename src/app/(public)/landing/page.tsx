@@ -148,18 +148,18 @@ export default function LandingPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-4">
             <Link
-              href="#pricing"
+              href="/register?intro=1"
               className="flex flex-col items-center bg-[#22C55E] hover:bg-[#16A34A] text-white px-9 py-4 rounded-2xl transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_0_32px_rgba(34,197,94,0.6)] shadow-md"
             >
-              <span className="text-[11px] font-bold bg-white/20 px-2.5 py-0.5 rounded-full mb-2">Basic</span>
+              <span className="text-[11px] font-bold bg-white/20 px-2.5 py-0.5 rounded-full mb-2">מזכירה + וואטסאפ</span>
               <span className="font-black text-2xl leading-none mb-1">חודש ראשון ב-₪1</span>
               <span className="text-sm opacity-70 line-through font-normal">₪99 + מע&quot;מ לחודש</span>
             </Link>
             <Link
-              href="#pricing"
+              href="/register?intro=1&tier=pro"
               className="flex flex-col items-center text-white px-9 py-4 rounded-2xl transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_0_32px_rgba(236,72,153,0.6)] shadow-md bg-gradient-to-br from-[#ec4899] to-[#a855f7] hover:from-[#db2777] hover:to-[#9333ea]"
             >
-              <span className="text-[11px] font-bold bg-white/20 px-2.5 py-0.5 rounded-full mb-2">Pro + פגישות</span>
+              <span className="text-[11px] font-bold bg-white/20 px-2.5 py-0.5 rounded-full mb-2">מזכירה + פגישות ביומן</span>
               <span className="font-black text-2xl leading-none mb-1">חודש ראשון ב-₪1</span>
               <span className="text-sm opacity-70 line-through font-normal">₪199 + מע&quot;מ לחודש</span>
             </Link>
