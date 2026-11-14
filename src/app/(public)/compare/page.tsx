@@ -74,12 +74,6 @@ const rows = [
     manual: 'לא עונים',
   },
   {
-    feature: 'שפות',
-    callnik: 'עברית + אנגלית',
-    human: 'תלוי בעובד',
-    manual: 'רק מה שאתה מדבר',
-  },
-  {
     feature: 'קביעת פגישות',
     callnik: 'כן (Pro) - Google Calendar',
     human: 'כן',
