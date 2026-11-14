@@ -1,53 +1,35 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 
 export default function PaymentPage() {
-  const router = useRouter()
   const searchParams = useSearchParams()
   const error = searchParams.get('error')
-  const [iframeUrl, setIframeUrl] = useState<string | null>(null)
-  const [plan, setPlan] = useState<'monthly' | 'annual' | 'test'>('monthly')
-  const [tier, setTier] = useState<'basic' | 'pro'>(() => {
+  const isIntro = searchParams.get('intro') === '1'
+  const isTestMode = searchParams.get('test') === '1'
+
+  const [tier] = useState<'basic' | 'pro'>(() => {
     if (typeof window !== 'undefined') {
-      const saved = sessionStorage.getItem('callnik_tier')
-      return (saved === 'pro' ? 'pro' : 'basic') as 'basic' | 'pro'
+      return (sessionStorage.getItem('callnik_tier') === 'pro' ? 'pro' : 'basic') as 'basic' | 'pro'
     }
     return 'basic'
   })
-  const isTestMode = searchParams.get('test') === '1'
-  const isIntro = searchParams.get('intro') === '1'
+
+  const [iframeUrl, setIframeUrl] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [err, setErr] = useState(error ? 'התשלום נכשל. אנא נסה שנית.' : '')
+
+  const [showCoupon, setShowCoupon] = useState(false)
   const [coupon, setCoupon] = useState('')
   const [couponStatus, setCouponStatus] = useState<'idle' | 'checking' | 'valid' | 'invalid'>('idle')
   const [couponAcknowledged, setCouponAcknowledged] = useState(false)
 
-  const checkCoupon = async (code: string) => {
-    if (!code.trim()) { setCouponStatus('idle'); return }
-    setCouponStatus('checking')
-    const res = await fetch('/api/promo/validate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ code: code.trim() }),
-    })
-    const data = await res.json()
-    setCouponStatus(data.valid ? 'valid' : 'invalid')
-    if (data.valid) {
-      if (plan === 'annual') setPlan('monthly')
-      // Don't load iframe yet - wait for user to acknowledge recurring charge
-    } else {
-      createSession(plan)
-    }
-  }
+  const price = tier === 'pro' ? '₪199' : '₪99'
+  const tierLabel = tier === 'pro' ? 'Pro' : 'Basic'
+  const tierDesc = tier === 'pro' ? 'מזכירה + פגישות ביומן Google' : 'מזכירה + וואטסאפ'
 
-  const handleAcknowledge = (checked: boolean) => {
-    setCouponAcknowledged(checked)
-    if (checked) createSession('monthly', coupon.trim())
-  }
-
-  const createSession = async (selectedPlan: 'monthly' | 'annual' | 'test', appliedCoupon?: string, tierOverride?: 'basic' | 'pro') => {
+  const createSession = async (plan: 'monthly' | 'test', appliedCoupon?: string) => {
     setLoading(true)
     setErr('')
     setIframeUrl(null)
@@ -55,7 +37,7 @@ export default function PaymentPage() {
       const res = await fetch('/api/cardcom/create-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ plan: selectedPlan, coupon: appliedCoupon || (couponStatus === 'valid' ? coupon : undefined), intro: isIntro, tier: tierOverride ?? tier }),
+        body: JSON.stringify({ plan, coupon: appliedCoupon, intro: isIntro, tier }),
       })
       if (res.ok) {
         const { url } = await res.json()
@@ -70,128 +52,114 @@ export default function PaymentPage() {
     setLoading(false)
   }
 
+  const checkCoupon = async (code: string) => {
+    if (!code.trim()) { setCouponStatus('idle'); return }
+    setCouponStatus('checking')
+    const res = await fetch('/api/promo/validate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code: code.trim() }),
+    })
+    const data = await res.json()
+    setCouponStatus(data.valid ? 'valid' : 'invalid')
+    if (!data.valid) createSession('monthly')
+  }
+
+  const handleAcknowledge = (checked: boolean) => {
+    setCouponAcknowledged(checked)
+    if (checked) createSession('monthly', coupon.trim())
+  }
+
   useEffect(() => {
-    // Check URL param first, then sessionStorage - prevents double session creation
     const urlCoupon = searchParams.get('promo') || sessionStorage.getItem('callnik_promo')
     if (urlCoupon) {
       sessionStorage.removeItem('callnik_promo')
       setCoupon(urlCoupon)
-      checkCoupon(urlCoupon) // checkCoupon calls createSession with coupon
+      setShowCoupon(true)
+      checkCoupon(urlCoupon)
     } else {
-      createSession(plan)
+      createSession(isTestMode ? 'test' : 'monthly')
     }
   }, []) // eslint-disable-line
 
-  const switchPlan = (p: 'monthly' | 'annual' | 'test') => {
-    setPlan(p)
-    createSession(p, undefined, tier)
-  }
-
   return (
     <div className="py-8 max-w-lg mx-auto">
+      {/* Progress */}
       <div className="flex items-center gap-2 mb-8">
         <div className="h-1.5 flex-1 rounded-full bg-blue-600" />
         <div className="h-1.5 flex-1 rounded-full bg-blue-600" />
         <span className="text-xs text-gray-400 mr-1">שלב 2 מתוך 2</span>
       </div>
 
-      <h1 className="text-xl font-bold text-gray-900 mb-1">בחר תוכנית ושלם</h1>
-      <p className="text-gray-500 text-sm mb-6">תוכל לבטל בכל עת. ללא קנסות.</p>
+      <h1 className="text-xl font-bold text-gray-900 mb-6">תשלום</h1>
 
-      {/* Tier selector */}
-      <div className="grid grid-cols-2 gap-3 mb-5">
-        <button
-          onClick={() => { setTier('basic'); createSession(plan, undefined, 'basic') }}
-          className={`rounded-xl border-2 p-4 text-right transition-all ${tier === 'basic' ? 'border-blue-600 bg-blue-50' : 'border-gray-200 bg-white'}`}
-        >
-          <div className="font-bold text-gray-900 text-base mb-1">Basic</div>
-          <div className="text-gray-500 text-xs leading-relaxed">מזכירה AI + הודעות ב-וואטסאפ</div>
-          <div className={`text-sm font-semibold mt-2 ${tier === 'basic' ? 'text-blue-600' : 'text-gray-400'}`}>{isIntro ? '₪1 → ₪99' : '₪99'} + מע&quot;מ /חודש</div>
-        </button>
-        <button
-          onClick={() => { if (couponStatus === 'valid') return; setTier('pro'); createSession(plan, undefined, 'pro') }}
-          className={`rounded-xl border-2 p-4 text-right transition-all relative ${tier === 'pro' ? 'border-blue-600 bg-blue-50' : 'border-gray-200 bg-white'}`}
-        >
-          <div className="absolute top-2 left-2 bg-purple-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">Pro</div>
-          <div className="font-bold text-gray-900 text-base mb-1">Pro</div>
-          <div className="text-gray-500 text-xs leading-relaxed">הכל + קביעת פגישות ביומן</div>
-          <div className={`text-sm font-semibold mt-2 ${tier === 'pro' ? 'text-blue-600' : 'text-gray-400'}`}>{isIntro ? '₪1 → ₪199' : '₪199'} + מע&quot;מ /חודש</div>
-        </button>
-      </div>
-
-      {/* Plan selector */}
-      <div className="grid grid-cols-2 gap-3 mb-6">
-        <button
-          onClick={() => switchPlan('monthly')}
-          className={`rounded-xl border-2 p-4 text-right transition-all ${plan === 'monthly' ? 'border-blue-600 bg-blue-50' : 'border-gray-200 bg-white'}`}
-        >
-          <div className="font-bold text-gray-900 text-lg">{isIntro ? '₪1' : (tier === 'pro' ? '₪199' : '₪99')} <span className="text-sm font-normal text-gray-400">+ מע&quot;מ</span></div>
-          {isIntro && <div className="text-green-600 text-xs font-medium">חודש ראשון בלבד</div>}
-          {isIntro && <div className="text-gray-400 text-xs mt-1">מחודש שני: {tier === 'pro' ? '₪199' : '₪99'} + מע&quot;מ</div>}
-        </button>
-        <button
-          onClick={() => { if (couponStatus === 'valid') return; switchPlan('annual') }}
-          className={`rounded-xl border-2 p-4 text-right transition-all relative ${plan === 'annual' ? 'border-blue-600 bg-blue-50' : 'border-gray-200 bg-white'} ${couponStatus === 'valid' ? 'opacity-40 cursor-not-allowed' : ''}`}
-        >
-          <div className="absolute top-2 left-2 bg-green-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">חסכון 20%</div>
-          <div className="font-bold text-gray-900 text-lg">{tier === 'pro' ? '₪1,990' : '₪948'} <span className="text-xs font-normal text-gray-400">+ מע&quot;מ</span></div>
-          <div className="text-gray-500 text-xs">לשנה</div>
-          <div className="text-gray-400 text-xs mt-1">{couponStatus === 'valid' ? 'לא זמין עם קופון' : (tier === 'pro' ? '₪166 + מע"מ /חודש' : '₪79 + מע"מ /חודש')}</div>
-        </button>
-      </div>
-
-      {plan === 'monthly' && couponStatus !== 'valid' && isIntro && (
-        <div className="mb-4 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 text-xs text-amber-800 leading-relaxed">
-          <strong>שים לב:</strong> החיוב הראשון הוא ₪1 בלבד (חודש ניסיון). מחודש שני החיוב עובר ל-{tier === 'pro' ? '₪199' : '₪99'} + מע&quot;מ לחודש. ניתן לבטל בכל עת ללא קנס.
-        </div>
-      )}
-
-      {isTestMode && (
-        <button
-          onClick={() => switchPlan('test')}
-          className={`w-full rounded-xl border-2 p-3 text-right mb-3 text-xs transition-all ${plan === 'test' ? 'border-orange-500 bg-orange-50' : 'border-gray-200 bg-white text-gray-400'}`}
-        >
-          🧪 טסט — ₪1 + מע"מ
-        </button>
-      )}
-
-      {/* Coupon field */}
-      <div className="mb-4">
-        <div className="flex gap-2">
-          <input
-            type="text"
-            placeholder="קוד קופון (אופציונלי)"
-            value={coupon}
-            onChange={e => { setCoupon(e.target.value.toUpperCase()); setCouponStatus('idle') }}
-            className="flex-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-right focus:outline-none focus:border-blue-500"
-          />
-          <button
-            onClick={() => checkCoupon(coupon)}
-            disabled={!coupon.trim() || couponStatus === 'checking'}
-            className="px-4 py-2.5 rounded-xl bg-gray-100 text-sm font-medium text-gray-700 hover:bg-gray-200 disabled:opacity-40 transition-all"
-          >
-            {couponStatus === 'checking' ? '...' : 'החל'}
-          </button>
-        </div>
-        {couponStatus === 'valid' && (
-          <div className="mt-3 bg-amber-50 border border-amber-300 rounded-xl px-4 py-3">
-            <div className="text-green-700 text-sm font-bold mb-2">✓ הקוד אושר - חודש התנסות ב-1 ₪ בלבד!</div>
-            <div className="text-gray-600 text-xs leading-relaxed mb-3">שימו ♥️ מהחודש השני החיוב עובר למחיר המלא: {tier === 'pro' ? '₪199' : '₪99'} + מע&quot;מ לחודש.<br /><strong>אפשר לבטל בכל עת, ללא קנס.</strong></div>
-            <label className="flex items-start gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={couponAcknowledged}
-                onChange={e => handleAcknowledge(e.target.checked)}
-                className="mt-0.5 w-4 h-4 accent-blue-600 flex-shrink-0"
-              />
-              <span className="text-xs text-gray-700 font-medium">סבבה?</span>
-            </label>
+      {/* Order summary */}
+      <div className="bg-blue-50 border border-blue-100 rounded-2xl px-5 py-4 mb-6">
+        <div className="flex items-center justify-between mb-2">
+          <div>
+            <span className="font-bold text-gray-900">Callnik {tierLabel}</span>
+            <span className="text-xs text-gray-500 mr-2">— {tierDesc}</span>
           </div>
-        )}
-        {couponStatus === 'invalid' && (
-          <div className="mt-2 text-red-500 text-xs">קוד לא תקין או כבר שומש</div>
+          {tier === 'pro' && (
+            <span className="bg-purple-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">Pro</span>
+          )}
+        </div>
+        {isIntro ? (
+          <>
+            <div className="text-2xl font-black text-blue-600">₪1 <span className="text-sm font-normal text-gray-500">חודש ראשון בלבד</span></div>
+            <div className="text-xs text-gray-500 mt-1">מחודש שני: {price} + מע&quot;מ לחודש · ביטול בכל עת</div>
+          </>
+        ) : (
+          <div className="text-2xl font-black text-blue-600">{price} <span className="text-sm font-normal text-gray-500">+ מע&quot;מ לחודש</span></div>
         )}
       </div>
+
+      {/* Coupon - collapsed by default */}
+      {!showCoupon ? (
+        <button
+          onClick={() => setShowCoupon(true)}
+          className="text-xs text-gray-400 hover:text-gray-600 underline mb-5 block"
+        >
+          יש לך קוד קופון?
+        </button>
+      ) : (
+        <div className="mb-5">
+          <div className="flex gap-2">
+            <input
+              type="text"
+              placeholder="קוד קופון"
+              value={coupon}
+              onChange={e => { setCoupon(e.target.value.toUpperCase()); setCouponStatus('idle') }}
+              className="flex-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-right focus:outline-none focus:border-blue-500"
+            />
+            <button
+              onClick={() => checkCoupon(coupon)}
+              disabled={!coupon.trim() || couponStatus === 'checking'}
+              className="px-4 py-2.5 rounded-xl bg-gray-100 text-sm font-medium text-gray-700 hover:bg-gray-200 disabled:opacity-40 transition-all"
+            >
+              {couponStatus === 'checking' ? '...' : 'החל'}
+            </button>
+          </div>
+          {couponStatus === 'valid' && (
+            <div className="mt-3 bg-amber-50 border border-amber-300 rounded-xl px-4 py-3">
+              <div className="text-green-700 text-sm font-bold mb-2">✓ הקוד אושר - חודש התנסות ב-1 ₪ בלבד!</div>
+              <div className="text-gray-600 text-xs leading-relaxed mb-3">מהחודש השני החיוב עובר ל-{price} + מע&quot;מ לחודש. <strong>ביטול בכל עת.</strong></div>
+              <label className="flex items-start gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={couponAcknowledged}
+                  onChange={e => handleAcknowledge(e.target.checked)}
+                  className="mt-0.5 w-4 h-4 accent-blue-600 flex-shrink-0"
+                />
+                <span className="text-xs text-gray-700 font-medium">הבנתי, מתחיל</span>
+              </label>
+            </div>
+          )}
+          {couponStatus === 'invalid' && (
+            <div className="mt-2 text-red-500 text-xs">קוד לא תקין או כבר שומש</div>
+          )}
+        </div>
+      )}
 
       {err && (
         <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg px-4 py-3 mb-4">
@@ -207,21 +175,20 @@ export default function PaymentPage() {
       )}
 
       {iframeUrl && !loading && (
-        <p className="text-center text-xs text-gray-500 mb-2">
-          החיוב מתבצע על ידי קבוצת MediaUp, המפעילה את שירות Callnik.
-        </p>
-      )}
-
-      {iframeUrl && !loading && (
-        <div className="rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
-          <iframe
-            src={iframeUrl}
-            width="100%"
-            height="600"
-            style={{ border: 'none', display: 'block' }}
-            title="תשלום מאובטח"
-          />
-        </div>
+        <>
+          <p className="text-center text-xs text-gray-500 mb-2">
+            החיוב מתבצע על ידי קבוצת MediaUp, המפעילה את שירות Callnik.
+          </p>
+          <div className="rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
+            <iframe
+              src={iframeUrl}
+              width="100%"
+              height="600"
+              style={{ border: 'none', display: 'block' }}
+              title="תשלום מאובטח"
+            />
+          </div>
+        </>
       )}
 
       <p className="text-center text-xs text-gray-400 mt-4">
