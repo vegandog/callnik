@@ -99,11 +99,11 @@ export default function TelAvivPage() {
             <h2 className="text-2xl font-bold text-gray-900 mb-4">מחיר</h2>
             <div className="bg-blue-50 rounded-2xl p-6 space-y-3">
               <div>
-                <p className="font-semibold text-gray-900">Basic - ₪99/חודש</p>
+                <p className="font-semibold text-gray-900">Basic - ₪99 + מע"מ /חודש</p>
                 <p className="text-gray-600 text-sm">עד 60 שיחות. מתאים לרוב העסקים הקטנים בתל אביב.</p>
               </div>
               <div>
-                <p className="font-semibold text-gray-900">Pro - ₪199/חודש</p>
+                <p className="font-semibold text-gray-900">Pro - ₪199 + מע"מ /חודש</p>
                 <p className="text-gray-600 text-sm">ניהול תורים ופגישות ביומן Google.</p>
               </div>
               <p className="text-blue-700 text-sm font-medium">חודש ראשון ב-₪1 בלבד.</p>

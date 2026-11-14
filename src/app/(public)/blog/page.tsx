@@ -289,7 +289,7 @@ export default function BlogPage() {
             href="/register"
             className="inline-block bg-blue-600 text-white font-semibold px-7 py-3 rounded-xl hover:bg-blue-700 transition-colors"
           >
-            התחל עכשיו – 14 יום חינם
+            התחל עכשיו – חודש ראשון ב-₪1
           </Link>
         </div>
       </main>

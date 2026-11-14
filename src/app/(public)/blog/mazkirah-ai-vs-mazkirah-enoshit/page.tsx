@@ -114,7 +114,7 @@ export default function Article() {
         </div>
 
         <div className="mt-14 bg-blue-600 text-white rounded-2xl p-8 text-center">
-          <h2 className="text-2xl font-bold mb-3">נסה 14 יום ללא התחייבות</h2>
+          <h2 className="text-2xl font-bold mb-3">חודש ראשון ב-₪1 בלבד</h2>
           <p className="text-blue-100 mb-5">הרשמה ב-5 דקות. ביטול בכל עת.</p>
           <Link
             href="/register"

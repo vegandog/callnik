@@ -78,11 +78,11 @@ export default function Article() {
             <h2 className="text-2xl font-bold text-gray-900 mb-4">מחיר</h2>
             <div className="bg-blue-50 rounded-2xl p-6 space-y-3">
               <div>
-                <p className="font-semibold text-gray-900">Basic - ₪99/חודש</p>
+                <p className="font-semibold text-gray-900">Basic - ₪99 + מע"מ /חודש</p>
                 <p className="text-gray-600 text-sm">עד 60 שיחות. לוקחת הודעות ושולחת לך סיכום בוואטסאפ.</p>
               </div>
               <div>
-                <p className="font-semibold text-gray-900">Pro - ₪199/חודש</p>
+                <p className="font-semibold text-gray-900">Pro - ₪199 + מע"מ /חודש</p>
                 <p className="text-gray-600 text-sm">עד 60 שיחות + תיאום תורים אוטומטי עם Google Calendar.</p>
               </div>
             </div>
@@ -93,14 +93,14 @@ export default function Article() {
             <ol className="space-y-2 list-decimal list-inside text-gray-600">
               <li>נרשמים ומגדירים את שם המספרה והנציגה</li>
               <li>הפניה מהמספר הקיים - Callnik מסבירה כיצד</li>
-              <li>14 יום ניסיון חינמי - ורואים כמה תורים פספסת</li>
+              <li>חודש ראשון ב-₪1 - ורואים כמה תורים פספסת</li>
             </ol>
           </section>
         </div>
 
         <div className="mt-14 bg-blue-600 text-white rounded-2xl p-8 text-center">
           <h2 className="text-2xl font-bold mb-3">הפסק לפספס תורים חדשים</h2>
-          <p className="text-blue-100 mb-5">14 יום ניסיון ללא תשלום. ביטול בכל עת.</p>
+          <p className="text-blue-100 mb-5">חודש ראשון ב-₪1 בלבד. ביטול בכל עת.</p>
           <Link
             href="/register"
             className="inline-block bg-white text-blue-600 font-semibold px-7 py-3 rounded-xl hover:bg-blue-50 transition-colors"

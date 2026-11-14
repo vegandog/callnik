@@ -104,7 +104,7 @@ function LoginForm() {
       </form>
       <p className="text-center text-sm text-gray-500 mt-6">
         עדיין לא רשום?{' '}
-        <Link href="/register" className="text-blue-600 hover:underline">הצטרפות חינם</Link>
+        <Link href="/register" className="text-blue-600 hover:underline">הצטרפות</Link>
       </p>
     </main>
   )

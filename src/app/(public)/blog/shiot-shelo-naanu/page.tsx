@@ -112,14 +112,14 @@ export default function Article() {
           <section>
             <h2 className="text-2xl font-bold text-gray-900 mb-4">כמה זה עולה לעומת ההפסד?</h2>
             <p>
-              Callnik Basic עולה ₪99 לחודש. אם המערכת שמרה לך לקוח אחד בחודש שעשוי היה לעבור לאחר - אתה כבר בפלוס.
+              Callnik Basic עולה ₪99 + מע"מ לחודש. אם המערכת שמרה לך לקוח אחד בחודש שעשוי היה לעבור לאחר - אתה כבר בפלוס.
             </p>
           </section>
         </div>
 
         <div className="mt-14 bg-blue-600 text-white rounded-2xl p-8 text-center">
           <h2 className="text-2xl font-bold mb-3">תפסיק לפספס שיחות</h2>
-          <p className="text-blue-100 mb-5">14 יום ניסיון ללא תשלום. ביטול בכל עת.</p>
+          <p className="text-blue-100 mb-5">חודש ראשון ב-₪1 בלבד. ביטול בכל עת.</p>
           <Link
             href="/register"
             className="inline-block bg-white text-blue-600 font-semibold px-7 py-3 rounded-xl hover:bg-blue-50 transition-colors"

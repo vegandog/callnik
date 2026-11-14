@@ -81,11 +81,11 @@ export default function Article() {
             <h2 className="text-2xl font-bold text-gray-900 mb-4">מחיר</h2>
             <div className="bg-blue-50 rounded-2xl p-6 space-y-3">
               <div>
-                <p className="font-semibold text-gray-900">Basic - ₪99/חודש</p>
+                <p className="font-semibold text-gray-900">Basic - ₪99 + מע"מ /חודש</p>
                 <p className="text-gray-600 text-sm">עד 60 שיחות. מתאים לקליניקה קטנה עם מטופלים קבועים.</p>
               </div>
               <div>
-                <p className="font-semibold text-gray-900">Pro - ₪199/חודש</p>
+                <p className="font-semibold text-gray-900">Pro - ₪199 + מע"מ /חודש</p>
                 <p className="text-gray-600 text-sm">עד 60 שיחות + תיאום תורים אוטומטי.</p>
               </div>
             </div>
@@ -101,7 +101,7 @@ export default function Article() {
 
         <div className="mt-14 bg-blue-600 text-white rounded-2xl p-8 text-center">
           <h2 className="text-2xl font-bold mb-3">אל תפספס פנייה חדשה</h2>
-          <p className="text-blue-100 mb-5">14 יום ניסיון ללא תשלום. ביטול בכל עת.</p>
+          <p className="text-blue-100 mb-5">חודש ראשון ב-₪1 בלבד. ביטול בכל עת.</p>
           <Link
             href="/register"
             className="inline-block bg-white text-blue-600 font-semibold px-7 py-3 rounded-xl hover:bg-blue-50 transition-colors"
