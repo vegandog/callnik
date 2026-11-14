@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
   const { plan, coupon, intro, tier: tierParam } = await req.json()
   const isAnnual = plan === 'annual'
   const isTest = plan === 'test'
-  const isIntro = !!intro && !isAnnual && !isTest
+  let isIntro = !!intro && !isAnnual && !isTest
   const tierVal: 'basic' | 'pro' = tierParam === 'pro' ? 'pro' : 'basic'
   const tierLabel = tierVal === 'pro' ? 'Pro' : 'Basic'
 
@@ -64,6 +64,21 @@ export async function POST(req: NextRequest) {
 
   if (customer?.status === 'active' || customer?.status === 'cancelling') {
     return NextResponse.json({ error: 'המנוי כבר פעיל' }, { status: 409 })
+  }
+
+  // Block re-use of intro pricing for returning customers
+  if (isIntro) {
+    const adminSupabase = (await import('@/lib/supabase/admin')).createAdminClient()
+    const { data: priorIntro } = await adminSupabase
+      .from('billing_history')
+      .select('id')
+      .eq('customer_id', userRecord.customer_id)
+      .limit(1)
+      .maybeSingle()
+    if (priorIntro) {
+      // Customer already paid before — charge full price, no intro
+      isIntro = false
+    }
   }
 
   const res = await fetch('https://secure.cardcom.solutions/api/v11/LowProfile/Create', {
