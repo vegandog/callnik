@@ -76,7 +76,7 @@ export default function Article() {
               <p className="text-sm text-gray-600">עד 60 שיחות חודשיות. מענה אוטומטי וסיכומים בוואטסאפ.</p>
               <div className="flex justify-between items-center border-t pt-3">
                 <span className="font-semibold">Pro</span>
-                <span className="text-blue-600 font-bold">149 &#8362;/חודש</span>
+                <span className="text-blue-600 font-bold">199 &#8362;/חודש</span>
               </div>
               <p className="text-sm text-gray-600">עד 150 שיחות + ניהול יומן Google Calendar.</p>
             </div>

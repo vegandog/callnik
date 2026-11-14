@@ -57,7 +57,7 @@ const faqSchema = {
 const rows = [
   {
     feature: 'מחיר חודשי',
-    callnik: '₪99-149 + מע״מ',
+    callnik: '₪99-199 + מע״מ',
     human: '₪5,000-8,000',
     manual: 'אין עלות ישירה',
   },

@@ -181,7 +181,7 @@ const articles = [
   {
     slug: 'mazkirah-ai-mazkirah-mazkirut',
     title: 'מזכירה AI למשרד קטן: כיסוי שעות ללא כוח אדם',
-    description: 'משרד עם מזכירה חלקית? Callnik מכסה ערבים, שישי ושבת - 149 ₪ במקום 5,000 ₪.',
+    description: 'משרד עם מזכירה חלקית? Callnik מכסה ערבים, שישי ושבת - 199 ₪ במקום 5,000 ₪.',
     date: '2026-11-10',
   },
   {

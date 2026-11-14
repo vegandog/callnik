@@ -54,11 +54,11 @@ const schemaOrg = [
       {
         "@type": "Offer",
         "name": "Pro",
-        "price": "149",
+        "price": "199",
         "priceCurrency": "ILS",
         "priceSpecification": {
           "@type": "UnitPriceSpecification",
-          "price": "149",
+          "price": "199",
           "priceCurrency": "ILS",
           "unitCode": "MON"
         }
@@ -133,7 +133,7 @@ const schemaOrg = [
       {
         "@type": "Question",
         "name": "כמה עולה Callnik?",
-        "acceptedAnswer": {"@type": "Answer", "text": "תוכנית Basic עולה 99 שקל לחודש (עד 60 שיחות). תוכנית Pro עולה 149 שקל לחודש (עד 150 שיחות + ניהול יומן). חודש ראשון ב-1 שקל בלבד."}
+        "acceptedAnswer": {"@type": "Answer", "text": "תוכנית Basic עולה 99 שקל לחודש (עד 60 שיחות). תוכנית Pro עולה 199 שקל לחודש + ניהול יומן. חודש ראשון ב-1 שקל בלבד."}
       }
     ]
   },

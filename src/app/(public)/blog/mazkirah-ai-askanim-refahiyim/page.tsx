@@ -47,7 +47,7 @@ export default function Article() {
             <div className="bg-blue-50 rounded-2xl p-6 space-y-3">
               <div className="flex justify-between"><span className="font-semibold">Basic</span><span className="text-blue-600 font-bold">99 &#8362;/חודש</span></div>
               <p className="text-sm text-gray-600">עד 60 שיחות חודשיות.</p>
-              <div className="flex justify-between border-t pt-3"><span className="font-semibold">Pro + יומן</span><span className="text-blue-600 font-bold">149 &#8362;/חודש</span></div>
+              <div className="flex justify-between border-t pt-3"><span className="font-semibold">Pro + יומן</span><span className="text-blue-600 font-bold">199 &#8362;/חודש</span></div>
               <p className="text-sm text-gray-600">עד 150 שיחות + Google Calendar.</p>
             </div>
           </section>

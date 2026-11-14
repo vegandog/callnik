@@ -45,14 +45,14 @@ export default function Article() {
           </section>
           <section>
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Pricing</h2>
-            <p>Basic plan: 99 ILS/month (up to 60 calls). Pro plan: 149 ILS/month (up to 150 calls + Google Calendar scheduling). First month: 1 ILS only.</p>
+            <p>Basic plan: 99 ILS/month (up to 60 calls). Pro plan: 199 ILS/month + Google Calendar scheduling. First month: 1 ILS only.</p>
           </section>
           <section>
             <h2 className="text-2xl font-bold text-gray-900 mb-4">מחיר</h2>
             <div className="bg-blue-50 rounded-2xl p-6 space-y-3">
               <div className="flex justify-between"><span className="font-semibold">Basic</span><span className="text-blue-600 font-bold">99 &#8362;/חודש</span></div>
               <p className="text-sm text-gray-600">עד 60 שיחות חודשיות.</p>
-              <div className="flex justify-between border-t pt-3"><span className="font-semibold">Pro + יומן</span><span className="text-blue-600 font-bold">149 &#8362;/חודש</span></div>
+              <div className="flex justify-between border-t pt-3"><span className="font-semibold">Pro + יומן</span><span className="text-blue-600 font-bold">199 &#8362;/חודש</span></div>
             </div>
           </section>
           <div className="bg-gray-900 text-white rounded-2xl p-8 text-center mt-12">
