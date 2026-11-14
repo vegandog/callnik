@@ -159,9 +159,10 @@ export default function LandingPage() {
               href="/register?intro=1&tier=pro"
               className="flex flex-col items-center text-white px-9 py-4 rounded-2xl transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_0_32px_rgba(236,72,153,0.6)] shadow-md bg-gradient-to-br from-[#ec4899] to-[#a855f7] hover:from-[#db2777] hover:to-[#9333ea]"
             >
-              <span className="text-[11px] font-bold bg-white/20 px-2.5 py-0.5 rounded-full mb-2">מזכירה + פגישות ביומן</span>
+              <span className="bg-yellow-400 text-gray-900 text-[11px] font-black px-3 py-1 rounded-full mb-2.5 tracking-wide">📅 קביעת פגישות ביומן</span>
               <span className="font-black text-2xl leading-none mb-1">חודש ראשון ב-₪1</span>
-              <span className="text-sm opacity-70 line-through font-normal">₪199 + מע&quot;מ לחודש</span>
+              <span className="text-xs opacity-80 mb-1">מזכירה + וואטסאפ</span>
+              <span className="text-sm opacity-60 line-through font-normal">₪199 + מע&quot;מ לחודש</span>
             </Link>
           </div>
           <p className="text-orange-500 text-sm font-bold mt-1">⚡ מחיר ₪1 בתוקף לנובמבר 2026 בלבד</p>
