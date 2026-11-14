@@ -93,7 +93,7 @@ export default function Article() {
               </div>
               <div>
                 <p className="font-semibold text-gray-900">Pro - ₪199/חודש</p>
-                <p className="text-gray-600 text-sm">עד 150 שיחות + ניהול תורים אוטומטי. מתאים לקליניקה עמוסה יותר.</p>
+                <p className="text-gray-600 text-sm">עד 60 שיחות + ניהול תורים אוטומטי. מתאים לקליניקה עמוסה יותר.</p>
               </div>
             </div>
           </section>

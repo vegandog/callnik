@@ -101,7 +101,7 @@ export default function PaymentPage() {
         >
           <div className="font-bold text-gray-900 text-base mb-1">Basic</div>
           <div className="text-gray-500 text-xs leading-relaxed">מזכירה AI + הודעות ב-וואטסאפ</div>
-          <div className={`text-sm font-semibold mt-2 ${tier === 'basic' ? 'text-blue-600' : 'text-gray-400'}`}>{isIntro ? '₪1 → ₪99' : '₪99'}/חודש</div>
+          <div className={`text-sm font-semibold mt-2 ${tier === 'basic' ? 'text-blue-600' : 'text-gray-400'}`}>{isIntro ? '₪1 → ₪99' : '₪99'} + מע&quot;מ /חודש</div>
         </button>
         <button
           onClick={() => { if (couponStatus === 'valid') return; setTier('pro'); createSession(plan, undefined, 'pro') }}
@@ -110,7 +110,7 @@ export default function PaymentPage() {
           <div className="absolute top-2 left-2 bg-purple-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">Pro</div>
           <div className="font-bold text-gray-900 text-base mb-1">Pro</div>
           <div className="text-gray-500 text-xs leading-relaxed">הכל + קביעת פגישות ביומן</div>
-          <div className={`text-sm font-semibold mt-2 ${tier === 'pro' ? 'text-blue-600' : 'text-gray-400'}`}>{isIntro ? '₪1 → ₪199' : '₪199'}/חודש</div>
+          <div className={`text-sm font-semibold mt-2 ${tier === 'pro' ? 'text-blue-600' : 'text-gray-400'}`}>{isIntro ? '₪1 → ₪199' : '₪199'} + מע&quot;מ /חודש</div>
         </button>
       </div>
 
@@ -129,9 +129,9 @@ export default function PaymentPage() {
           className={`rounded-xl border-2 p-4 text-right transition-all relative ${plan === 'annual' ? 'border-blue-600 bg-blue-50' : 'border-gray-200 bg-white'} ${couponStatus === 'valid' ? 'opacity-40 cursor-not-allowed' : ''}`}
         >
           <div className="absolute top-2 left-2 bg-green-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">חסכון 20%</div>
-          <div className="font-bold text-gray-900 text-lg">{tier === 'pro' ? '₪1,990' : '₪948'}</div>
-          <div className="text-gray-500 text-xs">לשנה + מע"מ</div>
-          <div className="text-gray-400 text-xs mt-1">{couponStatus === 'valid' ? 'לא זמין עם קופון' : (tier === 'pro' ? '₪166 לחודש' : '₪79 לחודש')}</div>
+          <div className="font-bold text-gray-900 text-lg">{tier === 'pro' ? '₪1,990' : '₪948'} <span className="text-xs font-normal text-gray-400">+ מע&quot;מ</span></div>
+          <div className="text-gray-500 text-xs">לשנה</div>
+          <div className="text-gray-400 text-xs mt-1">{couponStatus === 'valid' ? 'לא זמין עם קופון' : (tier === 'pro' ? '₪166 + מע"מ /חודש' : '₪79 + מע"מ /חודש')}</div>
         </button>
       </div>
 

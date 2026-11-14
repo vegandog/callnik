@@ -71,14 +71,14 @@ export default function Article() {
             <div className="bg-blue-50 rounded-2xl p-6 space-y-3">
               <div className="flex justify-between items-center">
                 <span className="font-semibold">Basic</span>
-                <span className="text-blue-600 font-bold">99 &#8362;/חודש</span>
+                <span className="text-blue-600 font-bold">99 &#8362; + מע"מ /חודש</span>
               </div>
               <p className="text-sm text-gray-600">עד 60 שיחות חודשיות. מענה אוטומטי וסיכומים בוואטסאפ.</p>
               <div className="flex justify-between items-center border-t pt-3">
                 <span className="font-semibold">Pro</span>
-                <span className="text-blue-600 font-bold">199 &#8362;/חודש</span>
+                <span className="text-blue-600 font-bold">199 &#8362; + מע"מ /חודש</span>
               </div>
-              <p className="text-sm text-gray-600">עד 150 שיחות + ניהול יומן Google Calendar.</p>
+              <p className="text-sm text-gray-600">עד 60 שיחות + ניהול יומן Google Calendar.</p>
             </div>
           </section>
           <div className="bg-gray-900 text-white rounded-2xl p-8 text-center mt-12">

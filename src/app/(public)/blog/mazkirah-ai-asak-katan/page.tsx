@@ -67,7 +67,7 @@ export default function Article() {
               </div>
               <div>
                 <p className="font-semibold text-gray-900">תוכנית Pro - ₪199 לחודש</p>
-                <p className="text-gray-600 text-sm">עד 150 שיחות + ניהול יומן אוטומטי. מתאים לעסקים עם מחזור שיחות גבוה.</p>
+                <p className="text-gray-600 text-sm">עד 60 שיחות + ניהול יומן אוטומטי. מתאים לעסקים עם מחזור שיחות גבוה.</p>
               </div>
             </div>
             <p className="mt-4 text-sm text-gray-500">
