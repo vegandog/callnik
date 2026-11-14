@@ -101,7 +101,7 @@ export default function PaymentPage() {
         >
           <div className="font-bold text-gray-900 text-base mb-1">Basic</div>
           <div className="text-gray-500 text-xs leading-relaxed">מזכירה AI + הודעות ב-וואטסאפ</div>
-          <div className={`text-sm font-semibold mt-2 ${tier === 'basic' ? 'text-blue-600' : 'text-gray-400'}`}>{isIntro ? '₪29 → ₪99' : '₪99'}/חודש</div>
+          <div className={`text-sm font-semibold mt-2 ${tier === 'basic' ? 'text-blue-600' : 'text-gray-400'}`}>{isIntro ? '₪1 → ₪99' : '₪99'}/חודש</div>
         </button>
         <button
           onClick={() => { if (couponStatus === 'valid') return; setTier('pro'); createSession(plan, undefined, 'pro') }}
@@ -110,7 +110,7 @@ export default function PaymentPage() {
           <div className="absolute top-2 left-2 bg-purple-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">Pro</div>
           <div className="font-bold text-gray-900 text-base mb-1">Pro</div>
           <div className="text-gray-500 text-xs leading-relaxed">הכל + קביעת פגישות ביומן</div>
-          <div className={`text-sm font-semibold mt-2 ${tier === 'pro' ? 'text-blue-600' : 'text-gray-400'}`}>{isIntro ? '₪29 → ₪199' : '₪199'}/חודש</div>
+          <div className={`text-sm font-semibold mt-2 ${tier === 'pro' ? 'text-blue-600' : 'text-gray-400'}`}>{isIntro ? '₪1 → ₪199' : '₪199'}/חודש</div>
         </button>
       </div>
 
@@ -120,24 +120,24 @@ export default function PaymentPage() {
           onClick={() => switchPlan('monthly')}
           className={`rounded-xl border-2 p-4 text-right transition-all ${plan === 'monthly' ? 'border-blue-600 bg-blue-50' : 'border-gray-200 bg-white'}`}
         >
-          <div className="font-bold text-gray-900 text-lg">{isIntro ? '₪29' : '₪99'} <span className="text-sm font-normal text-gray-400">+ מע&quot;מ</span></div>
+          <div className="font-bold text-gray-900 text-lg">{isIntro ? '₪1' : (tier === 'pro' ? '₪199' : '₪99')} <span className="text-sm font-normal text-gray-400">+ מע&quot;מ</span></div>
           {isIntro && <div className="text-green-600 text-xs font-medium">חודש ראשון בלבד</div>}
-          {isIntro && <div className="text-gray-400 text-xs mt-1">מחודש שני: ₪99 + מע&quot;מ</div>}
+          {isIntro && <div className="text-gray-400 text-xs mt-1">מחודש שני: {tier === 'pro' ? '₪199' : '₪99'} + מע&quot;מ</div>}
         </button>
         <button
           onClick={() => { if (couponStatus === 'valid') return; switchPlan('annual') }}
           className={`rounded-xl border-2 p-4 text-right transition-all relative ${plan === 'annual' ? 'border-blue-600 bg-blue-50' : 'border-gray-200 bg-white'} ${couponStatus === 'valid' ? 'opacity-40 cursor-not-allowed' : ''}`}
         >
           <div className="absolute top-2 left-2 bg-green-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">חסכון 20%</div>
-          <div className="font-bold text-gray-900 text-lg">₪948</div>
+          <div className="font-bold text-gray-900 text-lg">{tier === 'pro' ? '₪1,990' : '₪948'}</div>
           <div className="text-gray-500 text-xs">לשנה + מע"מ</div>
-          <div className="text-gray-400 text-xs mt-1">{couponStatus === 'valid' ? 'לא זמין עם קופון' : '₪79 לחודש'}</div>
+          <div className="text-gray-400 text-xs mt-1">{couponStatus === 'valid' ? 'לא זמין עם קופון' : (tier === 'pro' ? '₪166 לחודש' : '₪79 לחודש')}</div>
         </button>
       </div>
 
       {plan === 'monthly' && couponStatus !== 'valid' && isIntro && (
         <div className="mb-4 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 text-xs text-amber-800 leading-relaxed">
-          <strong>שים לב:</strong> החיוב הראשון הוא ₪29 + מע&quot;מ בלבד (חודש ניסיון). מחודש שני החיוב עובר ל-₪99 + מע&quot;מ לחודש. ניתן לבטל בכל עת ללא קנס.
+          <strong>שים לב:</strong> החיוב הראשון הוא ₪1 בלבד (חודש ניסיון). מחודש שני החיוב עובר ל-{tier === 'pro' ? '₪199' : '₪99'} + מע&quot;מ לחודש. ניתן לבטל בכל עת ללא קנס.
         </div>
       )}
 
@@ -171,7 +171,7 @@ export default function PaymentPage() {
         {couponStatus === 'valid' && (
           <div className="mt-3 bg-amber-50 border border-amber-300 rounded-xl px-4 py-3">
             <div className="text-green-700 text-sm font-bold mb-2">✓ הקוד אושר - חודש התנסות ב-1 ₪ בלבד!</div>
-            <div className="text-gray-600 text-xs leading-relaxed mb-3">שימו ♥️ מהחודש השני החיוב עובר למחיר המלא: 99₪ +מע&quot;מ /חודש.<br /><strong>אפשר לבטל בכל עת, ללא קנס.</strong></div>
+            <div className="text-gray-600 text-xs leading-relaxed mb-3">שימו ♥️ מהחודש השני החיוב עובר למחיר המלא: {tier === 'pro' ? '₪199' : '₪99'} + מע&quot;מ לחודש.<br /><strong>אפשר לבטל בכל עת, ללא קנס.</strong></div>
             <label className="flex items-start gap-2 cursor-pointer">
               <input
                 type="checkbox"
