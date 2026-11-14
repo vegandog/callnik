@@ -34,7 +34,7 @@ export async function POST() {
   if (customer.whatsapp_number) {
     await sendWhatsApp(
       customer.whatsapp_number,
-      `שדרגת ל-Pro! מעכשיו 150 שיחות/חודש. החיוב הבא יהיה ₪149 + מע"מ. תודה שבחרת ב-Callnik!`
+      `שדרגת ל-Pro! מעכשיו גישה לקביעת פגישות ב-Google Calendar. החיוב הבא יהיה ₪199 + מע"מ. תודה שבחרת ב-Callnik!`
     )
   }
 
