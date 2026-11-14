@@ -104,7 +104,7 @@ export default function JerusalemPage() {
               </div>
               <div>
                 <p className="font-semibold text-gray-900">Pro - ₪199/חודש</p>
-                <p className="text-gray-600 text-sm">עד 150 שיחות + ניהול תורים ופגישות ביומן Google.</p>
+                <p className="text-gray-600 text-sm">ניהול תורים ופגישות ביומן Google.</p>
               </div>
               <p className="text-blue-700 text-sm font-medium">חודש ראשון ב-₪1 בלבד.</p>
             </div>

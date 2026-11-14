@@ -298,7 +298,7 @@ export default function AdminPanel() {
                   <select value={(editForm as Record<string, string>).tier || 'basic'} onChange={e => setEditForm(f => ({ ...f, tier: e.target.value }))}
                     className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <option value="basic">Basic (60 שיחות)</option>
-                    <option value="pro">Pro (150 שיחות)</option>
+                    <option value="pro">Pro (יומן Google)</option>
                   </select>
                 </div>
               </div>
@@ -594,7 +594,7 @@ export default function AdminPanel() {
                       </td>
                       <td className="px-4 pt-1 pb-3 text-xs text-center">
                         {(() => {
-                          const limit = customer.tier === 'pro' ? 150 : 60
+                          const limit = 60
                           const used = customer.monthly_call_count
                           const pct = Math.min(100, Math.round(used / limit * 100))
                           const isOver = used >= limit
