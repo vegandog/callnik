@@ -135,6 +135,21 @@ export default function OnboardingPage() {
           </select>
         </div>
 
+        <label className="flex items-start gap-3 cursor-pointer">
+          <input
+            type="checkbox"
+            required
+            className="mt-0.5 w-4 h-4 accent-blue-600 flex-shrink-0"
+          />
+          <span className="text-xs text-gray-500 leading-relaxed">
+            קראתי ואני מסכים/ה ל
+            <a href="/terms" target="_blank" className="text-blue-600 underline hover:text-blue-700">תנאי השימוש</a>
+            {' '}ול
+            <a href="/privacy" target="_blank" className="text-blue-600 underline hover:text-blue-700">מדיניות הפרטיות</a>.
+            {' '}השירות מסופק as-is; תגובות הנציגה עשויות להכיל שגיאות ואינן מהוות ייעוץ מקצועי.
+          </span>
+        </label>
+
         {error && (
           <p className="text-red-600 text-sm text-center bg-red-50 border border-red-200 rounded-lg px-4 py-2.5">
             {error}
