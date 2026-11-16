@@ -101,6 +101,9 @@ function LoginForm() {
         >
           {loading ? 'כניסה...' : 'כניסה'}
         </button>
+        <p className="text-center text-xs text-gray-400">
+          <a href="/forgot-password" className="hover:underline">שכחתי סיסמה</a>
+        </p>
       </form>
       <p className="text-center text-sm text-gray-500 mt-6">
         עדיין לא רשום?{' '}

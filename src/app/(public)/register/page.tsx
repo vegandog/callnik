@@ -191,6 +191,8 @@ export default function RegisterPage() {
         <p className="text-center text-xs text-gray-400 mt-6">
           כבר רשום?{' '}
           <a href="/login" className="text-blue-600 hover:underline">כניסה לאזור הלקוח</a>
+          {' · '}
+          <a href="/forgot-password" className="hover:underline">שכחתי סיסמה</a>
         </p>
       </main>
       <Footer />
