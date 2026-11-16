@@ -65,12 +65,27 @@ export default function RegisterPage() {
     setLoading(true)
     saveParams()
 
+    // Create user via admin API (bypasses rate limit + auto-confirms email)
+    const res = await fetch('/api/auth/email-signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    })
+    const data = await res.json()
+
+    if (!res.ok) {
+      setError(data.error || 'שגיאה - נסה שנית')
+      setLoading(false)
+      return
+    }
+
+    // Sign in to get a session
     const { createClient } = await import('@/lib/supabase/client')
     const supabase = createClient()
-    const { error: err } = await supabase.auth.signUp({ email, password })
+    const { error: signInErr } = await supabase.auth.signInWithPassword({ email, password })
 
-    if (err) {
-      setError(err.message.includes('already') ? 'אימייל זה כבר רשום. נסה להיכנס.' : 'שגיאה - נסה שנית')
+    if (signInErr) {
+      setError('נוצר חשבון - נסה להיכנס מדף הכניסה')
       setLoading(false)
     } else {
       window.location.href = '/onboarding'
