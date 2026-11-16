@@ -10,10 +10,11 @@ const GOOGLE_CLIENT_ID = '419201388686-k83ee8pifckjjkqbvc8c416c4rn0taqn.apps.goo
 function getTimeLeft() {
   const now = new Date()
   const end = new Date(now.getFullYear(), 10, 30, 23, 59, 59) // Nov 30
-  if (now > end) return { hours: 0, minutes: 0, seconds: 0 }
+  if (now > end) return { days: 0, hours: 0, minutes: 0, seconds: 0 }
   const diff = end.getTime() - now.getTime()
   return {
-    hours: Math.floor(diff / 1000 / 60 / 60),
+    days: Math.floor(diff / 1000 / 60 / 60 / 24),
+    hours: Math.floor((diff / 1000 / 60 / 60) % 24),
     minutes: Math.floor((diff / 1000 / 60) % 60),
     seconds: Math.floor((diff / 1000) % 60),
   }
@@ -97,8 +98,9 @@ export default function RegisterPage() {
         {/* Countdown */}
         <div className="mb-6">
           <p className="text-xs text-gray-500 mb-1">המחיר ₪1 פוקע בעוד:</p>
-          <div className="flex justify-center gap-2 text-center">
+          <div className="flex justify-center gap-2 text-center" dir="ltr">
             {[
+              { val: pad(timeLeft.days), label: 'ימים' },
               { val: pad(timeLeft.hours), label: 'שעות' },
               { val: pad(timeLeft.minutes), label: 'דקות' },
               { val: pad(timeLeft.seconds), label: 'שניות' },
