@@ -85,14 +85,19 @@ export default function RegisterPage() {
       <main className="max-w-sm mx-auto px-4 py-10 text-center">
 
         {/* Banner */}
-        <div className="relative mx-auto w-56 h-56 mb-4 bf-glow">
-          <Image
-            src="/banner-bf2.png"
-            alt="Black Friday - חודש ראשון ב-₪1"
-            fill
-            className="object-contain drop-shadow-2xl"
-            priority
-          />
+        <div className="bf-wrap mx-auto mb-5">
+          <div className="bf-ring" />
+          <div className="bf-img-wrap bf-entrance">
+            <Image
+              src="/banner-bf2.png"
+              alt="Black Friday - חודש ראשון ב-₪1"
+              width={260}
+              height={260}
+              className="relative z-10 bf-shake"
+              priority
+            />
+            <div className="bf-shine" />
+          </div>
         </div>
 
         {/* Countdown */}
@@ -198,11 +203,100 @@ export default function RegisterPage() {
       <Footer />
 
       <style>{`
-        @keyframes bf-pulse {
-          0%, 100% { filter: drop-shadow(0 0 12px #ff2d7888) drop-shadow(0 0 24px #ffd70044); }
-          50%       { filter: drop-shadow(0 0 24px #ff2d78cc) drop-shadow(0 0 48px #ffd70088); }
+        /* Wrapper */
+        .bf-wrap {
+          position: relative;
+          width: 260px;
+          height: 260px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
-        .bf-glow { animation: bf-pulse 2s ease-in-out infinite; }
+
+        /* Rotating outer ring */
+        .bf-ring {
+          position: absolute;
+          inset: -18px;
+          border-radius: 50%;
+          background: conic-gradient(
+            #ff2d78, #ffd700, #ff2d78, #ffd700, #ff2d78
+          );
+          animation: bf-spin 3s linear infinite;
+          opacity: 0.7;
+          filter: blur(6px);
+        }
+        @keyframes bf-spin {
+          to { transform: rotate(360deg); }
+        }
+
+        /* Image container */
+        .bf-img-wrap {
+          position: relative;
+          z-index: 2;
+          border-radius: 50%;
+          overflow: hidden;
+          width: 260px;
+          height: 260px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          animation: bf-pulse 1.8s ease-in-out infinite;
+        }
+        @keyframes bf-pulse {
+          0%, 100% {
+            filter: drop-shadow(0 0 18px #ff2d78bb) drop-shadow(0 0 40px #ffd70066);
+            transform: scale(1);
+          }
+          50% {
+            filter: drop-shadow(0 0 36px #ff2d78ff) drop-shadow(0 0 72px #ffd700cc);
+            transform: scale(1.04);
+          }
+        }
+
+        /* Entrance bounce */
+        .bf-entrance {
+          animation: bf-bounce-in 0.7s cubic-bezier(.36,1.56,.64,1) both,
+                     bf-pulse 1.8s ease-in-out 0.7s infinite;
+        }
+        @keyframes bf-bounce-in {
+          0%   { transform: scale(0.2); opacity: 0; }
+          70%  { transform: scale(1.1); opacity: 1; }
+          100% { transform: scale(1);  opacity: 1; }
+        }
+
+        /* Periodic shake every ~4s */
+        .bf-shake {
+          animation: bf-shake-loop 4s ease-in-out infinite;
+        }
+        @keyframes bf-shake-loop {
+          0%, 85%, 100% { transform: rotate(0deg); }
+          87%  { transform: rotate(-4deg); }
+          89%  { transform: rotate(4deg); }
+          91%  { transform: rotate(-3deg); }
+          93%  { transform: rotate(3deg); }
+          95%  { transform: rotate(0deg); }
+        }
+
+        /* Shine sweep */
+        .bf-shine {
+          position: absolute;
+          inset: 0;
+          z-index: 3;
+          background: linear-gradient(
+            120deg,
+            transparent 20%,
+            rgba(255,255,255,0.45) 50%,
+            transparent 80%
+          );
+          background-size: 200% 100%;
+          animation: bf-shine-sweep 3.5s ease-in-out infinite;
+        }
+        @keyframes bf-shine-sweep {
+          0%   { background-position: -100% 0; opacity: 0; }
+          20%  { opacity: 1; }
+          60%  { background-position: 200% 0; opacity: 1; }
+          80%, 100% { background-position: 200% 0; opacity: 0; }
+        }
       `}</style>
     </>
   )
