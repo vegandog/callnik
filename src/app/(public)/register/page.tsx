@@ -248,8 +248,6 @@ export default function RegisterPage() {
         .bf-img-wrap {
           position: relative;
           z-index: 2;
-          border-radius: 50%;
-          overflow: hidden;
           width: 260px;
           height: 260px;
           display: flex;
