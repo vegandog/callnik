@@ -28,9 +28,12 @@ export default function RegisterPage() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [timeLeft, setTimeLeft] = useState(getTimeLeft())
+  const [isPro, setIsPro] = useState(false)
 
   useEffect(() => {
     const timer = setInterval(() => setTimeLeft(getTimeLeft()), 1000)
+    const params = new URLSearchParams(window.location.search)
+    setIsPro(params.get('tier') === 'pro')
     return () => clearInterval(timer)
   }, [])
 
@@ -100,7 +103,7 @@ export default function RegisterPage() {
       <main className="max-w-sm mx-auto px-4 py-10 text-center">
 
         {/* Banner */}
-        <div className="bf-wrap mx-auto mb-5">
+        {!isPro && <div className="bf-wrap mx-auto mb-5">
           <div className="bf-ring" />
           <div className="bf-img-wrap bf-entrance">
             <Image
@@ -113,7 +116,7 @@ export default function RegisterPage() {
             />
             <div className="bf-shine" />
           </div>
-        </div>
+        </div>}
 
         {/* Countdown */}
         <div className="mb-6">
