@@ -168,6 +168,7 @@ export default function LandingPage() {
           <p className="text-sm text-gray-400 sm:hidden mb-2">
             רוצה גם ניהול יומן?{' '}
             <Link href="/register?intro=1&tier=pro" className="text-pink-500 font-semibold underline">Pro ב-₪1</Link>
+            {' '}<span className="text-gray-300 text-xs">(אח&quot;כ ₪199/חודש)</span>
           </p>
           <p className="text-orange-500 text-sm font-bold mt-1">⚡ מחיר ₪1 בתוקף לנובמבר 2026 בלבד</p>
           <p className="text-gray-400 text-sm mt-2">ביטול בכל עת | המחירים לפני מע&quot;מ</p>
