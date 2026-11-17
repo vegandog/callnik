@@ -157,7 +157,7 @@ export default function LandingPage() {
             </Link>
             <Link
               href="/register?intro=1&tier=pro"
-              className="flex flex-col items-center text-white px-9 py-4 rounded-2xl transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_0_32px_rgba(236,72,153,0.6)] shadow-md bg-gradient-to-br from-[#ec4899] to-[#a855f7] hover:from-[#db2777] hover:to-[#9333ea] sm:w-auto sm:flex hidden"
+              className="hidden"
             >
               <span className="bg-yellow-400 text-gray-900 text-[11px] font-black px-3 py-1 rounded-full mb-2.5 tracking-wide">📅 קביעת פגישות ביומן</span>
               <span className="font-black text-2xl leading-none mb-1">חודש ראשון ב-₪1</span>
@@ -165,7 +165,7 @@ export default function LandingPage() {
               <span className="text-sm opacity-60 line-through font-normal">₪199 + מע&quot;מ לחודש</span>
             </Link>
           </div>
-          <p className="text-sm text-gray-400 sm:hidden mb-2">
+          <p className="text-sm text-gray-400 mb-2">
             רוצה גם ניהול יומן?{' '}
             <Link href="/register?intro=1&tier=pro" className="text-pink-500 font-semibold underline">Pro ב-₪1</Link>
             {' '}<span className="text-gray-300 text-xs">(אח&quot;כ ₪199/חודש)</span>
