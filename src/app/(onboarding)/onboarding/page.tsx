@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
 const carriers = ['פלאפון', 'פרטנר', 'סלקום', 'הוט מובייל', '012', 'גולן טלקום', 'רמי לוי תקשורת', 'Welcome', '019', 'אחר']
@@ -8,6 +8,12 @@ const carriers = ['פלאפון', 'פרטנר', 'סלקום', 'הוט מוביי
 export default function OnboardingPage() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && (window as any).fbq) {
+      (window as any).fbq('track', 'Lead')
+    }
+  }, [])
   const [error, setError] = useState('')
   const [form, setForm] = useState({
     first_name: '',
