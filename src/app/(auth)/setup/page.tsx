@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { Settings, Mail, Phone, MessageSquare, CheckCircle } from 'lucide-react'
 import ForwardingCode from './ForwardingCode'
+import PixelPurchase from './PixelPurchase'
 import { CARRIER_SECONDS } from '@/lib/constants'
 
 export default async function SetupPage() {
@@ -34,6 +35,7 @@ export default async function SetupPage() {
 
   return (
     <div className="max-w-lg mx-auto">
+      <PixelPurchase />
 
       {/* Hero */}
       <div className="text-center py-10 px-4">
