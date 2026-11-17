@@ -1,0 +1,44 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          "/Users/vegandog/Documents/callnik/callnik-video-script.html"
+        ],
+        "createdAt": "2026-11-17T00:17:36.496Z",
+        "reason": "internal storyboard doc: dark-screen mockup cells are intentional UI simulations, not body text"
+      },
+      {
+        "rule": "tiny-text",
+        "value": "*",
+        "files": [
+          "/Users/vegandog/Documents/callnik/callnik-video-script.html"
+        ],
+        "createdAt": "2026-11-17T00:17:36.529Z",
+        "reason": "internal storyboard doc: 10-11px sizes intentional for dense print/desktop reference table, not user-facing content"
+      },
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          "/Users/vegandog/Documents/callnik/callnik-tutorial-script.html"
+        ],
+        "createdAt": "2026-11-17T00:28:45.747Z",
+        "reason": "internal production doc: dark mock-screen cells simulate UI on dark bg, intentional"
+      },
+      {
+        "rule": "tiny-text",
+        "value": "*",
+        "files": [
+          "/Users/vegandog/Documents/callnik/callnik-tutorial-script.html"
+        ],
+        "createdAt": "2026-11-17T00:28:45.773Z",
+        "reason": "internal storyboard doc: 10-11px labels intentional for dense print/desktop reference table"
+      }
+    ]
+  }
+}

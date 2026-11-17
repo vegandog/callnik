@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>Callnik - תסריט סרטון הסבר</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Arial', 'Helvetica', sans-serif;
+    background: #f5f5f5;
+    color: #1a1a1a;
+    direction: rtl;
+    font-size: 13px;
+    padding: 30px;
+  }
+
+  .page {
+    max-width: 1100px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    padding: 40px;
+  }
+
+  .doc-header {
+    border-bottom: 3px solid #1a56db;
+    padding-bottom: 18px;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  .doc-logo { font-size: 22px; font-weight: 900; color: #1a56db; letter-spacing: -1px; white-space: nowrap; }
+  .doc-title { font-size: 20px; font-weight: 700; color: #111; margin-bottom: 4px; }
+  .doc-subtitle { font-size: 12px; color: #666; display: flex; gap: 20px; flex-wrap: wrap; }
+
+  .legend {
+    display: flex; gap: 14px; flex-wrap: wrap;
+    margin-bottom: 24px; padding: 12px 16px;
+    background: #f8f9fa; border-radius: 8px; border: 1px solid #e2e8f0;
+    align-items: center;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #555; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
+
+  table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+  thead tr { background: #1a56db; color: white; }
+  thead th { padding: 11px 12px; font-size: 11.5px; font-weight: 700; text-align: right; white-space: nowrap; }
+  tbody tr:nth-child(even) { background: #fafbfc; }
+  tbody tr:hover { background: #eef2ff; }
+  td { padding: 10px 12px; vertical-align: top; border-bottom: 1px solid #e8ecf0; line-height: 1.6; text-align: right; }
+
+  .col-time  { width: 72px; text-align: center !important; }
+  .col-scene { width: 100px; }
+
+  .time-badge {
+    display: inline-block; background: #1a56db; color: white;
+    border-radius: 20px; padding: 2px 10px; font-size: 11px; font-weight: 700; white-space: nowrap;
+  }
+
+  .scene-label {
+    display: inline-block; padding: 3px 10px; border-radius: 4px;
+    font-weight: 700; font-size: 11px; white-space: nowrap;
+  }
+  .s-hook     { background: #fee2e2; color: #991b1b; }
+  .s-problem  { background: #fff3cd; color: #856404; }
+  .s-solution { background: #d1fae5; color: #065f46; }
+  .s-payoff   { background: #dbeafe; color: #1e3a8a; }
+  .s-setup    { background: #f3e8ff; color: #581c87; }
+  .s-voices   { background: #fce7f3; color: #831843; }
+  .s-close    { background: #f1f5f9; color: #334155; }
+
+  .shot { display: block; font-weight: 700; color: #111; margin-bottom: 3px; font-size: 11.5px; }
+
+  .vo {
+    font-size: 12px; font-style: italic; background: #f9fafb;
+    border-right: 3px solid #1a56db; padding: 6px 10px;
+    border-radius: 0 4px 4px 0; color: #1a1a1a;
+  }
+
+  .audio {
+    font-size: 11px; background: #d1fae5; border: 1px solid #6ee7b7;
+    border-radius: 4px; padding: 5px 8px; margin-top: 6px; color: #065f46;
+  }
+  .audio-title { font-weight: 700; display: block; margin-bottom: 3px; }
+  .audio-line  { display: block; padding-right: 6px; }
+
+  .sfx {
+    display: inline-block; font-size: 11px; background: #fef3c7;
+    border: 1px solid #fcd34d; border-radius: 4px; padding: 3px 8px;
+    color: #78350f; margin-top: 4px;
+  }
+
+  .screen {
+    font-size: 12px; background: #1a1a1a; color: #fff;
+    border-radius: 6px; padding: 8px 10px; font-family: monospace; line-height: 1.9;
+  }
+  .screen .sb  { font-size: 14px; font-weight: 700; }
+  .screen .ss  { color: #9ca3af; font-size: 10.5px; }
+  .screen .se  { color: #60a5fa; }
+  .screen .sg  { color: #34d399; }
+  .screen .sr  { color: #f87171; font-weight: 700; }
+  .screen .sp  { color: #a78bfa; }
+
+  .wa {
+    background: #dcf8c6; border: 1px solid #a3d977;
+    border-radius: 8px; padding: 8px 10px; font-size: 11px; margin-top: 5px;
+  }
+  .wa-h { font-weight: 700; color: #128c7e; display: block; margin-bottom: 3px; }
+  .wa-l { display: block; line-height: 1.8; }
+  .wa-link { color: #128c7e; }
+
+  .note { font-size: 11px; color: #6b7280; line-height: 1.6; }
+  .ntag {
+    display: inline-block; background: #e0e7ff; color: #3730a3;
+    border-radius: 3px; padding: 1px 5px; font-size: 10px; font-weight: 700; margin-bottom: 3px;
+  }
+
+  .version-header {
+    background: linear-gradient(135deg, #1a56db, #7c3aed); color: white;
+    border-radius: 8px; padding: 14px 20px; margin: 36px 0 20px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .version-header h2 { font-size: 16px; font-weight: 700; }
+  .version-header .badge { background: rgba(255,255,255,0.2); border-radius: 20px; padding: 4px 12px; font-size: 12px; }
+
+  .prod-box {
+    background: #fffbeb; border: 1px solid #fcd34d;
+    border-radius: 8px; padding: 20px 24px; margin-top: 32px;
+  }
+  .prod-box h3 { font-size: 15px; font-weight: 700; margin-bottom: 14px; color: #78350f; }
+  .prod-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .prod-col h4 { font-size: 12px; font-weight: 700; color: #374151; margin-bottom: 6px; border-bottom: 1px solid #e5e7eb; padding-bottom: 4px; }
+  .prod-col ul { list-style: none; font-size: 11.5px; color: #4b5563; line-height: 1.9; }
+  .prod-col ul li::before { content: "▸ "; color: #f59e0b; }
+
+  @media print {
+    body { background: white; padding: 0; }
+    .page { box-shadow: none; padding: 20px; }
+    thead tr, .screen, .wa, .audio, .scene-label, .sfx { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="doc-header">
+    <div class="doc-logo">callnik</div>
+    <div>
+      <div class="doc-title">תסריט סרטון הסבר - "המזכירה שתמיד עונה"</div>
+      <div class="doc-subtitle">
+        <span>📅 נובמבר 2026</span>
+        <span>🎬 2 גרסאות: 90 שניות (סושיאל) + 2.5 דקות (אתר)</span>
+        <span>🎙 קריינות: ערי דניאל + הקלטה אמיתית של דנה</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <strong style="font-size:11px;color:#333;margin-left:8px;">צבעי סצנות:</strong>
+    <div class="legend-item"><div class="legend-dot" style="background:#fee2e2"></div>Hook</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#fff3cd"></div>בעיה</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#d1fae5"></div>פתרון</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#dbeafe"></div>Payoff</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f3e8ff"></div>הגדרה</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#fce7f3"></div>קולות</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f1f5f9"></div>סיום</div>
+  </div>
+
+
+  <!-- ═══════════════════════════════
+       גרסה א' - 90 שניות
+  ════════════════════════════════ -->
+  <div class="version-header">
+    <h2>גרסה א' · 90 שניות &nbsp;|&nbsp; פייסבוק / אינסטגרם / TikTok</h2>
+    <div class="badge">פורמט אנכי 9:16 · כתוביות חובה</div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th class="col-time">זמן</th>
+        <th class="col-scene">סצנה</th>
+        <th>מה רואים</th>
+        <th>מה שומעים</th>
+        <th>טקסט על המסך</th>
+        <th style="width:14%">הערות הפקה</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr>
+        <td class="col-time"><span class="time-badge">0:00–0:05</span></td>
+        <td><span class="scene-label s-hook">HOOK</span></td>
+        <td>
+          <span class="shot">תקריב: טלפון על שולחן</span>
+          מסך מדליק - שיחה נכנסת. 3 צלצולים. עובר ל-Voicemail.
+        </td>
+        <td>
+          <span class="sfx">🔔 צלצול × 3</span>
+          <span class="sfx" style="margin-right:4px;">📳 beep voicemail</span>
+        </td>
+        <td>
+          <div class="screen">
+            <span class="sb">זה קרה עכשיו.</span><br>
+            <span class="ss">ב-14 מקרים אחרים היום.</span>
+          </div>
+        </td>
+        <td class="note">
+          <span class="ntag">צילום</span>
+          iPhone על שולחן. screenshot incoming call. 10 דקות צילום.
+        </td>
+      </tr>
+
+      <tr>
+        <td class="col-time"><span class="time-badge">0:05–0:16</span></td>
+        <td><span class="scene-label s-problem">בעיה</span></td>
+        <td>
+          <span class="shot">מסך WhatsApp - הודעה נכנסת</span>
+          <div class="wa">
+            <span class="wa-h">דוד לוי</span>
+            <span class="wa-l">שמע, מצאתי אחד. בסדר לך?</span>
+          </div>
+        </td>
+        <td>
+          <div class="vo">"אתה באמצע עבודה. הטלפון צלצל, לא הספקת. הלקוח לא ישאיר הודעה - הוא כבר מחפש אחד אחר."</div>
+        </td>
+        <td>
+          <div class="screen">
+            <span class="sr">₪800</span><br>
+            <span class="ss">מתנה למתחרה.</span>
+          </div>
+        </td>
+        <td class="note">
+          <span class="ntag">מוק-אפ</span>
+          Screenshot WhatsApp אמיתי. הסכום לפי קהל יעד.
+        </td>
+      </tr>
+
+      <tr>
+        <td class="col-time"><span class="time-badge">0:16–0:27</span></td>
+        <td><span class="scene-label s-solution">פתרון</span></td>
+        <td>
+          <span class="shot">אנימציה: זרימת שיחה</span>
+          [טלפון לקוח] ← 20 שניות ← [הפניה] ← [Callnik] ← 🟢
+        </td>
+        <td>
+          <div class="vo">"Callnik זו מזכירה AI שעונה כשאתה לא יכול. לקוח מתקשר - Callnik עולה על הקו תוך שנייה."</div>
+        </td>
+        <td>
+          <div class="screen">
+            <span class="sb se">Callnik עונה.</span><br>
+            <span class="ss">תוך שנייה.</span>
+          </div>
+        </td>
+        <td class="note">
+          <span class="ntag">אנימציה</span>
+          Canva - 3 אייקונים + חצים. 10 דקות עבודה.
+        </td>
+      </tr>
+
+      <tr>
+        <td class="col-time"><span class="time-badge">0:27–0:48</span></td>
+        <td><span class="scene-label s-solution">שיחה אמיתית</span></td>
+        <td>
+          <span class="shot">Waveform של קול דנה על רקע כהה</span>
+          גל קול + שם הדובר מופיע:
+          <strong>דנה / לקוח / דנה / לקוח / דנה</strong>
+        </td>
+        <td>
+          <div class="audio">
+            <span class="audio-title">🎙 הקלטה אמיתית של דנה (21 שניות):</span>
+            <span class="audio-line"><strong>דנה:</strong> "שלום, התקשרת לשרברבות כהן, אני דנה. במה אוכל לעזור?"</span>
+            <span class="audio-line"><strong>לקוח:</strong> "יש לי נזילה מתחת לכיור"</span>
+            <span class="audio-line"><strong>דנה:</strong> "בוודאי. מה שמך ומספר שאפשר לחזור אליך?"</span>
+            <span class="audio-line"><strong>לקוח:</strong> "דוד לוי, 052-"</span>
+            <span class="audio-line"><strong>דנה:</strong> "מצוין, יחזרו אליך בהקדם. תודה ושיהיה לך יום טוב!"</span>
+          </div>
+        </td>
+        <td>
+          <div class="screen">
+            <span class="ss">הלקוח לא יודע שזה AI.</span>
+          </div>
+        </td>
+        <td class="note">
+          <span class="ntag">חובה</span>
+          זה הגימיק של הסרטון. להוריד הקלטה אמיתית מה-dashboard של קולניק.
+        </td>
+      </tr>
+
+      <tr>
+        <td class="col-time"><span class="time-badge">0:48–1:03</span></td>
+        <td><span class="scene-label s-payoff">Payoff</span></td>
+        <td>
+          <span class="shot">iPhone - WhatsApp notification מגיחה</span>
+          לחיצה → ההודעה המלאה נפתחת:
+          <div class="wa">
+            <span class="wa-h">📲 Callnik · 14:52</span>
+            <span class="wa-l">שם: דוד לוי</span>
+            <span class="wa-l">בקשה: נזילה מתחת לכיור</span>
+            <span class="wa-l">מספר: 052-3xx-xxxx</span>
+            <span class="wa-l wa-link">▶ האזן להקלטה (1:12)</span>
+          </div>
+        </td>
+        <td>
+          <div class="vo">"תוך דקה מגיע אלייך: שם, בקשה, מספר לחזרה - ועם הקלטה של כל השיחה."</div>
+        </td>
+        <td>
+          <div class="screen">
+            <span class="sb sg">לא פספסת.</span><br>
+            לא שכחת.<br>
+            <span class="ss">לא צריך לנחש מה הוא רצה.</span>
+          </div>
+        </td>
+        <td class="note">
+          <span class="ntag">צילום</span>
+          iPhone אמיתי עם notification. כף יד בפריים = אמינות גבוהה.
+        </td>
+      </tr>
+
+      <tr>
+        <td class="col-time"><span class="time-badge">1:03–1:24</span></td>
+        <td><span class="scene-label s-setup">הגדרה</span></td>
+        <td>
+          <span class="shot">Screen recording × 2.5 מהירות</span>
+          ① callnik.com → "הצטרפות"<br>
+          ② שם עסק + ספק סלולרי<br>
+          ③ תשלום ₪1<br>
+          ④ כפתור "הפעל Callnik" → טלפון פותח חיוג → ✅
+        </td>
+        <td>
+          <div class="vo">"ההגדרה לוקחת 5 דקות. חיוג אחד מהטלפון - ומכאן אתה לא מפספס."</div>
+          <span class="sfx" style="margin-top:6px;">🎵 מוזיקת רקע עליזה</span>
+        </td>
+        <td>
+          <div class="screen">
+            <span class="sp">① שם עסק</span><br>
+            <span class="sp">② ₪1 לחודש ראשון</span><br>
+            <span class="sp">③ חיוג הפעלה</span><br><br>
+            <span class="sb sg">✅ פחות מ-5 דקות</span>
+          </div>
+        </td>
+        <td class="note">
+          <span class="ntag">Screen rec</span>
+          QuickTime / Loom. להאיץ ל-2.5× בעריכה.
+        </td>
+      </tr>
+
+      <tr>
+        <td class="col-time"><span class="time-badge">1:24–1:30</span></td>
+        <td><span class="scene-label s-close">סיום</span></td>
+        <td>
+          <span class="shot">מסך לבן נקי</span>
+          לוגו Callnik + כתובת אתר
+        </td>
+        <td>
+          <div class="vo">"callnik.com"</div>
+        </td>
+        <td>
+          <div class="screen">
+            <span class="sb">callnik.com</span><br>
+            <span class="sg">חודש ראשון ₪1</span><br>
+            <span class="ss">ביטול בכל עת</span>
+          </div>
+        </td>
+        <td class="note">
+          <span class="ntag">CTA</span>
+          קישור בהגדרת המודעה. לא לומר "לחץ על הלינק" - פייסבוק אוסרת.
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+
+
+  <!-- ═══════════════════════════════
+       גרסה ב' - 2.5 דקות
+  ════════════════════════════════ -->
+  <div class="version-header">
+    <h2>גרסה ב' · 2.5 דקות &nbsp;|&nbsp; אתר / יוטיוב / דף נחיתה</h2>
+    <div class="badge">פורמט רוחבי 16:9</div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th class="col-time">זמן</th>
+        <th class="col-scene">סצנה</th>
+        <th>מה רואים</th>
+        <th>מה שומעים</th>
+        <th>טקסט על המסך</th>
+        <th style="width:14%">הערות הפקה</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr>
+        <td class="col-time"><span class="time-badge">0:00–0:08</span></td>
+        <td><span class="scene-label s-hook">HOOK</span></td>
+        <td>
+          <span class="shot">4 תמונות ב-split screen</span>
+          שרברב מתחת לכיור / ספרית עם לקוח / חשמלאי על סולם / עורך דין בישיבה.
+          על כל תמונה: סמל טלפון מצלצל מחוץ להישג יד.
+        </td>
+        <td>
+          <div class="vo">"אתה לא מפספס שיחות כי אתה לא רוצה לענות. אתה מפספס כי אתה עובד."</div>
+        </td>
+        <td>
+          <div class="screen">
+            <span class="sb">אתה עובד.</span><br>
+            <span class="ss">הטלפון לא מחכה.</span>
+          </div>
+        </td>
+        <td class="note">
+          <span class="ntag">Stock</span>
+          Pexels / Unsplash - חינם. או לצלם ידיים עובדות.
+        </td>
+      </tr>
+
+      <tr>
+        <td class="col-time"><span class="time-badge">0:08–0:22</span></td>
+        <td><span class="scene-label s-problem">הכאב</span></td>
+        <td>
+          <span class="shot">מסך טלפון</span>
+          "שיחה שלא נענתה" × 4 בזו אחר זו.
+          <br><br>
+          <span class="shot">אנימציה</span>
+          "שרברב כהן" 🔇 → "שרברב לוי" ✅
+        </td>
+        <td>
+          <div class="vo">"הלקוח לא ישאיר הודעה - 70% לא משאירים. הוא ינסה עוד אחד. וזה אחד אחר - יענה."</div>
+        </td>
+        <td>
+          <div class="screen">
+            <span class="sr" style="font-size:14px;">שיחה שלא נענתה</span><br>
+            <span class="ss">= לקוח שלא חזר.</span>
+          </div>
+        </td>
+        <td class="note">
+          <span class="ntag">הומור</span>
+          "שרברב לוי" - שם מצחיק מעלה engagement.
+        </td>
+      </tr>
+
+      <tr>
+        <td class="col-time"><span class="time-badge">0:22–0:45</span></td>
+        <td><span class="scene-label s-solution">פתרון</span></td>
+        <td>
+          <span class="shot">אנימציה: זרימת שיחה</span>
+          [לקוח] ← 20 שניות ← [הפניה] ← [Callnik] ← 🟢
+          <br><br>
+          <span class="shot">Waveform קול דנה</span>
+        </td>
+        <td>
+          <div class="vo">"Callnik זו מזכירה AI שעונה במקומך. הלקוח לא שומע 'המנוי שחייגת' - הוא שומע מזכירה אנושית-ברמה."</div>
+          <div class="audio" style="margin-top:7px;">
+            <span class="audio-title">🎙 הקלטה אמיתית (40 שניות):</span>
+            <span class="audio-line">שיחה מלאה: דנה מקבלת שיחה, שואלת שם + בקשה + מספר, מסיימת בנימוס.</span>
+          </div>
+        </td>
+        <td>
+          <div class="screen">
+            <span class="sb se">הלקוח לא יודע שזה AI.</span><br>
+            <span class="ss">(ולרוב זה לא משנה לו)</span>
+          </div>
+        </td>
+        <td class="note">
+          <span class="ntag">חובה</span>
+          הקלטה אמיתית היא נשמת הסרטון.
+        </td>
+      </tr>
+
+      <tr>
+        <td class="col-time"><span class="time-badge">0:45–1:05</span></td>
+        <td><span class="scene-label s-payoff">Payoff</span></td>
+        <td>
+          <span class="shot">iPhone מתקרב מהאפילה</span>
+          WhatsApp notification → לחיצה → ההודעה המלאה:
+          <div class="wa">
+            <span class="wa-h">📲 Callnik · 14:52</span>
+            <span class="wa-l">שם: יעל כהן</span>
+            <span class="wa-l">בקשה: מחיר לצביעת דירה 4 חדרות</span>
+            <span class="wa-l">מספר: 054-xxxxxxx</span>
+            <span class="wa-l wa-link">▶ האזן להקלטה (1:12)</span>
+          </div>
+        </td>
+        <td>
+          <div class="vo">"אחרי כל שיחה - תוך דקה - מגיע סיכום. שם. מה הוא רוצה. מספר לחזרה. ועם הקלטה מלאה."</div>
+        </td>
+        <td>
+          <div class="screen">
+            <span class="sb sg">לא עוד "מי התקשר?"</span><br>
+            לא עוד "לא זוכר מה הוא אמר"
+          </div>
+        </td>
+        <td class="note">
+          <span class="ntag">אמינות</span>
+          Screenshot אמיתי מה-dashboard - לא מוק-אפ.
+        </td>
+      </tr>
+
+      <tr>
+        <td class="col-time"><span class="time-badge">1:05–1:25</span></td>
+        <td><span class="scene-label s-solution">Pro: יומן</span></td>
+        <td>
+          <span class="shot">אנימציה + Screen</span>
+          לקוח: "אפשר לקבוע תור?" ← דנה: "יש לי פנוי ב-15/11 ב-10:00" ← Google Calendar ✅ ← WhatsApp: "פגישה נקבעה"
+        </td>
+        <td>
+          <div class="vo">"במסלול Pro - דנה גם קובעת פגישות. חיברת Google Calendar - ומכאן הכל קורה לבד."</div>
+        </td>
+        <td>
+          <div class="screen">
+            <span class="sp">Pro tier</span><br>
+            <span class="ss">פגישה ביומן + WhatsApp</span><br>
+            <span class="ss">בלי מגע.</span>
+          </div>
+        </td>
+        <td class="note">
+          <span class="ntag">אופציונלי</span>
+          לחתוך אם מתמקדים ב-Basic בלבד.
+        </td>
+      </tr>
+
+      <tr>
+        <td class="col-time"><span class="time-badge">1:25–2:05</span></td>
+        <td><span class="scene-label s-setup">הגדרה</span></td>
+        <td>
+          <span class="shot">Screen recording × 1.5 מהירות</span>
+          ① callnik.com → "הצטרפות" [15 שניות]<br>
+          ② שם עסק / תחום / WhatsApp / ספק סלולרי [45 שניות]<br>
+          ③ תשלום ₪1 [15 שניות]<br>
+          ④ כפתור "הפעל Callnik" → חיוג → ✅
+        </td>
+        <td>
+          <div class="vo">"ועכשיו - איך מגדירים. callnik.com, פרטי העסק, ₪1 לחודש הראשון, ואז כפתור אחד שמפעיל הכל."</div>
+          <span class="sfx" style="margin-top:6px;">🎵 מוזיקת רקע קלה</span>
+          <div class="vo" style="margin-top:6px;"><em>בהומור:</em> "הדבר הכי קשה בהגדרה? לבחור קול. יש שישה."</div>
+        </td>
+        <td>
+          <div class="screen">
+            <span class="sp">① שם עסק</span><br>
+            <span class="sp">② ₪1 לחודש ראשון</span><br>
+            <span class="sp">③ חיוג הפעלה</span><br><br>
+            <span class="sb sg">✅ פחות מ-5 דקות</span>
+          </div>
+        </td>
+        <td class="note">
+          <span class="ntag">Screen rec</span>
+          QuickTime → File → New Screen Recording. להאיץ × 1.5.
+        </td>
+      </tr>
+
+      <tr>
+        <td class="col-time"><span class="time-badge">2:05–2:25</span></td>
+        <td><span class="scene-label s-voices">קולות</span></td>
+        <td>
+          <span class="shot">6 פרצופים - grid 3×2</span>
+          כל פרצוף מדגיש 4-5 שניות עם waveform קטן
+        </td>
+        <td>
+          <div class="vo">"דנה, עלמה, נועה, עדן, קובי, יואב. כולם בעברית. כולם נשמעים אנושיים."</div>
+          <div class="audio" style="margin-top:5px;">
+            <span class="audio-title">🎙 טעימה 4 שניות מכל קול</span>
+          </div>
+        </td>
+        <td>
+          <div class="screen">
+            6 קולות.<br>
+            <span class="ss">תבחר מה מתאים לעסק שלך.</span>
+          </div>
+        </td>
+        <td class="note">
+          <span class="ntag">קבצי קול</span>
+          /voices/*.mp3 מאתר קולניק - להוריד ישירות.
+        </td>
+      </tr>
+
+      <tr>
+        <td class="col-time"><span class="time-badge">2:25–2:50</span></td>
+        <td><span class="scene-label s-close">סיום</span></td>
+        <td>
+          <span class="shot">מסך לבן נקי</span>
+          3 משפטים מופיעים בזה אחר זה. לוגו. אתר.
+        </td>
+        <td>
+          <div class="vo">"לא צריך לשנות מספר. לא צריך טכנאי. לא צריך לשלם לאדם שחיכה לשיחות.<br><br>Callnik. מזכירה AI שעובדת בזמן שאתה עובד."</div>
+        </td>
+        <td>
+          <div class="screen">
+            <span class="ss">לא צריך לשנות מספר</span><br>
+            <span class="ss">לא צריך טכנאי</span><br>
+            <span class="ss">לא צריך לשנות שום דבר</span><br><br>
+            <span class="sb">callnik.com</span><br>
+            <span class="sg">חודש ראשון ₪1 · ביטול בכל עת</span>
+          </div>
+        </td>
+        <td class="note">
+          <span class="ntag">מוזיקה</span>
+          לעצור מוזיקה 2 שניות לפני הסיום. שקט + לוגו = impactful.
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+
+
+  <!-- הערות הפקה -->
+  <div class="prod-box">
+    <h3>המלצות הפקה</h3>
+    <div class="prod-grid">
+      <div class="prod-col">
+        <h4>מה לצלם (שעה וחצי)</h4>
+        <ul>
+          <li>טלפון על שולחן - incoming call screenshot</li>
+          <li>יד מחייגת *61*..# (ידיים בלבד)</li>
+          <li>iPhone מציג WhatsApp notification</li>
+          <li>כף יד מחזיקה טלפון - כללי</li>
+          <li>תמונות stock: Pexels (חינם)</li>
+        </ul>
+      </div>
+      <div class="prod-col">
+        <h4>מה מכינים על מחשב</h4>
+        <ul>
+          <li>Screen recording הגדרה (QuickTime)</li>
+          <li>WhatsApp מוק-אפ - screenshot אמיתי</li>
+          <li>אנימציית זרימת שיחה (Canva)</li>
+          <li>Waveform קול דנה (Descript)</li>
+          <li>הקלטה אמיתית מה-dashboard</li>
+        </ul>
+      </div>
+      <div class="prod-col">
+        <h4>עריכה והפצה</h4>
+        <ul>
+          <li>עריכה: CapCut (חינם) / DaVinci</li>
+          <li>כתוביות: חובה בגרסת סושיאל</li>
+          <li>מוזיקה: Pixabay Music (חינם)</li>
+          <li>גרסה א' - אנכי 9:16 לסושיאל</li>
+          <li>גרסה ב' - רוחבי 16:9 לאתר</li>
+          <li>לשמור גם גרסת 1:1 לאינסטגרם</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

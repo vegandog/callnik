@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>Callnik - תסריט טוטוריאל הפעלה</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f0f2f5;
+    color: #1a1a1a;
+    direction: rtl;
+    padding: 30px;
+    font-size: 13px;
+  }
+  .page {
+    max-width: 1050px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.1);
+    padding: 40px;
+  }
+
+  /* ── כותרת ── */
+  .header {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    border-bottom: 3px solid #1a56db;
+    padding-bottom: 18px;
+    margin-bottom: 10px;
+  }
+  .logo { font-size: 24px; font-weight: 900; color: #1a56db; }
+  .header-text h1 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+  .header-meta { font-size: 12px; color: #666; display: flex; gap: 18px; }
+
+  .intro-box {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 18px 0 28px;
+    font-size: 12.5px;
+    color: #1e40af;
+    line-height: 1.7;
+  }
+  .intro-box strong { font-size: 13px; }
+
+  /* ── כרטיס שלב ── */
+  .step-card {
+    margin-bottom: 28px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .step-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 18px;
+    background: #1a56db;
+    color: white;
+  }
+  .step-num {
+    background: white;
+    color: #1a56db;
+    font-weight: 900;
+    font-size: 15px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-title { font-size: 15px; font-weight: 700; }
+  .step-duration {
+    margin-right: auto;
+    background: rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 2px 10px;
+    font-size: 11px;
+  }
+
+  /* ── טבלה פנימית ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  thead tr { background: #f8fafc; }
+  thead th {
+    padding: 9px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #64748b;
+    text-align: right;
+    border-bottom: 1px solid #e2e8f0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td {
+    padding: 11px 14px;
+    vertical-align: top;
+    border-bottom: 1px solid #f1f5f9;
+    line-height: 1.65;
+    text-align: right;
+  }
+  tbody tr:hover { background: #fafbff; }
+
+  .col-time  { width: 68px; text-align: center !important; }
+  .col-screen { width: 32%; }
+  .col-vo    { width: 32%; }
+  .col-notes { width: 20%; }
+
+  .tc { text-align: center !important; }
+
+  /* ── תגיות ── */
+  .time-badge {
+    display: inline-block;
+    background: #1a56db;
+    color: white;
+    border-radius: 20px;
+    padding: 2px 9px;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  /* ── תוכן עמודות ── */
+  .screen-desc {
+    font-size: 12.5px;
+    color: #374151;
+  }
+  .screen-desc .action {
+    display: block;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 2px;
+  }
+  .screen-desc .detail {
+    color: #6b7280;
+    font-size: 11.5px;
+  }
+
+  /* מסך מדומה */
+  .mock-screen {
+    background: #0f172a;
+    color: #e2e8f0;
+    border-radius: 7px;
+    padding: 8px 11px;
+    font-family: monospace;
+    font-size: 11.5px;
+    line-height: 1.8;
+    margin-top: 6px;
+  }
+  .ms-label  { color: #94a3b8; font-size: 10.5px; display: block; margin-bottom: 2px; }
+  .ms-field  { color: #7dd3fc; }
+  .ms-value  { color: #86efac; }
+  .ms-btn    { background: #1d4ed8; color: white; border-radius: 4px; padding: 1px 8px; display: inline-block; font-size: 11px; margin-top: 3px; }
+  .ms-check  { color: #34d399; font-weight: 700; }
+  .ms-grey   { color: #64748b; }
+  .ms-pink   { color: #f9a8d4; }
+
+  /* קריינות */
+  .vo-text {
+    font-size: 12.5px;
+    font-style: italic;
+    color: #1e293b;
+    background: #f8fafc;
+    border-right: 3px solid #3b82f6;
+    padding: 7px 10px;
+    border-radius: 0 5px 5px 0;
+    line-height: 1.7;
+  }
+  .vo-text em {
+    display: block;
+    font-style: normal;
+    font-size: 11px;
+    color: #94a3b8;
+    margin-top: 4px;
+  }
+
+  /* הערות */
+  .note {
+    font-size: 11.5px;
+    color: #6b7280;
+    line-height: 1.7;
+  }
+  .ntag {
+    display: inline-block;
+    background: #e0e7ff;
+    color: #3730a3;
+    border-radius: 3px;
+    padding: 1px 6px;
+    font-size: 10px;
+    font-weight: 700;
+    margin-bottom: 3px;
+  }
+  .ntag-warn {
+    background: #fef3c7;
+    color: #92400e;
+  }
+  .ntag-green {
+    background: #d1fae5;
+    color: #065f46;
+  }
+
+  /* WA מוק-אפ */
+  .wa {
+    background: #dcf8c6;
+    border: 1px solid #a3d977;
+    border-radius: 8px;
+    padding: 7px 10px;
+    font-size: 11.5px;
+    margin-top: 5px;
+    line-height: 1.8;
+  }
+  .wa-h { font-weight: 700; color: #128c7e; display: block; }
+
+  /* גרף הסברה */
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+    font-size: 11px;
+    margin-top: 5px;
+    color: #374151;
+  }
+  .flow-step {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 4px;
+    padding: 2px 7px;
+    color: #1e40af;
+    font-weight: 600;
+  }
+  .flow-arrow { color: #94a3b8; }
+
+  /* סיכום בסוף */
+  .summary-box {
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-top: 32px;
+  }
+  .summary-box h3 { font-size: 15px; font-weight: 700; color: #14532d; margin-bottom: 14px; }
+  .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .sum-col h4 { font-size: 12px; font-weight: 700; color: #374151; margin-bottom: 7px; }
+  .sum-col ul { list-style: none; font-size: 12px; color: #4b5563; line-height: 1.9; }
+  .sum-col ul li::before { content: "✓ "; color: #22c55e; font-weight: 700; }
+
+  @media print {
+    body { background: white; padding: 0; }
+    .page { box-shadow: none; }
+    .step-header, .mock-screen, .wa, .time-badge { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="logo">callnik</div>
+    <div class="header-text">
+      <h1>תסריט טוטוריאל - "איך מגדירים Callnik מא' עד ת'"</h1>
+      <div class="header-meta">
+        <span>⏱ אורך: ~5 דקות</span>
+        <span>🎙 קריינות: ערי דניאל</span>
+        <span>📹 פורמט: Screen recording + קריינות</span>
+        <span>👤 קהל: לקוח חדש שרק נרשם</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="intro-box">
+    <strong>מה מכסה הטוטוריאל:</strong> הרשמה ← פרטי עסק ← תשלום ← קוד הפניה ← בחירת קול ← הגדרות מתקדמות ← מה קורה כשמגיעה שיחה ← איפה רואים את הסיכומים.<br>
+    <strong>סגנון:</strong> ערי מקליט את המסך + מדבר. ללא כתוביות חובה. ללא מצלמה על הפנים.
+  </div>
+
+
+  <!-- ══ שלב 1: הרשמה ══ -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">1</div>
+      <div class="step-title">הרשמה לאתר</div>
+      <div class="step-duration">⏱ 00:00 – 01:00</div>
+    </div>
+    <table>
+      <thead><tr>
+        <th class="col-time">זמן</th>
+        <th class="col-screen">מה רואים על המסך</th>
+        <th class="col-vo">מה אומרים (קריינות)</th>
+        <th class="col-notes">הערות</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="col-time tc"><span class="time-badge">0:00</span></td>
+          <td class="screen-desc">
+            <span class="action">callnik.com - דף הבית</span>
+            <span class="detail">גלילה קצרה, אחר כך לחיצה על "הצטרפות"</span>
+          </td>
+          <td><div class="vo-text">"שלום, אני ערי. בסרטון הזה נגדיר ביחד את Callnik - מתחילים מה-א' ועד לרגע שהמזכירה עונה בשמך. ייקח לנו בערך 5 דקות."</div></td>
+          <td class="note"><span class="ntag">Screen rec</span> להתחיל בדף הבית. לגלול ב-1-2 שניות כדי שיראו שזה אתר אמיתי.</td>
+        </tr>
+        <tr>
+          <td class="col-time tc"><span class="time-badge">0:15</span></td>
+          <td class="screen-desc">
+            <span class="action">דף /register - אפשרויות הרשמה</span>
+            <div class="mock-screen">
+              <span class="ms-label">▸ אפשרות 1</span>
+              <span class="ms-btn">הרשמה עם אימייל וסיסמה</span><br>
+              <span class="ms-label" style="margin-top:5px;">▸ אפשרות 2</span>
+              <span class="ms-btn" style="background:#374151;">הרשמה עם Google</span>
+            </div>
+          </td>
+          <td><div class="vo-text">"שתי אפשרויות - מייל וסיסמה, או Google. נבחר מייל. מכניסים מייל, בוחרים סיסמה, לוחצים 'המשך להגדרה'."</div></td>
+          <td class="note"><span class="ntag">צילום</span> לאחר כך מכניסים מייל + סיסמה ולוחצים. אפשר לטשטש את המייל בעריכה.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- ══ שלב 2: פרטי העסק (Onboarding) ══ -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">2</div>
+      <div class="step-title">פרטי העסק</div>
+      <div class="step-duration">⏱ 01:00 – 02:00</div>
+    </div>
+    <table>
+      <thead><tr>
+        <th class="col-time">זמן</th>
+        <th class="col-screen">מה רואים על המסך</th>
+        <th class="col-vo">מה אומרים (קריינות)</th>
+        <th class="col-notes">הערות</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="col-time tc"><span class="time-badge">1:00</span></td>
+          <td class="screen-desc">
+            <span class="action">דף /onboarding - טופס שלב 1</span>
+            <div class="mock-screen">
+              <span class="ms-field">שם פרטי:</span> <span class="ms-value">ישראל</span><br>
+              <span class="ms-field">שם משפחה:</span> <span class="ms-value">ישראלי</span><br>
+              <span class="ms-field">שם העסק:</span> <span class="ms-value">שרברבות ישראל</span><br>
+              <span class="ms-field">תחום עיסוק:</span> <span class="ms-value">שרברבות</span><br>
+              <span class="ms-field">מספר וואטסאפ:</span> <span class="ms-value">05X-XXXXXXX</span><br>
+              <span class="ms-field">חברה סלולרית:</span> <span class="ms-value">פלאפון ▾</span>
+            </div>
+          </td>
+          <td><div class="vo-text">"עכשיו ממלאים פרטים על העסק. שם, תחום עיסוק - זה מה שדנה תדע לומר ללקוחות. <br><br>חשוב: מספר הוואטסאפ - לשם יגיעו כל הסיכומים אחרי כל שיחה. ולבחור את חברת הסלולרי הנכונה - זה קריטי להגדרת ההפניה אחר כך."
+            <em>* לאחר מכן: "לחצו 'המשך'"</em>
+          </div></td>
+          <td class="note">
+            <span class="ntag-warn ntag">שים לב</span>
+            חברה סלולרית חייבת להיות מדויקת - משפיע על קוד ההפניה.
+            <br><br>
+            <span class="ntag">הדגש</span>
+            WA = לאן מגיעים הסיכומים.
+          </td>
+        </tr>
+        <tr>
+          <td class="col-time tc"><span class="time-badge">1:40</span></td>
+          <td class="screen-desc">
+            <span class="action">לחיצה על "המשך" ← עוברים לתשלום</span>
+          </td>
+          <td><div class="vo-text">"מקבלים את תנאי השימוש ולוחצים 'המשך'."</div></td>
+          <td class="note"><span class="ntag">מהיר</span> לא צריך להאריך כאן.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- ══ שלב 3: תשלום ══ -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">3</div>
+      <div class="step-title">תשלום - ₪1 לחודש ראשון</div>
+      <div class="step-duration">⏱ 02:00 – 02:40</div>
+    </div>
+    <table>
+      <thead><tr>
+        <th class="col-time">זמן</th>
+        <th class="col-screen">מה רואים על המסך</th>
+        <th class="col-vo">מה אומרים (קריינות)</th>
+        <th class="col-notes">הערות</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="col-time tc"><span class="time-badge">2:00</span></td>
+          <td class="screen-desc">
+            <span class="action">דף /payment - בחירת מסלול</span>
+            <div class="mock-screen">
+              <span class="ms-grey">Basic &nbsp;&nbsp;&nbsp;</span><span class="ms-pink">Pro</span><br>
+              <span class="ms-value">₪1 לחודש ראשון</span><br>
+              <span class="ms-grey">מחודש שני: ₪99 / ₪199 + מע"מ</span>
+            </div>
+          </td>
+          <td><div class="vo-text">"שני מסלולים. Basic - 60 שיחות, מזכירה + WhatsApp. Pro - אותו דבר ועוד קביעת פגישות ב-Google Calendar אוטומטית. <br><br>שניהם מתחילים ב-₪1 לחודש הראשון. בחרו, הכניסו פרטי כרטיס."</div></td>
+          <td class="note">
+            <span class="ntag">הסבר</span>
+            להסביר בבירור ההבדל Basic / Pro לפני שמכניסים כרטיס.
+          </td>
+        </tr>
+        <tr>
+          <td class="col-time tc"><span class="time-badge">2:30</span></td>
+          <td class="screen-desc">
+            <span class="action">טופס Cardcom - כרטיס אשראי</span>
+            <span class="detail">הכנסת מספר כרטיס + לחיצה על "שלם ₪1"</span>
+          </td>
+          <td><div class="vo-text">"ממלאים פרטי כרטיס ולוחצים 'שלם ₪1'. זה הסכום לחודש הראשון - מהחודש השני יחייב אוטומטית לפי המסלול."</div></td>
+          <td class="note"><span class="ntag-warn ntag">פרטיות</span> לטשטש מספר כרטיס בעריכה.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- ══ שלב 4: הפעלת ההפניה ══ -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">4</div>
+      <div class="step-title">הפעלת ההפניה - הצעד הכי חשוב</div>
+      <div class="step-duration">⏱ 02:40 – 03:30</div>
+    </div>
+    <table>
+      <thead><tr>
+        <th class="col-time">זמן</th>
+        <th class="col-screen">מה רואים על המסך</th>
+        <th class="col-vo">מה אומרים (קריינות)</th>
+        <th class="col-notes">הערות</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="col-time tc"><span class="time-badge">2:40</span></td>
+          <td class="screen-desc">
+            <span class="action">דף /setup - "הכל מוכן!"</span>
+            <span class="detail">הסבר מה הולך לקרות</span>
+          </td>
+          <td><div class="vo-text">"אחרי התשלום מגיעים לדף ההגדרה. פה קורה הקסם - Callnik מקצה לנו מספר ייעודי, ואנחנו צריכים להגיד לטלפון שלנו: 'אם אני לא עונה - תעביר לשם'."</div></td>
+          <td class="note"><span class="ntag">הסבר</span> להסביר בפשטות מה זה הפניה - לקוחות לא מכירים את המושג.</td>
+        </tr>
+        <tr>
+          <td class="col-time tc"><span class="time-badge">2:55</span></td>
+          <td class="screen-desc">
+            <span class="action">הכפתור הכחול: "הפעל את Callnik עכשיו"</span>
+            <div class="mock-screen">
+              <span class="ms-grey">הקוד שיחויג:</span><br>
+              <span class="ms-value" style="font-size:14px;font-weight:700;">*61*08XXXXXXX**20#</span><br><br>
+              <span class="ms-btn">📞 הפעל את Callnik עכשיו</span>
+            </div>
+          </td>
+          <td><div class="vo-text">"לוחצים על הכפתור הכחול. הטלפון יפתח אפליקציית חיוג וימיר קוד אוטומטית - לא צריך להקליד כלום."
+            <em>* לצלם גם את הטלפון הפיזי בזמן שמחייג</em>
+          </div></td>
+          <td class="note">
+            <span class="ntag-green ntag">מפתח</span>
+            זה הרגע הכי חשוב בכל הסרטון - להאיט ולהסביר.
+            <br><br>
+            <span class="ntag-warn ntag">אייפון</span>
+            אם לא עובד ב-4G - לעבור ל-3G, לחייג, לחזור ל-4G.
+          </td>
+        </tr>
+        <tr>
+          <td class="col-time tc"><span class="time-badge">3:15</span></td>
+          <td class="screen-desc">
+            <span class="action">הודעה: "הפניה הופעלה"</span>
+            <span class="detail">המסך מציג אישור + לינק ל-Dashboard</span>
+          </td>
+          <td><div class="vo-text">"מקבלים אישור - Callnik פועלת. מהרגע הזה, כל שיחה שלא נענה תוך 20 שניות - דנה עונה."</div></td>
+          <td class="note"><span class="ntag">הדגש</span> 20 שניות = 4-5 צלצולים לפני שדנה עונה.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- ══ שלב 5: הגדרות - בחירת קול ══ -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">5</div>
+      <div class="step-title">הגדרות - בחירת קול + פרטים</div>
+      <div class="step-duration">⏱ 03:30 – 04:15</div>
+    </div>
+    <table>
+      <thead><tr>
+        <th class="col-time">זמן</th>
+        <th class="col-screen">מה רואים על המסך</th>
+        <th class="col-vo">מה אומרים (קריינות)</th>
+        <th class="col-notes">הערות</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="col-time tc"><span class="time-badge">3:30</span></td>
+          <td class="screen-desc">
+            <span class="action">דף /settings - 6 פרצופי קולות</span>
+            <span class="detail">לחיצה על "שמע" ליד כל קול</span>
+          </td>
+          <td><div class="vo-text">"עכשיו הולכים לפי 'הגדרות'. פה בוחרים את הקול של המזכירה - יש 6 קולות עבריים. לוחצים על 'שמע' כדי לשמוע כל אחד לפני שמחליטים."</div></td>
+          <td class="note"><span class="ntag">הדגמה</span> לנגן 2-3 קולות בסרטון כדי שיראו את האינטראקציה.</td>
+        </tr>
+        <tr>
+          <td class="col-time tc"><span class="time-badge">3:50</span></td>
+          <td class="screen-desc">
+            <span class="action">בחירת קול + לחיצה על "שמירת שינויים"</span>
+            <span class="detail">הודעת "השינויים נשמרו" מופיעה</span>
+          </td>
+          <td><div class="vo-text">"בחרנו קול, לוחצים 'שמירת שינויים'. אפשר לשנות בכל עת - הלקוח לא שומע שהחלפנו."</div></td>
+          <td class="note"><span class="ntag">טיפ</span> לציין שאפשר לשנות קול מתי שרוצים.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- ══ שלב 6: Google Calendar (Pro) ══ -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">6</div>
+      <div class="step-title">חיבור Google Calendar (Pro בלבד)</div>
+      <div class="step-duration">⏱ 04:15 – 04:40 &nbsp;|&nbsp; <em style="font-size:11px;font-weight:400;">לדלג אם Basic</em></div>
+    </div>
+    <table>
+      <thead><tr>
+        <th class="col-time">זמן</th>
+        <th class="col-screen">מה רואים על המסך</th>
+        <th class="col-vo">מה אומרים (קריינות)</th>
+        <th class="col-notes">הערות</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="col-time tc"><span class="time-badge">4:15</span></td>
+          <td class="screen-desc">
+            <span class="action">Settings - סקציית Google Calendar</span>
+            <span class="detail">לחיצה על "חבר את Google Calendar"</span>
+          </td>
+          <td><div class="vo-text">"אם בחרתם Pro - יש כאן חיבור ל-Google Calendar. לוחצים, מאשרים ב-Google, ומכאן דנה יכולה גם לקבוע פגישות ישירות ביומן."</div></td>
+          <td class="note"><span class="ntag">Pro only</span> לדלג על שלב זה בגרסת Basic.</td>
+        </tr>
+        <tr>
+          <td class="col-time tc"><span class="time-badge">4:30</span></td>
+          <td class="screen-desc">
+            <span class="action">הגדרת שעות פעילות + ימים</span>
+            <div class="mock-screen">
+              <span class="ms-grey">שעות: </span><span class="ms-value">09:00</span><span class="ms-grey"> עד </span><span class="ms-value">18:00</span><br>
+              <span class="ms-grey">ימים: </span><span class="ms-value">א׳ ב׳ ג׳ ד׳ ה׳</span>
+            </div>
+          </td>
+          <td><div class="vo-text">"מגדירים שעות - דנה תציע פגישות רק בשעות האלה. לוחצים 'שמירה'."</div></td>
+          <td class="note"><span class="ntag">הסבר</span> חשוב שיבינו שהיומן מוגבל לשעות שהגדירו.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- ══ שלב 7: הדמיית שיחה ══ -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">7</div>
+      <div class="step-title">ככה נראית שיחה בפועל</div>
+      <div class="step-duration">⏱ 04:40 – 05:30</div>
+    </div>
+    <table>
+      <thead><tr>
+        <th class="col-time">זמן</th>
+        <th class="col-screen">מה רואים על המסך</th>
+        <th class="col-vo">מה אומרים (קריינות)</th>
+        <th class="col-notes">הערות</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="col-time tc"><span class="time-badge">4:40</span></td>
+          <td class="screen-desc">
+            <span class="action">הדגמה חיה: מחייגים למספר של העסק</span>
+            <span class="detail">ממתינים 20 שניות ← דנה עונה</span>
+            <div class="flow">
+              <div class="flow-step">מחייג</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-step">20 שניות</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-step">דנה עונה</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-step">WA מגיע</div>
+            </div>
+          </td>
+          <td>
+            <div class="vo-text">"עכשיו נראה איך זה עובד בפועל. אני מחייג למספר של העסק מטלפון שני - לא עונה - ורואים מה קורה."</div>
+            <div class="vo-text" style="margin-top:7px;border-color:#22c55e;">
+              <strong>[הקלטה אמיתית של השיחה עצמה]</strong><br>
+              דנה: "שלום, התקשרת ל..., אני דנה, במה אוכל לעזור?"<br>
+              ...שיחה מלאה...
+            </div>
+          </td>
+          <td class="note">
+            <span class="ntag-green ntag">חובה</span>
+            להדגים שיחה אמיתית - זה הרגע שמוכיח שהמוצר עובד.
+            <br><br>
+            <span class="ntag">צילום</span>
+            לצלם גם את המסך + גם את הטלפון בזמן השיחה.
+          </td>
+        </tr>
+        <tr>
+          <td class="col-time tc"><span class="time-badge">5:10</span></td>
+          <td class="screen-desc">
+            <span class="action">WhatsApp - הודעה מ-Callnik מגיעה</span>
+            <div class="wa">
+              <span class="wa-h">📲 Callnik</span>
+              שם: ישראל ישראלי<br>
+              בקשה: רוצה לתאם פגישה<br>
+              מספר: 05X-XXXXXXX<br>
+              <span style="color:#128c7e;">▶ האזן להקלטה</span>
+            </div>
+          </td>
+          <td><div class="vo-text">"תוך פחות מדקה - ההודעה מגיעה לוואטסאפ. שם, בקשה, מספר לחזרה. ולינק להקלטה המלאה של השיחה."</div></td>
+          <td class="note"><span class="ntag">מפתח</span> לחכות שתגיע ההודעה בזמן אמת בסרטון - יותר אמיתי.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- ══ שלב 8: Dashboard ══ -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">8</div>
+      <div class="step-title">הדשבורד - כל השיחות במקום אחד</div>
+      <div class="step-duration">⏱ 05:30 – 06:00</div>
+    </div>
+    <table>
+      <thead><tr>
+        <th class="col-time">זמן</th>
+        <th class="col-screen">מה רואים על המסך</th>
+        <th class="col-vo">מה אומרים (קריינות)</th>
+        <th class="col-notes">הערות</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="col-time tc"><span class="time-badge">5:30</span></td>
+          <td class="screen-desc">
+            <span class="action">דף /dashboard - רשימת שיחות</span>
+            <span class="detail">לחיצה על שיחה → פרטים מלאים</span>
+          </td>
+          <td><div class="vo-text">"בדשבורד רואים את כל השיחות - שם המתקשר, הבקשה, שעה. לוחצים על שיחה כדי לראות את הסיכום המלא ולהאזין להקלטה."</div></td>
+          <td class="note"><span class="ntag">מהיר</span> 30 שניות על הדשבורד מספיק - לא להאריך.</td>
+        </tr>
+        <tr>
+          <td class="col-time tc"><span class="time-badge">5:50</span></td>
+          <td class="screen-desc">
+            <span class="action">דף שיחה בודדת</span>
+            <span class="detail">סיכום + תמלול מלא + נגן הקלטה</span>
+          </td>
+          <td><div class="vo-text">"בכל שיחה יש את הסיכום הקצר, התמלול המלא, ונגן ההקלטה. הכל נשמר כאן לנצח."</div></td>
+          <td class="note"><span class="ntag">סיום</span> כאן מסיימים את הטוטוריאל.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- סיכום + סגירה -->
+  <div class="summary-box">
+    <h3>✅ סיכום - מה סיקרנו בטוטוריאל</h3>
+    <div class="summary-grid">
+      <div class="sum-col">
+        <h4>8 שלבים שעברנו:</h4>
+        <ul>
+          <li>הרשמה עם מייל / Google</li>
+          <li>מילוי פרטי העסק + WA + ספק סלולרי</li>
+          <li>תשלום ₪1 לחודש ראשון</li>
+          <li>הפעלת הפניה בלחיצה אחת</li>
+          <li>בחירת קול מזכירה (6 אפשרויות)</li>
+          <li>חיבור Google Calendar (Pro)</li>
+          <li>הדגמת שיחה אמיתית בזמן אמת</li>
+          <li>סיור בדשבורד</li>
+        </ul>
+      </div>
+      <div class="sum-col">
+        <h4>סגירת סרטון - מה לומר:</h4>
+        <ul>
+          <li>"כל השאלות - mail@callnik.com"</li>
+          <li>"ביטול הפניה: ##61# מהטלפון"</li>
+          <li>"שינוי קול / הגדרות - מהדשבורד"</li>
+          <li>"מסלול מתחלף - מדף 'חיוב'"</li>
+          <li>callnik.com</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
