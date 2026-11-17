@@ -15,6 +15,7 @@ function WhatsAppIcon({ className }: { className?: string }) {
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import ChatWidget from '@/components/ChatWidget'
+import VoicesSection from '@/components/VoicesSection'
 
 const industries = [
   { icon: Wrench,    label: 'שרברבים ואינסטלטורים' },
@@ -172,33 +173,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Voices */}
-        <section className="py-16 px-4 bg-white border-t border-gray-100">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">תבחר קול שמתאים לעסק שלך</h2>
-            <p className="text-gray-500 mb-10">6 קולות עבריים טבעיים - תשמע כל אחד לפני שתחליט</p>
-            <div className="grid grid-cols-3 md:grid-cols-6 gap-6">
-              {[
-                { name: 'דנה',  gender: 'f' },
-                { name: 'עלמה', gender: 'f' },
-                { name: 'נועה', gender: 'f' },
-                { name: 'עדן',  gender: 'f' },
-                { name: 'קובי', gender: 'm' },
-                { name: 'יואב', gender: 'm' },
-              ].map(({ name, gender }) => (
-                <div key={name} className="flex flex-col items-center gap-3">
-                  <div className="w-24 h-24 rounded-full overflow-hidden shadow-lg border-2 border-white ring-2 ring-gray-100">
-                    <Image src={`/voices/photo-${name}.jpg`} alt={name} width={96} height={96} className="object-cover w-full h-full" />
-                  </div>
-                  <div>
-                    <p className="text-gray-900 font-semibold text-sm">{name}</p>
-                    <p className="text-gray-400 text-xs">{gender === 'f' ? 'קול נשי' : 'קול גברי'}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <VoicesSection />
 
         {/* Pricing anchor */}
         <section className="py-16 px-4 bg-white border-y border-gray-100">
