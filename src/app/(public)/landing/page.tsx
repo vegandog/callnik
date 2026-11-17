@@ -110,72 +110,83 @@ export default function LandingPage() {
         }
       `}</style>
       <section className="bg-white border-b border-gray-100 relative overflow-hidden">
-        {/* Desktop BF banner - absolute left of center */}
-        <div
-          className="absolute hidden md:block pointer-events-none"
-          style={{
-            left: 'calc(50% - 520px)',
-            top: '50%',
-            opacity: 0,
-            animation: 'bannerPop 0.9s cubic-bezier(0.16,1,0.3,1) 1s forwards, bannerGlow 2.5s ease-in-out 1.9s infinite',
-          }}
-        >
-          <Image src="/banner-bf.png" alt="Black Friday - חודש ראשון ב-₪1" width={270} height={270} style={{ objectFit: 'contain' }} priority />
+        <div className="max-w-5xl mx-auto px-6 py-12 md:py-16">
+          <div className="flex flex-col md:flex-row-reverse items-center gap-8 md:gap-14">
+
+            {/* Text side */}
+            <div className="flex-1 text-center md:text-right">
+              {/* Mobile BF banner */}
+              <div
+                className="flex justify-center mb-4 md:hidden"
+                style={{
+                  opacity: 0,
+                  animation: 'bannerPopMobile 0.7s cubic-bezier(0.34,1.56,0.64,1) 1s forwards, bannerGlow 2.5s ease-in-out 1.7s infinite',
+                }}
+              >
+                <Image src="/banner-bf.png" alt="Black Friday - חודש ראשון ב-₪1" width={150} height={150} style={{ objectFit: 'contain' }} />
+              </div>
+
+              <div className="flex justify-center md:justify-end mb-6">
+                <Image src="/callnik-logo.png" alt="Callnik" width={160} height={55} style={{ objectFit: 'contain' }} priority />
+              </div>
+              <h1 className="text-5xl md:text-6xl font-black leading-tight mb-5 text-gray-900 tracking-tight">
+                פספסת שיחה?<br />
+                <span className="text-[#22C55E]">הלקוח כבר אצל המתחרה.</span>
+              </h1>
+              <p className="text-gray-500 text-lg mb-8 leading-relaxed">
+                Callnik עונה לכל שיחה שלא הצלחת לקחת, לוקחת הודעה,<br className="hidden md:block" />
+                ושולחת לך סיכום מיידי בוואטסאפ.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-end mb-4">
+                <Link
+                  href="/register?intro=1"
+                  className="flex flex-col items-center bg-[#22C55E] hover:bg-[#16A34A] text-white px-9 py-4 rounded-2xl transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_0_32px_rgba(34,197,94,0.6)] shadow-md sm:w-auto w-full"
+                >
+                  <span className="text-[11px] font-bold bg-white/20 px-2.5 py-0.5 rounded-full mb-2">מזכירה + וואטסאפ</span>
+                  <span className="font-black text-2xl leading-none mb-1">חודש ראשון ב-₪1</span>
+                  <span className="text-sm opacity-70 line-through font-normal">₪99 + מע&quot;מ לחודש</span>
+                </Link>
+                <Link href="/register?intro=1&tier=pro" className="hidden">
+                  <span>Pro</span>
+                </Link>
+              </div>
+              <p className="text-sm text-gray-400 mb-2">
+                רוצה גם ניהול יומן?{' '}
+                <Link href="/register?intro=1&tier=pro" className="text-pink-500 font-semibold underline">Pro ב-₪1</Link>
+                {' '}<span className="text-gray-300 text-xs">(אח&quot;כ ₪199/חודש)</span>
+              </p>
+              <p className="text-orange-500 text-sm font-bold mt-1">⚡ מחיר ₪1 בתוקף לנובמבר 2026 בלבד</p>
+              <p className="text-gray-400 text-sm mt-2">ביטול בכל עת | המחירים לפני מע&quot;מ</p>
+              <p className="text-gray-300 text-xs mt-1">* מחיר הניסיון ₪1 חל פעם אחת בלבד</p>
+            </div>
+
+            {/* Image side */}
+            <div className="flex-1 w-full relative">
+              <div
+                className="absolute -top-4 -right-4 hidden md:block pointer-events-none z-10"
+                style={{
+                  opacity: 0,
+                  animation: 'bannerPop 0.9s cubic-bezier(0.16,1,0.3,1) 1s forwards, bannerGlow 2.5s ease-in-out 1.9s infinite',
+                }}
+              >
+                <Image src="/banner-bf.png" alt="Black Friday - חודש ראשון ב-₪1" width={200} height={200} style={{ objectFit: 'contain' }} priority />
+              </div>
+              <Image
+                src="/hero-bf.jpg"
+                alt="פספסת שיחה? הלקוח כבר אצל המתחרה"
+                width={600}
+                height={400}
+                className="rounded-2xl shadow-2xl w-full h-auto object-cover"
+                priority
+              />
+            </div>
+
+          </div>
         </div>
 
-        <div className="max-w-2xl mx-auto px-6 py-16 text-center">
-          {/* Mobile BF banner */}
-          <div
-            className="flex justify-center mb-4 md:hidden"
-            style={{
-              opacity: 0,
-              animation: 'bannerPopMobile 0.7s cubic-bezier(0.34,1.56,0.64,1) 1s forwards, bannerGlow 2.5s ease-in-out 1.7s infinite',
-            }}
-          >
-            <Image src="/banner-bf.png" alt="Black Friday - חודש ראשון ב-₪1" width={170} height={170} style={{ objectFit: 'contain' }} />
-          </div>
-
-          <div className="flex justify-center mb-6">
-            <Image src="/callnik-logo.png" alt="Callnik" width={160} height={55} style={{ objectFit: 'contain' }} priority />
-          </div>
-          <h1 className="text-5xl md:text-6xl font-black leading-tight mb-5 text-gray-900 tracking-tight">
-            פספסת שיחה?<br />
-            <span className="text-[#22C55E]">הלקוח כבר אצל המתחרה.</span>
-          </h1>
-          <p className="text-gray-500 text-lg mb-8 leading-relaxed">
-            Callnik עונה לכל שיחה שלא הצלחת לקחת, לוקחת הודעה,<br className="hidden md:block" />
-            ושולחת לך סיכום מיידי בוואטסאפ.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-4">
-            <Link
-              href="/register?intro=1"
-              className="flex flex-col items-center bg-[#22C55E] hover:bg-[#16A34A] text-white px-9 py-4 rounded-2xl transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_0_32px_rgba(34,197,94,0.6)] shadow-md sm:w-auto w-full"
-            >
-              <span className="text-[11px] font-bold bg-white/20 px-2.5 py-0.5 rounded-full mb-2">מזכירה + וואטסאפ</span>
-              <span className="font-black text-2xl leading-none mb-1">חודש ראשון ב-₪1</span>
-              <span className="text-sm opacity-70 line-through font-normal">₪99 + מע&quot;מ לחודש</span>
-            </Link>
-            <Link
-              href="/register?intro=1&tier=pro"
-              className="hidden"
-            >
-              <span className="bg-yellow-400 text-gray-900 text-[11px] font-black px-3 py-1 rounded-full mb-2.5 tracking-wide">📅 קביעת פגישות ביומן</span>
-              <span className="font-black text-2xl leading-none mb-1">חודש ראשון ב-₪1</span>
-              <span className="text-xs opacity-80 mb-1">מזכירה + וואטסאפ</span>
-              <span className="text-sm opacity-60 line-through font-normal">₪199 + מע&quot;מ לחודש</span>
-            </Link>
-          </div>
-          <p className="text-sm text-gray-400 mb-2">
-            רוצה גם ניהול יומן?{' '}
-            <Link href="/register?intro=1&tier=pro" className="text-pink-500 font-semibold underline">Pro ב-₪1</Link>
-            {' '}<span className="text-gray-300 text-xs">(אח&quot;כ ₪199/חודש)</span>
-          </p>
-          <p className="text-orange-500 text-sm font-bold mt-1">⚡ מחיר ₪1 בתוקף לנובמבר 2026 בלבד</p>
-          <p className="text-gray-400 text-sm mt-2">ביטול בכל עת | המחירים לפני מע&quot;מ</p>
-          <p className="text-gray-300 text-xs mt-1">* מחיר הניסיון ₪1 חל פעם אחת בלבד</p>
-
-          {/* Try it yourself - phone CTA */}
-          <div className="mt-10 bg-gradient-to-br from-[#f0fdf4] to-[#dcfce7] border-2 border-[#22C55E] rounded-2xl px-7 py-5 inline-block">
+        {/* Try it yourself - phone CTA */}
+        <div className="pb-12 flex justify-center">
+          <div className="bg-gradient-to-br from-[#f0fdf4] to-[#dcfce7] border-2 border-[#22C55E] rounded-2xl px-7 py-5 inline-block">
             <p className="text-gray-800 font-bold text-base mb-3">נסה בעצמך - דבר עם דנה עכשיו</p>
             <a
               href="tel:083762282"
