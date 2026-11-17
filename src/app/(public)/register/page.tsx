@@ -106,8 +106,8 @@ export default function RegisterPage() {
             <Image
               src="/banner-bf2.png"
               alt="Black Friday - חודש ראשון ב-₪1"
-              width={260}
-              height={260}
+              width={230}
+              height={230}
               className="relative z-10 bf-shake"
               priority
             />
@@ -221,8 +221,8 @@ export default function RegisterPage() {
         /* Wrapper */
         .bf-wrap {
           position: relative;
-          width: 260px;
-          height: 260px;
+          width: 230px;
+          height: 230px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -248,8 +248,8 @@ export default function RegisterPage() {
         .bf-img-wrap {
           position: relative;
           z-index: 2;
-          width: 260px;
-          height: 260px;
+          width: 230px;
+          height: 230px;
           display: flex;
           align-items: center;
           justify-content: center;
