@@ -149,7 +149,7 @@ export default function LandingPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-4">
             <Link
               href="/register?intro=1"
-              className="flex flex-col items-center bg-[#22C55E] hover:bg-[#16A34A] text-white px-9 py-4 rounded-2xl transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_0_32px_rgba(34,197,94,0.6)] shadow-md"
+              className="flex flex-col items-center bg-[#22C55E] hover:bg-[#16A34A] text-white px-9 py-4 rounded-2xl transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_0_32px_rgba(34,197,94,0.6)] shadow-md sm:w-auto w-full"
             >
               <span className="text-[11px] font-bold bg-white/20 px-2.5 py-0.5 rounded-full mb-2">מזכירה + וואטסאפ</span>
               <span className="font-black text-2xl leading-none mb-1">חודש ראשון ב-₪1</span>
@@ -157,7 +157,7 @@ export default function LandingPage() {
             </Link>
             <Link
               href="/register?intro=1&tier=pro"
-              className="flex flex-col items-center text-white px-9 py-4 rounded-2xl transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_0_32px_rgba(236,72,153,0.6)] shadow-md bg-gradient-to-br from-[#ec4899] to-[#a855f7] hover:from-[#db2777] hover:to-[#9333ea]"
+              className="flex flex-col items-center text-white px-9 py-4 rounded-2xl transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_0_32px_rgba(236,72,153,0.6)] shadow-md bg-gradient-to-br from-[#ec4899] to-[#a855f7] hover:from-[#db2777] hover:to-[#9333ea] sm:w-auto sm:flex hidden"
             >
               <span className="bg-yellow-400 text-gray-900 text-[11px] font-black px-3 py-1 rounded-full mb-2.5 tracking-wide">📅 קביעת פגישות ביומן</span>
               <span className="font-black text-2xl leading-none mb-1">חודש ראשון ב-₪1</span>
@@ -165,6 +165,10 @@ export default function LandingPage() {
               <span className="text-sm opacity-60 line-through font-normal">₪199 + מע&quot;מ לחודש</span>
             </Link>
           </div>
+          <p className="text-sm text-gray-400 sm:hidden mb-2">
+            רוצה גם ניהול יומן?{' '}
+            <Link href="/register?intro=1&tier=pro" className="text-pink-500 font-semibold underline">Pro ב-₪1</Link>
+          </p>
           <p className="text-orange-500 text-sm font-bold mt-1">⚡ מחיר ₪1 בתוקף לנובמבר 2026 בלבד</p>
           <p className="text-gray-400 text-sm mt-2">ביטול בכל עת | המחירים לפני מע&quot;מ</p>
           <p className="text-gray-300 text-xs mt-1">* מחיר הניסיון ₪1 חל פעם אחת בלבד</p>

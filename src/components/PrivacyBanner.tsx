@@ -25,27 +25,23 @@ export default function PrivacyBanner() {
         left: 0,
         right: 0,
         zIndex: 9998,
-        background: 'rgba(15,23,42,0.5)',
-        backdropFilter: 'blur(8px)',
-        WebkitBackdropFilter: 'blur(8px)',
-        color: 'rgba(255,255,255,.92)',
-        padding: '16px 24px',
+        background: 'rgba(15,23,42,0.92)',
+        color: 'rgba(255,255,255,.8)',
+        padding: '10px 16px',
         display: 'flex',
-        flexDirection: 'column',
+        flexWrap: 'wrap',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: '14px',
+        gap: '8px 16px',
         textAlign: 'center',
-        boxShadow: '0 -4px 24px rgba(0,0,0,.2)',
+        boxShadow: '0 -2px 12px rgba(0,0,0,.3)',
       }}
     >
-      <p style={{ fontSize: 14, lineHeight: 1.6, margin: 0, maxWidth: 860 }}>
-        על ידי המשך השימוש באתר שלנו, אתה מאשר כי אתה מקבל את{' '}
-        <Link href="/privacy" style={{ color: '#67e8f9', textDecoration: 'underline' }}>מדיניות הפרטיות</Link>
-        {' '}שלנו עבור האתר ואת{' '}
-        <Link href="/terms" style={{ color: '#67e8f9', textDecoration: 'underline', whiteSpace: 'nowrap' }}>תנאי השימוש</Link>
-        .<br />
-        אנו גם משתמשים בעוגיות כדי לספק לך את החוויה הטובה ביותר האפשרית באתר האינטרנט שלנו.
+      <p style={{ fontSize: 12, lineHeight: 1.4, margin: 0 }}>
+        אנו משתמשים בעוגיות.{' '}
+        <Link href="/privacy" style={{ color: '#67e8f9', textDecoration: 'underline' }}>מדיניות פרטיות</Link>
+        {' '}|{' '}
+        <Link href="/terms" style={{ color: '#67e8f9', textDecoration: 'underline' }}>תנאי שימוש</Link>
       </p>
       <button
         onClick={accept}
@@ -53,15 +49,16 @@ export default function PrivacyBanner() {
           background: '#0077b6',
           color: '#fff',
           border: 'none',
-          padding: '10px 28px',
-          borderRadius: 10,
-          fontSize: 14,
+          padding: '5px 16px',
+          borderRadius: 6,
+          fontSize: 12,
           fontWeight: 700,
           cursor: 'pointer',
           whiteSpace: 'nowrap',
+          flexShrink: 0,
         }}
       >
-        הבנתי, אני מאשר
+        הבנתי
       </button>
     </div>
   )
