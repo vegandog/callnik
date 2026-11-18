@@ -246,10 +246,7 @@ const html = `<!DOCTYPE html><html class="dark" dir="rtl" lang="he"><head>
 <span class="inline-flex items-center px-2.5 py-1 rounded-full bg-[#ff007f]/15 border border-[#ff007f]/30 text-[#ff4a8d] text-xs font-black tracking-wider uppercase">BLACK FRIDAY</span>
 </div>
 <div class="flex items-center gap-3 sm:gap-4">
-<a class="hidden sm:inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-[#1c1b21] hover:bg-[#25242d] border border-[#2d2a33] text-sm font-semibold text-[#e5e1e4] transition-colors" href="tel:083762282">
-<span style="color:#ff007f">📞</span>
-<span dir="ltr">08-376-2282</span>
-</a>
+
 <a class="hidden sm:inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-full bg-gradient-to-l from-[#ff007f] to-[#ff4a8d] text-white text-sm font-extrabold shadow-[0_0_20px_rgba(255,0,127,0.35)] hover:shadow-[0_0_25px_rgba(255,0,127,0.55)] hover:scale-[1.02] active:scale-95 transition-all" href="/register?intro=1">
 <span>חודש ב-₪1 בלבד</span>
 </a>
@@ -276,7 +273,7 @@ const html = `<!DOCTYPE html><html class="dark" dir="rtl" lang="he"><head>
 <span class="text-transparent bg-clip-text bg-gradient-to-l from-[#ff007f] via-[#ff4a8d] to-[#ff9ebb]">
               הלקוח כבר סגר אצל המתחרה.
             </span>
-</h1><div class="w-full text-right mt-3 mb-2 overflow-visible"><span class="block font-black text-white tracking-tight leading-tight whitespace-nowrap drop-shadow-md select-none max-w-full" style="font-size: clamp(28px, 4.3vw, 58px);">רוצה להפסיק לפספס לקוחות?</span></div>
+</h1><div class="w-full text-right mt-2 mb-2"><span class="block font-bold text-[#c7c2c7] tracking-tight leading-tight" style="font-size: clamp(18px, 2.5vw, 30px);">רוצה להפסיק לפספס לקוחות?</span></div>
 <!-- Sharp 1-Sentence Subtitle -->
 <p class="text-base sm:text-lg lg:text-xl text-[#c7c2c7] leading-relaxed max-w-[620px] font-medium">
 <strong class="text-white font-bold">Callnik</strong> עונה במקומך לשיחות שלא הספקת לענות, מדברת עם הלקוח בעברית אנושית שוטפת, ושולחת סיכום מלא לוואטסאפ תוך שניות.
@@ -286,7 +283,6 @@ const html = `<!DOCTYPE html><html class="dark" dir="rtl" lang="he"><head>
 <a class="btn-elevated animate-neon-pulse inline-flex items-center justify-center gap-3 px-8 py-5 rounded-full bg-gradient-to-l from-[#ff007f] to-[#ff4a8d] text-white text-xl sm:text-2xl font-black shadow-[0_0_35px_rgba(255,0,127,0.5)] hover:shadow-[0_0_50px_rgba(255,0,127,0.8)] transition-all group w-full text-center" href="/register?intro=1">
 <span>קח חודש ראשון ב-₪1 בלבד!</span>
 </a>
-<a class="btn-elevated inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-[#1c1b21] border border-[#2d2a33] hover:border-[#ff007f]/60 text-white text-lg font-bold w-full text-center transition-all" href="tel:083762282"><span>📞</span><span dir="ltr">08-376-2282</span></a>
 
 </div>
 <!-- Micro-Trust Points -->
@@ -489,32 +485,32 @@ const html = `<!DOCTYPE html><html class="dark" dir="rtl" lang="he"><head>
 <!-- Item 1 -->
 <details class="group rounded-2xl bg-[#141418] border border-[#2d2a33] overflow-hidden transition-all duration-300 hover:border-[#ff007f]/50 hover:bg-[#181820] reveal-item is-revealed" style="transition-delay: 50ms;">
 <summary class="flex items-center justify-between p-5 cursor-pointer list-none select-none text-right">
-<span class="text-base sm:text-lg font-bold text-white group-hover:text-[#ff4a8d] transition-colors">מי מגדיר את השירות?</span>
+<span class="text-base sm:text-lg font-bold text-white group-hover:text-[#ff4a8d] transition-colors">מי מגדיר את השירות על הקו שלי?</span>
 <span class="material-symbols-outlined text-[#ff4a8d] faq-chevron text-[24px]">expand_more</span>
 </summary>
 <div class="px-5 pb-5 text-sm sm:text-base text-[#c7c2c7] leading-relaxed border-t border-[#201f25] pt-3">
-        אתה, דרך הפאנל שלנו. ברוב המקרים גומרים בפחות מ-10 דקות.
-      </div>
+אתה, דרך הפאנל שלנו. זה פשוט בצורה שתפתיע אותך - ברוב המקרים גומרים בפחות מ-10 דקות. ואם נתקעת איפשהו, תכתוב לנו ונעבור על זה ביחד :)
+</div>
 </details>
 <!-- Item 2 -->
 <details class="group rounded-2xl bg-[#141418] border border-[#2d2a33] overflow-hidden transition-all duration-300 hover:border-[#ff007f]/50 hover:bg-[#181820] reveal-item is-revealed" style="transition-delay: 100ms;">
 <summary class="flex items-center justify-between p-5 cursor-pointer list-none select-none text-right">
-<span class="text-base sm:text-lg font-bold text-white group-hover:text-[#ff4a8d] transition-colors">האם צריך להחליף מספר?</span>
+<span class="text-base sm:text-lg font-bold text-white group-hover:text-[#ff4a8d] transition-colors">האם אני צריך להחליף מספר טלפון?</span>
 <span class="material-symbols-outlined text-[#ff4a8d] faq-chevron text-[24px]">expand_more</span>
 </summary>
 <div class="px-5 pb-5 text-sm sm:text-base text-[#c7c2c7] leading-relaxed border-t border-[#201f25] pt-3">
-        לא. המספר שלך נשאר בדיוק כמו שהוא.
-      </div>
+לא. המספר שלך נשאר בדיוק כמו שהוא. Callnik נכנסת לתמונה רק כשאתה לא עונה - הלקוח ידע שדיבר עם מישהו, לאו דווקא שזה היה AI.
+</div>
 </details>
 <!-- Item 3 -->
 <details class="group rounded-2xl bg-[#141418] border border-[#2d2a33] overflow-hidden transition-all duration-300 hover:border-[#ff007f]/50 hover:bg-[#181820] reveal-item is-revealed" style="transition-delay: 150ms;">
 <summary class="flex items-center justify-between p-5 cursor-pointer list-none select-none text-right">
-<span class="text-base sm:text-lg font-bold text-white group-hover:text-[#ff4a8d] transition-colors">כמה זמן ההגדרה?</span>
+<span class="text-base sm:text-lg font-bold text-white group-hover:text-[#ff4a8d] transition-colors">כמה זמן לוקחת ההגדרה?</span>
 <span class="material-symbols-outlined text-[#ff4a8d] faq-chevron text-[24px]">expand_more</span>
 </summary>
 <div class="px-5 pb-5 text-sm sm:text-base text-[#c7c2c7] leading-relaxed border-t border-[#201f25] pt-3">
-        5-10 דקות בפעם הראשונה.
-      </div>
+בין 5 ל-10 דקות בפעם הראשונה. בוחרים קול, כותבים כמה מילים על העסק - ומוכנים. לא צריך טכנאי, לא צריך לתאם עם בזק, כלום.
+</div>
 </details>
 <!-- Item 4 -->
 <details class="group rounded-2xl bg-[#141418] border border-[#2d2a33] overflow-hidden transition-all duration-300 hover:border-[#ff007f]/50 hover:bg-[#181820] reveal-item is-revealed" style="transition-delay: 200ms;">
@@ -523,38 +519,38 @@ const html = `<!DOCTYPE html><html class="dark" dir="rtl" lang="he"><head>
 <span class="material-symbols-outlined text-[#ff4a8d] faq-chevron text-[24px]">expand_more</span>
 </summary>
 <div class="px-5 pb-5 text-sm sm:text-base text-[#c7c2c7] leading-relaxed border-t border-[#201f25] pt-3">
-        ממשיכים לענות. בסוף החודש 99 אגורות על כל שיחה מעל 60.
-      </div>
+ממשיכים לענות כמו תמיד, בלי שום הפרעה. בסוף החודש מוסיפים 99 אגורות על כל שיחה מעל 60. עסק עם 80 שיחות ישלם בסך הכל ₪118.80. לרוב העסקים הקטנים זה בכלל לא מגיע לזה.
+</div>
 </details>
 <!-- Item 5 -->
 <details class="group rounded-2xl bg-[#141418] border border-[#2d2a33] overflow-hidden transition-all duration-300 hover:border-[#ff007f]/50 hover:bg-[#181820] reveal-item is-revealed" style="transition-delay: 250ms;">
 <summary class="flex items-center justify-between p-5 cursor-pointer list-none select-none text-right">
-<span class="text-base sm:text-lg font-bold text-white group-hover:text-[#ff4a8d] transition-colors">אפשר לבטל?</span>
+<span class="text-base sm:text-lg font-bold text-white group-hover:text-[#ff4a8d] transition-colors">האם אפשר לבטל?</span>
 <span class="material-symbols-outlined text-[#ff4a8d] faq-chevron text-[24px]">expand_more</span>
 </summary>
 <div class="px-5 pb-5 text-sm sm:text-base text-[#c7c2c7] leading-relaxed border-t border-[#201f25] pt-3">
-        כן, בכל עת. מייל אחד, בלי שאלות.
-      </div>
+כן, בכל עת. מייל אחד, ביטול בלי שאלות ובלי קנסות. אנחנו לא מאמינים בחוזים שמחזיקים אנשים בכוח. שים לב: מחיר ההיכרות ₪1 ניתן פעם אחת בלבד - חזרה לאחר ביטול מתבצעת במחיר המלא ₪99/חודש.
+</div>
 </details>
 <!-- Item 6 -->
 <details class="group rounded-2xl bg-[#141418] border border-[#2d2a33] overflow-hidden transition-all duration-300 hover:border-[#ff007f]/50 hover:bg-[#181820] reveal-item is-revealed" style="transition-delay: 300ms;">
 <summary class="flex items-center justify-between p-5 cursor-pointer list-none select-none text-right">
-<span class="text-base sm:text-lg font-bold text-white group-hover:text-[#ff4a8d] transition-colors">המזכירה יכולה לקבוע פגישות?</span>
+<span class="text-base sm:text-lg font-bold text-white group-hover:text-[#ff4a8d] transition-colors">האם המזכירה יכולה לקבוע פגישות?</span>
 <span class="material-symbols-outlined text-[#ff4a8d] faq-chevron text-[24px]">expand_more</span>
 </summary>
 <div class="px-5 pb-5 text-sm sm:text-base text-[#c7c2c7] leading-relaxed border-t border-[#201f25] pt-3">
-        כן. מחברים Google Calendar מהפאנל.
-      </div>
+כן. מחברים את יומן Google מהפאנל - ואז המזכירה תציע ללקוח לקבוע פגישה ישירות. הפגישה נרשמת ביומן אוטומטית, וסיכום מגיע לוואטסאפ כרגיל.
+</div>
 </details>
 <!-- Item 7 -->
 <details class="group rounded-2xl bg-[#141418] border border-[#2d2a33] overflow-hidden transition-all duration-300 hover:border-[#ff007f]/50 hover:bg-[#181820] reveal-item is-revealed" style="transition-delay: 350ms;">
 <summary class="flex items-center justify-between p-5 cursor-pointer list-none select-none text-right">
-<span class="text-base sm:text-lg font-bold text-white group-hover:text-[#ff4a8d] transition-colors">באיזה קול?</span>
+<span class="text-base sm:text-lg font-bold text-white group-hover:text-[#ff4a8d] transition-colors">באיזה קול דנה מדברת עם הלקוחות שלי?</span>
 <span class="material-symbols-outlined text-[#ff4a8d] faq-chevron text-[24px]">expand_more</span>
 </summary>
 <div class="px-5 pb-5 text-sm sm:text-base text-[#c7c2c7] leading-relaxed border-t border-[#201f25] pt-3">
-        6 קולות עבריים לבחירה - שומעים לפני שמחליטים.
-      </div>
+יש 6 קולות עבריים לבחירה - 4 נשיים ו-2 גבריים, שונים בצביון ובאופי. לפני שמחליטים, שומעים כל אחד בפועל. מה שנשמע הכי טבעי לעסק שלך - זה מה שלוקחים.
+</div>
 </details>
 </div>
 </section>
