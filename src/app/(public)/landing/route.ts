@@ -60,7 +60,7 @@ const html = `<!DOCTYPE html><html class="dark" dir="rtl" lang="he"><head>
 <section class="relative z-10 w-full max-w-[1200px] mx-auto px-5 sm:px-8 py-16 border-t border-[#201f25]">
 <!-- Section Title & Subtitle -->
 <div class="text-center max-w-2xl mx-auto mb-12 flex flex-col gap-2 reveal-item is-revealed">
-<h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight">נסה בעצמך - דבר עם דנה עכשיו:</h2>
+<h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight">נסה בעצמך -<br>דבר עם דנה עכשיו:</h2>
 
 <div class="pt-4 flex justify-center"><a class="btn-elevated inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full bg-[#1c1b21] hover:bg-[#25242d] border-2 border-[#25D366]/60 hover:border-[#25D366] text-white text-base sm:text-lg font-bold transition-all shadow-[0_0_25px_rgba(34,197,94,0.25)] hover:shadow-[0_0_35px_rgba(34,197,94,0.45)]" href="tel:083762282"><span class="material-symbols-outlined text-[#22C55E] text-[22px] animate-bounce" style="animation-duration: 2s;">phone_in_talk</span><span dir="ltr" class="font-mono text-2xl sm:text-3xl font-extrabold tracking-wide text-white">08-3762282</span></a></div></div>
 <!-- Videos Grid: 16:9 Landscape + 9:16 Portrait -->
