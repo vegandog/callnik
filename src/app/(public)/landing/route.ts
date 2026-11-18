@@ -538,21 +538,46 @@ const html = `<!DOCTYPE html><html class="dark" dir="rtl" lang="he"><head>
 <span>אני רוצה להצטרף עכשיו ב-₪1</span>
 <span class="material-symbols-outlined text-[22px] transition-transform duration-300 group-hover:-translate-x-1.5">arrow_back</span>
 </a>
-<a class="inline-flex items-center gap-2 text-sm sm:text-base font-semibold text-[#c7c2c7] hover:text-white transition-all duration-200 hover:scale-105" href="tel:083762282">
-<span class="material-symbols-outlined text-[#ff007f] text-[18px] animate-pulse">call</span>
-<span dir="ltr" class="font-mono text-2xl sm:text-3xl font-extrabold tracking-wide text-white">08-376-2282</span>
-</a>
 </div>
 </div>
 </section>
 </main>
 <!-- FOOTER -->
-<footer dir="rtl" style="background:#0a0a0c;border-top:1px solid #1c1b21;padding:2rem 1.25rem 1.5rem;font-family:Rubik,sans-serif;">
-<div style="max-width:900px;margin:0 auto;">
-  <p style="font-size:0.72rem;color:#555;line-height:1.75;text-align:right;">
-    <span style="font-weight:600;color:#666;">הגבלת אחריות:</span> הגבלת אחריות: השירות מסופק כפי שהוא (as-is), ללא אחריות לשלמות המידע, לדיוקו או לזמינות רציפה. עיבוד השיחות מבוסס על בינה מלאכותית ועשוי להכיל שגיאות בתמלול, באיות שמות, במספרי טלפון, או בפרטים שנמסרו בעל-פה על ידי המתקשר. Callnik אינה מאמתת מידע שמסרו מתקשרים ואינה אחראית לכל נזק הנובע מהסתמכות על פרטים אלה. תגובות הנציגה הווירטואלית מבוססות על AI ועשויות להכיל שגיאות, אי-דיוקים, או מידע שאינו עדכני על העסק — Callnik אינה אחראית לנזק שיגרם מהסתמכות על תשובות הנציגה. הודעה תגיע לבעל העסק בכפוף לכך שהמתקשר מסר פרטי יצירת קשר. Callnik לא תישא באחריות לשיחות שלא הגיעו ליעדן, לכשלי תשתיות טלפוניה, לשיבושים אצל ספקי צד שלישי, או לכל נזק עקיף הנובע משימוש בשירות. השירות מיועד לקליטת פניות בלבד ואין לראות בו ייעוץ מקצועי, רפואי, משפטי, פיננסי או אחר. Callnik רשאית לשנות את מחיר השירות, היקפו ותנאיו בכל עת, בהתראה מוקדמת למנויים פעילים. שימוש בשירות מהווה הסכמה ל<a href="/terms" style="color:#666;text-decoration:underline;">תנאי השימוש המלאים</a>.
-  </p>
-  <p style="font-size:0.7rem;color:#444;text-align:right;margin-top:1rem;">© 2026 Callnik. כל הזכויות שמורות. | <a href="/terms" style="color:#555;text-decoration:none;">תקנון</a> · <a href="/privacy" style="color:#555;text-decoration:none;">פרטיות</a> · <a href="/accessibility" style="color:#555;text-decoration:none;">נגישות</a></p>
+<footer dir="rtl" style="background:#000;border-top:1px solid #1a1a1a;padding:3rem 1.25rem 1.5rem;font-family:Rubik,sans-serif;color:#666;font-size:0.875rem;">
+<div style="max-width:1200px;margin:0 auto;">
+  <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:2rem;margin-bottom:2.5rem;">
+    <div>
+      <img src="/callnik-logo.png" alt="Callnik" style="height:22px;width:auto;object-fit:contain;opacity:0.7;" />
+      <p style="color:#444;font-size:0.75rem;margin-top:0.75rem;line-height:1.6;max-width:200px;">מזכירה AI בעברית שעונה כשאתה לא יכול.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:0.6rem;">
+      <p style="color:#444;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.25rem;">מוצר</p>
+      <a href="/how-it-works" style="color:#666;text-decoration:none;">איך זה עובד</a>
+      <a href="/pricing" style="color:#666;text-decoration:none;">מחירים</a>
+      <a href="/faq" style="color:#666;text-decoration:none;">שאלות נפוצות</a>
+      <a href="/about" style="color:#666;text-decoration:none;">אודות</a>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:0.6rem;">
+      <p style="color:#444;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.25rem;">משפטי</p>
+      <a href="/terms" style="color:#666;text-decoration:none;">תקנון</a>
+      <a href="/privacy" style="color:#666;text-decoration:none;">פרטיות</a>
+      <a href="/accessibility" style="color:#666;text-decoration:none;">נגישות</a>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:0.6rem;">
+      <p style="color:#444;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.25rem;">יצירת קשר</p>
+      <a href="mailto:mail@callnik.com" style="color:#666;text-decoration:none;">mail@callnik.com</a>
+    </div>
+  </div>
+  <div style="border-top:1px solid #1a1a1a;padding-top:1.25rem;padding-bottom:0.75rem;font-size:0.72rem;color:#444;line-height:1.75;text-align:right;">
+    <span style="font-weight:600;color:#555;">הגבלת אחריות:</span> השירות מסופק כפי שהוא (as-is), ללא אחריות לשלמות המידע, לדיוקו או לזמינות רציפה. עיבוד השיחות מבוסס על בינה מלאכותית ועשוי להכיל שגיאות בתמלול, באיות שמות, במספרי טלפון, או בפרטים שנמסרו בעל-פה על ידי המתקשר. Callnik אינה מאמתת מידע שמסרו מתקשרים ואינה אחראית לכל נזק הנובע מהסתמכות על פרטים אלה. תגובות הנציגה הווירטואלית מבוססות על AI ועשויות להכיל שגיאות, אי-דיוקים, או מידע שאינו עדכני על העסק — Callnik אינה אחראית לנזק שיגרם מהסתמכות על תשובות הנציגה. הודעה תגיע לבעל העסק בכפוף לכך שהמתקשר מסר פרטי יצירת קשר. Callnik לא תישא באחריות לשיחות שלא הגיעו ליעדן, לכשלי תשתיות טלפוניה, לשיבושים אצל ספקי צד שלישי, או לכל נזק עקיף הנובע משימוש בשירות. השירות מיועד לקליטת פניות בלבד ואין לראות בו ייעוץ מקצועי, רפואי, משפטי, פיננסי או אחר. Callnik רשאית לשנות את מחיר השירות, היקפו ותנאיו בכל עת, בהתראה מוקדמת למנויים פעילים. שימוש בשירות מהווה הסכמה ל<a href="/terms" style="color:#555;text-decoration:underline;">תנאי השימוש המלאים</a>.
+  </div>
+  <div style="border-top:1px solid #1a1a1a;padding-top:1rem;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0.5rem;font-size:0.72rem;color:#444;">
+    <div style="display:flex;flex-direction:column;gap:0.25rem;text-align:right;">
+      <span>© 2026 Callnik. כל הזכויות שמורות.</span>
+      <span>MediaUp | ת"ד 20467, תל אביב 6120302</span>
+    </div>
+    <a href="/admin" style="color:#333;text-decoration:none;">ניהול</a>
+  </div>
 </div>
 </footer>
 <!-- Accessibility Widget -->
