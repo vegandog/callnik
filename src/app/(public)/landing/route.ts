@@ -45,7 +45,7 @@ const html = `<!DOCTYPE html><html class="dark" dir="rtl" lang="he"><head>
 
 </div>
 <!-- Micro-Trust Points -->
-<div class="flex flex-row items-center justify-center gap-3 sm:gap-5 text-sm sm:text-base font-medium text-[#c7c2c7] pt-2 w-full max-w-[480px] whitespace-nowrap"><div class="inline-flex items-center gap-1.5 shrink-0"><span class="text-[#22C55E] font-bold text-base sm:text-lg">✓</span><span>הקמה ב-5 דקות</span></div><span class="text-[#4a4750] shrink-0">•</span><div class="inline-flex items-center gap-1.5 shrink-0"><span class="text-[#22C55E] font-bold text-base sm:text-lg">✓</span><span>ביטול עצמי בכל רגע</span></div><span class="text-[#4a4750] shrink-0">•</span><div class="inline-flex items-center gap-1.5 shrink-0"><span class="text-[#22C55E] font-bold text-base sm:text-lg">✓</span><span>ללא התחייבות</span></div></div>
+<div class="flex flex-wrap items-center justify-center gap-2 sm:gap-5 text-sm sm:text-base font-medium text-[#c7c2c7] pt-2 w-full max-w-[480px]"><div class="inline-flex items-center gap-1.5 shrink-0"><span class="text-[#22C55E] font-bold text-base sm:text-lg">✓</span><span>הקמה ב-5 דקות</span></div><span class="text-[#4a4750] shrink-0">•</span><div class="inline-flex items-center gap-1.5 shrink-0"><span class="text-[#22C55E] font-bold text-base sm:text-lg">✓</span><span>ביטול עצמי בכל רגע</span></div><span class="text-[#4a4750] shrink-0">•</span><div class="inline-flex items-center gap-1.5 shrink-0"><span class="text-[#22C55E] font-bold text-base sm:text-lg">✓</span><span>ללא התחייבות</span></div></div>
 </div>
 <!-- Left Column: Hero Image Replacement -->
 <div class="lg:col-span-5 flex justify-center lg:justify-end reveal-item is-revealed" style="transition-delay: 150ms;">
