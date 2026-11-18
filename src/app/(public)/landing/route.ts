@@ -11,7 +11,7 @@ const html = `<!DOCTYPE html><html class="dark" dir="rtl" lang="he"><head>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/landing.css">
 </head>
-<body class="bg-[#0e0e10] text-[#e5e1e4] antialiased selection:bg-[#ff007f] selection:text-white" data-new-gr-c-s-loaded="14.1348.0" data-new-gr-c-s-check-loaded="14.1348.0" data-gr-ext-installed="">
+<body class="bg-[#0e0e10] text-[#e5e1e4] antialiased selection:bg-[#ff007f] selection:text-white" style="overflow-x:hidden;max-width:100vw;" data-new-gr-c-s-loaded="14.1348.0" data-new-gr-c-s-check-loaded="14.1348.0" data-gr-ext-installed="">
 <!-- MAIN -->
 <main class="w-full pb-16 pt-8">
 <!-- Top Ambient Lights -->
