@@ -236,23 +236,6 @@ const html = `<!DOCTYPE html><html class="dark" dir="rtl" lang="he"><head>
 <style>@keyframes bannerPop{0%{opacity:0;transform:rotate(-18deg) scale(0.2)}100%{opacity:1;transform:rotate(-10deg) scale(1)}}</style>
 </head>
 <body class="bg-[#0e0e10] text-[#e5e1e4] antialiased selection:bg-[#ff007f] selection:text-white" data-new-gr-c-s-loaded="14.1348.0" data-new-gr-c-s-check-loaded="14.1348.0" data-gr-ext-installed="">
-<!-- HEADER -->
-<header class="fixed top-0 left-0 right-0 z-50 bg-[#0e0e10]/85 backdrop-blur-xl border-b border-[#2d2a33]/60 transition-all duration-300">
-<div class="h-16 w-full max-w-[1200px] mx-auto px-5 sm:px-8 flex items-center justify-between">
-<div class="flex items-center gap-3">
-<a href="/" class="flex items-center gap-2">
-<img alt="Callnik" class="h-9 w-auto object-contain" src="/callnik-logo.png"/>
-</a>
-<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-[#ff007f]/15 border border-[#ff007f]/30 text-[#ff4a8d] text-xs font-black tracking-wider uppercase">BLACK FRIDAY</span>
-</div>
-<div class="flex items-center gap-3 sm:gap-4">
-
-<a class="hidden sm:inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-full bg-gradient-to-l from-[#ff007f] to-[#ff4a8d] text-white text-sm font-extrabold shadow-[0_0_20px_rgba(255,0,127,0.35)] hover:shadow-[0_0_25px_rgba(255,0,127,0.55)] hover:scale-[1.02] active:scale-95 transition-all" href="/register?intro=1">
-<span>חודש ב-₪1 בלבד</span>
-</a>
-</div>
-</div>
-</header>
 <!-- MAIN -->
 <main class="w-full pb-16 pt-8">
 <!-- Top Ambient Lights -->

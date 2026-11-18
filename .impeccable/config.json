@@ -38,6 +38,15 @@
         ],
         "createdAt": "2026-11-17T00:28:45.773Z",
         "reason": "internal storyboard doc: 10-11px labels intentional for dense print/desktop reference table"
+      },
+      {
+        "rule": "gradient-text",
+        "value": "*",
+        "files": [
+          "src/app/(public)/landing/route.ts"
+        ],
+        "createdAt": "2026-11-18T00:17:52.764Z",
+        "reason": "intentional neon shimmer design from Stitch - user approved this aesthetic"
       }
     ]
   }
