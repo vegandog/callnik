@@ -1,9 +1,30 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { sendActivationEmail } from '@/lib/email'
+import { getVoiceName } from '@/lib/constants'
+import { findAvailableIsraeliNumber, orderIsraeliNumber } from '@/lib/telnyx'
 
 const CARDCOM_TERMINAL = 190666
 const CARDCOM_API_NAME = 'sAwPXwN5jjRPhSKn5NRn'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://callnik.com'
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!
+
+async function dbPatch(table: string, filter: string, body: Record<string, unknown>) {
+  await fetch(`${SUPABASE_URL}/rest/v1/${table}?${filter}`, {
+    method: 'PATCH',
+    headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  })
+}
+
+async function dbPost(table: string, body: Record<string, unknown>) {
+  await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
+    method: 'POST',
+    headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  })
+}
 
 export async function POST(req: NextRequest) {
   const supabase = await createClient()
@@ -20,16 +41,18 @@ export async function POST(req: NextRequest) {
   // Validate coupon if provided
   let couponValid = false
   let couponId: string | null = null
+  let couponDiscountType = 'first_month_1nis'
   if (coupon && !isTest && !isAnnual) {
     const adminSupabase = (await import('@/lib/supabase/admin')).createAdminClient()
     const { data: promoRow } = await adminSupabase
       .from('promo_codes')
-      .select('id, used_at, expires_at')
+      .select('id, used_at, expires_at, discount_type')
       .eq('code', (coupon as string).toUpperCase().trim())
       .single()
     if (promoRow && !promoRow.used_at && (!promoRow.expires_at || new Date(promoRow.expires_at) > new Date())) {
       couponValid = true
       couponId = promoRow.id
+      couponDiscountType = promoRow.discount_type || 'first_month_1nis'
     }
   }
 
@@ -64,6 +87,69 @@ export async function POST(req: NextRequest) {
 
   if (customer?.status === 'active' || customer?.status === 'cancelling') {
     return NextResponse.json({ error: 'המנוי כבר פעיל' }, { status: 409 })
+  }
+
+  // Free coupon: skip Cardcom, activate directly
+  if (couponValid && couponDiscountType === 'free_month') {
+    const adminSupabase = (await import('@/lib/supabase/admin')).createAdminClient()
+
+    await dbPatch('customers', `id=eq.${userRecord.customer_id}`, {
+      status: 'active',
+      plan: 'monthly',
+      tier: tierVal,
+      next_billing_date: null,
+      billing_failures: 0,
+      pending_lp_id: null,
+    })
+
+    await dbPost('billing_history', {
+      customer_id: userRecord.customer_id,
+      amount: 0,
+      plan: 'monthly',
+      description: `מנוי Callnik ${tierLabel} חודשי - callnik.com | חודש ראשון חינם (קופון פיילוט)`,
+    })
+
+    if (couponId) {
+      await dbPatch('promo_codes', `id=eq.${couponId}`, {
+        used_at: new Date().toISOString(),
+        used_by: user.id,
+      })
+    }
+
+    // Provision Telnyx number if needed
+    const { data: freshCustomer } = await adminSupabase
+      .from('customers')
+      .select('business_name, carrier, voice_id, telnyx_number')
+      .eq('id', userRecord.customer_id)
+      .single()
+
+    if (freshCustomer && !freshCustomer.telnyx_number) {
+      try {
+        const phoneNumber = await findAvailableIsraeliNumber()
+        if (phoneNumber) {
+          const orderStatus = await orderIsraeliNumber(phoneNumber, userRecord.customer_id)
+          if (orderStatus === 'success') {
+            await dbPatch('customers', `id=eq.${userRecord.customer_id}`, { telnyx_number: phoneNumber })
+            const { data: authData } = await adminSupabase.auth.admin.getUserById(user.id)
+            const firstName = authData?.user?.user_metadata?.first_name
+            const lastName = authData?.user?.user_metadata?.last_name
+            sendActivationEmail(
+              user.email!,
+              freshCustomer.business_name,
+              phoneNumber,
+              freshCustomer.carrier ?? '',
+              firstName,
+              lastName,
+              getVoiceName(freshCustomer.voice_id)
+            ).catch(console.error)
+          }
+        }
+      } catch (e) {
+        console.error('Free activation: Telnyx provision error:', e)
+      }
+    }
+
+    return NextResponse.json({ free: true })
   }
 
   // Block re-use of intro pricing for returning customers

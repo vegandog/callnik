@@ -13,13 +13,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const { source = 'jinglephone' } = await req.json().catch(() => ({}))
+  const { source = 'manual', discount_type = 'first_month_1nis' } = await req.json().catch(() => ({}))
   const supabase = createAdminClient()
 
   let code = ''
   for (let attempt = 0; attempt < 5; attempt++) {
     const candidate = randomCode()
-    const { error } = await supabase.from('promo_codes').insert({ code: candidate, source })
+    const { error } = await supabase.from('promo_codes').insert({ code: candidate, source, discount_type })
     if (!error) { code = candidate; break }
   }
 

@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
   const supabase = createAdminClient()
   const { data } = await supabase
     .from('promo_codes')
-    .select('id, used_at, expires_at')
+    .select('id, used_at, expires_at, discount_type')
     .eq('code', code.toUpperCase().trim())
     .single()
 
@@ -18,5 +18,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ valid: false, reason: 'expired' })
   }
 
-  return NextResponse.json({ valid: true, discount: 'first_month_1nis' })
+  const discountType = data.discount_type || 'first_month_1nis'
+  return NextResponse.json({ valid: true, discount: discountType })
 }

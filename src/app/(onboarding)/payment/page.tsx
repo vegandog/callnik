@@ -24,6 +24,7 @@ export default function PaymentPage() {
   const [coupon, setCoupon] = useState('')
   const [couponStatus, setCouponStatus] = useState<'idle' | 'checking' | 'valid' | 'invalid'>('idle')
   const [couponAcknowledged, setCouponAcknowledged] = useState(false)
+  const [couponDiscountType, setCouponDiscountType] = useState<'first_month_1nis' | 'free_month'>('first_month_1nis')
 
   const price = tier === 'pro' ? '₪199' : '₪99'
   const tierLabel = tier === 'pro' ? 'Pro' : 'Basic'
@@ -40,8 +41,12 @@ export default function PaymentPage() {
         body: JSON.stringify({ plan, coupon: appliedCoupon, intro: isIntro, tier }),
       })
       if (res.ok) {
-        const { url } = await res.json()
-        setIframeUrl(url)
+        const data = await res.json()
+        if (data.free) {
+          window.location.href = '/dashboard'
+          return
+        }
+        setIframeUrl(data.url)
       } else {
         const data = await res.json().catch(() => ({}))
         setErr(data.error === 'המנוי כבר פעיל' ? 'המנוי שלך כבר פעיל. עבור לאזור האישי.' : 'שגיאה בטעינת דף התשלום. אנא נסה שנית.')
@@ -61,8 +66,16 @@ export default function PaymentPage() {
       body: JSON.stringify({ code: code.trim() }),
     })
     const data = await res.json()
-    setCouponStatus(data.valid ? 'valid' : 'invalid')
-    if (!data.valid) createSession('monthly')
+    if (data.valid) {
+      setCouponDiscountType(data.discount === 'free_month' ? 'free_month' : 'first_month_1nis')
+      setCouponStatus('valid')
+      if (data.discount === 'free_month') {
+        createSession('monthly', code.trim())
+      }
+    } else {
+      setCouponStatus('invalid')
+      createSession('monthly')
+    }
   }
 
   const handleAcknowledge = (checked: boolean) => {
@@ -140,7 +153,13 @@ export default function PaymentPage() {
               {couponStatus === 'checking' ? '...' : 'החל'}
             </button>
           </div>
-          {couponStatus === 'valid' && (
+          {couponStatus === 'valid' && couponDiscountType === 'free_month' && (
+            <div className="mt-3 bg-green-50 border border-green-300 rounded-xl px-4 py-3">
+              <div className="text-green-700 text-sm font-bold">✓ הקוד אושר - חודש ראשון חינם לגמרי!</div>
+              <div className="text-gray-500 text-xs mt-1">מפעיל את החשבון...</div>
+            </div>
+          )}
+          {couponStatus === 'valid' && couponDiscountType === 'first_month_1nis' && (
             <div className="mt-3 bg-amber-50 border border-amber-300 rounded-xl px-4 py-3">
               <div className="text-green-700 text-sm font-bold mb-2">✓ הקוד אושר - חודש התנסות ב-1 ₪ בלבד!</div>
               <div className="text-gray-600 text-xs leading-relaxed mb-3">מהחודש השני החיוב עובר ל-{price} + מע&quot;מ לחודש. <strong>ביטול בכל עת.</strong></div>

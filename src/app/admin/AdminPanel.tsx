@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { RefreshCw, Pencil, Check, X, Trash2, Plus, Mail, Zap } from 'lucide-react'
+import { RefreshCw, Pencil, Check, X, Trash2, Plus, Mail, Zap, Copy, Tag } from 'lucide-react'
 import { VOICES } from '@/lib/constants'
 
 interface Customer {
@@ -69,6 +69,19 @@ export default function AdminPanel() {
   const [editingCustomer, setEditingCustomer] = useState<Customer | null>(null)
   const [editForm, setEditForm] = useState<Partial<typeof emptyForm & { email: string; tier: string }>>({})
   const [saving, setSaving] = useState(false)
+
+  // Tabs
+  const [activeTab, setActiveTab] = useState<'customers' | 'coupons'>('customers')
+
+  // Coupons
+  interface PromoCode { id: string; code: string; source: string; discount_type: string; expires_at: string | null; used_at: string | null; created_at: string }
+  const [codes, setCodes] = useState<PromoCode[]>([])
+  const [codesLoading, setCodesLoading] = useState(false)
+  const [genSource, setGenSource] = useState('')
+  const [genType, setGenType] = useState<'first_month_1nis' | 'free_month'>('free_month')
+  const [generating, setGenerating] = useState(false)
+  const [newCode, setNewCode] = useState<string | null>(null)
+  const [copied, setCopied] = useState(false)
 
   const load = async () => {
     setLoading(true)
@@ -211,6 +224,42 @@ export default function AdminPanel() {
     setAdding(false)
   }
 
+  const loadCodes = async () => {
+    setCodesLoading(true)
+    const res = await fetch('/api/admin/promo-codes')
+    if (res.ok) {
+      const data = await res.json()
+      setCodes(data.codes || [])
+    }
+    setCodesLoading(false)
+  }
+
+  useEffect(() => {
+    if (activeTab === 'coupons' && codes.length === 0) loadCodes()
+  }, [activeTab]) // eslint-disable-line
+
+  const generateCode = async () => {
+    setGenerating(true)
+    setNewCode(null)
+    const res = await fetch('/api/promo/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-promo-secret': 'jp2callnik_X7mK9qR3' },
+      body: JSON.stringify({ source: genSource || 'admin', discount_type: genType }),
+    })
+    if (res.ok) {
+      const data = await res.json()
+      setNewCode(data.code)
+      await loadCodes()
+    }
+    setGenerating(false)
+  }
+
+  const copyCode = (code: string) => {
+    navigator.clipboard.writeText(code)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
   const filtered = customers.filter(c => {
     const q = search.toLowerCase()
     return !q ||
@@ -226,6 +275,150 @@ export default function AdminPanel() {
 
   return (
     <div className="space-y-4">
+      {/* Tabs */}
+      <div className="flex gap-1 border-b border-gray-200 mb-2">
+        <button
+          onClick={() => setActiveTab('customers')}
+          className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 -mb-px ${activeTab === 'customers' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-800'}`}
+        >
+          לקוחות
+        </button>
+        <button
+          onClick={() => setActiveTab('coupons')}
+          className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 -mb-px flex items-center gap-1.5 ${activeTab === 'coupons' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-800'}`}
+        >
+          <Tag className="w-3.5 h-3.5" />
+          קופונים
+        </button>
+      </div>
+
+      {/* Coupons tab */}
+      {activeTab === 'coupons' && (
+        <div className="space-y-6">
+          {/* Generate form */}
+          <div className="bg-white rounded-xl border border-gray-100 p-5">
+            <h2 className="text-sm font-semibold text-gray-800 mb-4">יצירת קוד קופון</h2>
+            <div className="flex gap-3 items-end flex-wrap">
+              <div>
+                <label className="text-xs text-gray-500 block mb-1">סוג הנחה</label>
+                <select
+                  value={genType}
+                  onChange={e => setGenType(e.target.value as 'first_month_1nis' | 'free_month')}
+                  className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                >
+                  <option value="free_month">חודש ראשון חינם</option>
+                  <option value="first_month_1nis">חודש ראשון ב-₪1</option>
+                </select>
+              </div>
+              <div>
+                <label className="text-xs text-gray-500 block mb-1">מקור (אופציונלי)</label>
+                <input
+                  value={genSource}
+                  onChange={e => setGenSource(e.target.value)}
+                  placeholder="פייסבוק, פיילוט..."
+                  className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-40"
+                />
+              </div>
+              <button
+                onClick={generateCode}
+                disabled={generating}
+                className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-5 py-2 rounded-lg disabled:opacity-50 transition-colors"
+              >
+                {generating ? 'יוצר...' : 'צור קוד'}
+              </button>
+            </div>
+
+            {newCode && (
+              <div className="mt-4 flex items-center gap-3">
+                <div className="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5">
+                  <span className="font-mono text-lg font-bold text-gray-900 tracking-widest">{newCode}</span>
+                  <button
+                    onClick={() => copyCode(newCode)}
+                    className="text-gray-400 hover:text-blue-600 transition-colors ml-1"
+                    title="העתק"
+                  >
+                    <Copy className="w-4 h-4" />
+                  </button>
+                </div>
+                {copied && <span className="text-xs text-green-600 font-medium">הועתק!</span>}
+                <span className="text-xs text-gray-500">
+                  {genType === 'free_month' ? 'חינם' : '₪1'} לחודש ראשון
+                </span>
+              </div>
+            )}
+          </div>
+
+          {/* Codes list */}
+          <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+              <span className="text-sm font-semibold text-gray-800">קודים אחרונים</span>
+              <button onClick={loadCodes} className="flex items-center gap-1 text-xs text-gray-400 hover:text-gray-700">
+                <RefreshCw className="w-3.5 h-3.5" />
+                רענן
+              </button>
+            </div>
+            {codesLoading ? (
+              <div className="text-center py-8 text-gray-400 text-sm">טוען...</div>
+            ) : codes.length === 0 ? (
+              <div className="text-center py-8 text-gray-400 text-sm">אין קודים עדיין</div>
+            ) : (
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="bg-gray-50 border-b border-gray-100">
+                    <th className="text-right font-medium text-gray-500 px-4 py-2.5">קוד</th>
+                    <th className="text-right font-medium text-gray-500 px-4 py-2.5">סוג</th>
+                    <th className="text-right font-medium text-gray-500 px-4 py-2.5">מקור</th>
+                    <th className="text-right font-medium text-gray-500 px-4 py-2.5">נוצר</th>
+                    <th className="text-right font-medium text-gray-500 px-4 py-2.5">סטטוס</th>
+                    <th className="px-4 py-2.5" />
+                  </tr>
+                </thead>
+                <tbody>
+                  {codes.map(c => (
+                    <tr key={c.id} className="border-t border-gray-50 hover:bg-gray-50">
+                      <td className="px-4 py-3">
+                        <span className="font-mono font-semibold text-gray-800 tracking-wider">{c.code}</span>
+                      </td>
+                      <td className="px-4 py-3">
+                        {c.discount_type === 'free_month'
+                          ? <span className="text-xs bg-green-100 text-green-700 font-medium px-2 py-0.5 rounded-full">חינם</span>
+                          : <span className="text-xs bg-amber-100 text-amber-700 font-medium px-2 py-0.5 rounded-full">₪1</span>
+                        }
+                      </td>
+                      <td className="px-4 py-3 text-gray-500 text-xs">{c.source || '-'}</td>
+                      <td className="px-4 py-3 text-gray-400 text-xs">
+                        {new Date(c.created_at).toLocaleDateString('he-IL', { day: 'numeric', month: 'short' })}
+                      </td>
+                      <td className="px-4 py-3">
+                        {c.used_at
+                          ? <span className="text-xs text-gray-400">שומש {new Date(c.used_at).toLocaleDateString('he-IL', { day: 'numeric', month: 'short' })}</span>
+                          : c.expires_at && new Date(c.expires_at) < new Date()
+                          ? <span className="text-xs text-red-400">פג תוקף</span>
+                          : <span className="text-xs text-green-600 font-medium">פעיל</span>
+                        }
+                      </td>
+                      <td className="px-4 py-3">
+                        {!c.used_at && (
+                          <button onClick={() => copyCode(c.code)} className="text-gray-300 hover:text-blue-500 transition-colors" title="העתק">
+                            <Copy className="w-3.5 h-3.5" />
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+
+          <div className="bg-amber-50 border border-amber-200 rounded-lg px-4 py-3 text-xs text-amber-800">
+            <strong>שים לב:</strong> צריך להוסיף עמודה ל-Supabase פעם אחת:<br />
+            <code className="bg-amber-100 px-1 rounded mt-1 inline-block font-mono text-xs">ALTER TABLE promo_codes ADD COLUMN IF NOT EXISTS discount_type TEXT DEFAULT &apos;first_month_1nis&apos;;</code>
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'customers' && <>
       {confirmDelete && (
         <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
           <div className="bg-white rounded-xl shadow-xl p-6 w-80 text-center space-y-4" dir="rtl">
@@ -652,6 +845,7 @@ export default function AdminPanel() {
           </table>
         )}
       </div>
+    </>}
     </div>
   )
 }
