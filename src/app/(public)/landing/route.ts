@@ -301,7 +301,7 @@ const html = `<!DOCTYPE html><html class="dark" dir="rtl" lang="he"><head>
 <!-- Voices Grid: 6 in row on desktop with staggered entrance -->
 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-5" id="voices-container">
 <!-- Voice 1: דנה -->
-<div class="voice-card reveal-item group relative bg-[#141418] border rounded-2xl p-4 flex flex-col items-center text-center cursor-pointer transition-all duration-300 border-[#2d2a33] hover:border-[#ff4a8d]/60 hover:-translate-y-1.5 hover:shadow-[0_10px_25px_rgba(255,74,141,0.2)] is-revealed" data-src="https://callnik.com/voices/דנה.mp3" style="transition-delay: 50ms;">
+<div class="voice-card reveal-item group relative bg-[#141418] border rounded-2xl p-4 flex flex-col items-center text-center cursor-pointer transition-all duration-300 border-[#2d2a33] hover:border-[#ff4a8d]/60 hover:-translate-y-1.5 hover:shadow-[0_10px_25px_rgba(255,74,141,0.2)] is-revealed" data-src="https://callnik.com/voices/%D7%93%D7%A0%D7%94.mp3" style="transition-delay: 50ms;">
 <div class="avatar-ring relative w-20 h-20 rounded-full p-1 border-2 border-transparent transition-all duration-300 mb-3 group-hover:scale-105">
 <img alt="דנה" class="w-full h-full rounded-full object-cover transition-transform duration-300" src="/voices/photo-דנה.jpg">
 <div class="play-overlay absolute inset-1 rounded-full bg-black/50 backdrop-blur-[2px] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
@@ -313,7 +313,7 @@ const html = `<!DOCTYPE html><html class="dark" dir="rtl" lang="he"><head>
 <span class="status-indicator text-xs font-bold text-[#ff4a8d] flex items-center gap-1.5 transition-colors"><span class="material-symbols-outlined text-[16px]">play_circle</span><span>שמע קול</span></span>
 </div>
 <!-- Voice 2: עלמה -->
-<div class="voice-card reveal-item group relative bg-[#141418] border border-[#2d2a33] hover:border-[#ff4a8d]/60 rounded-2xl p-4 flex flex-col items-center text-center cursor-pointer transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_10px_25px_rgba(255,74,141,0.2)] is-revealed" data-src="https://callnik.com/voices/עלמה.mp3" style="transition-delay: 100ms;">
+<div class="voice-card reveal-item group relative bg-[#141418] border border-[#2d2a33] hover:border-[#ff4a8d]/60 rounded-2xl p-4 flex flex-col items-center text-center cursor-pointer transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_10px_25px_rgba(255,74,141,0.2)] is-revealed" data-src="https://callnik.com/voices/%D7%A2%D7%9C%D7%9E%D7%94.mp3" style="transition-delay: 100ms;">
 <div class="avatar-ring relative w-20 h-20 rounded-full p-1 border-2 border-transparent transition-all duration-300 mb-3 group-hover:scale-105">
 <img alt="עלמה" class="w-full h-full rounded-full object-cover transition-transform duration-300" src="/voices/photo-עלמה.jpg">
 <div class="play-overlay absolute inset-1 rounded-full bg-black/50 backdrop-blur-[2px] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
@@ -328,7 +328,7 @@ const html = `<!DOCTYPE html><html class="dark" dir="rtl" lang="he"><head>
 </span>
 </div>
 <!-- Voice 3: נועה -->
-<div class="voice-card reveal-item group relative bg-[#141418] border border-[#2d2a33] hover:border-[#ff4a8d]/60 rounded-2xl p-4 flex flex-col items-center text-center cursor-pointer transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_10px_25px_rgba(255,74,141,0.2)] is-revealed" data-src="https://callnik.com/voices/נועה.mp3" style="transition-delay: 150ms;">
+<div class="voice-card reveal-item group relative bg-[#141418] border border-[#2d2a33] hover:border-[#ff4a8d]/60 rounded-2xl p-4 flex flex-col items-center text-center cursor-pointer transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_10px_25px_rgba(255,74,141,0.2)] is-revealed" data-src="https://callnik.com/voices/%D7%A0%D7%95%D7%A2%D7%94.mp3" style="transition-delay: 150ms;">
 <div class="avatar-ring relative w-20 h-20 rounded-full p-1 border-2 border-transparent transition-all duration-300 mb-3 group-hover:scale-105">
 <img alt="נועה" class="w-full h-full rounded-full object-cover transition-transform duration-300" src="/voices/photo-נועה.jpg">
 <div class="play-overlay absolute inset-1 rounded-full bg-black/50 backdrop-blur-[2px] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
@@ -343,7 +343,7 @@ const html = `<!DOCTYPE html><html class="dark" dir="rtl" lang="he"><head>
 </span>
 </div>
 <!-- Voice 4: עדן -->
-<div class="voice-card reveal-item group relative bg-[#141418] border border-[#2d2a33] hover:border-[#ff4a8d]/60 rounded-2xl p-4 flex flex-col items-center text-center cursor-pointer transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_10px_25px_rgba(255,74,141,0.2)] is-revealed" data-src="https://callnik.com/voices/עדן.mp3" style="transition-delay: 200ms;">
+<div class="voice-card reveal-item group relative bg-[#141418] border border-[#2d2a33] hover:border-[#ff4a8d]/60 rounded-2xl p-4 flex flex-col items-center text-center cursor-pointer transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_10px_25px_rgba(255,74,141,0.2)] is-revealed" data-src="https://callnik.com/voices/%D7%A2%D7%93%D7%9F.mp3" style="transition-delay: 200ms;">
 <div class="avatar-ring relative w-20 h-20 rounded-full p-1 border-2 border-transparent transition-all duration-300 mb-3 group-hover:scale-105">
 <img alt="עדן" class="w-full h-full rounded-full object-cover transition-transform duration-300" src="/voices/photo-עדן.jpg">
 <div class="play-overlay absolute inset-1 rounded-full bg-black/50 backdrop-blur-[2px] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
@@ -358,7 +358,7 @@ const html = `<!DOCTYPE html><html class="dark" dir="rtl" lang="he"><head>
 </span>
 </div>
 <!-- Voice 5: קובי -->
-<div class="voice-card reveal-item group relative bg-[#141418] border border-[#2d2a33] hover:border-[#ff4a8d]/60 rounded-2xl p-4 flex flex-col items-center text-center cursor-pointer transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_10px_25px_rgba(255,74,141,0.2)] is-revealed" data-src="https://callnik.com/voices/קובי.mp3" style="transition-delay: 250ms;">
+<div class="voice-card reveal-item group relative bg-[#141418] border border-[#2d2a33] hover:border-[#ff4a8d]/60 rounded-2xl p-4 flex flex-col items-center text-center cursor-pointer transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_10px_25px_rgba(255,74,141,0.2)] is-revealed" data-src="https://callnik.com/voices/%D7%A7%D7%95%D7%91%D7%99.mp3" style="transition-delay: 250ms;">
 <div class="avatar-ring relative w-20 h-20 rounded-full p-1 border-2 border-transparent transition-all duration-300 mb-3 group-hover:scale-105">
 <img alt="קובי" class="w-full h-full rounded-full object-cover transition-transform duration-300" src="/voices/photo-קובי.jpg">
 <div class="play-overlay absolute inset-1 rounded-full bg-black/50 backdrop-blur-[2px] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
@@ -373,7 +373,7 @@ const html = `<!DOCTYPE html><html class="dark" dir="rtl" lang="he"><head>
 </span>
 </div>
 <!-- Voice 6: יואב -->
-<div class="voice-card reveal-item group relative bg-[#141418] border border-[#2d2a33] hover:border-[#ff4a8d]/60 rounded-2xl p-4 flex flex-col items-center text-center cursor-pointer transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_10px_25px_rgba(255,74,141,0.2)] is-revealed" data-src="https://callnik.com/voices/יואב.mp3" style="transition-delay: 300ms;">
+<div class="voice-card reveal-item group relative bg-[#141418] border border-[#2d2a33] hover:border-[#ff4a8d]/60 rounded-2xl p-4 flex flex-col items-center text-center cursor-pointer transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_10px_25px_rgba(255,74,141,0.2)] is-revealed" data-src="https://callnik.com/voices/%D7%99%D7%95%D7%90%D7%91.mp3" style="transition-delay: 300ms;">
 <div class="avatar-ring relative w-20 h-20 rounded-full p-1 border-2 border-transparent transition-all duration-300 mb-3 group-hover:scale-105">
 <img alt="יואב" class="w-full h-full rounded-full object-cover transition-transform duration-300" src="/voices/photo-יואב.jpg">
 <div class="play-overlay absolute inset-1 rounded-full bg-black/50 backdrop-blur-[2px] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
