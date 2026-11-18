@@ -577,7 +577,73 @@ const html = `<!DOCTYPE html><html class="dark" dir="rtl" lang="he"><head>
 </div>
 </footer>
 <!-- Accessibility Widget -->
-<script src="https://widget.tabnav.com/limited-widget.min.js.gz" async></script>`
+<script src="https://widget.tabnav.com/limited-widget.min.js.gz" async></script>
+<!-- Privacy Banner -->
+<div id="privacy-banner" style="position:fixed;bottom:0;left:0;right:0;z-index:999;background:rgba(14,14,16,0.97);backdrop-filter:blur(12px);border-top:1px solid #2d2a33;padding:0.75rem 1.25rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;font-family:Rubik,sans-serif;font-size:0.8rem;color:#a9a4aa;" dir="rtl">
+  <span>אנו משתמשים בעוגיות (Cookies) לשיפור הגלישה. <a href="/privacy" style="color:#ff4a8d;text-decoration:underline;">מדיניות פרטיות</a> | <a href="/terms" style="color:#a9a4aa;text-decoration:none;">תנאי שימוש</a></span>
+  <button onclick="document.getElementById('privacy-banner').style.display='none';localStorage.setItem('cookiesOk','1')" style="background:linear-gradient(to left,#ff007f,#ff4a8d);color:#fff;border:none;border-radius:9999px;padding:0.5rem 1.25rem;font-family:Rubik,sans-serif;font-weight:700;font-size:0.8rem;cursor:pointer;white-space:nowrap;">הבנתי, המשך</button>
+</div>
+<script>if(localStorage.getItem('cookiesOk'))document.getElementById('privacy-banner').style.display='none';</script>
+<!-- Audio Player for Voices -->
+<script>
+(function() {
+  var currentAudio = null;
+  var currentCard = null;
+
+  var cards = document.querySelectorAll('.voice-card');
+
+  function resetCard(card) {
+    var ring = card.querySelector('.avatar-ring');
+    var indicator = card.querySelector('.status-indicator');
+    card.classList.remove('border-[#22C55E]','shadow-[0_0_25px_rgba(34,197,94,0.35)]','bg-[#181f1a]');
+    card.classList.add('border-[#2d2a33]');
+    if (ring) { ring.classList.remove('ring-4','ring-[#22C55E]','border-[#22C55E]','shadow-[0_0_15px_rgba(34,197,94,0.5)]'); }
+    if (indicator) { indicator.innerHTML = '<span class="material-symbols-outlined text-[16px]">play_circle</span><span>שמע קול</span>'; }
+  }
+
+  cards.forEach(function(card) {
+    card.addEventListener('click', function() {
+      var audioSrc = card.getAttribute('data-src');
+      var ring = card.querySelector('.avatar-ring');
+      var indicator = card.querySelector('.status-indicator');
+
+      if (currentCard === card && currentAudio && !currentAudio.paused) {
+        currentAudio.pause();
+        resetCard(card);
+        currentAudio = null;
+        currentCard = null;
+        return;
+      }
+
+      if (currentAudio) {
+        currentAudio.pause();
+        if (currentCard) resetCard(currentCard);
+      }
+
+      var audio = new Audio(audioSrc);
+      currentAudio = audio;
+      currentCard = card;
+
+      card.classList.add('border-[#22C55E]','shadow-[0_0_25px_rgba(34,197,94,0.35)]','bg-[#181f1a]');
+      card.classList.remove('border-[#2d2a33]');
+      if (ring) { ring.classList.add('ring-4','ring-[#22C55E]','border-[#22C55E]','shadow-[0_0_15px_rgba(34,197,94,0.5)]'); }
+      if (indicator) {
+        indicator.innerHTML = '<div class="flex items-center gap-1.5 text-[#22C55E] font-bold"><span class="flex items-center gap-[2px] h-4"><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span></span><span>מנגן...</span></div>';
+      }
+
+      audio.play().catch(function() { resetCard(card); });
+      audio.onended = function() {
+        resetCard(card);
+        if (currentAudio === audio) { currentAudio = null; currentCard = null; }
+      };
+      audio.onerror = function() {
+        resetCard(card);
+        if (currentAudio === audio) { currentAudio = null; currentCard = null; }
+      };
+    });
+  });
+})();
+</script>`
 
 export async function GET() {
   return new NextResponse(html, {
