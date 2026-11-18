@@ -32,7 +32,7 @@ const html = `<!DOCTYPE html><html class="dark" dir="rtl" lang="he"><head>
 <span class="text-transparent bg-clip-text bg-gradient-to-l from-[#ff007f] via-[#ff4a8d] to-[#ff9ebb]">
               הלקוח כבר סגר אצל המתחרה.
             </span>
-</h1><div class="w-full text-right mt-2 mb-2"><span class="block font-bold text-[#c7c2c7] tracking-tight leading-tight" style="font-size: clamp(18px, 2.5vw, 30px);">רוצה להפסיק לפספס לקוחות?</span></div>
+</h1><div class="w-full text-right mt-2 mb-2"><span class="block font-bold text-[#c7c2c7] tracking-tight leading-tight" style="font-size: clamp(27px, 2.5vw, 30px);">רוצה להפסיק לפספס לקוחות?</span></div>
 <!-- Sharp 1-Sentence Subtitle -->
 <p class="text-base sm:text-lg lg:text-xl text-[#c7c2c7] leading-relaxed max-w-[620px] font-medium">
 <strong class="text-white font-bold">Callnik</strong> עונה במקומך לשיחות שלא הספקת לענות, מדברת עם הלקוח בעברית אנושית שוטפת, ושולחת סיכום מלא לוואטסאפ תוך שניות.
