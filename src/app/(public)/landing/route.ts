@@ -254,7 +254,7 @@ const html = `<!DOCTYPE html><html class="dark" dir="rtl" lang="he"><head>
 </div>
 </header>
 <!-- MAIN -->
-<main class="w-full pb-16 pt-20">
+<main class="w-full pb-16 pt-8">
 <!-- Top Ambient Lights -->
 <div class="relative w-full overflow-hidden pointer-events-none">
 <div class="absolute -top-40 right-1/4 w-[600px] h-[360px] bg-[#ff007f]/15 rounded-full blur-[140px] animate-pulse" style="animation-duration: 6s;"></div>
@@ -585,146 +585,16 @@ const html = `<!DOCTYPE html><html class="dark" dir="rtl" lang="he"><head>
 </section>
 </main>
 <!-- FOOTER -->
-<footer class="w-full bg-[#0a0a0c] py-8 border-t border-[#1c1b21]">
-<div class="w-full max-w-[1200px] mx-auto px-5 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-right">
-<div class="flex items-center gap-3">
-<img alt="Callnik Logo" class="h-8 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity" src="/callnik-logo.png">
-<span class="text-xs text-[#8e898e]">© כל הזכויות שמורות לקולניק (Callnik) 2026</span>
-</div>
-<div class="flex items-center gap-4 text-xs text-[#8e898e]">
-<a class="hover:text-white transition-colors" href="#">תנאי שימוש</a>
-<span>•</span>
-<a class="hover:text-white transition-colors" href="#">מדיניות פרטיות</a>
-</div>
+<footer dir="rtl" style="background:#0a0a0c;border-top:1px solid #1c1b21;padding:2rem 1.25rem 1.5rem;font-family:Rubik,sans-serif;">
+<div style="max-width:900px;margin:0 auto;">
+  <p style="font-size:0.72rem;color:#555;line-height:1.75;text-align:right;">
+    <span style="font-weight:600;color:#666;">הגבלת אחריות:</span> הגבלת אחריות: השירות מסופק כפי שהוא (as-is), ללא אחריות לשלמות המידע, לדיוקו או לזמינות רציפה. עיבוד השיחות מבוסס על בינה מלאכותית ועשוי להכיל שגיאות בתמלול, באיות שמות, במספרי טלפון, או בפרטים שנמסרו בעל-פה על ידי המתקשר. Callnik אינה מאמתת מידע שמסרו מתקשרים ואינה אחראית לכל נזק הנובע מהסתמכות על פרטים אלה. תגובות הנציגה הווירטואלית מבוססות על AI ועשויות להכיל שגיאות, אי-דיוקים, או מידע שאינו עדכני על העסק — Callnik אינה אחראית לנזק שיגרם מהסתמכות על תשובות הנציגה. הודעה תגיע לבעל העסק בכפוף לכך שהמתקשר מסר פרטי יצירת קשר. Callnik לא תישא באחריות לשיחות שלא הגיעו ליעדן, לכשלי תשתיות טלפוניה, לשיבושים אצל ספקי צד שלישי, או לכל נזק עקיף הנובע משימוש בשירות. השירות מיועד לקליטת פניות בלבד ואין לראות בו ייעוץ מקצועי, רפואי, משפטי, פיננסי או אחר. Callnik רשאית לשנות את מחיר השירות, היקפו ותנאיו בכל עת, בהתראה מוקדמת למנויים פעילים. שימוש בשירות מהווה הסכמה ל<a href="/terms" style="color:#666;text-decoration:underline;">תנאי השימוש המלאים</a>.
+  </p>
+  <p style="font-size:0.7rem;color:#444;text-align:right;margin-top:1rem;">© 2026 Callnik. כל הזכויות שמורות. | <a href="/terms" style="color:#555;text-decoration:none;">תקנון</a> · <a href="/privacy" style="color:#555;text-decoration:none;">פרטיות</a> · <a href="/accessibility" style="color:#555;text-decoration:none;">נגישות</a></p>
 </div>
 </footer>
-<!-- MOBILE STICKY BAR -->
-<div class="fixed bottom-0 inset-x-0 z-40 bg-[#0e0e10]/95 backdrop-blur-lg border-t border-[#2d2a33] p-3 sm:hidden">
-<div class="flex items-center justify-between gap-3">
-<div class="flex flex-col text-right">
-<span class="text-xs font-black text-[#ff4a8d] shimmer-text">חודש ראשון ב-₪1</span>
-<span class="text-[10px] text-[#8e898e]">ביטול בקליק בכל רגע</span>
-</div>
-<a class="btn-elevated flex-1 max-w-[200px] py-2.5 px-4 rounded-full bg-gradient-to-l from-[#ff007f] to-[#ff4a8d] text-white font-black text-sm text-center shadow-[0_0_15px_rgba(255,0,127,0.4)] transition-transform flex items-center justify-center gap-1 active:scale-95" href="/register?intro=1">
-<span>הצטרף עכשיו</span>
-<span class="material-symbols-outlined text-[16px]">arrow_back</span>
-</a>
-</div>
-</div>
-<!-- Audio Player & Scroll Reveal Script -->
-<script>
-  (function() {
-    // 1. Scroll-reveal Observer
-    const revealElements = document.querySelectorAll('.reveal-item, .wa-bubble-animate');
-    if ('IntersectionObserver' in window) {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-revealed');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, {
-        threshold: 0.12,
-        rootMargin: '0px 0px -40px 0px'
-      });
-
-      revealElements.forEach(el => observer.observe(el));
-    } else {
-      // Fallback
-      revealElements.forEach(el => el.classList.add('is-revealed'));
-    }
-
-    // 2. Audio Player with Animated Equalizer Wave
-    let currentAudio = null;
-    let currentCard = null;
-
-    const cards = document.querySelectorAll('.voice-card');
-    
-    cards.forEach(card => {
-      card.addEventListener('click', () => {
-        const audioSrc = card.getAttribute('data-src');
-        const ring = card.querySelector('.avatar-ring');
-        const indicator = card.querySelector('.status-indicator');
-
-        // If clicking currently playing audio, toggle pause
-        if (currentCard === card && currentAudio && !currentAudio.paused) {
-          currentAudio.pause();
-          resetCard(card);
-          currentAudio = null;
-          currentCard = null;
-          return;
-        }
-
-        // Stop existing playing audio with smooth reset
-        if (currentAudio) {
-          currentAudio.pause();
-          if (currentCard) {
-            resetCard(currentCard);
-          }
-        }
-
-        // Create new audio instance
-        const audio = new Audio(audioSrc);
-        currentAudio = audio;
-        currentCard = card;
-
-        // Apply active green glowing ring and animated equalizer
-        card.classList.add('border-[#22C55E]', 'shadow-[0_0_25px_rgba(34,197,94,0.35)]', 'bg-[#181f1a]');
-        card.classList.remove('border-[#2d2a33]');
-        ring.classList.add('ring-4', 'ring-[#22C55E]', 'border-[#22C55E]', 'shadow-[0_0_15px_rgba(34,197,94,0.5)]');
-        
-        // Equalizer waveform HTML
-        indicator.innerHTML = \`
-          <div class="flex items-center gap-1.5 text-[#22C55E] font-bold">
-            <span class="flex items-center gap-[2px] h-4">
-              <span class="eq-bar"></span>
-              <span class="eq-bar"></span>
-              <span class="eq-bar"></span>
-              <span class="eq-bar"></span>
-            </span>
-            <span>מנגן...</span>
-          </div>
-        \`;
-
-        audio.play().catch(e => {
-          console.log('Audio playback prevented or error:', e);
-          resetCard(card);
-        });
-
-        audio.onended = () => {
-          resetCard(card);
-          if (currentAudio === audio) {
-            currentAudio = null;
-            currentCard = null;
-          }
-        };
-
-        audio.onerror = () => {
-          resetCard(card);
-          if (currentAudio === audio) {
-            currentAudio = null;
-            currentCard = null;
-          }
-        };
-      });
-    });
-
-    function resetCard(card) {
-      const ring = card.querySelector('.avatar-ring');
-      const indicator = card.querySelector('.status-indicator');
-      card.classList.remove('border-[#22C55E]', 'shadow-[0_0_25px_rgba(34,197,94,0.35)]', 'bg-[#181f1a]');
-      card.classList.add('border-[#2d2a33]');
-      ring.classList.remove('ring-4', 'ring-[#22C55E]', 'border-[#22C55E]', 'shadow-[0_0_15px_rgba(34,197,94,0.5)]');
-      indicator.innerHTML = '<span class="material-symbols-outlined text-[16px]">play_circle</span><span>שמע קול</span>';
-    }
-  })();
-</script>
-
-
-<grammarly-desktop-integration data-grammarly-shadow-root="true" style="visibility: visible !important;"></grammarly-desktop-integration>
-
-<grammarly-desktop-integration data-grammarly-shadow-root="true" style="visibility: visible !important;"></grammarly-desktop-integration><div id="cookie-banner" class="fixed bottom-16 sm:bottom-4 inset-x-4 sm:inset-x-auto sm:right-6 sm:left-6 z-50 max-w-[620px] mx-auto p-4 rounded-2xl bg-[#141418]/95 backdrop-blur-xl border border-[#ff007f]/40 shadow-[0_0_30px_rgba(255,0,127,0.25)] flex flex-col sm:flex-row items-center justify-between gap-4 text-right transition-all duration-300"><div class="text-xs sm:text-sm text-[#c7c2c7] leading-relaxed flex-1"><span class="text-white font-bold">אנו משתמשים בעוגיות (Cookies)</span> לשיפור חוויית הגלישה והתאמת השירות. <a href="#" class="text-[#ff4a8d] underline hover:text-white transition-colors">מדיניות פרטיות</a> | <a href="#" class="text-[#ff4a8d] underline hover:text-white transition-colors">תנאי שימוש</a></div><button onclick="this.closest('#cookie-banner').style.display='none'" class="btn-elevated shrink-0 px-5 py-2 rounded-full bg-gradient-to-l from-[#ff007f] to-[#ff4a8d] text-white text-xs sm:text-sm font-bold shadow-[0_0_15px_rgba(255,0,127,0.4)] hover:shadow-[0_0_25px_rgba(255,0,127,0.7)] transition-all cursor-pointer">הבנתי, המשך</button></div></body></html>`
+<!-- Accessibility Widget -->
+<script src="https://widget.tabnav.com/limited-widget.min.js.gz" async></script>`
 
 export async function GET() {
   return new NextResponse(html, {
