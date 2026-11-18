@@ -82,6 +82,7 @@ export default function AdminPanel() {
   const [generating, setGenerating] = useState(false)
   const [newCode, setNewCode] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
+  const [showAllCodes, setShowAllCodes] = useState(false)
 
   const load = async () => {
     setLoading(true)
@@ -352,10 +353,18 @@ export default function AdminPanel() {
           <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
             <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
               <span className="text-sm font-semibold text-gray-800">קודים אחרונים</span>
-              <button onClick={loadCodes} className="flex items-center gap-1 text-xs text-gray-400 hover:text-gray-700">
-                <RefreshCw className="w-3.5 h-3.5" />
-                רענן
-              </button>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => setShowAllCodes(v => !v)}
+                  className="text-xs text-gray-400 hover:text-gray-700 underline"
+                >
+                  {showAllCodes ? 'הסתר ישנים' : 'הצג הכל'}
+                </button>
+                <button onClick={loadCodes} className="flex items-center gap-1 text-xs text-gray-400 hover:text-gray-700">
+                  <RefreshCw className="w-3.5 h-3.5" />
+                  רענן
+                </button>
+              </div>
             </div>
             {codesLoading ? (
               <div className="text-center py-8 text-gray-400 text-sm">טוען...</div>
@@ -374,7 +383,7 @@ export default function AdminPanel() {
                   </tr>
                 </thead>
                 <tbody>
-                  {codes.map(c => (
+                  {codes.filter(c => showAllCodes || (!c.used_at && (!c.expires_at || new Date(c.expires_at) > new Date()))).map(c => (
                     <tr key={c.id} className="border-t border-gray-50 hover:bg-gray-50">
                       <td className="px-4 py-3">
                         <span className="font-mono font-semibold text-gray-800 tracking-wider">{c.code}</span>
