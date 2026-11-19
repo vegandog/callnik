@@ -19,7 +19,6 @@ export default function PaymentPage() {
   const [loading, setLoading] = useState(false)
   const [err, setErr] = useState(error ? 'התשלום נכשל. אנא נסה שנית.' : '')
 
-  const [showCoupon, setShowCoupon] = useState(false)
   const [coupon, setCoupon] = useState('')
   const [couponStatus, setCouponStatus] = useState<'idle' | 'checking' | 'valid' | 'invalid'>('idle')
   const [couponAcknowledged, setCouponAcknowledged] = useState(false)
@@ -87,7 +86,6 @@ export default function PaymentPage() {
     if (urlCoupon) {
       sessionStorage.removeItem('callnik_promo')
       setCoupon(urlCoupon)
-      setShowCoupon(true)
       checkCoupon(urlCoupon)
     } else {
       createSession(isTestMode ? 'test' : 'monthly')
@@ -120,32 +118,27 @@ export default function PaymentPage() {
         <div className="text-2xl font-black text-blue-600">{price} <span className="text-sm font-normal text-gray-500">+ מע&quot;מ לחודש</span></div>
       </div>
 
-      {/* Coupon - collapsed by default */}
-      {!showCoupon ? (
-        <button
-          onClick={() => setShowCoupon(true)}
-          className="text-xs text-gray-400 hover:text-gray-600 underline mb-5 block"
-        >
-          יש לך קוד קופון?
-        </button>
-      ) : (
-        <div className="mb-5">
-          <div className="flex gap-2">
-            <input
-              type="text"
-              placeholder="קוד קופון"
-              value={coupon}
-              onChange={e => { setCoupon(e.target.value.toUpperCase()); setCouponStatus('idle') }}
-              className="flex-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-right focus:outline-none focus:border-blue-500"
-            />
-            <button
-              onClick={() => checkCoupon(coupon)}
-              disabled={!coupon.trim() || couponStatus === 'checking'}
-              className="px-4 py-2.5 rounded-xl bg-gray-100 text-sm font-medium text-gray-700 hover:bg-gray-200 disabled:opacity-40 transition-all"
-            >
-              {couponStatus === 'checking' ? '...' : 'החל'}
-            </button>
-          </div>
+      {/* Coupon - prominent */}
+      <div className="mb-5">
+        <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 mb-3 text-sm text-amber-800">
+          קיבלת קוד קופון? הכנס אותו למטה לקבל את החודש הראשון ב-₪1 בלבד
+        </div>
+        <div className="flex gap-2">
+          <input
+            type="text"
+            placeholder="קוד קופון"
+            value={coupon}
+            onChange={e => { setCoupon(e.target.value.toUpperCase()); setCouponStatus('idle') }}
+            className="flex-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-right focus:outline-none focus:border-blue-500"
+          />
+          <button
+            onClick={() => checkCoupon(coupon)}
+            disabled={!coupon.trim() || couponStatus === 'checking'}
+            className="px-4 py-2.5 rounded-xl bg-gray-100 text-sm font-medium text-gray-700 hover:bg-gray-200 disabled:opacity-40 transition-all"
+          >
+            {couponStatus === 'checking' ? '...' : 'החל'}
+          </button>
+        </div>
           {couponStatus === 'valid' && couponDiscountType === 'free_month' && (
             <div className="mt-3 bg-green-50 border border-green-300 rounded-xl px-4 py-3">
               <div className="text-green-700 text-sm font-bold">✓ הקוד אושר - חודש ראשון חינם לגמרי!</div>
@@ -170,8 +163,7 @@ export default function PaymentPage() {
           {couponStatus === 'invalid' && (
             <div className="mt-2 text-red-500 text-xs">קוד לא תקין או כבר שומש</div>
           )}
-        </div>
-      )}
+      </div>
 
       {err && (
         <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg px-4 py-3 mb-4">
