@@ -471,10 +471,6 @@ export default function AdminPanel() {
             )}
           </div>
 
-          <div className="bg-amber-50 border border-amber-200 rounded-lg px-4 py-3 text-xs text-amber-800">
-            <strong>שים לב:</strong> צריך להוסיף עמודה ל-Supabase פעם אחת:<br />
-            <code className="bg-amber-100 px-1 rounded mt-1 inline-block font-mono text-xs">ALTER TABLE promo_codes ADD COLUMN IF NOT EXISTS discount_type TEXT DEFAULT &apos;first_month_1nis&apos;;</code>
-          </div>
         </div>
       )}
 
