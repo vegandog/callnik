@@ -136,6 +136,12 @@ export default function RegisterPage() {
           </div>
         </div>
 
+        <div className="bg-amber-50 border border-amber-300 rounded-xl px-4 py-3 mb-5 text-center">
+          <p className="text-xs text-amber-700 mb-1">קוד הקופון שלך לחודש ראשון ב-₪1:</p>
+          <p className="text-2xl font-black tracking-widest text-amber-900 font-mono">71093</p>
+          <p className="text-xs text-amber-600 mt-1">הכנס אותו בדף התשלום</p>
+        </div>
+
         <h1 className="text-xl font-bold text-gray-900 mb-1">הצטרפות ל-Callnik</h1>
         <p className="text-gray-500 text-sm mb-6">הרשמה בשתי דקות. ביטול בכל עת.</p>
 
