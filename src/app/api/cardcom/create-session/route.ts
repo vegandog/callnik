@@ -1,8 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
-import { sendActivationEmail } from '@/lib/email'
-import { getVoiceName } from '@/lib/constants'
-import { findAvailableIsraeliNumber, orderIsraeliNumber } from '@/lib/telnyx'
 
 const CARDCOM_TERMINAL = 190666
 const CARDCOM_API_NAME = 'sAwPXwN5jjRPhSKn5NRn'
@@ -128,39 +125,7 @@ export async function POST(req: NextRequest) {
       })
     }
 
-    // Provision Telnyx number if needed
-    const { data: freshCustomer } = await adminSupabase
-      .from('customers')
-      .select('business_name, carrier, voice_id, telnyx_number')
-      .eq('id', userRecord.customer_id)
-      .single()
-
-    if (freshCustomer && !freshCustomer.telnyx_number) {
-      try {
-        const phoneNumber = await findAvailableIsraeliNumber()
-        if (phoneNumber) {
-          const orderStatus = await orderIsraeliNumber(phoneNumber, userRecord.customer_id)
-          if (orderStatus === 'success') {
-            await dbPatch('customers', `id=eq.${userRecord.customer_id}`, { telnyx_number: phoneNumber })
-            const { data: authData } = await adminSupabase.auth.admin.getUserById(user.id)
-            const firstName = authData?.user?.user_metadata?.first_name
-            const lastName = authData?.user?.user_metadata?.last_name
-            sendActivationEmail(
-              user.email!,
-              freshCustomer.business_name,
-              phoneNumber,
-              freshCustomer.carrier ?? '',
-              firstName,
-              lastName,
-              getVoiceName(freshCustomer.voice_id)
-            ).catch(console.error)
-          }
-        }
-      } catch (e) {
-        console.error('Free activation: Telnyx provision error:', e)
-      }
-    }
-
+    // No auto-provisioning for free accounts — number assigned manually via admin
     return NextResponse.json({ free: true })
   }
 
