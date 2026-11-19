@@ -122,8 +122,16 @@ export default function PaymentPage() {
       <div className="mb-5">
         <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 mb-3 text-center">
           <p className="text-xs text-amber-700 mb-1">קוד הקופון שלך לחודש ראשון ב-₪1:</p>
-          <p className="text-2xl font-black tracking-widest text-amber-900 font-mono">71093</p>
-          <p className="text-xs text-amber-600 mt-1">הכנס אותו בשדה למטה</p>
+          <div className="flex items-center justify-center gap-2 my-1">
+            <p className="text-2xl font-black tracking-widest text-amber-900 font-mono">71093</p>
+            <button
+              onClick={() => { navigator.clipboard.writeText('71093'); setCoupon('71093'); setCouponStatus('idle') }}
+              className="text-xs bg-amber-200 hover:bg-amber-300 text-amber-800 font-medium px-2 py-1 rounded-lg transition-colors"
+            >
+              העתק
+            </button>
+          </div>
+          <p className="text-xs text-amber-600">הכנס אותו בשדה למטה</p>
         </div>
         <div className="flex gap-2">
           <input
