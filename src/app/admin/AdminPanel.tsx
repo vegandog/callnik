@@ -88,6 +88,8 @@ export default function AdminPanel() {
   const [newCode, setNewCode] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
   const [showAllCodes, setShowAllCodes] = useState(false)
+  const [confirmDeleteCode, setConfirmDeleteCode] = useState<string | null>(null)
+  const [deletingCode, setDeletingCode] = useState<string | null>(null)
 
   const load = async () => {
     setLoading(true)
@@ -258,6 +260,14 @@ export default function AdminPanel() {
       await loadCodes()
     }
     setGenerating(false)
+  }
+
+  const deleteCode = async (id: string) => {
+    setDeletingCode(id)
+    const res = await fetch(`/api/admin/promo-codes?id=${id}`, { method: 'DELETE' })
+    if (res.ok) setCodes(prev => prev.filter(c => c.id !== id))
+    setDeletingCode(null)
+    setConfirmDeleteCode(null)
   }
 
   const copyCode = (code: string) => {
@@ -476,11 +486,35 @@ export default function AdminPanel() {
                         }
                       </td>
                       <td className="px-4 py-3">
-                        {!c.used_at && (
-                          <button onClick={() => copyCode(c.code)} className="text-gray-300 hover:text-blue-500 transition-colors" title="העתק">
-                            <Copy className="w-3.5 h-3.5" />
-                          </button>
-                        )}
+                        <div className="flex items-center gap-2">
+                          {!c.used_at && (
+                            <button onClick={() => copyCode(c.code)} className="text-gray-300 hover:text-blue-500 transition-colors" title="העתק">
+                              <Copy className="w-3.5 h-3.5" />
+                            </button>
+                          )}
+                          {confirmDeleteCode === c.id ? (
+                            <div className="flex items-center gap-1.5">
+                              <button
+                                onClick={() => deleteCode(c.id)}
+                                disabled={deletingCode === c.id}
+                                className="text-xs text-red-600 font-medium hover:underline disabled:opacity-40"
+                              >
+                                {deletingCode === c.id ? '...' : 'בטל קוד'}
+                              </button>
+                              <button onClick={() => setConfirmDeleteCode(null)} className="text-gray-400 hover:text-gray-600">
+                                <X className="w-3 h-3" />
+                              </button>
+                            </div>
+                          ) : (
+                            <button
+                              onClick={() => setConfirmDeleteCode(c.id)}
+                              className="text-gray-200 hover:text-red-400 transition-colors"
+                              title="בטל קוד"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          )}
+                        </div>
                       </td>
                     </tr>
                   ))}
