@@ -74,11 +74,13 @@ export default function AdminPanel() {
   const [activeTab, setActiveTab] = useState<'customers' | 'coupons'>('customers')
 
   // Coupons
-  interface PromoCode { id: string; code: string; source: string; discount_type: string; expires_at: string | null; used_at: string | null; created_at: string }
+  interface PromoCode { id: string; code: string; source: string; discount_type: string; max_uses: number | null; use_count: number | null; expires_at: string | null; used_at: string | null; created_at: string }
   const [codes, setCodes] = useState<PromoCode[]>([])
   const [codesLoading, setCodesLoading] = useState(false)
   const [genSource, setGenSource] = useState('')
   const [genAmount, setGenAmount] = useState(0)
+  const [genMaxUses, setGenMaxUses] = useState(1)
+  const [genExpiresDays, setGenExpiresDays] = useState(0)
   const [generating, setGenerating] = useState(false)
   const [newCode, setNewCode] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
@@ -245,7 +247,7 @@ export default function AdminPanel() {
     const res = await fetch('/api/promo/generate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-promo-secret': 'jp2callnik_X7mK9qR3' },
-      body: JSON.stringify({ source: genSource || 'admin', amount: genAmount }),
+      body: JSON.stringify({ source: genSource || 'admin', amount: genAmount, max_uses: genMaxUses, expires_days: genExpiresDays || null }),
     })
     if (res.ok) {
       const data = await res.json()
@@ -316,12 +318,38 @@ export default function AdminPanel() {
                 {genAmount === 0 && <p className="text-xs text-green-600 mt-1">חינם לגמרי</p>}
               </div>
               <div>
+                <label className="text-xs text-gray-500 block mb-1">שימושים</label>
+                <input
+                  type="number"
+                  min={0}
+                  value={genMaxUses}
+                  onChange={e => setGenMaxUses(Math.max(0, Number(e.target.value)))}
+                  className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-24"
+                  dir="ltr"
+                  title="1 = חד פעמי | 0 = ללא הגבלה"
+                />
+                <p className="text-xs text-gray-400 mt-1">{genMaxUses === 0 ? 'ללא הגבלה' : genMaxUses === 1 ? 'חד פעמי' : `${genMaxUses} פעמים`}</p>
+              </div>
+              <div>
+                <label className="text-xs text-gray-500 block mb-1">תוקף (ימים)</label>
+                <input
+                  type="number"
+                  min={0}
+                  value={genExpiresDays}
+                  onChange={e => setGenExpiresDays(Math.max(0, Number(e.target.value)))}
+                  className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-24"
+                  dir="ltr"
+                  placeholder="0"
+                />
+                <p className="text-xs text-gray-400 mt-1">{genExpiresDays > 0 ? `פג אחרי ${genExpiresDays} ימים` : 'ללא תוקף'}</p>
+              </div>
+              <div>
                 <label className="text-xs text-gray-500 block mb-1">מקור (אופציונלי)</label>
                 <input
                   value={genSource}
                   onChange={e => setGenSource(e.target.value)}
                   placeholder="פייסבוק, פיילוט..."
-                  className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-40"
+                  className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-36"
                 />
               </div>
               <button
@@ -382,12 +410,21 @@ export default function AdminPanel() {
                     <th className="text-right font-medium text-gray-500 px-4 py-2.5">סוג</th>
                     <th className="text-right font-medium text-gray-500 px-4 py-2.5">מקור</th>
                     <th className="text-right font-medium text-gray-500 px-4 py-2.5">נוצר</th>
+                    <th className="text-right font-medium text-gray-500 px-4 py-2.5">שימושים</th>
                     <th className="text-right font-medium text-gray-500 px-4 py-2.5">סטטוס</th>
                     <th className="px-4 py-2.5" />
                   </tr>
                 </thead>
                 <tbody>
-                  {codes.filter(c => showAllCodes || (!c.used_at && (!c.expires_at || new Date(c.expires_at) > new Date()))).map(c => (
+                  {codes.filter(c => {
+                    if (showAllCodes) return true
+                    const isExpired = c.expires_at && new Date(c.expires_at) < new Date()
+                    if (isExpired) return false
+                    const max = c.max_uses ?? 1
+                    const used = c.use_count ?? 0
+                    if (max === 0) return true
+                    return used < max
+                  }).map(c => (
                     <tr key={c.id} className="border-t border-gray-50 hover:bg-gray-50">
                       <td className="px-4 py-3">
                         <span className="font-mono font-semibold text-gray-800 tracking-wider">{c.code}</span>
@@ -403,6 +440,14 @@ export default function AdminPanel() {
                       <td className="px-4 py-3 text-gray-500 text-xs">{c.source || '-'}</td>
                       <td className="px-4 py-3 text-gray-400 text-xs">
                         {new Date(c.created_at).toLocaleDateString('he-IL', { day: 'numeric', month: 'short' })}
+                      </td>
+                      <td className="px-4 py-3 text-xs text-gray-500">
+                        {(() => {
+                          const max = c.max_uses ?? 1
+                          const used = c.use_count ?? 0
+                          if (max === 0) return <span>∞ <span className="text-gray-400">({used} שומשו)</span></span>
+                          return <span>{used}/{max}</span>
+                        })()}
                       </td>
                       <td className="px-4 py-3">
                         {c.used_at

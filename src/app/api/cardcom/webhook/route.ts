@@ -70,12 +70,14 @@ export async function POST(req: NextRequest) {
 
   if (!customerId) return NextResponse.json({ ok: false })
 
-  // Mark promo code as used
+  // Mark promo code as used / increment use_count
   if (promoCodeId) {
     const promoUser = await dbGet('users', `customer_id=eq.${customerId}`, 'id')
+    const promoRow = await dbGet('promo_codes', `id=eq.${promoCodeId}`, 'max_uses,use_count')
+    const isSingle = !promoRow || (promoRow.max_uses ?? 1) === 1
     await dbPatch('promo_codes', `id=eq.${promoCodeId}`, {
-      used_at: new Date().toISOString(),
-      used_by: promoUser?.id || null,
+      use_count: (promoRow?.use_count ?? 0) + 1,
+      ...(isSingle ? { used_at: new Date().toISOString(), used_by: promoUser?.id || null } : {}),
     })
   }
 

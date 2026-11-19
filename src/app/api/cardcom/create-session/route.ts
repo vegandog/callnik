@@ -46,13 +46,19 @@ export async function POST(req: NextRequest) {
     const adminSupabase = (await import('@/lib/supabase/admin')).createAdminClient()
     const { data: promoRow } = await adminSupabase
       .from('promo_codes')
-      .select('id, used_at, expires_at, discount_type')
+      .select('id, used_at, expires_at, discount_type, max_uses, use_count')
       .eq('code', (coupon as string).toUpperCase().trim())
       .single()
-    if (promoRow && !promoRow.used_at && (!promoRow.expires_at || new Date(promoRow.expires_at) > new Date())) {
-      couponValid = true
-      couponId = promoRow.id
-      couponDiscountType = promoRow.discount_type || 'first_month_1nis'
+    if (promoRow && (!promoRow.expires_at || new Date(promoRow.expires_at) > new Date())) {
+      const maxUses = promoRow.max_uses ?? 1
+      const useCount = promoRow.use_count ?? 0
+      const usedUp = maxUses !== 0 && useCount >= maxUses
+      const singleUsedAt = maxUses === 1 && promoRow.used_at
+      if (!usedUp && !singleUsedAt) {
+        couponValid = true
+        couponId = promoRow.id
+        couponDiscountType = promoRow.discount_type || 'first_month_1nis'
+      }
     }
   }
 
@@ -115,9 +121,12 @@ export async function POST(req: NextRequest) {
     })
 
     if (couponId) {
+      const { data: pr } = await (await import('@/lib/supabase/admin')).createAdminClient()
+        .from('promo_codes').select('max_uses, use_count').eq('id', couponId).single()
+      const isSingle = !pr || (pr.max_uses ?? 1) === 1
       await dbPatch('promo_codes', `id=eq.${couponId}`, {
-        used_at: new Date().toISOString(),
-        used_by: user.id,
+        use_count: (pr?.use_count ?? 0) + 1,
+        ...(isSingle ? { used_at: new Date().toISOString(), used_by: user.id } : {}),
       })
     }
 

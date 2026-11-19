@@ -5,7 +5,7 @@ export async function GET() {
   const supabase = createAdminClient()
   const { data, error } = await supabase
     .from('promo_codes')
-    .select('id, code, source, discount_type, expires_at, used_at, created_at')
+    .select('id, code, source, discount_type, max_uses, use_count, expires_at, used_at, created_at')
     .order('created_at', { ascending: false })
     .limit(50)
 
