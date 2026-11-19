@@ -78,7 +78,7 @@ export default function AdminPanel() {
   const [codes, setCodes] = useState<PromoCode[]>([])
   const [codesLoading, setCodesLoading] = useState(false)
   const [genSource, setGenSource] = useState('')
-  const [genType, setGenType] = useState<'first_month_1nis' | 'free_month'>('free_month')
+  const [genAmount, setGenAmount] = useState(0)
   const [generating, setGenerating] = useState(false)
   const [newCode, setNewCode] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
@@ -245,7 +245,7 @@ export default function AdminPanel() {
     const res = await fetch('/api/promo/generate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-promo-secret': 'jp2callnik_X7mK9qR3' },
-      body: JSON.stringify({ source: genSource || 'admin', discount_type: genType }),
+      body: JSON.stringify({ source: genSource || 'admin', amount: genAmount }),
     })
     if (res.ok) {
       const data = await res.json()
@@ -301,15 +301,19 @@ export default function AdminPanel() {
             <h2 className="text-sm font-semibold text-gray-800 mb-4">יצירת קוד קופון</h2>
             <div className="flex gap-3 items-end flex-wrap">
               <div>
-                <label className="text-xs text-gray-500 block mb-1">סוג הנחה</label>
-                <select
-                  value={genType}
-                  onChange={e => setGenType(e.target.value as 'first_month_1nis' | 'free_month')}
-                  className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
-                >
-                  <option value="free_month">חודש ראשון חינם</option>
-                  <option value="first_month_1nis">חודש ראשון ב-₪1</option>
-                </select>
+                <label className="text-xs text-gray-500 block mb-1">מחיר לחודש הראשון (₪)</label>
+                <div className="relative">
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm pointer-events-none">₪</span>
+                  <input
+                    type="number"
+                    min={0}
+                    value={genAmount}
+                    onChange={e => setGenAmount(Math.max(0, Number(e.target.value)))}
+                    className="border border-gray-200 rounded-lg pr-7 pl-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-28 text-left"
+                    dir="ltr"
+                  />
+                </div>
+                {genAmount === 0 && <p className="text-xs text-green-600 mt-1">חינם לגמרי</p>}
               </div>
               <div>
                 <label className="text-xs text-gray-500 block mb-1">מקור (אופציונלי)</label>
@@ -343,7 +347,7 @@ export default function AdminPanel() {
                 </div>
                 {copied && <span className="text-xs text-green-600 font-medium">הועתק!</span>}
                 <span className="text-xs text-gray-500">
-                  {genType === 'free_month' ? 'חינם' : '₪1'} לחודש ראשון
+                  {genAmount === 0 ? 'חינם' : `₪${genAmount}`} לחודש ראשון
                 </span>
               </div>
             )}
@@ -389,10 +393,12 @@ export default function AdminPanel() {
                         <span className="font-mono font-semibold text-gray-800 tracking-wider">{c.code}</span>
                       </td>
                       <td className="px-4 py-3">
-                        {c.discount_type === 'free_month'
-                          ? <span className="text-xs bg-green-100 text-green-700 font-medium px-2 py-0.5 rounded-full">חינם</span>
-                          : <span className="text-xs bg-amber-100 text-amber-700 font-medium px-2 py-0.5 rounded-full">₪1</span>
-                        }
+                        {(() => {
+                          const amt = c.discount_type === 'free_month' ? 0 : c.discount_type === 'first_month_1nis' ? 1 : parseFloat(c.discount_type) || 1
+                          return amt === 0
+                            ? <span className="text-xs bg-green-100 text-green-700 font-medium px-2 py-0.5 rounded-full">חינם</span>
+                            : <span className="text-xs bg-amber-100 text-amber-700 font-medium px-2 py-0.5 rounded-full">₪{amt}</span>
+                        })()}
                       </td>
                       <td className="px-4 py-3 text-gray-500 text-xs">{c.source || '-'}</td>
                       <td className="px-4 py-3 text-gray-400 text-xs">

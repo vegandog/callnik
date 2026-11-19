@@ -13,7 +13,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const { source = 'manual', discount_type = 'first_month_1nis' } = await req.json().catch(() => ({}))
+  const body = await req.json().catch(() => ({}))
+  const source = body.source || 'manual'
+  const discount_type = 'amount' in body ? String(body.amount) : (body.discount_type || 'first_month_1nis')
   const supabase = createAdminClient()
 
   let code = ''

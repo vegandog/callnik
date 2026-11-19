@@ -56,10 +56,15 @@ export async function POST(req: NextRequest) {
     }
   }
 
+  // Parse coupon amount (0 = free, >0 = charge via Cardcom)
+  const couponAmount = couponDiscountType === 'free_month' ? 0
+    : couponDiscountType === 'first_month_1nis' ? 1
+    : parseFloat(couponDiscountType) || 1
+
   // Amounts include 18% VAT: Basic ₪99→116.82, Pro ₪199→234.82, Annual Basic ₪948→1118.64, Annual Pro ₪1990→2348.20
   const monthlyBase = tierVal === 'pro' ? 234.82 : 116.82
   const annualBase  = tierVal === 'pro' ? 2348.20 : 1118.64
-  const amount = isTest ? 1 : couponValid ? 1 : isAnnual ? annualBase : isIntro ? 1 : monthlyBase
+  const amount = isTest ? 1 : couponValid ? couponAmount : isAnnual ? annualBase : isIntro ? 1 : monthlyBase
   const productName = isTest ? 'טסט Callnik' : isAnnual ? `מנוי Callnik ${tierLabel} שנתי` : `מנוי Callnik ${tierLabel} חודשי`
   const productDescription = isTest
     ? 'טסט Callnik - callnik.com'
@@ -90,7 +95,7 @@ export async function POST(req: NextRequest) {
   }
 
   // Free coupon: skip Cardcom, activate directly
-  if (couponValid && couponDiscountType === 'free_month') {
+  if (couponValid && couponAmount === 0) {
     const adminSupabase = (await import('@/lib/supabase/admin')).createAdminClient()
 
     await dbPatch('customers', `id=eq.${userRecord.customer_id}`, {
