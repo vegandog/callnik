@@ -120,8 +120,10 @@ export default function PaymentPage() {
 
       {/* Coupon - prominent */}
       <div className="mb-5">
-        <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 mb-3 text-sm text-amber-800">
-          קיבלת קוד קופון? הכנס אותו למטה לקבל את החודש הראשון ב-₪1 בלבד
+        <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 mb-3 text-center">
+          <p className="text-xs text-amber-700 mb-1">קוד הקופון שלך לחודש ראשון ב-₪1:</p>
+          <p className="text-2xl font-black tracking-widest text-amber-900 font-mono">71093</p>
+          <p className="text-xs text-amber-600 mt-1">הכנס אותו בשדה למטה</p>
         </div>
         <div className="flex gap-2">
           <input
