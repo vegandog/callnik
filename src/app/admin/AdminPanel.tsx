@@ -78,9 +78,12 @@ export default function AdminPanel() {
   const [codes, setCodes] = useState<PromoCode[]>([])
   const [codesLoading, setCodesLoading] = useState(false)
   const [genSource, setGenSource] = useState('')
-  const [genAmount, setGenAmount] = useState(0)
+  const [genAmount, setGenAmount] = useState(1)
+  const [genFree, setGenFree] = useState(true)
   const [genMaxUses, setGenMaxUses] = useState(1)
-  const [genExpiresDays, setGenExpiresDays] = useState(0)
+  const [genSingleUse, setGenSingleUse] = useState(true)
+  const [genExpiresDays, setGenExpiresDays] = useState(30)
+  const [genNoExpiry, setGenNoExpiry] = useState(true)
   const [generating, setGenerating] = useState(false)
   const [newCode, setNewCode] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
@@ -247,7 +250,7 @@ export default function AdminPanel() {
     const res = await fetch('/api/promo/generate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-promo-secret': 'jp2callnik_X7mK9qR3' },
-      body: JSON.stringify({ source: genSource || 'admin', amount: genAmount, max_uses: genMaxUses, expires_days: genExpiresDays || null }),
+      body: JSON.stringify({ source: genSource || 'admin', amount: genFree ? 0 : genAmount, max_uses: genSingleUse ? 1 : genMaxUses, expires_days: genNoExpiry ? null : genExpiresDays }),
     })
     if (res.ok) {
       const data = await res.json()
@@ -301,65 +304,80 @@ export default function AdminPanel() {
           {/* Generate form */}
           <div className="bg-white rounded-xl border border-gray-100 p-5">
             <h2 className="text-sm font-semibold text-gray-800 mb-4">יצירת קוד קופון</h2>
-            <div className="flex gap-3 items-end flex-wrap">
+            <div className="grid grid-cols-2 gap-4 mb-4">
+              {/* Price */}
               <div>
-                <label className="text-xs text-gray-500 block mb-1">מחיר לחודש הראשון (₪)</label>
-                <div className="relative">
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm pointer-events-none">₪</span>
+                <label className="text-xs text-gray-500 block mb-1.5">מחיר לחודש הראשון</label>
+                <div className="flex items-center gap-3">
+                  <div className="relative">
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm pointer-events-none">₪</span>
+                    <input
+                      type="number" min={0} value={genAmount}
+                      onChange={e => setGenAmount(Math.max(0, Number(e.target.value)))}
+                      disabled={genFree}
+                      className="border border-gray-200 rounded-lg pr-7 pl-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-24 disabled:bg-gray-50 disabled:text-gray-300"
+                      dir="ltr"
+                    />
+                  </div>
+                  <label className="flex items-center gap-1.5 cursor-pointer select-none">
+                    <input type="checkbox" checked={genFree} onChange={e => setGenFree(e.target.checked)} className="w-4 h-4 accent-blue-600" />
+                    <span className="text-sm text-gray-600">חינמי</span>
+                  </label>
+                </div>
+              </div>
+              {/* Uses */}
+              <div>
+                <label className="text-xs text-gray-500 block mb-1.5">מספר שימושים</label>
+                <div className="flex items-center gap-3">
                   <input
-                    type="number"
-                    min={0}
-                    value={genAmount}
-                    onChange={e => setGenAmount(Math.max(0, Number(e.target.value)))}
-                    className="border border-gray-200 rounded-lg pr-7 pl-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-28 text-left"
+                    type="number" min={0} value={genMaxUses}
+                    onChange={e => setGenMaxUses(Math.max(0, Number(e.target.value)))}
+                    disabled={genSingleUse}
+                    className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-24 disabled:bg-gray-50 disabled:text-gray-300"
+                    dir="ltr"
+                    placeholder="0 = ללא הגבלה"
+                  />
+                  <label className="flex items-center gap-1.5 cursor-pointer select-none">
+                    <input type="checkbox" checked={genSingleUse} onChange={e => setGenSingleUse(e.target.checked)} className="w-4 h-4 accent-blue-600" />
+                    <span className="text-sm text-gray-600">חד פעמי</span>
+                  </label>
+                </div>
+              </div>
+              {/* Expiry */}
+              <div>
+                <label className="text-xs text-gray-500 block mb-1.5">תוקף (ימים)</label>
+                <div className="flex items-center gap-3">
+                  <input
+                    type="number" min={1} value={genExpiresDays}
+                    onChange={e => setGenExpiresDays(Math.max(1, Number(e.target.value)))}
+                    disabled={genNoExpiry}
+                    className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-24 disabled:bg-gray-50 disabled:text-gray-300"
                     dir="ltr"
                   />
+                  <label className="flex items-center gap-1.5 cursor-pointer select-none">
+                    <input type="checkbox" checked={genNoExpiry} onChange={e => setGenNoExpiry(e.target.checked)} className="w-4 h-4 accent-blue-600" />
+                    <span className="text-sm text-gray-600">ללא תוקף</span>
+                  </label>
                 </div>
-                {genAmount === 0 && <p className="text-xs text-green-600 mt-1">חינם לגמרי</p>}
               </div>
+              {/* Source */}
               <div>
-                <label className="text-xs text-gray-500 block mb-1">שימושים</label>
-                <input
-                  type="number"
-                  min={0}
-                  value={genMaxUses}
-                  onChange={e => setGenMaxUses(Math.max(0, Number(e.target.value)))}
-                  className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-24"
-                  dir="ltr"
-                  title="1 = חד פעמי | 0 = ללא הגבלה"
-                />
-                <p className="text-xs text-gray-400 mt-1">{genMaxUses === 0 ? 'ללא הגבלה' : genMaxUses === 1 ? 'חד פעמי' : `${genMaxUses} פעמים`}</p>
-              </div>
-              <div>
-                <label className="text-xs text-gray-500 block mb-1">תוקף (ימים)</label>
-                <input
-                  type="number"
-                  min={0}
-                  value={genExpiresDays}
-                  onChange={e => setGenExpiresDays(Math.max(0, Number(e.target.value)))}
-                  className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-24"
-                  dir="ltr"
-                  placeholder="0"
-                />
-                <p className="text-xs text-gray-400 mt-1">{genExpiresDays > 0 ? `פג אחרי ${genExpiresDays} ימים` : 'ללא תוקף'}</p>
-              </div>
-              <div>
-                <label className="text-xs text-gray-500 block mb-1">מקור (אופציונלי)</label>
+                <label className="text-xs text-gray-500 block mb-1.5">מקור (אופציונלי)</label>
                 <input
                   value={genSource}
                   onChange={e => setGenSource(e.target.value)}
                   placeholder="פייסבוק, פיילוט..."
-                  className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-36"
+                  className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
                 />
               </div>
-              <button
-                onClick={generateCode}
-                disabled={generating}
-                className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-5 py-2 rounded-lg disabled:opacity-50 transition-colors"
-              >
-                {generating ? 'יוצר...' : 'צור קוד'}
-              </button>
             </div>
+            <button
+              onClick={generateCode}
+              disabled={generating}
+              className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-6 py-2 rounded-lg disabled:opacity-50 transition-colors"
+            >
+              {generating ? 'יוצר...' : 'צור קוד'}
+            </button>
 
             {newCode && (
               <div className="mt-4 flex items-center gap-3">
@@ -375,7 +393,7 @@ export default function AdminPanel() {
                 </div>
                 {copied && <span className="text-xs text-green-600 font-medium">הועתק!</span>}
                 <span className="text-xs text-gray-500">
-                  {genAmount === 0 ? 'חינם' : `₪${genAmount}`} לחודש ראשון
+                  {genFree ? 'חינם' : `₪${genAmount}`} · {genSingleUse ? 'חד פעמי' : genMaxUses === 0 ? 'ללא הגבלה' : `${genMaxUses} פעמים`} · {genNoExpiry ? 'ללא תוקף' : `${genExpiresDays} ימים`}
                 </span>
               </div>
             )}
