@@ -2,6 +2,7 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
 import { Check, ChevronLeft } from 'lucide-react'
+import CouponBanner from '@/components/CouponBanner'
 
 const basicFeatures = [
   '60 שיחות לחודש כלולות',
@@ -127,6 +128,8 @@ export default function PricingPage() {
             </div>
 
           </div>
+
+          <CouponBanner code="71093" />
 
           {/* Overage note */}
           <div className="max-w-2xl mx-auto mb-14">
