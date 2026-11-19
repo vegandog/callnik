@@ -6,7 +6,6 @@ import { useSearchParams } from 'next/navigation'
 export default function PaymentPage() {
   const searchParams = useSearchParams()
   const error = searchParams.get('error')
-  const isIntro = searchParams.get('intro') === '1'
   const isTestMode = searchParams.get('test') === '1'
 
   const [tier] = useState<'basic' | 'pro'>(() => {
@@ -38,7 +37,7 @@ export default function PaymentPage() {
       const res = await fetch('/api/cardcom/create-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ plan, coupon: appliedCoupon, intro: isIntro, tier }),
+        body: JSON.stringify({ plan, coupon: appliedCoupon, tier }),
       })
       if (res.ok) {
         const data = await res.json()
@@ -92,6 +91,7 @@ export default function PaymentPage() {
       checkCoupon(urlCoupon)
     } else {
       createSession(isTestMode ? 'test' : 'monthly')
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }
   }, []) // eslint-disable-line
 
@@ -117,14 +117,7 @@ export default function PaymentPage() {
             <span className="bg-purple-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">Pro</span>
           )}
         </div>
-        {isIntro ? (
-          <>
-            <div className="text-2xl font-black text-blue-600">₪1 <span className="text-sm font-normal text-gray-500">חודש ראשון בלבד</span></div>
-            <div className="text-xs text-gray-500 mt-1">מחודש שני: {price} + מע&quot;מ לחודש · ביטול בכל עת</div>
-          </>
-        ) : (
-          <div className="text-2xl font-black text-blue-600">{price} <span className="text-sm font-normal text-gray-500">+ מע&quot;מ לחודש</span></div>
-        )}
+        <div className="text-2xl font-black text-blue-600">{price} <span className="text-sm font-normal text-gray-500">+ מע&quot;מ לחודש</span></div>
       </div>
 
       {/* Coupon - collapsed by default */}

@@ -31,10 +31,9 @@ export async function POST(req: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const { plan, coupon, intro, tier: tierParam } = await req.json()
+  const { plan, coupon, tier: tierParam } = await req.json()
   const isAnnual = plan === 'annual'
   const isTest = plan === 'test'
-  let isIntro = !!intro && !isAnnual && !isTest
   const tierVal: 'basic' | 'pro' = tierParam === 'pro' ? 'pro' : 'basic'
   const tierLabel = tierVal === 'pro' ? 'Pro' : 'Basic'
 
@@ -70,16 +69,15 @@ export async function POST(req: NextRequest) {
   // Amounts include 18% VAT: Basic ₪99→116.82, Pro ₪199→234.82, Annual Basic ₪948→1118.64, Annual Pro ₪1990→2348.20
   const monthlyBase = tierVal === 'pro' ? 234.82 : 116.82
   const annualBase  = tierVal === 'pro' ? 2348.20 : 1118.64
-  const amount = isTest ? 1 : couponValid ? couponAmount : isAnnual ? annualBase : isIntro ? 1 : monthlyBase
+  const amount = isTest ? 1 : couponValid ? couponAmount : isAnnual ? annualBase : monthlyBase
   const productName = isTest ? 'טסט Callnik' : isAnnual ? `מנוי Callnik ${tierLabel} שנתי` : `מנוי Callnik ${tierLabel} חודשי`
+  const couponAmountDisplay = couponAmount === 0 ? 'חינם' : `₪${couponAmount}`
   const productDescription = isTest
     ? 'טסט Callnik - callnik.com'
     : couponValid
-    ? `מנוי Callnik ${tierLabel} חודשי - callnik.com | חודש ראשון ב-₪1 בלבד | מחודש 2: ₪${tierVal === 'pro' ? 199 : 99} + מע"מ לחודש`
+    ? `מנוי Callnik ${tierLabel} חודשי - callnik.com | חודש ראשון ${couponAmountDisplay} (קופון) | מחודש 2: ₪${tierVal === 'pro' ? 199 : 99} + מע"מ לחודש`
     : isAnnual
-    ? `מנוי Callnik ${tierLabel} שנתי - callnik.com | ₪${tierVal === 'pro' ? 1428 : 948} + מע"מ לשנה`
-    : isIntro
-    ? `מנוי Callnik ${tierLabel} חודשי - callnik.com | חודש ראשון ₪1 | מחודש שני: ₪${tierVal === 'pro' ? 199 : 99} + מע"מ לחודש`
+    ? `מנוי Callnik ${tierLabel} שנתי - callnik.com | ₪${tierVal === 'pro' ? 1990 : 948} + מע"מ לשנה`
     : `מנוי Callnik ${tierLabel} חודשי - callnik.com | ₪${tierVal === 'pro' ? 199 : 99} + מע"מ לחודש`
 
   const { data: userRecord } = await supabase
@@ -166,21 +164,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ free: true })
   }
 
-  // Block re-use of intro pricing for returning customers
-  if (isIntro) {
-    const adminSupabase = (await import('@/lib/supabase/admin')).createAdminClient()
-    const { data: priorIntro } = await adminSupabase
-      .from('billing_history')
-      .select('id')
-      .eq('customer_id', userRecord.customer_id)
-      .limit(1)
-      .maybeSingle()
-    if (priorIntro) {
-      // Customer already paid before — charge full price, no intro
-      isIntro = false
-    }
-  }
-
   const res = await fetch('https://secure.cardcom.solutions/api/v11/LowProfile/Create', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -188,7 +171,7 @@ export async function POST(req: NextRequest) {
       TerminalNumber: CARDCOM_TERMINAL,
       ApiName: CARDCOM_API_NAME,
       Operation: 'ChargeAndCreateToken',
-      ReturnValue: `${userRecord.customer_id}:${plan}:${tierVal}${couponId ? `:promo:${couponId}` : isIntro ? ':intro' : ''}`,
+      ReturnValue: `${userRecord.customer_id}:${plan}:${tierVal}${couponId ? `:promo:${couponId}` : ''}`,
       Amount: amount,
       SuccessRedirectUrl: `${BASE_URL}/api/cardcom/callback`,
       FailedRedirectUrl: `${BASE_URL}/payment?error=1`,
