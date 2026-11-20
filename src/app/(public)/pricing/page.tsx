@@ -59,11 +59,16 @@ export default function PricingPage() {
 
             {/* Basic */}
             <div className="bg-white border border-gray-200 rounded-2xl p-8 flex flex-col">
-              <div className="h-7 mb-6" />
+              <div className="bg-orange-500 text-white text-xs font-semibold px-3 py-1 rounded-full inline-block mb-6 self-center">
+                מחיר מבצע נובמבר
+              </div>
               <p className="text-gray-500 text-sm font-medium mb-1">Basic</p>
-              <div className="text-5xl font-bold text-gray-900 mb-1">
-                ₪99
-                <span className="text-xl font-normal text-gray-400">/חודש</span>
+              <div className="flex items-baseline gap-2 mb-1">
+                <span className="text-lg line-through text-gray-300 font-normal">₪199</span>
+                <div className="text-5xl font-bold text-gray-900">
+                  ₪99
+                  <span className="text-xl font-normal text-gray-400">/חודש</span>
+                </div>
               </div>
               <p className="text-gray-400 text-sm mb-1">+ מע&quot;מ</p>
               <p className="text-gray-400 text-sm mb-8">או ₪79/חודש בתשלום שנתי + מע&quot;מ</p>
@@ -93,9 +98,12 @@ export default function PricingPage() {
                 כולל קביעת פגישות
               </div>
               <p className="text-gray-500 text-sm font-medium mb-1">Pro</p>
-              <div className="text-5xl font-bold text-gray-900 mb-1">
-                ₪199
-                <span className="text-xl font-normal text-gray-400">/חודש</span>
+              <div className="flex items-baseline gap-2 mb-1">
+                <span className="text-lg line-through text-gray-300 font-normal">₪299</span>
+                <div className="text-5xl font-bold text-gray-900">
+                  ₪199
+                  <span className="text-xl font-normal text-gray-400">/חודש</span>
+                </div>
               </div>
               <p className="text-gray-400 text-sm mb-1">+ מע&quot;מ</p>
               <p className="text-blue-600 text-sm font-medium mb-8">או ₪166/חודש בתשלום שנתי + מע&quot;מ</p>
