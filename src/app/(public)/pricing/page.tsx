@@ -59,15 +59,22 @@ export default function PricingPage() {
 
             {/* Basic */}
             <div className="bg-white border border-gray-200 rounded-2xl p-8 flex flex-col">
-              <div className="bg-orange-500 text-white text-xs font-semibold px-3 py-1 rounded-full inline-block mb-6 self-center">
-                מחיר מבצע נובמבר
+              <div className="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full inline-block mb-4 self-center">
+                50% הנחה - נובמבר בלבד!
               </div>
-              <p className="text-gray-500 text-sm font-medium mb-1">Basic</p>
-              <div className="flex items-baseline gap-2 mb-1">
-                <span className="text-lg line-through text-gray-300 font-normal">₪199</span>
-                <div className="text-5xl font-bold text-gray-900">
-                  ₪99
-                  <span className="text-xl font-normal text-gray-400">/חודש</span>
+              <p className="text-gray-500 text-sm font-medium mb-2">Basic</p>
+              <div className="flex items-center gap-3 mb-0.5">
+                <div>
+                  <span className="text-2xl font-bold text-red-400 line-through">₪199</span>
+                  <p className="text-xs text-red-400 font-medium">מחיר מלא</p>
+                </div>
+                <span className="text-xl text-gray-300">→</span>
+                <div>
+                  <div className="text-5xl font-bold text-gray-900">
+                    ₪99
+                    <span className="text-xl font-normal text-gray-400">/חודש</span>
+                  </div>
+                  <p className="text-xs text-green-600 font-bold">חסכת ₪100!</p>
                 </div>
               </div>
               <p className="text-gray-400 text-sm mb-1">+ מע&quot;מ</p>
@@ -94,15 +101,27 @@ export default function PricingPage() {
 
             {/* Pro */}
             <div className="bg-white border-2 border-blue-600 rounded-2xl p-8 shadow-xl shadow-blue-50 flex flex-col">
-              <div className="bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full inline-block mb-6 self-center">
-                כולל קביעת פגישות
+              <div className="flex flex-col items-center gap-1.5 mb-4">
+                <div className="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                  33% הנחה - נובמבר בלבד!
+                </div>
+                <div className="bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                  כולל קביעת פגישות
+                </div>
               </div>
-              <p className="text-gray-500 text-sm font-medium mb-1">Pro</p>
-              <div className="flex items-baseline gap-2 mb-1">
-                <span className="text-lg line-through text-gray-300 font-normal">₪299</span>
-                <div className="text-5xl font-bold text-gray-900">
-                  ₪199
-                  <span className="text-xl font-normal text-gray-400">/חודש</span>
+              <p className="text-gray-500 text-sm font-medium mb-2">Pro</p>
+              <div className="flex items-center gap-3 mb-0.5">
+                <div>
+                  <span className="text-2xl font-bold text-red-400 line-through">₪299</span>
+                  <p className="text-xs text-red-400 font-medium">מחיר מלא</p>
+                </div>
+                <span className="text-xl text-gray-300">→</span>
+                <div>
+                  <div className="text-5xl font-bold text-gray-900">
+                    ₪199
+                    <span className="text-xl font-normal text-gray-400">/חודש</span>
+                  </div>
+                  <p className="text-xs text-green-600 font-bold">חסכת ₪100!</p>
                 </div>
               </div>
               <p className="text-gray-400 text-sm mb-1">+ מע&quot;מ</p>

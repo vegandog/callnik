@@ -178,11 +178,23 @@ export default function Home() {
         {/* Pricing anchor */}
         <section className="py-16 px-4 bg-white border-y border-gray-100">
           <div className="max-w-2xl mx-auto text-center">
-            <p className="text-gray-400 text-sm mb-2">מחיר פשוט, ללא הפתעות</p>
-            <p className="text-5xl font-bold text-gray-900 mb-2">
-              ₪99{' '}
-              <span className="text-xl font-normal text-gray-400">לחודש + מע&quot;מ</span>
-            </p>
+            <div className="inline-flex items-center gap-2 bg-red-500 text-white text-sm font-bold px-4 py-1.5 rounded-full mb-4">
+              <span>50% הנחה - נובמבר בלבד!</span>
+            </div>
+            <div className="flex items-center justify-center gap-4 mb-1">
+              <div className="text-center">
+                <span className="text-3xl font-bold text-red-400 line-through">₪199</span>
+                <p className="text-xs text-red-400 font-medium mt-0.5">מחיר מלא</p>
+              </div>
+              <span className="text-2xl text-gray-300 font-light">→</span>
+              <div className="text-center">
+                <p className="text-5xl font-bold text-gray-900">
+                  ₪99{' '}
+                  <span className="text-xl font-normal text-gray-400">לחודש + מע&quot;מ</span>
+                </p>
+                <p className="text-xs text-green-600 font-bold mt-0.5">חסכת ₪100 לחודש!</p>
+              </div>
+            </div>
             <p className="text-blue-600 text-sm font-medium mb-5">או ₪79 לחודש בתשלום שנתי מראש + מע&quot;מ</p>
             <Link
               href="/pricing"
