@@ -41,3 +41,14 @@ export async function releaseNumber(phoneNumber: string): Promise<boolean> {
   const res = await apiFetch(`/phone_numbers/${encodeURIComponent(phoneNumber)}`, { method: 'DELETE' })
   return res.ok || res.status === 404
 }
+
+export async function sendSMS(to: string, text: string, from = '+97283762282'): Promise<boolean> {
+  const res = await apiFetch('/messages', {
+    method: 'POST',
+    body: JSON.stringify({ from, to, text }),
+  })
+  if (!res.ok) {
+    console.error('Telnyx SMS failed:', await res.text())
+  }
+  return res.ok
+}

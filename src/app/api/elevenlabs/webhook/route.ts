@@ -2,6 +2,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { sendCallNotification, sendWhatsApp } from '@/lib/notify'
 import { sendCallNotificationEmail } from '@/lib/email'
 import { getVoiceName } from '@/lib/constants'
+import { sendSMS } from '@/lib/telnyx'
 import { NextRequest, NextResponse } from 'next/server'
 
 const ERI_WHATSAPP = '0524680164'
@@ -123,13 +124,13 @@ export async function POST(req: NextRequest) {
       `Callnik הדגמה - שיחה מ-${callerName || demoCallerNumber} ב-${callTime}\n\n${summary}${recordingLine}`
     )
 
-    // Send summary + recording + promo to caller
+    // Send summary + promo to caller via SMS (no WhatsApp opt-in required)
     if (demoCallerNumber) {
-      await sendWhatsApp(
+      await sendSMS(
         demoCallerNumber,
-        `כך נראה הסיכום שתקבל אחרי כל שיחה עם דנה:\n\n${summary}${recordingLine}`
+        `Callnik - כך נראה הסיכום שתקבל אחרי כל שיחה עם דנה:\n\n${summary}${recordingLine}`
       )
-      await sendWhatsApp(
+      await sendSMS(
         demoCallerNumber,
         'נהנית מהשיחה? ככה בדיוק ירגישו הלקוחות שלך. להרשמה, החודש הראשון בשקל אחד: https://callnik.com/landing'
       )
