@@ -10,14 +10,15 @@ const html = `<!DOCTYPE html><html class="dark" dir="rtl" lang="he"><head>
 <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&amp;display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/landing.css">
+<style>@media(min-width:768px){.landing-ad-banner{max-height:420px;}}@media(max-width:767px){.landing-ad-banner{height:auto;}}</style>
 <script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,"clarity","script","zf99s81vxz");</script>
 </head>
 <body class="bg-[#0e0e10] text-[#e5e1e4] antialiased selection:bg-[#ff007f] selection:text-white" style="overflow-x:hidden;max-width:100vw;" data-new-gr-c-s-loaded="14.1348.0" data-new-gr-c-s-check-loaded="14.1348.0" data-gr-ext-installed="">
 <!-- MAIN -->
 <main class="w-full pb-16 pt-8">
 <!-- Ad Banner -->
-<div style="width:100%;max-width:100%;overflow:hidden;line-height:0;margin-bottom:0;">
-<img src="/ad-missed-call.png" alt="הבאסה לראות שיחה שלא נענתה" style="width:100%;height:auto;display:block;object-fit:cover;" />
+<div style="width:100%;overflow:hidden;line-height:0;flex-shrink:0;">
+<img src="/ad-missed-call.png" alt="הבאסה לראות שיחה שלא נענתה" class="landing-ad-banner" style="width:100%;display:block;object-fit:cover;object-position:right top;" />
 </div>
 <!-- Top Ambient Lights -->
 <div class="relative w-full overflow-hidden pointer-events-none">
@@ -26,9 +27,7 @@ const html = `<!DOCTYPE html><html class="dark" dir="rtl" lang="he"><head>
 </div>
 <!-- HERO SECTION -->
 <section class="relative z-10 w-full max-w-[1200px] mx-auto px-5 sm:px-8 pb-16 pt-0">
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-<!-- Right Column: Punchy Copy & CTAs -->
-<div class="lg:col-span-7 flex flex-col items-center sm:items-start gap-6 text-center sm:text-right reveal-item is-revealed">
+<div class="flex flex-col items-center sm:items-start gap-3 text-center sm:text-right reveal-item is-revealed">
 <!-- Urgency Badge with Floating & Shimmer -->
 
 <!-- Main Headline -->
@@ -37,7 +36,7 @@ const html = `<!DOCTYPE html><html class="dark" dir="rtl" lang="he"><head>
 <span class="text-transparent bg-clip-text bg-gradient-to-l from-[#ff007f] via-[#ff4a8d] to-[#ff9ebb]">
               הלקוח כבר סגר אצל המתחרה.
             </span>
-</h1><div class="w-full text-center sm:text-right mt-2 mb-2"><span class="sm:hidden block font-bold text-white tracking-tight leading-[0.9] text-center" style="font-size:clamp(48px,13.5vw,64px)">רוצה להפסיק<br>לפספס לקוחות?</span><span class="hidden sm:block font-bold text-[#c7c2c7] tracking-tight leading-tight text-[32px] lg:text-[38px]">רוצה להפסיק לפספס לקוחות?</span></div>
+</h1><div class="w-full text-center sm:text-right mt-0 mb-0"><span class="sm:hidden block font-bold text-white tracking-tight leading-[0.9] text-center" style="font-size:clamp(48px,13.5vw,64px)">רוצה להפסיק<br>לפספס לקוחות?</span><span class="hidden sm:block font-bold text-[#c7c2c7] tracking-tight leading-tight text-[32px] lg:text-[38px]">רוצה להפסיק לפספס לקוחות?</span></div>
 <!-- Sharp 1-Sentence Subtitle -->
 <p class="text-base sm:text-lg lg:text-xl text-[#c7c2c7] leading-relaxed max-w-[620px] font-medium">
 <strong class="text-white font-bold">Callnik</strong> עונה במקומך לשיחות שלא הספקת לענות, מדברת עם הלקוח בעברית אנושית שוטפת, ושולחת סיכום מלא לוואטסאפ תוך שניות.
@@ -51,14 +50,6 @@ const html = `<!DOCTYPE html><html class="dark" dir="rtl" lang="he"><head>
 </div>
 <!-- Micro-Trust Points -->
 <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-5 text-sm sm:text-base font-medium text-[#c7c2c7] pt-2 w-full max-w-[480px]"><div class="inline-flex items-center gap-1.5 shrink-0"><span class="text-[#22C55E] font-bold text-base sm:text-lg">✓</span><span>הקמה ב-5 דקות</span></div><span class="text-[#4a4750] shrink-0">•</span><div class="inline-flex items-center gap-1.5 shrink-0"><span class="text-[#22C55E] font-bold text-base sm:text-lg">✓</span><span>ביטול עצמי בכל רגע</span></div><span class="text-[#4a4750] shrink-0">•</span><div class="inline-flex items-center gap-1.5 shrink-0"><span class="text-[#22C55E] font-bold text-base sm:text-lg">✓</span><span>ללא התחייבות</span></div></div>
-</div>
-<!-- Left Column: Hero Image Replacement -->
-<div class="lg:col-span-5 flex justify-center lg:justify-end reveal-item is-revealed" style="transition-delay: 150ms;">
-<div class="relative w-full max-w-[420px]"><div class="absolute -top-5 -right-5 z-20 pointer-events-none" style="opacity:0;animation:bannerPop 0.9s cubic-bezier(0.16,1,0.3,1) 0.5s forwards"><img src="/banner-bf.png" alt="Black Friday" width="150" height="150" style="filter:drop-shadow(0 8px 24px rgba(236,72,153,0.6))"/></div><div class="relative w-full rounded-2xl overflow-hidden border border-pink-500/30 shadow-[0_0_35px_rgba(255,0,127,0.25)] bg-[#141418] group transition-all duration-500 hover:shadow-[0_0_50px_rgba(255,0,127,0.4)] hover:border-pink-500/60">
-<img alt="מבצע בלאק פריידיי Callnik" class="w-full h-auto aspect-square object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]" src="/hero-bf.jpg">
-<div class="absolute inset-0 bg-gradient-to-t from-[#0e0e10]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-</div>
-</div>
 </div>
 </section>
 <!-- VIDEOS DEMO SECTION -->
@@ -175,7 +166,7 @@ const html = `<!DOCTYPE html><html class="dark" dir="rtl" lang="he"><head>
 <div class="text-center max-w-2xl mx-auto mb-12 flex flex-col items-center gap-3 reveal-item is-revealed">
 <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight">בחר תוכנית</h2>
 <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1c1b21] border border-[#ff007f]/40 shadow-sm animate-float">
-<span class="text-xs sm:text-sm font-bold shimmer-text">⚡ חודש ראשון ב-₪1 לנובמבר 2026 בלבד</span>
+<span class="text-xs sm:text-sm font-bold shimmer-text">⚡ חודש ראשון ב-₪1</span>
 </div>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-[900px] mx-auto items-stretch"><!-- Basic Plan Card -->
@@ -264,6 +255,16 @@ const html = `<!DOCTYPE html><html class="dark" dir="rtl" lang="he"><head>
 </summary>
 <div class="px-5 pb-5 text-sm sm:text-base text-[#c7c2c7] leading-relaxed border-t border-[#201f25] pt-3">
 כן - המזכירה תמיד מציגה את עצמה כמזכירה אוטומטית ומודיעה שהשיחה מוקלטת, בדיוק כמו שכתוב בתנאי השימוש. ובכל זאת, היא נשמעת כל כך אנושית שהלקוחות מגיבים מצוין.
+</div>
+</details>
+<!-- Item 2b: Phone Number -->
+<details class="group rounded-2xl bg-[#141418] border border-[#2d2a33] overflow-hidden transition-all duration-300 hover:border-[#ff007f]/50 hover:bg-[#181820] reveal-item is-revealed" style="transition-delay: 125ms;">
+<summary class="flex items-center justify-between p-5 cursor-pointer list-none select-none text-right">
+<span class="text-base sm:text-lg font-bold text-white group-hover:text-[#ff4a8d] transition-colors">האם אני צריך להחליף מספר טלפון?</span>
+<span class="material-symbols-outlined text-[#ff4a8d] faq-chevron text-[24px]">expand_more</span>
+</summary>
+<div class="px-5 pb-5 text-sm sm:text-base text-[#c7c2c7] leading-relaxed border-t border-[#201f25] pt-3">
+לא. אתה שומר על המספר שלך. מחייגים קוד קצר בנייד לפי ההוראות במייל ההפעלה, והשיחות מועברות למזכירה רק כשלא ענית.
 </div>
 </details>
 <!-- Item 3 -->
