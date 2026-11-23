@@ -8,6 +8,8 @@ const ERI_WHATSAPP = '0524680164'
 
 const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY!
 const CLAUDE_API_KEY = process.env.ANTHROPIC_API_KEY!
+const DEMO_AGENT_ID = process.env.ELEVENLABS_DEMO_AGENT_ID || 'agent_9301m82vkd99ehrs261xhzrxgea1'
+const DEMO_NUMBER = '+97283762282'
 
 async function summarizeWithClaude(transcript: string, businessName: string, callerNumber?: string): Promise<string> {
   const callerHint = callerNumber
@@ -56,13 +58,25 @@ export async function POST(req: NextRequest) {
   const callerNumber = dynVars.system__caller_id
   const agentNameFromInit = dynVars.agent_name as string | undefined
 
+  // Identify demo call: dynVars (SDK flow) OR agent_id OR called_number (SIP flow)
+  const webhookAgentId = data.data?.agent_id || data.agent_id || ''
+  const metadataCalledNumber = data.data?.metadata?.called_number || data.metadata?.called_number || ''
+  const normalizedCalledNumber = metadataCalledNumber.startsWith('+') ? metadataCalledNumber : `+${metadataCalledNumber}`
+
   if (!conversationId) {
     return NextResponse.json({ ok: true })
   }
 
   // Demo call handling (08-3762282)
-  if (dynVars.is_demo_call === 'true') {
-    const demoCallerNumber = (dynVars.demo_caller_number as string) || ''
+  if (
+    dynVars.is_demo_call === 'true' ||
+    webhookAgentId === DEMO_AGENT_ID ||
+    normalizedCalledNumber === DEMO_NUMBER
+  ) {
+    const demoCallerNumber = (dynVars.demo_caller_number as string)
+      || data.data?.metadata?.caller_id
+      || data.metadata?.caller_id
+      || ''
     const transcriptText = Array.isArray(transcript)
       ? transcript
           .filter((t: { role: string; message: string }) => t.message)
