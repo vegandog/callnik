@@ -10,26 +10,22 @@ const html = `<!DOCTYPE html><html class="dark" dir="rtl" lang="he"><head>
 <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&amp;display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/landing.css">
-<style>@media(min-width:768px){.landing-ad-banner{max-height:420px;}}@media(max-width:767px){.landing-ad-banner{height:auto;}}</style>
+<style>.hero-grid{display:flex;flex-direction:column-reverse;gap:1.25rem;align-items:center;}.hero-text-col{width:100%;}.hero-img-col{width:100%;}@media(min-width:900px){.hero-grid{flex-direction:row;align-items:center;gap:2.5rem;}.hero-text-col{flex:1;min-width:0;}.hero-img-col{flex:0 0 auto;}}</style>
 <script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,"clarity","script","zf99s81vxz");</script>
 </head>
 <body class="bg-[#0e0e10] text-[#e5e1e4] antialiased selection:bg-[#ff007f] selection:text-white" style="overflow-x:hidden;max-width:100vw;" data-new-gr-c-s-loaded="14.1348.0" data-new-gr-c-s-check-loaded="14.1348.0" data-gr-ext-installed="">
 <!-- MAIN -->
 <main class="w-full pb-16 pt-8">
-<!-- Ad Banner -->
-<div style="width:100%;overflow:hidden;line-height:0;flex-shrink:0;">
-<img src="/ad-missed-call.png" alt="הבאסה לראות שיחה שלא נענתה" class="landing-ad-banner" style="width:100%;display:block;object-fit:cover;object-position:right top;" />
-</div>
 <!-- Top Ambient Lights -->
 <div class="relative w-full overflow-hidden pointer-events-none">
 <div class="absolute -top-40 right-1/4 w-[600px] h-[360px] bg-[#ff007f]/15 rounded-full blur-[140px] animate-pulse" style="animation-duration: 6s;"></div>
 <div class="absolute -top-32 left-1/4 w-[500px] h-[320px] bg-blue-600/10 rounded-full blur-[140px]"></div>
 </div>
 <!-- HERO SECTION -->
-<section class="relative z-10 w-full max-w-[1200px] mx-auto px-5 sm:px-8 pb-16 pt-0">
-<div class="flex flex-col items-center sm:items-start gap-3 text-center sm:text-right reveal-item is-revealed">
-<!-- Urgency Badge with Floating & Shimmer -->
-
+<section class="relative z-10 w-full max-w-[1200px] mx-auto px-5 sm:px-8 pb-12 pt-0">
+<div class="hero-grid">
+<!-- Text column: 1st in DOM = right on desktop (RTL), bottom on mobile (column-reverse) -->
+<div class="hero-text-col flex flex-col items-center sm:items-start gap-3 text-center sm:text-right reveal-item is-revealed">
 <!-- Main Headline -->
 <h1 class="text-2xl sm:text-4xl lg:text-[42px] font-black text-white leading-[1.18] tracking-tight">
             לא ענית לטלפון?<br>
@@ -46,10 +42,14 @@ const html = `<!DOCTYPE html><html class="dark" dir="rtl" lang="he"><head>
 <a class="btn-elevated animate-neon-pulse inline-flex items-center justify-center gap-3 px-8 py-5 rounded-full bg-gradient-to-l from-[#ff007f] to-[#ff4a8d] text-white text-xl sm:text-2xl font-black shadow-[0_0_35px_rgba(255,0,127,0.5)] hover:shadow-[0_0_50px_rgba(255,0,127,0.8)] transition-all group w-full text-center" href="/register?intro=1">
 <span>קח חודש ראשון ב-₪1 בלבד!</span>
 </a>
-
 </div>
 <!-- Micro-Trust Points -->
 <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-5 text-sm sm:text-base font-medium text-[#c7c2c7] pt-2 w-full max-w-[480px]"><div class="inline-flex items-center gap-1.5 shrink-0"><span class="text-[#22C55E] font-bold text-base sm:text-lg">✓</span><span>הקמה ב-5 דקות</span></div><span class="text-[#4a4750] shrink-0">•</span><div class="inline-flex items-center gap-1.5 shrink-0"><span class="text-[#22C55E] font-bold text-base sm:text-lg">✓</span><span>ביטול עצמי בכל רגע</span></div><span class="text-[#4a4750] shrink-0">•</span><div class="inline-flex items-center gap-1.5 shrink-0"><span class="text-[#22C55E] font-bold text-base sm:text-lg">✓</span><span>ללא התחייבות</span></div></div>
+</div>
+<!-- Image column: 2nd in DOM = left on desktop (RTL), top on mobile (column-reverse) -->
+<div class="hero-img-col">
+<img src="/ad-missed-call.png" alt="הבאסה לראות שיחה שלא נענתה" style="width:100%;max-width:480px;height:auto;border-radius:16px;display:block;" />
+</div>
 </div>
 </section>
 <!-- VIDEOS DEMO SECTION -->
