@@ -15,6 +15,10 @@ const html = `<!DOCTYPE html><html class="dark" dir="rtl" lang="he"><head>
 <body class="bg-[#0e0e10] text-[#e5e1e4] antialiased selection:bg-[#ff007f] selection:text-white" style="overflow-x:hidden;max-width:100vw;" data-new-gr-c-s-loaded="14.1348.0" data-new-gr-c-s-check-loaded="14.1348.0" data-gr-ext-installed="">
 <!-- MAIN -->
 <main class="w-full pb-16 pt-8">
+<!-- Ad Banner -->
+<div style="width:100%;max-width:100%;overflow:hidden;line-height:0;margin-bottom:0;">
+<img src="/ad-missed-call.png" alt="הבאסה לראות שיחה שלא נענתה" style="width:100%;height:auto;display:block;object-fit:cover;" />
+</div>
 <!-- Top Ambient Lights -->
 <div class="relative w-full overflow-hidden pointer-events-none">
 <div class="absolute -top-40 right-1/4 w-[600px] h-[360px] bg-[#ff007f]/15 rounded-full blur-[140px] animate-pulse" style="animation-duration: 6s;"></div>
@@ -255,11 +259,11 @@ const html = `<!DOCTYPE html><html class="dark" dir="rtl" lang="he"><head>
 <!-- Item 2 -->
 <details class="group rounded-2xl bg-[#141418] border border-[#2d2a33] overflow-hidden transition-all duration-300 hover:border-[#ff007f]/50 hover:bg-[#181820] reveal-item is-revealed" style="transition-delay: 100ms;">
 <summary class="flex items-center justify-between p-5 cursor-pointer list-none select-none text-right">
-<span class="text-base sm:text-lg font-bold text-white group-hover:text-[#ff4a8d] transition-colors">האם אני צריך להחליף מספר טלפון?</span>
+<span class="text-base sm:text-lg font-bold text-white group-hover:text-[#ff4a8d] transition-colors">האם הלקוח יידע שהוא מדבר עם AI?</span>
 <span class="material-symbols-outlined text-[#ff4a8d] faq-chevron text-[24px]">expand_more</span>
 </summary>
 <div class="px-5 pb-5 text-sm sm:text-base text-[#c7c2c7] leading-relaxed border-t border-[#201f25] pt-3">
-לא. המספר שלך נשאר בדיוק כמו שהוא. Callnik נכנסת לתמונה רק כשאתה לא עונה - הלקוח ידע שדיבר עם מישהו, לאו דווקא שזה היה AI.
+כן - המזכירה תמיד מציגה את עצמה כמזכירה אוטומטית ומודיעה שהשיחה מוקלטת, בדיוק כמו שכתוב בתנאי השימוש. ובכל זאת, היא נשמעת כל כך אנושית שהלקוחות מגיבים מצוין.
 </div>
 </details>
 <!-- Item 3 -->
