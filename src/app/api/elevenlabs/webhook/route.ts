@@ -75,13 +75,46 @@ export async function POST(req: NextRequest) {
     const nameMatch = summary.match(/שם המתקשר[^:\n]*:\s*\*?\*?\s*([^\n*]+)/i)
     const callerName = nameMatch?.[1]?.trim() || ''
 
-    // Send summary to Eri
-    await sendCallNotification(ERI_WHATSAPP, callerName, callTime, summary, demoCallerNumber, conversationId)
+    // Download and store recording
+    let recordingUrl = ''
+    try {
+      const audioRes = await fetch(
+        `https://api.elevenlabs.io/v1/convai/conversations/${conversationId}/audio`,
+        { headers: { 'xi-api-key': ELEVENLABS_API_KEY } }
+      )
+      if (audioRes.ok) {
+        const audioBuffer = await audioRes.arrayBuffer()
+        const { createClient } = await import('@supabase/supabase-js')
+        const storage = createClient(
+          process.env.NEXT_PUBLIC_SUPABASE_URL!,
+          process.env.SUPABASE_SERVICE_ROLE_KEY!
+        )
+        const fileName = `demo_${conversationId}.mp3`
+        await storage.storage.from('recordings').upload(fileName, audioBuffer, {
+          contentType: 'audio/mpeg',
+          upsert: true,
+        })
+        const { data: urlData } = storage.storage.from('recordings').getPublicUrl(fileName)
+        recordingUrl = urlData.publicUrl
+      }
+    } catch (e) {
+      console.error('Demo recording upload failed:', e)
+    }
 
-    // Send summary + promo to caller
+    const recordingLine = recordingUrl ? `\nהקלטה: ${recordingUrl}` : ''
+
+    // Send summary to Eri
+    await sendWhatsApp(
+      ERI_WHATSAPP,
+      `Callnik הדגמה - שיחה מ-${callerName || demoCallerNumber} ב-${callTime}\n\n${summary}${recordingLine}`
+    )
+
+    // Send summary + recording + promo to caller
     if (demoCallerNumber) {
-      const callerSummaryMsg = `כך נראה הסיכום שתקבל אחרי כל שיחה עם דנה:\n\n${summary}`
-      await sendWhatsApp(demoCallerNumber, callerSummaryMsg)
+      await sendWhatsApp(
+        demoCallerNumber,
+        `כך נראה הסיכום שתקבל אחרי כל שיחה עם דנה:\n\n${summary}${recordingLine}`
+      )
       await sendWhatsApp(
         demoCallerNumber,
         'נהנית מהשיחה? ככה בדיוק ירגישו הלקוחות שלך. להרשמה, החודש הראשון בשקל אחד: https://callnik.com/landing'
