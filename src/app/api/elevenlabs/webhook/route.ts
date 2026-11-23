@@ -1,8 +1,10 @@
 import { createAdminClient } from '@/lib/supabase/admin'
-import { sendCallNotification } from '@/lib/notify'
+import { sendCallNotification, sendWhatsApp } from '@/lib/notify'
 import { sendCallNotificationEmail } from '@/lib/email'
 import { getVoiceName } from '@/lib/constants'
 import { NextRequest, NextResponse } from 'next/server'
+
+const ERI_WHATSAPP = '0524680164'
 
 const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY!
 const CLAUDE_API_KEY = process.env.ANTHROPIC_API_KEY!
@@ -55,6 +57,37 @@ export async function POST(req: NextRequest) {
   const agentNameFromInit = dynVars.agent_name as string | undefined
 
   if (!conversationId) {
+    return NextResponse.json({ ok: true })
+  }
+
+  // Demo call handling (08-3762282)
+  if (dynVars.is_demo_call === 'true') {
+    const demoCallerNumber = (dynVars.demo_caller_number as string) || ''
+    const transcriptText = Array.isArray(transcript)
+      ? transcript
+          .filter((t: { role: string; message: string }) => t.message)
+          .map((t: { role: string; message: string }) =>
+            `${t.role === 'agent' ? 'דנה' : 'מתקשר'}: ${t.message}`
+          ).join('\n')
+      : String(transcript)
+    const summary = transcriptText ? await summarizeWithClaude(transcriptText, 'הדגמה', demoCallerNumber) : ''
+    const callTime = new Date().toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jerusalem' })
+    const nameMatch = summary.match(/שם המתקשר[^:\n]*:\s*\*?\*?\s*([^\n*]+)/i)
+    const callerName = nameMatch?.[1]?.trim() || ''
+
+    // Send summary to Eri
+    await sendCallNotification(ERI_WHATSAPP, callerName, callTime, summary, demoCallerNumber, conversationId)
+
+    // Send summary + promo to caller
+    if (demoCallerNumber) {
+      const callerSummaryMsg = `כך נראה הסיכום שתקבל אחרי כל שיחה עם דנה:\n\n${summary}`
+      await sendWhatsApp(demoCallerNumber, callerSummaryMsg)
+      await sendWhatsApp(
+        demoCallerNumber,
+        'נהנית מהשיחה? ככה בדיוק ירגישו הלקוחות שלך. להרשמה, החודש הראשון בשקל אחד: https://callnik.com/landing'
+      )
+    }
+
     return NextResponse.json({ ok: true })
   }
 

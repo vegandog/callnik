@@ -35,6 +35,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ dynamic_variables: { business_name: 'העסק' } })
   }
 
+  // Demo number - return demo vars without customer lookup
+  if (calledNumber === '+97283762282') {
+    return NextResponse.json({
+      dynamic_variables: {
+        is_demo_call: 'true',
+        demo_caller_number: callerNumber || '',
+      },
+    })
+  }
+
   const supabase = createAdminClient()
   const { data: customer } = await supabase
     .from('customers')
