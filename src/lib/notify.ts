@@ -4,8 +4,20 @@ import { normalizePhone } from './phone'
 const client = () => twilio(process.env.TWILIO_ACCOUNT_SID!, process.env.TWILIO_AUTH_TOKEN!)
 
 const WHATSAPP_FROM = process.env.TWILIO_WHATSAPP_FROM || 'whatsapp:+14155238886'
-const SMS_FROM = (process.env.TWILIO_WHATSAPP_FROM || 'whatsapp:+14155238886').replace('whatsapp:', '')
+const SMS_FROM = process.env.TWILIO_SMS_FROM || '+12674607274'
 const TEMPLATE_SID = process.env.TWILIO_WHATSAPP_TEMPLATE_SID
+
+export async function sendSMS(to: string, body: string) {
+  try {
+    await client().messages.create({
+      from: SMS_FROM,
+      to: normalizePhone(to),
+      body,
+    })
+  } catch (e) {
+    console.error('SMS send failed:', e)
+  }
+}
 
 export async function sendWhatsApp(to: string, body: string) {
   try {

@@ -1,8 +1,7 @@
 import { createAdminClient } from '@/lib/supabase/admin'
-import { sendCallNotification, sendWhatsApp } from '@/lib/notify'
+import { sendCallNotification, sendWhatsApp, sendSMS } from '@/lib/notify'
 import { sendCallNotificationEmail } from '@/lib/email'
 import { getVoiceName } from '@/lib/constants'
-import { sendSMS } from '@/lib/telnyx'
 import { NextRequest, NextResponse } from 'next/server'
 
 const ERI_WHATSAPP = '0524680164'
